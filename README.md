@@ -48,10 +48,10 @@ git submodule add https://github.com/adityatelange/hugo-PaperMod.git themes/Pape
 
 #### config.toml（サイトの構成ファイル）の追加と編集
 
-hugoサイト(siteName)直下にファイル`config.toml`を生成し、内容に`theme = "ananke"`を追加する。
+hugoサイト(siteName)直下にファイル`config.toml`を生成し、内容に`theme = "PaperMod"`を追加する。
 
 ```
-echo theme = "ananke">>config.toml
+echo theme = "PaperMod">>config.toml
 ```
 
 #### テーマの反映

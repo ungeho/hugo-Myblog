@@ -1,0 +1,4 @@
+theme: ["PaperMod"]
+
+params:
+    ShowCodeCopyButtons: true
