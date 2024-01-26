@@ -1,6 +1,6 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://ungeho.netlify.app/'
 languageCode = 'ja-jp'
-title = 'My New Hugo Site'
+title = 'ungehoBlog'
 
 
 [params]
