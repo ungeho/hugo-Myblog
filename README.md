@@ -82,7 +82,46 @@ hugo server -D
 
 #### Netlifyでデプロイ（公開）する。
 
-Netlifyでアカウントを作成し、道なりに設定。
+`netlify.toml`を新規作成して
+
+[Host on Netlify](https://gohugo.io/hosting-and-deployment/hosting-on-netlify/#configure-hugo-version-in-netlify "gohugo.io")を参考に
+
+```
+[build]
+  publish = "public"
+  command = "hugo --gc --minify"
+
+  [build.environment]
+    HUGO_VERSION = "0.121.2"
+
+[context.production.environment]
+  HUGO_ENV           = "production"
+  HUGO_ENABLEGITINFO = "true"
+
+[context.split1]
+  command = "hugo --gc --minify --enableGitInfo"
+
+  [context.split1.environment]
+    HUGO_ENV = "production"
+
+[context.deploy-preview]
+  command = "hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL"
+
+[context.branch-deploy]
+  command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
+
+[context.next.environment]
+  HUGO_ENABLEGITINFO = "true"
+
+[[redirects]]
+  from   = "/npmjs/*"
+  to     = "/npmjs/"
+  status = 200
+```
+
+のような内容をコピーして、`version`情報を自身のhugoに合わせて変更して保存
+
+その後、Netlifyでアカウントを作成し、道なりに設定。
 
 #### コンテンツの作成
 
