@@ -1,12 +1,51 @@
 baseURL = 'https://ungeho.netlify.app/'
-languageCode = 'ja-jp'
+languageCode = "ja"
+defaultContentLanguage = "ja"
+hasCJKLanguage = true
 title = 'ungehoBlog'
 theme = 'PaperMod'
-defaultContentLanguage = 'ja-jp'
+
+
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
 
 
 [params]
-    defaultTheme = 'auto'
-    ShowCodeCopyButtons = true
+# タイトル
+title = 'ungehoBlog'
+# 説明
+description = 'ungeho'
+author = 'ungeho'
+# 日付のフォーマット
+DateFormat = "January 2, 2006"
+# デフォルトのテーマ(light or dark)。autoを選択するとブラウザのテーマに合わせる。
+defaultTheme = 'dark'
 
+
+# 投稿の読了時間
+ShowReadingTime = true
+# 投稿の共有ボタン
+ShowShareButtons = true
+# 投稿のナビゲーションリンク（次へ、前へ）
+ShowPostNavLinks = true
+# パンくずリスト（ページ階層をリスト化したもの）
+ShowBreadCrumbs = true
+# コードブロックにコピーボタンを表示
+ShowCodeCopyButtons = true
+# テーマ変更する為のアイコンを非表示
+disableThemeToggle = false
+# ページの上部へ移動するボタンを非表示
+disableScrollToTop = false
+# コメント
+comments = false
+
+    [[params.socialIcons]]
+    name = "twitter"
+    url = "https://twitter.com/"
+
+    [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/ungeho"
 
