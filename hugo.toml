@@ -1,9 +1,12 @@
 baseURL = 'https://ungeho.netlify.app/'
 languageCode = 'ja-jp'
 title = 'ungehoBlog'
+theme = 'PaperMod'
+defaultContentLanguage = 'ja-jp'
 
 
 [params]
+    defaultTheme = 'auto'
     ShowCodeCopyButtons = true
 
 
