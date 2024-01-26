@@ -56,6 +56,16 @@ git submodule add https://github.com/adityatelange/hugo-PaperMod.git themes/Pape
 
 [Tomlの書式](https://toml.io/ja/v0.5.0 "toml.io")
 
+例えば、コードブロックにコピーボタンを追加したい場合は
+
+`hugo.toml`に以下を追加する。
+
+```
+[params]
+    ShowCodeCopyButtons = true
+```
+
+
 #### テーマの反映
 
 `themes\PaperMod` にある `README.md`と`git関連`のファイル以外をコピーする。
