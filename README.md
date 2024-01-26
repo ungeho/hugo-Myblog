@@ -52,7 +52,7 @@ git submodule add https://github.com/adityatelange/hugo-PaperMod.git themes/Pape
 
 設定ファイルを編集したい場合は、`hugo.toml`を編集
 
-[PaperModの設定項目](https://github.com/adityatelange/hugo-PaperMod/wiki/Features "PaperMod-wiki")
+[PaperModの設定項目](https://github.com/adityatelange/hugo-PaperMod/wiki/Features "PaperMod-wiki"){:target="_blank"}
 
 #### テーマの反映
 
