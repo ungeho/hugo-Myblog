@@ -11,6 +11,29 @@ buildDrafts = false
 buildFuture = false
 buildExpired = false
 
+[minify]
+    minifyOutput = true
+
+
+# [[menu.main]]
+# identifier = "archives"
+# name = "Archives"
+# pageRef = "/archives"
+# weight = 10
+
+# [[menu.main]]
+# identifier = "categories"
+# name = "Categories"
+# pageRef = "/categories"
+# weight = 20
+
+# [[menu.main]]
+# identifier = "tags"
+# name = "Tags"
+# pageRef = "/tags"
+# weight = 30
+
+
 
 [params]
 # タイトル
@@ -19,7 +42,7 @@ title = 'ungehoBlog'
 description = 'ungeho'
 author = 'ungeho'
 # 日付のフォーマット
-DateFormat = "January 2, 2006"
+DateFormat = "2006/01/02"
 # デフォルトのテーマ(light or dark)。autoを選択するとブラウザのテーマに合わせる。
 defaultTheme = 'dark'
 
@@ -40,6 +63,10 @@ disableThemeToggle = false
 disableScrollToTop = false
 # コメント
 comments = false
+
+    [params.homeInfoParams]
+    title = "Ungeho"
+    content = "ネトゲ廃人"
 
     [[params.socialIcons]]
     name = "twitter"
