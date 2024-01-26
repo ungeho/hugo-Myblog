@@ -5,3 +5,9 @@ title = 'My New Hugo Site'
 
 [params]
     ShowCodeCopyButtons = true
+
+
+
+
+[minify]
+    disableJSON = true
