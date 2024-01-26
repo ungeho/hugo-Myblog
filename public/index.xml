@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My New Hugo Site</title>
+    <link>https://example.org/</link>
+    <description>Recent content on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Mon, 22 Jan 2024 19:01:13 +0900</lastBuildDate>
+    <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My First Post</title>
+      <link>https://example.org/posts/my-first-post/</link>
+      <pubDate>Mon, 22 Jan 2024 19:01:13 +0900</pubDate>
+      <guid>https://example.org/posts/my-first-post/</guid>
+      <description>この記事は draft = trueになっている為
+hugo server で -D オプションを付与しないと表示されない。
+これは、マークダウンのテストです。
+tagsは&amp;quot;test&amp;quot;
+descriptionは&amp;quot;てすと&amp;quot;
+てすとてすと
+太字
+イタリック
+これは見出しです。 取り消し線
+Fruit Apple Orange Banana 手順1 手順1-1 手順1-2 手順1-3 引用
+列１ 列２ 列３ a bb ccc xxx yy z 注釈１1
+リンク
+コード
+罫線
+コードブロック
+言語の識別子を書くと対応したシンタックスハイライトが適用される。
+{linenos=inline}を追加する事で、行番号をつけられる。
+1var s = &amp;#34;JavaScript syntax highlighting&amp;#34;; 2alert(s); {hl_lines=[1, 3,&amp;ldquo;5-9&amp;rdquo;]}のように、網掛けしたい行を指定することで 任意に網掛けを行う事が出来る。
+s = &amp;#34;Python syntax highlighting&amp;#34; print s # 総和 sum = 0 for i in range(10) { sum += i } No language indicated, so no syntax highlighting.</description>
+    </item>
+  </channel>
+</rss>
