@@ -1,7 +1,0 @@
-baseURL: "https://supercutelalafell.netlify.app/"
-languageCode: ja-jp
-title: LaLaBlog
-theme: PaperMod
-
-params:
-    ShowCodeCopyButtons: true
