@@ -2,7 +2,8 @@
 title = "絶バハムート Splatoon Layout"
 date = 2024-01-27T02:39:08+09:00
 draft = false
-tag = ["ffxiv","Splatoon"]
+categories = ["game"]
+tags = ["ffxiv","Splatoon"]
 +++
 
 ご利用は自己責任で

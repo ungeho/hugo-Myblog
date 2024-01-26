@@ -21,17 +21,17 @@ buildExpired = false
 # pageRef = "/archives"
 # weight = 10
 
-# [[menu.main]]
-# identifier = "categories"
-# name = "Categories"
-# pageRef = "/categories"
-# weight = 20
+[[menu.main]]
+identifier = "categories"
+name = "Categories"
+pageRef = "/categories"
+weight = 20
 
-# [[menu.main]]
-# identifier = "tags"
-# name = "Tags"
-# pageRef = "/tags"
-# weight = 30
+[[menu.main]]
+identifier = "tags"
+name = "Tags"
+pageRef = "/tags"
+weight = 30
 
 
 

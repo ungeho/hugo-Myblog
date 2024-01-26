@@ -2,6 +2,7 @@
 title = 'My First Post'
 date = 2024-01-22T19:01:13+09:00
 draft = false
+categories = ["test"]
 +++
 
 この記事は `draft = true`になっている為
