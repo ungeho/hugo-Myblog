@@ -44,7 +44,7 @@ author = 'ungeho'
 # 日付のフォーマット
 DateFormat = "2006/01/02"
 # デフォルトのテーマ(light or dark)。autoを選択するとブラウザのテーマに合わせる。
-defaultTheme = 'dark'
+defaultTheme = 'auto'
 
 
 # 投稿の読了時間
