@@ -5,9 +5,11 @@ draft = false
 categories = ["test"]
 +++
 
-この記事は `draft = true`になっている為
+`draft = true`にした場合
 
 `hugo server` で `-D` オプションを付与しないと表示されない。
+
+現在は、デフォルトで`draft = false`
 
 これは、マークダウンのテストです。
 
