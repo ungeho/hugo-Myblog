@@ -1,3 +1,7 @@
 baseURL = 'https://example.org/'
 languageCode = 'ja-jp'
 title = 'My New Hugo Site'
+
+
+[params]
+    ShowCodeCopyButtons = true

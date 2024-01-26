@@ -26,7 +26,7 @@ hugo new site siteName
 ┃       静的ファイル格納場所（メディアファイルなど）<br>
 ┣━━themes/<br>
 ┃       テーマ格納場所<br>
-┗━━config.toml<br>
+┗━━hugo.toml(config.toml)<br>
 サイトの構成ファイル<br>
 
 <!--
@@ -46,13 +46,13 @@ hugoの PaperMod テーマを 'theme/PaperMod' フォルダに追加する。
 git submodule add https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod
 ```
 
-#### config.toml（サイトの構成ファイル）の追加と編集
+#### hugo.toml(config.toml)（サイトの構成ファイル）の追加と編集
 
-hugoサイト(siteName)直下にファイル`config.toml`を生成し、内容に`theme = "PaperMod"`を追加する。
+※`v0.109.0`から設定ファイルは`hugo.toml`
 
-```
-echo theme = "PaperMod">>config.toml
-```
+設定ファイルを編集したい場合は、`hugo.toml`を編集
+
+[PaperModの設定項目](https://github.com/adityatelange/hugo-PaperMod/wiki/Features "PaperMod-wiki")
 
 #### テーマの反映
 
