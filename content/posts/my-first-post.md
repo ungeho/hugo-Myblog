@@ -3,7 +3,6 @@ title = 'My First Post'
 date = 2024-01-22T19:01:13+09:00
 draft = false
 categories = ["test"]
-math = true
 +++
 
 `draft = true`にした場合

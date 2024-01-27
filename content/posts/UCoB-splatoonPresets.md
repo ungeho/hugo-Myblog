@@ -4,7 +4,6 @@ date = 2024-01-27T02:39:08+09:00
 draft = false
 categories = ["game"]
 tags = ["ffxiv","Splatoon"]
-math = false
 +++
 
 ご利用は自己責任で

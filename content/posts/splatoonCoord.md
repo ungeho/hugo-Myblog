@@ -4,7 +4,6 @@ date = 2024-01-27T03:15:32+09:00
 draft = false
 categories = ["game"]
 tags = ["ffxiv","splatoon","waymark"]
-math = true
 +++
 
 `splatoon`や`waymarkPreset`プラグインのlayout作成に便利な式と豆知識
