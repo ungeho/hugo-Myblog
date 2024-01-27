@@ -4,6 +4,10 @@ date = 2024-01-27T02:39:08+09:00
 draft = false
 categories = ["game"]
 tags = ["ffxiv","Splatoon"]
+# 目次を付与するオプション
+showtoc = true
+# 目次を開いた状態にする
+tocopen = true
 +++
 
 ご利用は自己責任で
@@ -14,13 +18,6 @@ tags = ["ffxiv","Splatoon"]
 
 その後、ゲーム内で`/splatoon`->`layout`タブ->`importfromclipboard`で利用出来るようになります。
 
-- [絶バハムート Splatoon Preset](#絶バハムート-splatoon-preset)
-- [その他 導入を推奨するもの](#その他-導入を推奨するもの)
-  - [公式のSplatoon Preset](#公式のsplatoon-preset)
-    - [\[International\] \[Script\] タンクテザー](#international-script-タンクテザー)
-    - [\[Script\] \[Configuration required\] 天地の三重奏、塔踏み](#script-configuration-required-天地の三重奏塔踏み)
-  - [Lemegeton](#lemegeton)
-    - [群竜の八重奏-ツイスターダイブ](#群竜の八重奏-ツイスターダイブ)
 
 ## 絶バハムート Splatoon Preset
 
