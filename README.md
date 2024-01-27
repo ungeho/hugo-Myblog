@@ -5,6 +5,9 @@ cmd(mingw)
 
 で行った時のメモ
 
+[作ったブログ](https://ungeho.netlify.app/ "UngehoBlog")
+
+
 #### サイト構築
 
 ```
