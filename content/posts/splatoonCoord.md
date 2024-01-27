@@ -33,7 +33,7 @@ CX+R*cos(Ang*π/180)
 ```
 
 $$
-\displaystyle x = c_x + r \times \cos \left( \frac{ Ang * \Pi}{180} \right)
+\displaystyle x = c_x + r \times \cos \left( \frac{ Ang \times \Pi}{180} \right)
 $$
 
 $c_x=$ 中心の$x$座標  
@@ -45,7 +45,7 @@ $Ang=$角度
 CY-R*sin(Ang*π/180)
 ```
 $$
-\displaystyle y = c_y - r \times \sin \left( \frac{ Ang * \Pi}{180} \right)
+\displaystyle y = c_y - r \times \sin \left( \frac{ Ang \times \Pi}{180} \right)
 $$
 
 
