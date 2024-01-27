@@ -14,6 +14,17 @@ tags = ["ffxiv","Splatoon"]
 
 その後、ゲーム内で`/splatoon`->`layout`タブ->`importfromclipboard`で利用出来るようになります。
 
+- [絶バハムート Splatoon Preset](#絶バハムート-splatoon-preset)
+- [その他 導入を推奨するもの](#その他-導入を推奨するもの)
+  - [公式のSplatoon Preset](#公式のsplatoon-preset)
+    - [\[International\] \[Script\] タンクテザー](#international-script-タンクテザー)
+    - [\[Script\] \[Configuration required\] 天地の三重奏、塔踏み](#script-configuration-required-天地の三重奏塔踏み)
+  - [Lemegeton](#lemegeton)
+    - [群竜の八重奏-ツイスターダイブ](#群竜の八重奏-ツイスターダイブ)
+
+## 絶バハムート Splatoon Preset
+
+
 ```
 ~Lv2~{"Name":"ツインタニア","Group":"The Unending Coil of Bahamud-Ultimate","ZoneLockH":[733],"ElementsL":[{"Name":"ツインタニア(距離15m)","type":1,"radius":15.0,"color":3355508496,"refActorNPCNameID":1482,"FillStep":5.0,"refActorComparisonType":6,"onlyTargetable":true,"onlyVisible":true},{"Name":"ツインタニア(距離20m)","type":1,"radius":20.0,"color":3372158464,"refActorNPCNameID":1482,"refActorComparisonType":6,"onlyTargetable":true,"onlyVisible":true},{"Name":"魔力錬成","type":1,"radius":7.0,"color":3372154896,"overlayBGColor":1895825407,"overlayTextColor":3372158464,"thicc":4.0,"overlayText":"魔力錬成","refActorComparisonType":7,"refActorVFXPath":"vfx/lockon/eff/bahamut_maryokukyu_target_01i.avfx","refActorVFXMax":10000},{"Name":"ファイアボール","type":1,"radius":3.45,"Donut":0.5,"color":3372218624,"overlayTextColor":3369795328,"thicc":4.0,"overlayText":"Stack","refActorComparisonType":7,"refActorVFXPath":"vfx/lockon/eff/bahamut_kakyu_target_t01i.avfx","refActorVFXMax":7000},{"Name":"魔力圧縮体","type":1,"radius":0.0,"refActorNPCNameID":2210,"refActorObjectLife":true,"refActorLifetimeMin":0.0,"refActorLifetimeMax":10.0,"refActorComparisonType":6,"includeHitbox":true},{"Name":"プラメット","type":4,"Enabled":false,"radius":15.0,"coneAngleMin":-60,"coneAngleMax":60,"color":3355508546,"refActorNPCNameID":1482,"FillStep":15.0,"refActorComparisonType":6,"includeRotation":true,"onlyTargetable":true,"onlyVisible":true,"Filled":true}]}
 ~Lv2~{"Name":"ツインタニア(プラメット)","Group":"The Unending Coil of Bahamud-Ultimate","ZoneLockH":[733],"Scenes":[1],"DCond":5,"ElementsL":[{"Name":"プラメット","type":4,"radius":15.0,"coneAngleMin":-60,"coneAngleMax":60,"color":3355508546,"thicc":4.0,"refActorNPCNameID":1482,"FillStep":5.0,"refActorComparisonType":6,"includeRotation":true,"onlyTargetable":true,"Filled":true}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":3.0,"MatchIntl":{"Jp":"戦闘開始！"},"MatchDelay":4.0},{"Type":3,"MatchIntl":{"Jp":"戦闘開始！"},"MatchDelay":7.0},{"Type":2,"Duration":3.0,"MatchIntl":{"Jp":"戦闘開始！"},"MatchDelay":110.0},{"Type":3,"MatchIntl":{"Jp":"戦闘開始！"},"MatchDelay":113.0},{"Type":2,"Duration":3.0,"MatchIntl":{"Jp":"戦闘開始！"},"MatchDelay":125.0},{"Type":3,"MatchIntl":{"Jp":"戦闘開始！"},"MatchDelay":128.0}]}
@@ -110,4 +121,67 @@ tags = ["ffxiv","Splatoon"]
 ~Lv2~{"Name":"金バハ：1stエクサフレア予兆5","Group":"The Unending Coil of Bahamud-Ultimate","ZoneLockH":[733],"DCond":5,"ElementsL":[{"Name":"1stエクサフレア予兆5","type":1,"offY":32.0,"radius":6.0,"color":1342242815,"refActorNPCNameID":3210,"refActorRequireCast":true,"refActorCastId":[9968],"refActorUseCastTime":true,"refActorCastTimeMax":0.25,"refActorComparisonType":6,"includeRotation":true,"Filled":true}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":3.0,"Match":"(3210>9967)"}],"Freezing":true,"FreezeFor":10.2,"IntervalBetweenFreezes":0.5}
 ~Lv2~{"Name":"金バハ：1stエクサフレア予兆6","Group":"The Unending Coil of Bahamud-Ultimate","ZoneLockH":[733],"DCond":5,"ElementsL":[{"Name":"1stエクサフレア予兆6","type":1,"offY":40.0,"radius":6.0,"color":1342242815,"refActorNPCNameID":3210,"refActorRequireCast":true,"refActorCastId":[9968],"refActorUseCastTime":true,"refActorCastTimeMax":0.25,"refActorComparisonType":6,"includeRotation":true,"Filled":true}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":3.0,"Match":"(3210>9967)"}],"Freezing":true,"FreezeFor":11.7,"IntervalBetweenFreezes":0.5}
 ```
+
+
+
+## その他 導入を推奨するもの
+
+### 公式のSplatoon Preset
+
+#### [International] [Script] タンクテザー
+
+下記のコードブロックををコピーして`/splatoon`->`スクリプト`->`クリップボード`からインストール
+
+プライムフェーズでのタンクの線取りに有効
+
+タンクが線を取っているときは線対象に緑の線を表示される。
+
+タンク以外が線を取っているときは線対象に赤い線が表示される。
+
+```
+https://github.com/PunishXIV/Splatoon/raw/main/SplatoonScripts/Duties/Stormblood/UCOB%20Tethers.cs
+```
+
+
+#### [Script] [Configuration required] 天地の三重奏、塔踏み
+
+※個別の設定が必須
+
+プライムフェーズの天地の三重奏（塔踏み）に有効
+
+`/splatoon`->`スクリプト`->`クリップボード`からインストール後
+
+```
+https://github.com/PunishXIV/Splatoon/raw/main/SplatoonScripts/Duties/Stormblood/UCOB%20Heavensfall%20Trio%20Towers.cs
+```
+
+歯車マークを押して以下の設定を行う
+
+* Your designated tower
+
+    自身の優先順位
+
+    ネールの右側1番なら`Right1`、ネールの左側1番なら`Left1`のように、自身の優先順位に合わせて設定する。
+
+    また、`Display all towers`にチェックを入れるとタワーに対応する番号を確認する事も出来る。
+
+* Tower directly at Nael
+
+    ネールの足元のタワーを右側1番`Right1`とするか、左側1番`Left1`とするかの選択
+
+    攻略方法やマクロに合わせて変更。基本的には`Right1`で問題ない。
+
+最後に、`Close and save configration`を押して設定を保存する。
+
+### Lemegeton
+
+`Lemegeton`をインストール
+
+#### 群竜の八重奏-ツイスターダイブ
+
+プライムフェーズの群竜の八重奏で誰がツインタニアのダイブ対象になるかがわかるようになる。
+
+`/lemmy`->`コンテンツ`->`絶レイド`->`絶バハムート討滅戦`で`有効`にチェック
+
+`/lemmy`->`コンテンツ`->`絶レイド`->`絶バハムート討滅戦`->`(P3)Ground Octet Twintania Dive automarker`で`有効`にチェック
 
