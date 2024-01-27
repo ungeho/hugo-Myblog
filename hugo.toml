@@ -15,17 +15,33 @@ buildExpired = false
     minifyOutput = true
 
 
-# [[menu.main]]
-# identifier = "archives"
-# name = "Archives"
-# pageRef = "/archives"
-# weight = 10
+
+[[menu.main]]
+identifier = "posts"
+name = "Posts"
+url = "/posts"
+# 数字が若いものほど左に表示される。
+weight = 5
+
+# content/about.md
+[[menu.main]]
+identifier = "about"
+name = "About"
+url = "about"
+weight = 15
+
+# content/search.md
+[[menu.main]]
+identifier = "search"
+name = "Search"
+url = "/search"
+weight = 20
 
 [[menu.main]]
 identifier = "categories"
 name = "Categories"
 pageRef = "/categories"
-weight = 20
+weight = 25
 
 [[menu.main]]
 identifier = "tags"
@@ -34,13 +50,13 @@ pageRef = "/tags"
 weight = 30
 
 
-
 [params]
 # タイトル
 title = 'ungehoBlog'
 # 説明
 description = 'ungeho'
 author = 'ungeho'
+# author: ["Me", "You"] # multiple authors
 # 日付のフォーマット
 DateFormat = "2006/01/02"
 # デフォルトのテーマ(light or dark)。autoを選択するとブラウザのテーマに合わせる。
@@ -64,9 +80,27 @@ disableScrollToTop = false
 # コメント
 comments = false
 
-    [params.homeInfoParams]
+    # [params.homeInfoParams]
+    # title = "Ungeho"
+    # content = "ネトゲ廃人"
+
+
+    [params.profileMode]
+    enabled = true
     title = "Ungeho"
-    content = "ネトゲ廃人"
+    subtitle = "ネトゲ廃人"
+    imageUrl = "profile.png"
+    # imageTitle = "<title of image as alt>"
+    imageWidth = 256
+    imageHeight = 256
+
+    [[params.profileMode.buttons]]
+    name = "Posts"
+    url = "/posts"
+
+    [[params.profileMode.buttons]]
+    name = "Github"
+    url = "https://github.com/ungeho"
 
     [[params.socialIcons]]
     name = "twitter"
@@ -76,3 +110,8 @@ comments = false
     name = "github"
     url = "https://github.com/ungeho"
 
+
+
+# 検索ページを機能させる為に必要。
+[outputs]
+home = ["HTML", "JSON"]
