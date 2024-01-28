@@ -60,7 +60,7 @@ tocopen = true
 
 ゲーム内でペーストすると正しく表示される。
 
-| Word | Target Restricted | Target |
+| String | Target Restricted | Target |
 | :----: | :----: | :----: |
 | インスタンスエリアへ移動 | ✔ | エーテライト |
 | // | ✔ | エーテライト |
@@ -79,7 +79,7 @@ tocopen = true
 
 * `Litst`タブ
 
-| Word | Target Restricted | Target |
+| String | Target Restricted | Target |
 | :----: | :----: | :----: |
 | /完了/ | ✔ | 呼び鈴 |
 | /完了/ | ✔ | リテイナーベル |
@@ -143,7 +143,7 @@ tocopen = true
 
 * `Lists`タブ
 
-| Word | Target Restricted | Target |
+| String | Target Restricted | Target |
 | :----: | :----: | :----: |
 | 「ミニ・くじテンダー」に挑戦する | ✔ | ミニ・くじテンダー |
 
@@ -191,7 +191,7 @@ tocopen = true
 
 * `Lists`タブ
 
-| Word | Target Restricted | Target |
+| String | Target Restricted | Target |
 | :----: | :----: | :----: |
 | 収穫する | ✔ | 畝 |
 | 畝を作り種をまく | ✔ | 畝 |
@@ -277,13 +277,13 @@ tocopen = true
 
 * `Lists`タブ
 
-| Word | Target Restricted | Target |
+| String | Target Restricted | Target |
 | :----: | :----: | :----: |
 | 〇〇稼業 | ✔ | 任意のNPC名 |
 
 さらに、必要に応じて
 
-| Word | Target Restricted | Target |
+| String | Target Restricted | Target |
 | :----: | :----: | :----: |
 | 追加納品する | ✔ | 任意のNPC名 |
 
