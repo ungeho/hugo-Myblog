@@ -21,6 +21,14 @@ tocopen = true
 
 ## 絶バハムート Splatoon Preset
 
+[JP]トリガーのセリフや敵の名前は日本語で設定されています。
+
+※使用しているマーカーの拘束具を捨てる位置が逆三角形▽の場合、以下の項目のチェックを外し、オフにしてください。
+
+* 厄災の三重奏
+  * 拘束具(正三角形:東)
+  * 拘束具(正三角形:西)
+  * 拘束具(正三角形:南)
 
 ```
 ~Lv2~{"Name":"ツインタニア","Group":"The Unending Coil of Bahamud-Ultimate","ZoneLockH":[733],"ElementsL":[{"Name":"ツインタニア(距離15m)","type":1,"radius":15.0,"color":3355508496,"refActorNPCNameID":1482,"FillStep":5.0,"refActorComparisonType":6,"onlyTargetable":true,"onlyVisible":true},{"Name":"ツインタニア(距離20m)","type":1,"radius":20.0,"color":3372158464,"refActorNPCNameID":1482,"refActorComparisonType":6,"onlyTargetable":true,"onlyVisible":true},{"Name":"魔力錬成","type":1,"radius":7.0,"color":3372154896,"overlayBGColor":1895825407,"overlayTextColor":3372158464,"thicc":4.0,"overlayText":"魔力錬成","refActorComparisonType":7,"refActorVFXPath":"vfx/lockon/eff/bahamut_maryokukyu_target_01i.avfx","refActorVFXMax":10000},{"Name":"ファイアボール","type":1,"radius":3.45,"Donut":0.5,"color":3372218624,"overlayTextColor":3369795328,"thicc":4.0,"overlayText":"Stack","refActorComparisonType":7,"refActorVFXPath":"vfx/lockon/eff/bahamut_kakyu_target_t01i.avfx","refActorVFXMax":7000},{"Name":"魔力圧縮体","type":1,"radius":0.0,"refActorNPCNameID":2210,"refActorObjectLife":true,"refActorLifetimeMin":0.0,"refActorLifetimeMax":10.0,"refActorComparisonType":6,"includeHitbox":true},{"Name":"プラメット","type":4,"Enabled":false,"radius":15.0,"coneAngleMin":-60,"coneAngleMax":60,"color":3355508546,"refActorNPCNameID":1482,"FillStep":15.0,"refActorComparisonType":6,"includeRotation":true,"onlyTargetable":true,"onlyVisible":true,"Filled":true}]}

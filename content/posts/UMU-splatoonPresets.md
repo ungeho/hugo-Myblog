@@ -14,6 +14,10 @@ tags = ["ffxiv","Splatoon"]
 
 その後、ゲーム内で`/splatoon`->`layout`タブ->`importfromclipboard`で利用出来るようになります。
 
+## 絶アルテマ　Splatoon Preset
+
+[JP]トリガーのセリフや敵の名前は日本語で設定されています。
+
 ```
 ~Lv2~{"Name":"ガルーダ","Group":"The Weapon`s Refrain-Ultimate","ZoneLockH":[777],"ElementsL":[{"Name":"スパイニー（ドーム）","type":1,"radius":6.5,"thicc":4.0,"refActorNPCNameID":2091,"refActorComparisonType":6,"onlyTargetable":true,"onlyVisible":true},{"Name":"スリップストリーム","type":4,"radius":15.0,"coneAngleMin":-60,"coneAngleMax":60,"color":3356884736,"refActorNameIntl":{"Jp":"ガルーダ"},"refActorRequireCast":true,"refActorCastId":[659,1382,11091,16523,25837,29669],"FillStep":5.0,"includeRotation":true,"onlyTargetable":true,"onlyVisible":true,"Filled":true}]}
 ~Lv2~{"Name":"ガルーダ（スパイニー）","Group":"The Weapon`s Refrain-Ultimate","ZoneLockH":[777],"DCond":5,"ElementsL":[{"Name":"スパイニー(位置)","refX":90.0,"refY":100.0,"radius":0.5,"color":3355508503,"overlayText":"スパイニー（pop位置）"}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":10.0,"MatchIntl":{"Jp":"はじめようぞ、虫ケラ……"},"MatchDelay":10.0}]}
