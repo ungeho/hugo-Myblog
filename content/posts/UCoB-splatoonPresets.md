@@ -182,6 +182,8 @@ https://github.com/PunishXIV/Splatoon/raw/main/SplatoonScripts/Duties/Stormblood
 
 `Lemegeton`をインストール
 
+`/lemmy`->`設定`タブ->`ソフトオートマーカーを使う`にチェック
+
 #### 群竜の八重奏-ツイスターダイブ
 
 プライムフェーズの群竜の八重奏で誰がツインタニアのダイブ対象になるかがわかるようになる。
