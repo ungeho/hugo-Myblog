@@ -1,7 +1,7 @@
 +++
 title = '絶竜詩、教皇庁フェーズ予習'
 date = 2024-02-01T05:09:18+09:00
-draft = false
+draft = true
 categories = ["game"]
 tags = ["dsr","preparation"]
 # 目次を付与するオプション<!-- omit in toc -->
