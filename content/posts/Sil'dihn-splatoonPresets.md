@@ -20,7 +20,7 @@ math = false
 
 その後、ゲーム内で`/splatoon`->`layout`タブ->`importfromclipboard`で利用出来るようになります。
 
-## 異聞シラディハ Splatoon Preset
+## 異聞シラディハ(零式) Splatoon Preset
 
 [JP]トリガーのセリフや敵の名前は日本語で設定されています。
 
