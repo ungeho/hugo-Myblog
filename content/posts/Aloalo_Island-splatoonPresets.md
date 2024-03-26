@@ -66,7 +66,7 @@ https://github.com/PunishXIV/Splatoon/raw/main/SplatoonScripts/Duties/Endwalker/
 
 1. script導入後、歯車マークを押して設定を開く
 2. `Registered elements`タブを開く
-3. 下記の[script settings(Aloalo Bombs)](script settings(Aloalo Bombs))のコードブロック部分をコピーして`CTRL`を押しながら`Import customized settings from clipboard`をクリックする。
+3. 下記の`script settings(Aloalo Bombs)`のコードブロック部分をコピーして`Ctrl`を押しながら`Import customized settings from clipboard`をクリックする。
 4. 最後に`Close and save configuration`をクリックしてスクリプトの設定画面を閉じる。
 
 ##### script settings(Aloalo Bombs)
