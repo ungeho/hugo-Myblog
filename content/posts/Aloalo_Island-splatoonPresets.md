@@ -1,5 +1,5 @@
 +++
-title = '異聞アロアロ島 splatoon Layout'
+title = '異聞アロアロ島 Splatoon Layout'
 date = 2024-03-22T20:21:08+09:00
 draft = false
 categories = ["game"]
