@@ -107,17 +107,17 @@ comments = false
     name = "Posts"
     url = "/posts"
 
-    # [[params.profileMode.buttons]]
-    # name = "Github"
-    # url = "https://github.com/ungeho"
+    [[params.profileMode.buttons]]
+    name = "Github"
+    url = "https://github.com/ungeho"
 
     [[params.socialIcons]]
     name = "twitter"
     url = "https://twitter.com/"
 
-    # [[params.socialIcons]]
-    # name = "github"
-    # url = "https://github.com/ungeho"
+    [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/ungeho"
 
 
 
