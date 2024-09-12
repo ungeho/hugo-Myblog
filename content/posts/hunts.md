@@ -41,6 +41,10 @@ https://xiv.starry.blue/plugins/master.json
 ```
 * Lemegeton  
   現地に到着した後の、Sモブの位置とHP確認に使用。  
+  * リポジトリ
+```
+https://raw.githubusercontent.com/paissaheavyindustries/Dalamud-Repo/main/repo.json
+```
 
 
 # 設定の変更が不要なプラグイン
