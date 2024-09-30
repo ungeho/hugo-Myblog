@@ -22,7 +22,7 @@ math = false
 その後、ゲーム内で`/splatoon`->`layout`タブ->`importfromclipboard`で利用出来るようになります。
 
 
-## 絶龍詩 Splatoon Preset（test）
+## 絶龍詩戦争 Splatoon Preset
 
 <!-- Ctrl + Shift + I : 現在の日時 -->
 
