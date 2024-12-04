@@ -22,47 +22,17 @@ math = false
 その後、ゲーム内で`/splatoon`->`layout`タブ->`importfromclipboard`で利用出来るようになります。
 
 
-## 絶竜詩戦争 Splatoon Preset
+# Dragonsong's Reprise
 
 <!-- Ctrl + Shift + I : 現在の日時 -->
 
 最終更新日：2024-12-04 16:04:34
 
+## Script
 
-[JP/EN]トリガーや敵の名前、キャストID等の設定は英語と日本語に対応しています。  
-※ただし、表示されるメッセージは日本語である事に注意してください。  
-  
-攻略方法はリリードールに合わせて作成しています。  
-[リリードールマクロ]( https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5178834/ "リリードールマクロ")
-  
-  
-* ハイパーディメンションの外円と内円について  
-  内側の円は、隣の直線範囲に当たらない目安です。内側の円より中にいると隣の直線範囲に被弾します。  
-  外側の円は、設置した次元の裂け目に被弾しない目安です。外側の円より外にいると次元の裂け目の範囲に入っているので、処理後はすぐ中に移動してください  
-  
-* 聖杖のGGパターンの判断について  
-    1. 自分が踏む塔に`AC対角`と表示されている場合  
-        対角パターン  
-    2. 自分が踏む塔より、時計回りの場所に`AC対角`と表示されている場合  
-        必ず反対側のコメット役がGGパターン  
-    3. 自分が踏む塔より、反時計回りの場所に`AC対角`と表示されている場合  
-        * 条件2(時計回りの場所に`AC対角`が表示されている)にも該当する場合  
-            反対側のコメット役がGGパターン  
-        * それ以外  
-            自分がGGパターン  
-  
-* GGパターンの隕石の捨て方  
-  1. 塔踏みは、出来るだけ反時計に身体を寄せて踏む。  
-  2. 赤い塗りつぶしの円（隕石を中心に半径6m）から出た瞬間に、一瞬立ち止まる。それ以外は移動。これを繰り返す。  
-  補足：1個目の隕石の着弾音が2個目の隕石の設置判定。以降もn個目の着弾音がn+1個目の設置判定  
+### DSR_P6_Cauterize_Unsafe
 
-
-
-### Script
-
-#### DSR_P6_Cauterize_Unsafe
-  
-公式のスクリプト  
+公式から、2天フェーズ終盤のカータライズのスクリプト  
 P6_2天竜フェーズの最後のカータライズで危険な方が塗りつぶされる。  
 例1：自分に徐々に凍結デバフが付与されている場合、フレースヴェルグのカータライズ（凍結）を危険エリアとして塗りつぶす。  
 例2：自分に徐々にヒートデバフが付与されている場合、ニーズヘッグのカータライズ（ヒート）を危険エリアとして塗りつぶす。  
@@ -71,27 +41,26 @@ P6_2天竜フェーズの最後のカータライズで危険な方が塗りつ�
 https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/DSR_P6_Cauterize_Unsafe.cs
 ```
 
+### P6 AutoTargetSwitcher
 
-#### P6 AutoTargetSwitcher
-
-自動ターゲット変更  
-多分均等化も機能  
+公式から、自動的にターゲット変更のスクリプト  
+多分均等化込みで機能  
 
 ```
 https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/Dragonsong's%20Reprise/P6%20AutoTargetSwitcher.cs
 ```
 
 
-#### P6 Wyrmsbreath First
+### P6 Wyrmsbreath First
 
-1回目邪竜の息吹のプリセット  
+公式から、1回目邪竜の息吹のスクリプト  
 
 ```
 https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/Dragonsong's%20Reprise/P6%20Wyrmsbreath%20First.cs
 ```
 
 
-* スクリプトの設定
+* スクリプトの設定  
   * 調整役の設定(Character List)  
     調整役は同じポジションの中で上に配置する。  
     リリードールのマクロでは、調整役はH2、D2、D3なので以下のようになる。  
@@ -111,15 +80,13 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
     `Bait Color`を設定(単一の色にしたい場合、1と2を同じ色に設定する。)  
 
 
+### P6 Wroth Flames
 
-#### P6 Wroth Flames
+公式から、邪念の炎の優先度スクリプト  
 
-公式の邪念の炎の優先度プリセット  
-以下のURLから導入。  
 ```
 https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/Dragonsong's%20Reprise/P6%20Wroth%20Flames.cs
 ```
-
 
 * スクリプトの設定
   * GeneralSettings  
@@ -133,6 +100,8 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
     固定の場合の設定例  ：予め`option`タグで、ジョブの優先度を設定。  
                         コンテンツ侵入後、`Fill by job` を押して自動入力。  
 
+## その他のプラグイン
+
 ### Lemegeton
 
 #### (P6) Dragon HP difference indicator
@@ -140,15 +109,42 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 P6の均等化に使用。  
 UIの位置を調節できるようになった為、導入推奨。  
 
-### 導入を推奨しないプラグイン
-
-#### DSR Toolbox
-
-  `DSR Toolbox`の`Eye Locator`と`Chain Tether`については、類似した機能がPreset内にあります。  
+## Preset
 
 
-### Preset
+[JP/EN]トリガーや敵の名前、キャストID等の設定は英語と日本語に対応しています。  
+※ただし、表示されるメッセージは日本語である事に注意してください。  
+  
+攻略方法はリリードールに合わせて作成しています。  
+[リリードールマクロ](https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5178834/  "リリードールマクロ")
+  
 
+
+
+Presetについての補足情報  
+
+* ハイパーディメンションの外円と内円について  
+  内側の円は、隣の直線範囲に当たらない目安です。内側の円より中にいると隣の直線範囲に被弾します。  
+  外側の円は、設置した次元の裂け目に被弾しない目安です。外側の円より外にいると次元の裂け目の範囲に入っているので、処理後はすぐ中に移動してください。  
+  
+* 聖杖のGGパターンの判断について  
+    * 自分が踏む塔に`AC対角`と表示されている場合  
+        対角パターン  
+    * 自分が踏む塔より、時計回りの場所に`AC対角`と表示されている場合  
+        必ず反対側のコメット役がGGパターン  
+    * 自分が踏む塔より、反時計回りの場所に`AC対角`と表示されている場合  
+        * 条件2(時計回りの場所に`AC対角`が表示されている)にも該当する場合  
+            反対側のコメット役がGGパターン  
+        * それ以外  
+            自分がGGパターン  
+  
+* GGパターンの隕石の捨て方  
+  * 塔踏みは、出来るだけ反時計に身体を寄せて踏む。  
+  * 赤い塗りつぶしの円（隕石を中心に半径6m）から出た瞬間に、一瞬立ち止まる。それ以外は移動。これを繰り返す。  
+    補足：1個目の隕石の着弾音が2個目の隕石の設置判定。以降もn個目の着弾音がn+1個目の設置判定  
+  
+Presetの導入はこちらから  
+  
 
 ```
 ~Lv2~{"Name":"P2_P5_聖杖_死刻：竜の邪眼","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"ElementsL":[{"Name":"騎神トールダン","type":1,"radius":0.0,"color":3372155125,"Filled":false,"fillIntensity":0.5,"thicc":8.0,"refActorNPCNameID":3632,"refActorRequireCast":true,"refActorCastId":[4201,5257,21090,25552,25553,35272],"refActorComparisonType":6,"onlyVisible":true,"tether":true,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}]}
@@ -381,11 +377,18 @@ UIの位置を調節できるようになった為、導入推奨。
 ```
 
 
+
 # その他、役に立つかもしれないscript  
 
 日本の攻略法に合わせて作られている公式のscriptです。  
 （多分攻略法はリリードール）  
-死刻フェーズで優先度が真ん中の人や、邪念の炎の優先度、2天のHP調整など、お好みで導入するとより楽になるかもしれません。  
+死刻フェーズで優先度が真ん中の人など、お好みで導入するとより楽になるかもしれません。  
 下記のURLのスクリプトのソースを選択、rawにして、urlをコピー、その後scriptをクリップボードからインストールを行うと導入できます。  
 導入後は、優先度の設定などお忘れなく  
 [https://github.com/PunishXIV/Splatoon/tree/main/SplatoonScripts/Duties/Endwalker/Dragonsong's%20Reprise](https://github.com/PunishXIV/Splatoon/tree/main/SplatoonScripts/Duties/Endwalker/Dragonsong's%20Reprise  "公式の竜詩スクリプト")  
+
+# 導入を推奨しないプラグイン
+
+## DSR Toolbox
+
+  `DSR Toolbox`の`Eye Locator`と`Chain Tether`については、類似した機能がPreset内にあります。  
