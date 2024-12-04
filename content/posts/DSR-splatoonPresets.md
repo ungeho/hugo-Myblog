@@ -71,6 +71,17 @@ P6_2天竜フェーズの最後のカータライズで危険な方が塗りつ�
 https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/DSR_P6_Cauterize_Unsafe.cs
 ```
 
+
+#### P6 AutoTargetSwitcher
+
+自動ターゲット変更  
+多分均等化も機能  
+
+```
+https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/Dragonsong's%20Reprise/P6%20AutoTargetSwitcher.cs
+```
+
+
 #### P6 Wyrmsbreath First
 
 1回目邪竜の息吹のプリセット  
