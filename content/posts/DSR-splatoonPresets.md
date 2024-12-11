@@ -65,19 +65,21 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
     調整役は同じポジションの中で上に配置する。  
     リリードールのマクロでは、調整役はH2、D2、D3なので以下のようになる。  
     楽な入力例については、邪念の炎のスクリプト設定例を参照。  
+    ※入力するのはキャラクター名  例：`Hoge Fuga` である点に注意してください。  
     | Character List | Role | Position |  
     | ---- | ---- | ---- |  
-    | Character 1 | MT | UpperLeft |  
-    | Character 2 | ST | UpperRight |  
-    | Character 3 | D2 | TriangleUpper |  
-    | Character 4 | D1 | TriangleUpper |  
-    | Character 5 | D3 | TriangleLowerLeft |  
-    | Character 6 | H1 | TriangleLowerLeft |  
-    | Character 7 | H2 | TriangleLowerRight |  
-    | Character 8 | D4 | TriangleLowerRight |  
+    | Character 1 | MT (Character Name) | UpperLeft |  
+    | Character 2 | ST (Character Name) | UpperRight |  
+    | Character 3 | D2 (Character Name) | TriangleUpper |  
+    | Character 4 | D1 (Character Name) | TriangleUpper |  
+    | Character 5 | D3 (Character Name) | TriangleLowerLeft |  
+    | Character 6 | H1 (Character Name) | TriangleLowerLeft |  
+    | Character 7 | H2 (Character Name) | TriangleLowerRight |  
+    | Character 8 | D4 (Character Name) | TriangleLowerRight |  
   * その他  
     `Swap if needed`にチェック  
     `Bait Color`を設定(単一の色にしたい場合、1と2を同じ色に設定する。)  
+
 
 
 ### P6 Wroth Flames
@@ -99,6 +101,18 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
     野良の場合の設定例  ：コンテンツ進入後、`Select from party`から、PTメンバーの名前を選択して優先度を適宜設定。  
     固定の場合の設定例  ：予め`option`タグで、ジョブの優先度を設定。  
                         コンテンツ侵入後、`Fill by job` を押して自動入力。  
+    リリードールのマクロ優先度では、以下のようになる。  
+    ※入力するのはキャラクター名  例：`Hoge Fuga` である点に注意してください。  
+        | Character List | Role |  
+    | ---- | ---- |  
+    | Character 1 | MT (Character Name) |  
+    | Character 2 | ST (Character Name) |  
+    | Character 3 | D1 (Character Name) |  
+    | Character 4 | D2 (Character Name) |  
+    | Character 5 | D3 (Character Name) |  
+    | Character 6 | D4 (Character Name) |  
+    | Character 7 | H1 (Character Name) |  
+    | Character 8 | H2 (Character Name) |  
 
 ## その他のプラグイン
 
@@ -325,7 +339,7 @@ Presetの導入はこちらから
 ~Lv2~{"Name":"P7_アルティメットエンド・オルタナ：警告","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"警告","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":0.0,"overlayText":"オルタナまで...","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":5.0,"MatchIntl":{"En":"Hahahaha! By the power of mine enemy's eyes, I am become a god eternal!","Jp":"ハハハハハ！　見よ！　畏れよ！"},"MatchDelay":16.0}]}
 ~Lv2~{"Name":"P7_アルティメットエンド・オルタナ：カウントダウン5","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"5","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508546,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"5","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"MatchIntl":{"En":"Hahahaha! By the power of mine enemy's eyes, I am become a god eternal!","Jp":"ハハハハハ！　見よ！　畏れよ！"},"MatchDelay":16.0}]}
 ~Lv2~{"Name":"P7_アルティメットエンド・オルタナ：カウントダウン4","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"4","type":1,"radius":0.0,"overlayBGColor":3355443200,"overlayTextColor":3355508546,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"4","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"MatchIntl":{"En":"Hahahaha! By the power of mine enemy's eyes, I am become a god eternal!","Jp":"ハハハハハ！　見よ！　畏れよ！"},"MatchDelay":17.0}]}
-~Lv2~{"Name":"P7_アルティメットエンド・オルタナ：カウントダウン3","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"3","type":1,"radius":0.0,"overlayBGColor":3355443200,"overlayTextColor":3355508546,"overlayVOffset":3.0,"overlayFScale":2.5,"thicc":0.0,"overlayText":"3","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"MatchIntl":{"En":"Hahahaha! By the power of mine enemy's eyes, I am become a god eternal!","Jp":"ハハハハハ！　見よ！　畏れよ！"},"MatchDelay":18.0}]}
+~Lv2~{"Name":"P7_アルティメットエンド・オルタナ：カウントダウン3","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"3","type":1,"radius":0.0,"overlayBGColor":3355443200,"overlayTextColor":3355508546,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"3","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"MatchIntl":{"En":"Hahahaha! By the power of mine enemy's eyes, I am become a god eternal!","Jp":"ハハハハハ！　見よ！　畏れよ！"},"MatchDelay":18.0}]}
 ~Lv2~{"Name":"P7_アルティメットエンド・オルタナ：カウントダウン2","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"2","type":1,"radius":0.0,"overlayBGColor":3355443200,"overlayTextColor":3355508731,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"2","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"MatchIntl":{"En":"Hahahaha! By the power of mine enemy's eyes, I am become a god eternal!","Jp":"ハハハハハ！　見よ！　畏れよ！"},"MatchDelay":19.0}]}
 ~Lv2~{"Name":"P7_アルティメットエンド・オルタナ：カウントダウン1","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"1","type":1,"radius":0.0,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"1","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"MatchIntl":{"En":"Hahahaha! By the power of mine enemy's eyes, I am become a god eternal!","Jp":"ハハハハハ！　見よ！　畏れよ！"},"MatchDelay":20.0}]}
 ~Lv2~{"Name":"P7_騎竜神トールダン：ファイアソード・アイスソード","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"ElementsL":[{"Name":"アイスソード","type":1,"radius":0.0,"Donut":20.0,"color":4110418175,"fillIntensity":0.16470589,"overrideFillColor":true,"originFillColor":1677721855,"endFillColor":1677721855,"thicc":6.0,"refActorPlaceholder":[],"refActorNPCNameID":11319,"refActorComparisonAnd":true,"refActorRequireCast":true,"refActorCastId":[28051,28057,28059],"refActorComparisonType":7,"includeHitbox":true,"onlyTargetable":true,"refActorVFXPath":"vfx/common/eff/m0678_icesword_stlp_c0x.avfx","refActorVFXMax":10000,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"ファイアソード","type":1,"radius":0.0,"color":4278190335,"fillIntensity":0.39215687,"overrideFillColor":true,"originFillColor":1677721855,"endFillColor":1677721855,"refActorPlaceholder":[],"refActorNPCNameID":11319,"refActorComparisonAnd":true,"refActorRequireCast":true,"refActorCastId":[28051,28057,28059],"refActorComparisonType":7,"includeHitbox":true,"onlyTargetable":true,"refActorVFXPath":"vfx/common/eff/m0678_firesword_stlp_c0x.avfx","refActorVFXMax":10000,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}]}
