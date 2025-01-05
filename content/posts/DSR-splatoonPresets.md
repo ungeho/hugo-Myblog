@@ -84,10 +84,550 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 
 ### P6 Wroth Flames
 
-公式から、邪念の炎の優先度スクリプト  
+### P6 Wroth Flames
+  
+公式の邪念の炎のスクリプトを、プリセットに合わせて  
+散開と頭割りの部分で誘導される東西方向の座標を変更したものです。  
+  
+邪念の炎フェーズの散開と頭割りが行われる時、プリセットでは以下のように表示されます。  
+同時に、スクリプトでは、設定された優先度に従いプリセットで表示されたパネルの中心に誘導されます。  
+* 安置内で、マップの半分より西側を頭割りとして2分割（水色のパネル）  
+* 安置内で、マップの半分より東側を散開として4分割(緑色のパネル)  
+  
+また、プリセットにより表示されるパネルは、自分がどの場所の担当で、どの程度位置を変えても良いのか、といった目安になると思います。  
+特に、散開の担当はパネルの中で外周側の角に立って、ジグザグな形になるようにする等、適宜調整を行ってください。  
+
 
 ```
-https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/Dragonsong's%20Reprise/P6%20Wroth%20Flames.cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using Dalamud.Game.ClientState.Objects.Types;
+using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling;
+using ECommons;
+using ECommons.ChatMethods;
+using ECommons.Configuration;
+using ECommons.DalamudServices;
+using ECommons.DalamudServices.Legacy;
+using ECommons.ExcelServices;
+using ECommons.GameFunctions;
+using ECommons.GameHelpers;
+using ECommons.Hooks;
+using ECommons.Hooks.ActionEffectTypes;
+using ECommons.ImGuiMethods;
+using ECommons.MathHelpers;
+using ECommons.PartyFunctions;
+using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.UI.Info;
+using ImGuiNET;
+using Splatoon;
+using Splatoon.Serializables;
+using Splatoon.SplatoonScripting;
+
+namespace SplatoonScriptsOfficial.Duties.Endwalker.Dragonsong_s_Reprise;
+
+public class P6_Wroth_Flames : SplatoonScript
+{
+    private const uint WrothFlamesCastId = 27973;
+    private const ushort SpreadDebuffId = 2758;
+    private const ushort StackDebuffId = 2759;
+    private const ushort NoDebuffId = ushort.MaxValue;
+
+    private readonly Dictionary<ushort, List<uint>> _debuffs =
+        new()
+        {
+            { (ushort)Debuff.Spread, [] },
+            { (ushort)Debuff.Stack, [] },
+            { (ushort)Debuff.None, [] }
+        };
+
+    private readonly uint[] _heatTailCastIds = [27949, 27950];
+    private readonly uint[] _heatWingCastIds = [27947, 27948];
+    private readonly ImGuiEx.RealtimeDragDrop<Job> DragDrop = new("DragDropJob", x => x.ToString());
+
+    private int _redSphereCount;
+
+    private SafeSpreadDirection _safeSpreadDirection = SafeSpreadDirection.None;
+
+    private StackSafeDirection _stackSafeDirection = StackSafeDirection.None;
+
+    private State _state = State.None;
+    public override HashSet<uint>? ValidTerritories => [968];
+
+    public override Metadata? Metadata => new(5, "Garume");
+
+    private Config C => Controller.GetConfig<Config>();
+
+    private IBattleChara? Hraesvelgr => Svc.Objects
+        .Where(o => o.IsTargetable)
+        .FirstOrDefault(o => o.DataId == 0x3145) as IBattleChara;
+
+    public override void OnActionEffectEvent(ActionEffectSet set)
+    {
+        if (_state != State.None) return;
+        if (set.Action is null) return;
+        if (set.Action.Value.RowId == WrothFlamesCastId) _state = State.Start;
+    }
+
+    public override void OnStartingCast(uint source, uint castId)
+    {
+        if (_state != State.Stack) return;
+        var isHeatTail = _heatTailCastIds.Contains(castId);
+        var isHeatWing = _heatWingCastIds.Contains(castId);
+        if (isHeatTail || isHeatWing)
+        {
+            _state = State.Split;
+            _safeSpreadDirection = isHeatWing
+                ? SafeSpreadDirection.Center
+                : _stackSafeDirection switch
+                {
+                    StackSafeDirection.NorthEast => SafeSpreadDirection.South,
+                    StackSafeDirection.NorthWest => SafeSpreadDirection.South,
+                    StackSafeDirection.SouthEast => SafeSpreadDirection.North,
+                    StackSafeDirection.SouthWest => SafeSpreadDirection.North,
+                    _ => SafeSpreadDirection.None
+                };
+            var baitPosition = GetBaitPosition(Player.Object.EntityId, _safeSpreadDirection);
+            if (Controller.TryGetElementByName("Bait", out var element))
+            {
+                element.Enabled = true;
+                element.SetOffPosition(baitPosition.ToVector3(0));
+            }
+        }
+    }
+
+    public override void OnDirectorUpdate(DirectorUpdateCategory category)
+    {
+        if (!C.ShouldCheckOnStart)
+            return;
+        if (category == DirectorUpdateCategory.Commence ||
+            (category == DirectorUpdateCategory.Recommence && Controller.Phase == 2))
+            SelfTest();
+    }
+
+    private void SelfTest()
+    {
+        Svc.Chat.PrintChat(new XivChatEntry
+        {
+            Message = new SeStringBuilder()
+                .AddUiForeground("= P6 Wroth Flames self-test =", (ushort)UIColor.LightBlue).Build()
+        });
+        var party = FakeParty.Get().ToArray();
+        var isCorrect = C.Priority.All(x => !string.IsNullOrEmpty(x));
+
+        if (!isCorrect)
+        {
+            Svc.Chat.PrintChat(new XivChatEntry
+            {
+                Message = new SeStringBuilder()
+                    .AddUiForeground("Priority list is not filled correctly.", (ushort)UIColor.Red).Build()
+            });
+            return;
+        }
+
+        if (party.Length != 8)
+        {
+            isCorrect = false;
+            Svc.Chat.PrintChat(new XivChatEntry
+            {
+                Message = new SeStringBuilder()
+                    .AddUiForeground("Can only be tested in content.", (ushort)UIColor.Red).Build()
+            });
+        }
+
+        foreach (var player in party)
+            if (C.Priority.All(x => x != player.Name.ToString()))
+            {
+                isCorrect = false;
+                Svc.Chat.PrintChat(new XivChatEntry
+                {
+                    Message = new SeStringBuilder()
+                        .AddUiForeground($"Player {player.Name} is not in the priority list.", (ushort)UIColor.Red)
+                        .Build()
+                });
+            }
+
+        if (isCorrect)
+            Svc.Chat.PrintChat(new XivChatEntry
+            {
+                Message = new SeStringBuilder()
+                    .AddUiForeground("Test Success!", (ushort)UIColor.Green).Build()
+            });
+        else
+            Svc.Chat.PrintChat(new XivChatEntry
+            {
+                Message = new SeStringBuilder()
+                    .AddUiForeground("!!! Test failed !!!", (ushort)UIColor.Red).Build()
+            });
+    }
+
+    public override void OnVFXSpawn(uint target, string vfxPath)
+    {
+        if (_state != State.DebuffGained) return;
+        if (vfxPath != "vfx/common/eff/mon_pop1t.avfx") return;
+        if (target.GetObject() is not IBattleChara redSphere) return;
+        _redSphereCount++;
+        if (_redSphereCount == 6)
+        {
+            _state = State.Stack;
+            var isNorth = redSphere.Position.Z < 100f;
+            var isEast = redSphere.Position.X > 100f;
+
+            StackSafeDirection[] redSphereSafeDirection = (isNorth, isEast) switch
+            {
+                (true, true) => [StackSafeDirection.SouthEast, StackSafeDirection.SouthWest],
+                (true, false) => [StackSafeDirection.SouthWest, StackSafeDirection.SouthEast],
+                (false, true) => [StackSafeDirection.NorthEast, StackSafeDirection.NorthWest],
+                (false, false) => [StackSafeDirection.NorthWest, StackSafeDirection.NorthEast]
+            };
+
+            if (C.PrioritizeSecondRedBallDiagonal) redSphereSafeDirection = redSphereSafeDirection.Reverse().ToArray();
+            if (C.PrioritizeWest)
+                if (redSphereSafeDirection[1].ToString().Contains("West"))
+                    redSphereSafeDirection = redSphereSafeDirection.Reverse().ToArray();
+
+            var hraesvelgrPositionX = Hraesvelgr?.Position.X ?? 100f;
+            StackSafeDirection[] hraesvelgrSafeDirection = Math.Abs(hraesvelgrPositionX - 100f) < 0.1f
+                ?
+                [
+                    StackSafeDirection.NorthEast, StackSafeDirection.NorthWest,
+                    StackSafeDirection.SouthEast, StackSafeDirection.SouthWest
+                ]
+                : hraesvelgrPositionX > 105f
+                    ? [StackSafeDirection.NorthWest, StackSafeDirection.SouthWest]
+                    : [StackSafeDirection.NorthEast, StackSafeDirection.SouthEast];
+
+            _stackSafeDirection = redSphereSafeDirection.Intersect(hraesvelgrSafeDirection).First();
+
+            var stackPosition = GetStackPosition(_stackSafeDirection);
+            if (Controller.TryGetElementByName("Bait", out var element))
+            {
+                element.Enabled = true;
+                element.SetOffPosition(stackPosition.ToVector3(0));
+            }
+        }
+    }
+
+    public override void OnUpdate()
+    {
+        if (_state is State.None or State.End)
+        {
+            Controller.GetRegisteredElements().Each(x => x.Value.Enabled = false);
+            return;
+        }
+
+        Controller.GetRegisteredElements()
+            .Each(x => x.Value.color = GradientColor.Get(C.BaitColor1, C.BaitColor2).ToUint());
+    }
+
+    private Vector2 GetStackPosition(StackSafeDirection direction)
+    {
+        return direction switch
+        {
+            StackSafeDirection.NorthEast => new Vector2(120, 80),
+            StackSafeDirection.NorthWest => new Vector2(80, 80),
+            StackSafeDirection.SouthEast => new Vector2(120, 120),
+            StackSafeDirection.SouthWest => new Vector2(80, 120),
+            StackSafeDirection.None => new Vector2(100, 100),
+            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+        };
+    }
+
+    public override void OnReset()
+    {
+        _debuffs[SpreadDebuffId].Clear();
+        _debuffs[StackDebuffId].Clear();
+        _debuffs[NoDebuffId].Clear();
+        _state = State.None;
+        _redSphereCount = 0;
+    }
+
+    private float GetDebuffPositionX(Debuff debuff, int index)
+    {
+        switch (debuff, index)
+        {
+            case (Debuff.Stack, 0):
+            case (Debuff.None, 0):
+                return 83.5f;
+            case (Debuff.Stack, 1):
+            case (Debuff.None, 1):
+                return 94.5f;
+            case (Debuff.Spread, 0):
+                return 102.75f;
+            case (Debuff.Spread, 1):
+                return 108.25f;
+            case (Debuff.Spread, 2):
+                return 113.75f;
+            case (Debuff.Spread, 3):
+                return 119.25f;
+        }
+
+        return default;
+    }
+
+    public override void OnSetup()
+    {
+        var element = new Element(0)
+        {
+            thicc = 6f,
+            radius = 1f,
+            tether = true,
+            LineEndA = LineEnd.Arrow
+        };
+        Controller.TryRegisterElement("Bait", element);
+    }
+
+    private Vector2 GetBaitPosition(uint characterEntityId, SafeSpreadDirection safeSpreadDirection)
+    {
+        var myDebuff = _debuffs.Where(x => x.Value.Contains(characterEntityId)).Select(x => (Debuff)x.Key)
+            .FirstOrDefault();
+        var characterName = FakeParty.Get().First(x => x.EntityId == characterEntityId).Name.ToString();
+        var myDebuffCharacterNames = _debuffs[(ushort)myDebuff].Select(x => x.GetObject()?.Name.ToString()).ToList();
+        var myDebuffPriorityList = C.Priority.Where(x => myDebuffCharacterNames.Contains(x)).ToList();
+        var myDebuffPriority = myDebuffPriorityList.IndexOf(characterName);
+        var x = GetDebuffPositionX(myDebuff, myDebuffPriority);
+        var y = safeSpreadDirection switch
+        {
+            SafeSpreadDirection.North => 85f,
+            SafeSpreadDirection.Center => 100f,
+            SafeSpreadDirection.South => 115f,
+            _ => 100f
+        };
+
+        return new Vector2(x, y);
+    }
+
+    public override void OnGainBuffEffect(uint sourceId, Status Status)
+    {
+        if (_state != State.Start) return;
+        if (_debuffs.TryGetValue(Status.StatusId, out var list)) list.Add(sourceId);
+        if (_debuffs[SpreadDebuffId].Count == 4 && _debuffs[StackDebuffId].Count == 2)
+        {
+            foreach (var player in FakeParty.Get())
+            {
+                if (_debuffs[SpreadDebuffId].Contains(player.EntityId))
+                    continue;
+                if (_debuffs[StackDebuffId].Contains(player.EntityId))
+                    continue;
+                _debuffs[NoDebuffId].Add(player.EntityId);
+            }
+
+            _state = State.DebuffGained;
+        }
+    }
+
+    public override void OnRemoveBuffEffect(uint sourceId, Status Status)
+    {
+        if (_state != State.Split) return;
+        if (Status.StatusId == StackDebuffId) _state = State.End;
+    }
+
+    private unsafe bool DrawPriorityList()
+    {
+        if (C.Priority.Length != 8)
+            C.Priority = ["", "", "", "", "", "", "", ""];
+
+        ImGuiEx.Text("Priority list");
+        ImGui.SameLine();
+        ImGuiEx.Spacing();
+        if (ImGui.Button("Perform test")) SelfTest();
+        ImGui.SameLine();
+        if (ImGui.Button("Fill by job"))
+        {
+            HashSet<(string, Job)> party = [];
+            foreach (var x in FakeParty.Get())
+                party.Add((x.Name.ToString(), x.GetJob()));
+
+            var proxy = InfoProxyCrossRealm.Instance();
+            for (var i = 0; i < proxy->GroupCount; i++)
+            {
+                var group = proxy->CrossRealmGroups[i];
+                for (var c = 0; c < proxy->CrossRealmGroups[i].GroupMemberCount; c++)
+                {
+                    var x = group.GroupMembers[c];
+                    party.Add((x.Name.Read(), (Job)x.ClassJobId));
+                }
+            }
+
+            var index = 0;
+            foreach (var job in C.Jobs.Where(job => party.Any(x => x.Item2 == job)))
+            {
+                C.Priority[index] = party.First(x => x.Item2 == job).Item1;
+                index++;
+            }
+
+            for (var i = index; i < C.Priority.Length; i++)
+                C.Priority[i] = "";
+        }
+        ImGuiEx.Tooltip("The list is populated based on the job.\nYou can adjust the priority from the option header.");
+        
+        ImGui.PushID("prio");
+        for (var i = 0; i < C.Priority.Length; i++)
+        {
+            ImGui.PushID($"prioelement{i}");
+            ImGui.Text($"Character {i + 1}");
+            ImGui.SameLine();
+            ImGui.SetNextItemWidth(200);
+            ImGui.InputText($"##Character{i}", ref C.Priority[i], 50);
+            ImGui.SameLine();
+            ImGui.SetNextItemWidth(150);
+            if (ImGui.BeginCombo("##partysel", "Select from party"))
+            {
+                foreach (var x in FakeParty.Get().Select(x => x.Name.ToString())
+                             .Union(UniversalParty.Members.Select(x => x.Name)).ToHashSet())
+                    if (ImGui.Selectable(x))
+                        C.Priority[i] = x;
+                ImGui.EndCombo();
+            }
+
+            ImGui.PopID();
+        }
+
+        ImGui.PopID();
+        return false;
+    }
+
+    public override void OnSettingsDraw()
+    {
+        ImGui.Text("General Settings");
+        ImGui.Indent();
+        ImGui.ColorEdit4("Bait Color 1", ref C.BaitColor1, ImGuiColorEditFlags.NoInputs);
+        ImGui.ColorEdit4("Bait Color 2", ref C.BaitColor2, ImGuiColorEditFlags.NoInputs);
+        ImGui.Checkbox("Check on start", ref C.ShouldCheckOnStart);
+        ImGui.Unindent();
+
+        ImGui.Text("Stack Settings");
+        ImGui.Indent();
+        ImGui.Checkbox("Prioritize Second Red Ball Diagonal", ref C.PrioritizeSecondRedBallDiagonal);
+        if (C.PrioritizeSecondRedBallDiagonal)
+            C.PrioritizeWest = false;
+        ImGui.Checkbox("Prioritize West", ref C.PrioritizeWest);
+        if (C.PrioritizeWest)
+            C.PrioritizeSecondRedBallDiagonal = false;
+        ImGui.Unindent();
+
+        ImGui.Text("Spread Settings");
+        ImGui.Indent();
+        DrawPriorityList();
+        ImGui.Unindent();
+        if (ImGuiEx.CollapsingHeader("Option"))
+        {
+            DragDrop.Begin();
+            foreach (var job in C.Jobs)
+            {
+                DragDrop.NextRow();
+                ImGui.Text(job.ToString());
+                ImGui.SameLine();
+
+                if (ThreadLoadImageHandler.TryGetIconTextureWrap((uint)job.GetIcon(), false, out var texture))
+                {
+                    ImGui.Image(texture.ImGuiHandle, new Vector2(24f));
+                    ImGui.SameLine();
+                }
+
+                ImGui.SameLine();
+                DragDrop.DrawButtonDummy(job, C.Jobs, C.Jobs.IndexOf(job));
+            }
+
+            DragDrop.End();
+        }
+        if (ImGuiEx.CollapsingHeader("Debug"))
+        {
+            ImGui.Text($"State: {_state}");
+            ImGui.Text("Debuffs");
+            ImGui.Indent();
+            foreach (var debuff in _debuffs)
+            {
+                ImGui.Text($"Debuff: {debuff.Key}");
+                ImGui.Indent();
+                foreach (var entityId in debuff.Value)
+                {
+                    var player = FakeParty.Get().First(x => x.EntityId == entityId);
+                    ImGui.Text($"{player.Name}");
+                }
+
+                ImGui.Unindent();
+            }
+
+            ImGui.Unindent();
+
+            ImGui.Text($"Safe Spread Direction: {_safeSpreadDirection}");
+            ImGui.Text($"Stack Safe Direction: {_stackSafeDirection}");
+        }
+    }
+
+    private enum StackSafeDirection
+    {
+        None,
+        NorthEast,
+        NorthWest,
+        SouthEast,
+        SouthWest
+    }
+
+    private enum State
+    {
+        None,
+        Start,
+        DebuffGained,
+        Stack,
+        Split,
+        End
+    }
+
+    private enum Debuff : ushort
+    {
+        Spread = 2758,
+        Stack = 2759,
+        None = ushort.MaxValue
+    }
+
+
+    private enum SafeSpreadDirection
+    {
+        North,
+        Center,
+        South,
+        None
+    }
+
+    private class Config : IEzConfig
+    {
+        public Vector4 BaitColor1 = 0xFFFF00FF.ToVector4();
+        public Vector4 BaitColor2 = 0xFFFFFF00.ToVector4();
+        public bool PrioritizeSecondRedBallDiagonal;
+        public bool PrioritizeWest;
+        public string[] Priority = ["", "", "", "", "", "", "", ""];
+        public bool ShouldCheckOnStart;
+        
+        public List<Job> Jobs =
+        [
+            Job.PLD,
+            Job.WAR,
+            Job.DRK,
+            Job.GNB,
+            Job.WHM,
+            Job.SCH,
+            Job.AST,
+            Job.SGE,
+            Job.VPR,
+            Job.DRG,
+            Job.MNK,
+            Job.SAM,
+            Job.RPR,
+            Job.NIN,
+            Job.BRD,
+            Job.MCH,
+            Job.DNC,
+            Job.BLM,
+            Job.SMN,
+            Job.RDM,
+            Job.PCT
+        ];
+    }
+}
 ```
 
 * スクリプトの設定
@@ -113,6 +653,11 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
     | Character 6 | D4 (Character Name) |  
     | Character 7 | H1 (Character Name) |  
     | Character 8 | H2 (Character Name) |  
+
+#### Registered Elements  
+```
+{"Elements":{"Bait":{"Name":"","type":0,"Enabled":false,"refX":0.0,"refY":0.0,"refZ":0.0,"offX":83.5,"offY":115.0,"offZ":0.0,"radius":1.0,"color":4279631616,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":1879048192,"overlayTextColor":3372220415,"overlayVOffset":0.0,"overlayFScale":1.0,"overlayPlaceholders":false,"thicc":6.0,"overlayText":"","refActorName":"","refActorTargetingYou":0,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":false,"refActorCastReverse":false,"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"refActorComparisonType":0,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":false,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":true,"ExtraTetherLength":0.0,"LineEndA":1,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0}}}
+```
 
 ## その他のプラグイン
 
@@ -274,13 +819,13 @@ Presetの導入はこちらから
 ~Lv2~{"Name":"P5_死刻：リリド(ぬけまるこまぞう式改3)","Group":"Ultimate Dragonsong's Reprise","DCond":5,"ElementsL":[{"Name":"中心2","refX":100.0,"refY":99.99971,"radius":0.05,"color":4294967295,"thicc":8.2,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"中心1","refX":100.0,"refY":99.99971,"radius":0.05,"color":4278190335,"thicc":5.0,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"死刻02","Enabled":false,"refX":102.51997,"refY":97.50191,"radius":0.7,"overlayBGColor":0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"1","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"死刻03","Enabled":false,"refX":103.53233,"refY":100.00354,"refZ":4.7683716E-07,"radius":0.7,"color":3355505151,"overlayBGColor":0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"B","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"死刻04","Enabled":false,"refX":102.47303,"refY":102.46072,"radius":0.7,"color":3355505151,"overlayBGColor":0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"2","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"死刻05","Enabled":false,"refX":99.993355,"refY":103.458015,"refZ":2.3841858E-07,"radius":0.7,"color":3372172800,"overlayBGColor":0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"C","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"死刻06","Enabled":false,"refX":97.55642,"refY":102.43156,"radius":0.7,"color":3372172800,"overlayBGColor":0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"3","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"死刻07","Enabled":false,"refX":96.530945,"refY":99.99951,"radius":0.7,"color":3372155131,"overlayBGColor":0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"D","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"死刻08","Enabled":false,"refX":97.508644,"refY":97.53243,"refZ":-2.3841858E-07,"radius":0.7,"color":3372155131,"overlayBGColor":0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"4","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"宣告1","type":1,"offX":2.0,"offY":9.0,"radius":0.5,"color":3371237631,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":4278190080,"overlayTextColor":4294967295,"overlayFScale":1.7,"thicc":4.0,"overlayText":"1","refActorNPCNameID":3641,"refActorComparisonType":6,"includeRotation":true,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"宣告2","type":1,"offX":1.4,"offY":7.6,"radius":0.5,"color":3371237631,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":4278190080,"overlayTextColor":4294967295,"overlayFScale":1.7,"thicc":4.0,"overlayText":"2","refActorNPCNameID":3641,"refActorComparisonType":6,"includeRotation":true,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"宣告3","type":1,"offX":-1.4,"offY":7.6,"radius":0.5,"color":3371237631,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":4278190080,"overlayTextColor":4294967295,"overlayFScale":1.7,"thicc":4.0,"overlayText":"3","refActorNPCNameID":3641,"refActorComparisonType":6,"includeRotation":true,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"宣告4","type":1,"offX":-2.0,"offY":9.0,"radius":0.5,"color":3371237631,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":4278190080,"overlayTextColor":4294967295,"overlayFScale":1.7,"thicc":4.0,"overlayText":"4","refActorNPCNameID":3641,"refActorComparisonType":6,"includeRotation":true,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"無印1","type":1,"offY":7.0,"radius":0.5,"color":3372218624,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":4278190080,"overlayTextColor":4294932224,"overlayFScale":1.7,"thicc":4.0,"overlayText":"","refActorNPCNameID":3641,"refActorComparisonType":6,"includeRotation":true,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"無印2","type":1,"offY":11.0,"radius":0.5,"color":3372218624,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":4278190080,"overlayTextColor":4294932224,"overlayFScale":1.7,"thicc":4.0,"overlayText":"","refActorNPCNameID":3641,"refActorComparisonType":6,"includeRotation":true,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"無印1","type":1,"offX":1.4,"offY":10.4,"radius":0.5,"color":3372218624,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":4278190080,"overlayTextColor":4278190335,"overlayFScale":1.7,"overlayPlaceholders":true,"thicc":4.0,"overlayText":"\\n","refActorNPCNameID":3641,"refActorComparisonType":6,"includeRotation":true,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"無印2","type":1,"offX":-1.4,"offY":10.4,"radius":0.5,"color":3372218624,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":4278190080,"overlayTextColor":4278190335,"overlayFScale":1.7,"overlayPlaceholders":true,"thicc":4.0,"overlayText":"\\n","refActorNPCNameID":3641,"refActorComparisonType":6,"includeRotation":true,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"","type":2,"Enabled":false,"refX":120.0,"refY":120.0,"offX":80.0,"offY":80.0,"radius":0.0,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"","type":2,"Enabled":false,"refX":80.0,"refY":100.0,"offX":120.0,"offY":100.0,"radius":0.0,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"","type":2,"Enabled":false,"refX":100.0,"refY":122.12,"offX":100.0,"offY":78.32,"radius":0.0,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"","type":2,"Enabled":false,"refX":80.0,"refY":120.0,"offX":120.0,"offY":80.0,"radius":0.0,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"","Enabled":false,"refX":100.0,"refY":100.0,"radius":2.0,"Filled":false,"thicc":1.0,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"騎神トールダンは「至天の陣：死刻」の構え。","MatchIntl":{"En":"King Thordan readies Death of the Heavens"},"MatchDelay":10.0}],"Freezing":true,"FreezeFor":24.0,"FreezeDisplayDelay":18.0}
 ~Lv2~{"Name":"P5_死刻：流星の聖紋","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"CasterLB","refX":100.0,"refY":90.0,"refZ":-3.814697E-06,"radius":0.5,"Donut":9.5,"color":3355484415,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355484415,"thicc":4.0,"overlayText":"LB","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"流星の聖紋(通常破壊)","type":1,"radius":0.0,"color":3355508490,"fillIntensity":0.109,"overlayBGColor":3355443200,"overlayTextColor":3355508509,"overlayText":"壊す","refActorNPCNameID":4386,"refActorComparisonType":6,"includeHitbox":true,"onlyTargetable":true,"LimitDistance":true,"LimitDistanceInvert":true,"DistanceSourceX":100.0,"DistanceSourceY":90.0,"DistanceMax":10.0,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":20.0,"MatchIntl":{"En":"King Thordan uses Death of the Heavens","Jp":"騎神トールダンの「至天の陣：死刻」"},"MatchDelay":30.0}]}
 ~Lv2~{"Name":"P6_息吹：警告","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"警告","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"overlayVOffset":4.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"息吹まで...","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":6.7,"MatchIntl":{"En":"Hraesvelgr readies Great Wyrmsbreath.","Jp":"フレースヴェルグは「聖竜の息吹」の構え。"}}]}
-~Lv2~{"Name":"P6_息吹：カウントダウン6","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"6","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"6","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"MatchIntl":{"En":"Hraesvelgr readies Great Wyrmsbreath.","Jp":"フレースヴェルグは「聖竜の息吹」の構え。"},"MatchDelay":0.7}]}
-~Lv2~{"Name":"P6_息吹：カウントダウン5","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"5","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"5","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"TimeBegin":1.7,"Duration":1.0,"MatchIntl":{"En":"Hraesvelgr readies Great Wyrmsbreath.","Jp":"フレースヴェルグは「聖竜の息吹」の構え。"}}]}
+~Lv2~{"Name":"P6_息吹：カウントダウン6","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"6","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"6","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.7,"MatchIntl":{"En":"Hraesvelgr readies Great Wyrmsbreath.","Jp":"フレースヴェルグは「聖竜の息吹」の構え。"}}]}
+~Lv2~{"Name":"P6_息吹：カウントダウン5","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"5","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"5","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"TimeBegin":1.7,"Duration":1.0,"MatchIntl":{"En":"Hraesvelgr readies Great Wyrmsbreath.","Jp":"フレースヴェルグは「聖竜の息吹」の構え。"},"MatchDelay":1.7}]}
 ~Lv2~{"Name":"P6_息吹：カウントダウン4","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"4","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"4","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"MatchIntl":{"En":"Hraesvelgr readies Great Wyrmsbreath.","Jp":"フレースヴェルグは「聖竜の息吹」の構え。"},"MatchDelay":2.7}]}
 ~Lv2~{"Name":"P6_息吹：カウントダウン3","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"3","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"3","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"MatchIntl":{"En":"Hraesvelgr readies Great Wyrmsbreath.","Jp":"フレースヴェルグは「聖竜の息吹」の構え。"},"MatchDelay":3.7}]}
 ~Lv2~{"Name":"P6_息吹：カウントダウン2","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"2","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508725,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"2","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"MatchIntl":{"En":"Hraesvelgr readies Great Wyrmsbreath.","Jp":"フレースヴェルグは「聖竜の息吹」の構え。"},"MatchDelay":4.7}]}
 ~Lv2~{"Name":"P6_息吹：カウントダウン1","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"1","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"1","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"MatchIntl":{"En":"Hraesvelgr readies Great Wyrmsbreath.","Jp":"フレースヴェルグは「聖竜の息吹」の構え。"},"MatchDelay":5.7}]}
-~Lv2~{"Name":"P6_息吹1回目：おこめ式","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"北","refX":100.0,"refY":108.0,"refZ":-5.722046E-06,"color":3355508512,"Filled":false,"overlayBGColor":3355443200,"overlayTextColor":3355476735,"thicc":5.0,"overlayText":"D1(D2)","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"西","refX":95.2,"refY":119.0,"refZ":-5.722046E-06,"color":3355508512,"Filled":false,"overlayBGColor":3355443200,"overlayTextColor":3356884736,"thicc":5.0,"overlayText":"H1(D3)","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"東","refX":104.8,"refY":119.0,"refZ":-5.722046E-06,"color":3355508512,"Filled":false,"overlayBGColor":3355443200,"overlayTextColor":3355508223,"thicc":5.0,"overlayText":"D4(H2)","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":16.0,"MatchIntl":{"En":"Wriggling maggots! I shall grind you to paste in my jaws!","Jp":"穢らわしいヒトどもめ！"}}]}
+~Lv2~{"Name":"P6_息吹1回目：おこめ式","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"北","refX":100.0,"refY":108.0,"refZ":-5.722046E-06,"color":3355508512,"Filled":false,"overlayBGColor":3355443200,"overlayTextColor":3355476735,"thicc":5.0,"overlayText":"D1(D2)","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"西","refX":95.2,"refY":119.0,"refZ":-5.722046E-06,"color":3355508512,"Filled":false,"overlayBGColor":3355443200,"overlayTextColor":3356884736,"thicc":5.0,"overlayText":"H1(D3)","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"東","refX":104.8,"refY":119.0,"refZ":-5.722046E-06,"color":3355508512,"Filled":false,"overlayBGColor":3355443200,"overlayTextColor":3355508223,"thicc":5.0,"overlayText":"D4(H2)","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":22.0,"MatchIntl":{"En":"A single life can alter the course of history...","Jp":"ひとつの命が 歴史の流れを変えてゆく――"}}]}
 ~Lv2~{"Name":"P6_息吹2回目：脳死法","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"タンク","refX":100.0,"refY":100.0,"radius":1.0,"color":4294901766,"Filled":false,"overlayBGColor":3355443200,"overlayTextColor":4294962176,"overlayVOffset":1.0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"タンク","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"H1","refX":100.0,"refY":80.5,"radius":0.5,"color":4278255360,"Filled":false,"overlayBGColor":3355443200,"overlayTextColor":4278255395,"overlayVOffset":1.0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"H1","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"H2","refX":100.0,"refY":119.5,"radius":0.5,"color":4278255360,"Filled":false,"overlayBGColor":3355443200,"overlayTextColor":4278255395,"overlayVOffset":1.0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"H2","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"D1","refX":96.32,"refY":110.06,"radius":0.5,"color":4278255103,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":3355443200,"overlayTextColor":4278255103,"overlayVOffset":1.0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"D1","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"D2","refX":103.88,"refY":89.66,"radius":0.5,"color":4278255103,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":3355443200,"overlayTextColor":4278255103,"overlayVOffset":1.0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"D2","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"D3","refX":92.6,"refY":118.0,"radius":0.5,"color":4278233087,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":3355443200,"overlayTextColor":4278233087,"overlayVOffset":1.0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"D3","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0},{"Name":"D4","refX":107.4,"refY":82.0,"radius":0.5,"color":4278233087,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":3355443200,"overlayTextColor":4278233087,"overlayVOffset":1.0,"overlayFScale":2.0,"thicc":5.0,"overlayText":"D4","refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":15.0,"MatchIntl":{"En":"Nidhogg readies Wroth Flames","Jp":"ニーズヘッグは「邪念の炎」の構え。"},"MatchDelay":62.0}]}
 ~Lv2~{"Name":"P6_アク・アファー：警告","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"警告","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3356884736,"overlayVOffset":4.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"アク・アファーまで...","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":7.7,"MatchIntl":{"En":"Hraesvelgr readies Akh Afah.","Jp":"フレースヴェルグは「アク・アファー」の構え。"}}]}
 ~Lv2~{"Name":"P6_アク・アファー：カウントダウン7","Group":"Ultimate Dragonsong's Reprise","ZoneLockH":[968],"DCond":5,"ElementsL":[{"Name":"7","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508558,"overlayVOffset":3.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"7","refActorType":1,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0}],"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"MatchIntl":{"En":"Hraesvelgr readies Akh Afah.","Jp":"フレースヴェルグは「アク・アファー」の構え。"},"MatchDelay":0.7}]}
