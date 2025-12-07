@@ -1,7 +1,19 @@
-{{- $.Scratch.Add "index" slice -}}
+{{- $.Scratch.Set "index" slice -}}
+{{- $.Scratch.Set "seen" dict -}}
+
 {{- range site.RegularPages -}}
-    {{- if and (not .Params.searchHidden) (ne .Layout `archives`) (ne .Layout `search`) }}
-    {{- $.Scratch.Add "index" (dict "title" .Title "content" .Plain "permalink" .Permalink "summary" .Summary) -}}
+  {{- if and (not .Params.searchHidden) (ne .Layout "archives") (ne .Layout "search") }}
+    {{- $permalink := .Permalink -}}
+    {{- if not (index ($.Scratch.Get "seen") $permalink) }}
+      {{- $.Scratch.Add "index" (dict
+        "title"     .Title
+        "content"   .Plain
+        "permalink" .Permalink
+        "summary"   .Summary
+      ) -}}
+      {{- $.Scratch.SetInMap "seen" $permalink true -}}
     {{- end }}
+  {{- end }}
 {{- end -}}
+
 {{- $.Scratch.Get "index" | jsonify -}}

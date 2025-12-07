@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Programming on </title>
+    <link>//localhost:1313/categories/programming/</link>
+    <description>Recent content in Programming on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 07 Dec 2025 19:03:04 +0900</lastBuildDate>
+    <atom:link href="//localhost:1313/categories/programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>浮動小数点数についての話</title>
+      <link>//localhost:1313/posts/float/</link>
+      <pubDate>Sun, 07 Dec 2025 19:03:04 +0900</pubDate>
+      <guid>//localhost:1313/posts/float/</guid>
+      <description>&lt;h2 id=&#34;この記事について&#34;&gt;この記事について&lt;/h2&gt;
+&lt;h2 id=&#34;浮動小数点数とは&#34;&gt;浮動小数点数とは？&lt;/h2&gt;
+&lt;h3 id=&#34;2進数の浮動小数点数が正確に表せる数&#34;&gt;2進数の浮動小数点数が正確に表せる数&lt;/h3&gt;
+&lt;h3 id=&#34;10進数の浮動小数点数なら問題ない&#34;&gt;10進数の浮動小数点数なら問題ない？&lt;/h3&gt;
+&lt;h3 id=&#34;固定小数点数は&#34;&gt;固定小数点数は？&lt;/h3&gt;</description>
+    </item>
+  </channel>
+</rss>

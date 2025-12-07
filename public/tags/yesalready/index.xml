@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>YesAlready on </title>
+    <link>//localhost:1313/tags/yesalready/</link>
+    <description>Recent content in YesAlready on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 28 Jan 2024 18:09:26 +0900</lastBuildDate>
+    <atom:link href="//localhost:1313/tags/yesalready/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>YesAlreadyPreset</title>
+      <link>//localhost:1313/posts/yesalreadypreset/</link>
+      <pubDate>Sun, 28 Jan 2024 18:09:26 +0900</pubDate>
+      <guid>//localhost:1313/posts/yesalreadypreset/</guid>
+      <description>&lt;p&gt;ご利用は自己責任で&lt;/p&gt;
+&lt;p&gt;必要なものをコピーしてお使いください。&lt;/p&gt;
+&lt;p&gt;※コードブロックの右上にカーソルを合わせると全文コピー出来ます。&lt;/p&gt;
+&lt;p&gt;コードブロックでない場合は、普通に選択してください。&lt;/p&gt;
+&lt;h2 id=&#34;yesalreadypreset&#34;&gt;YesAlreadyPreset&lt;/h2&gt;
+&lt;p&gt;設定に抜けがある可能性あります。必要に応じて追加してください。&lt;/p&gt;
+&lt;p&gt;ここに記載してるほかにも&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;テレポ招待（非推奨）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;コンテンツからの退出（周回中だけON）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;無人島&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ディアデム&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;潜水艦&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;頻繁に行う細かな移動（特定のイベントや友好部族クエストなど）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;頻繁に購入するもの&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;その他、セリフのスキップや不要な選択など&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;を設定する事で、かなり快適になります。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;インスタンスエリアの移動&#34;&gt;インスタンスエリアの移動&lt;/h3&gt;
+&lt;p&gt;インスタンスエリアの移動を楽にする設定&lt;/p&gt;
+&lt;p&gt;基本的にはOFFにして、必要な時に必要なものをONにして使用する。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/pyes&lt;/code&gt;-&amp;gt;&lt;code&gt;Lists&lt;/code&gt;-&amp;gt;必要なものをダブルクリックでオンオフを切り替えられる。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;List&lt;/code&gt;タブで下記を設定する。&lt;/p&gt;
+&lt;p&gt;※wordの一部は環境依存文字である為、このブログでは正しく表示されない。&lt;/p&gt;
+&lt;p&gt;ゲーム内でペーストすると正しく表示される。&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;String&lt;/th&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;Target Restricted&lt;/th&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;Target&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;インスタンスエリアへ移動&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;✔&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;エーテライト&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;//&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;✔&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;エーテライト&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;//&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;✔&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;エーテライト&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;//&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;✔&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;エーテライト&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;リテイナーベンチャーの更新&#34;&gt;リテイナーベンチャーの更新&lt;/h3&gt;
+&lt;p&gt;リテイナーベンチャーが完了している場合のみ更新する。&lt;/p&gt;
+&lt;p&gt;常時ON&lt;/p&gt;
+&lt;p&gt;以下の設定を行う。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Litst&lt;/code&gt;タブ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;String&lt;/th&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;Target Restricted&lt;/th&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;Target&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;/完了/&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;✔&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;呼び鈴&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;/完了/&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;✔&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;リテイナーベル&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Talk&lt;/code&gt;タブ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;リテイナーベル
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;呼び鈴
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h3 id=&#34;収集品ギャザラー&#34;&gt;収集品（ギャザラー）&lt;/h3&gt;
+&lt;p&gt;基本的にOFF、必要な時だけON&lt;/p&gt;
+&lt;p&gt;漁師で収集品を釣る際に&lt;code&gt;Auto Hook&lt;/code&gt;プラグインとの併用で使用する。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;YesNo&lt;/code&gt;タブ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/以下のアイテムを収集品として入手しますか？ /
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h3 id=&#34;ハウジングエリア区の移動&#34;&gt;ハウジングエリア区の移動&lt;/h3&gt;
+&lt;p&gt;ハウジングエリアの区の移動が楽になる。&lt;/p&gt;
+&lt;p&gt;常時ON&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;YesNo&lt;/code&gt;タブ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/[エンピレアム|シロガネ|ミスト・ヴィレッジ|ラベンダーベッド|ゴブレットビュート]第\d{1,2}区に移動します。 よろしいですか？/
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h3 id=&#34;ミニくじテンダー&#34;&gt;ミニくじテンダー&lt;/h3&gt;
+&lt;p&gt;ミニくじテンダーの購入が楽になる。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
