@@ -2,8 +2,8 @@
 title = "絶バハムート Splatoon Layout"
 date = 2024-01-27T02:39:08+09:00
 draft = false
-categories = ["game"]
-tags = ["ffxiv","Splatoon"]
+categories = ["FFXIV"]
+tags = ["FFXIV","Splatoon"]
 # 目次を付与するオプション
 showtoc = true
 # 目次を開いた状態にする

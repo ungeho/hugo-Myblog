@@ -1,9 +1,9 @@
 +++
 title = 'YesAlreadyPreset'
 date = 2024-01-28T18:09:26+09:00
-draft = false
-categories = ["game"]
-tags = ["ffxiv","YesAlready"]
+draft = true
+categories = ["FFXIV"]
+tags = ["FFXIV","YesAlready"]
 # 目次を付与するオプション
 showtoc = true
 # 目次を開いた状態にする

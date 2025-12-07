@@ -1,9 +1,9 @@
 +++
 title = 'モブハント用'
 date = 2024-09-13T03:13:38+09:00
-draft = false
-categories = ["game"]
-tags = ["ffixv,sonar,faloop"]
+draft = true
+categories = ["FFXIV"]
+tags = ["FFXIV,Sonar,Faloop"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->

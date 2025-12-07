@@ -1,9 +1,9 @@
 +++
 title = 'FF14の座標の計算方法と豆知識'
 date = 2024-01-27T03:15:32+09:00
-draft = false
-categories = ["game"]
-tags = ["ffxiv","splatoon","waymark"]
+draft = true
+categories = ["FFXIV"]
+tags = ["FFXIV","Splatoon","WaymarkPlugin"]
 math = true
 +++
 

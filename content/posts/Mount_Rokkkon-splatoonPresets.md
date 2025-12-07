@@ -2,8 +2,8 @@
 title = "異聞六根山 Splatoon Layout"
 date = 2024-03-04T18:25:44+09:00
 draft = false
-categories = ["game"]
-tags = ["ffxiv","splatoon"]
+categories = ["FFXIV"]
+tags = ["FFXIV","Splatoon"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = false
 # 目次を開いた状態にする <!-- omit in toc -->

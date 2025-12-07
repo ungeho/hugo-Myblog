@@ -2,8 +2,8 @@
 title = 'Lux'
 date = 2024-05-26T17:00:04+09:00
 draft = true
-categories = ["game"]
-tags = ["LoL"]
+categories = ["League of Legends"]
+tags = ["League of Legends"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->
