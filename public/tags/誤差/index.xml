@@ -13,8 +13,7 @@
       <link>http://localhost:1313/posts/float/</link>
       <pubDate>Sun, 07 Dec 2025 19:03:04 +0900</pubDate>
       <guid>http://localhost:1313/posts/float/</guid>
-      <description>&lt;p&gt;プログラミング中に &lt;strong&gt;「0.1 + 0.2 が 0.3 にならない」&lt;/strong&gt; といった、&lt;br&gt;
-浮動小数点数特有の挙動に戸惑った経験はないでしょうか。&lt;br&gt;
+      <description>&lt;p&gt;プログラミング中に &lt;strong&gt;「0.1 + 0.2 が 0.3 にならない」&lt;/strong&gt; といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。&lt;br&gt;
 これは、コンピューターが実数をそのまま正確に扱えないことに起因しています。&lt;/p&gt;</description>
     </item>
   </channel>

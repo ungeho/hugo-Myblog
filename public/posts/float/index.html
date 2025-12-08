@@ -7,8 +7,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>浮動小数点数の基礎と誤差の仕組み | ungehoBlog</title>
 <meta name="keywords" content="Float, IEEE754, 数値計算, 誤差, プログラミング">
-<meta name="description" content="プログラミング中に 「0.1 &#43; 0.2 が 0.3 にならない」 といった、
-浮動小数点数特有の挙動に戸惑った経験はないでしょうか。
+<meta name="description" content="プログラミング中に 「0.1 &#43; 0.2 が 0.3 にならない」 といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。
 これは、コンピューターが実数をそのまま正確に扱えないことに起因しています。">
 <meta name="author" content="ungeho">
 <link rel="canonical" href="http://localhost:1313/posts/float/">
@@ -171,7 +170,7 @@
     <h1 class="post-title entry-hint-parent">
       浮動小数点数の基礎と誤差の仕組み
     </h1>
-    <div class="post-meta"><span title='2025-12-07 19:03:04 +0900 JST'>2025/12/07</span>&nbsp;·&nbsp;9 分&nbsp;·&nbsp;ungeho
+    <div class="post-meta"><span title='2025-12-07 19:03:04 +0900 JST'>2025/12/07</span>&nbsp;·&nbsp;10 分&nbsp;·&nbsp;ungeho
 
 </div>
   </header> <div class="toc">
@@ -182,7 +181,13 @@
 
         <div class="inner"><ul>
                 <li>
-                    <a href="#x---a--a--x-" aria-label="(x - a) &#43; a = x ?">(x - a) + a = x ?</a></li>
+                    <a href="#x---a--a--x-" aria-label="(x - a) &#43; a = x ?">(x - a) + a = x ?</a><ul>
+                        
+                <li>
+                    <a href="#%e3%81%93%e3%82%8c%e3%81%af%e8%aa%a4%e3%81%a3%e3%81%9f%e8%a8%88%e7%ae%97%e3%81%a7%e3%81%af%e3%81%aa%e3%81%84" aria-label="これは「誤った計算」ではない">これは「誤った計算」ではない</a></li>
+                <li>
+                    <a href="#%e6%a1%81%e8%90%bd%e3%81%a1" aria-label="桁落ち">桁落ち</a></li></ul>
+                </li>
                 <li>
                     <a href="#%e8%a8%88%e7%ae%97%e6%a9%9f%e3%82%b3%e3%83%b3%e3%83%94%e3%83%a5%e3%83%bc%e3%82%bf%e3%83%bc%e3%81%ae%e6%95%b0%e5%80%a4%e8%a1%a8%e7%8f%be" aria-label="計算機（コンピューター）の数値表現">計算機（コンピューター）の数値表現</a><ul>
                         
@@ -219,8 +224,7 @@
     </details>
 </div>
 
-  <div class="post-content"><p>プログラミング中に <strong>「0.1 + 0.2 が 0.3 にならない」</strong> といった、<br>
-浮動小数点数特有の挙動に戸惑った経験はないでしょうか。<br>
+  <div class="post-content"><p>プログラミング中に <strong>「0.1 + 0.2 が 0.3 にならない」</strong> といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。<br>
 これは、コンピューターが実数をそのまま正確に扱えないことに起因しています。</p>
 <p>本題に入る前に、もうひとつ直感に反する例を見てみましょう。</p>
 <h2 id="x---a--a--x-">(x - a) + a = x ?<a hidden class="anchor" aria-hidden="true" href="#x---a--a--x-">#</a></h2>
@@ -271,15 +275,56 @@ $$</p>
 </span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">18</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  32.0   Not Equal!
 </span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">19</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  32.0   Not Equal!
 </span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">20</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  32.0   Not Equal!
-</span></span></code></pre></div><p>多くのケースで$(x - a) + a \neq x$となっています。<br>
-これは、<strong>倍精度浮動小数点数が保持できる精度に限界があり、小さなxが大きなaとの差分計算で消えてしまうため</strong>に起こる典型例です。<br>
-よくある誤解として、<strong>情報落ち</strong>や<strong>桁落ち</strong>を「計算がおかしい」「演算が間違っている」と捉えてしまうことがあります。<br>
-しかしこれは、<strong>計算自体は仕様どおりに正しく行われており、その結果として情報が失われている</strong> 状態です。</p>
-<blockquote>
-<p>ここで起きている現象は<strong>演算による丸め誤差ではありません。</strong>
-演算は正確に行われていますが、倍精度浮動小数点数の精度では小さなxを保持できず
-<strong>表現の限界</strong>によってxの情報が消えてしまう<strong>情報落ち</strong>が原因です。</p>
-</blockquote>
+</span></span></code></pre></div><p>多くのケースで$(x - a) + a \neq x$となっています。</p>
+<h3 id="これは誤った計算ではない">これは「誤った計算」ではない<a hidden class="anchor" aria-hidden="true" href="#これは誤った計算ではない">#</a></h3>
+<p><strong>&mdash;&mdash; 演算は正確に行われているが変数$x$の情報が消えてしまう</strong><br>
+この現象は、<strong>倍精度浮動小数点数が保持できる精度に限界があるため</strong>に起こります。</p>
+<p>$(x - a)$の引き算を行う瞬間、<strong>有限の桁</strong>に<strong>巨大な数$a$とそれに対して小さな数$x$を同時に収めよう</strong>としています。<br>
+しかし、<strong>枠の桁数が足りず、$x$の情報は欠落</strong>してしまいます。</p>
+<p>ここで重要なのは、これは</p>
+<ul>
+<li>「計算がバグっている」</li>
+<li>「演算途中でおかしな丸めが起きた」</li>
+</ul>
+<p>といった<strong>種類の問題ではない</strong>、ということです。</p>
+<p>演算そのものは IEEE 754 の規定どおり<strong>正しく</strong>行われています。<br>
+ただし、倍精度浮動小数点数の <strong>有効桁数は 53 ビットしかない</strong> ため、</p>
+<ul>
+<li>巨大な数 $a$</li>
+<li>それに比べて十分小さい数 $x$</li>
+</ul>
+<p>を同じ器に押し込もうとした瞬間（この例では $(x - a)$ の計算）に、<br>
+<strong>器からあふれてしまったほう（小さい $x$ のほう）の情報が落ちる</strong>、という現象が起きています。</p>
+<p>このように、</p>
+<ul>
+<li>演算は仕様どおりに正しく行われている</li>
+<li>しかし「表現できる桁数が足りないせいで小さい項の情報が消える」</li>
+</ul>
+<p>という現象を、ここでは <strong>情報落ち</strong> と呼んでいます。</p>
+<h3 id="桁落ち">桁落ち<a hidden class="anchor" aria-hidden="true" href="#桁落ち">#</a></h3>
+<p>似た現象として <strong>桁落ち</strong> があります。</p>
+<ul>
+<li>
+<p><strong>情報落ち</strong><br>
+巨大な数 $\pm$ 小さな数<br>
+→ 大きな数と小さな数の両方を同じ枠（有効桁数）に収めることができず、<br>
+小さいほうの項の情報が丸ごと失われてしまう現象。</p>
+</li>
+<li>
+<p><strong>桁落ち</strong><br>
+左辺 $a$ と右辺 $b$ がほぼ等しい（$a \approx b$）とき、<br>
+$a - b$ の引き算をすると<strong>有効桁数が極端に少なくなってしまう</strong>現象。</p>
+</li>
+</ul>
+<p>桁落ちの場合は</p>
+<p>$$
+\begin{aligned}
+(a - b) \times c
+\end{aligned}
+$$</p>
+<p>のように後続の計算で誤差が大きく増幅されることがあります。<br>
+特に、変数$c$が巨大な値だったとき、誤差が大きく増幅します。</p>
+<p>情報落ちや桁落ちは<strong>演算前の状態</strong>に問題があり、式変形などで回避可能な場合があります。</p>
 <hr>
 <p>この記事ではこのような現象の正体を理解するために</p>
 <ul>
