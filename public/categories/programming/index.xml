@@ -13,15 +13,9 @@
       <link>http://localhost:1313/posts/float/</link>
       <pubDate>Sun, 07 Dec 2025 19:03:04 +0900</pubDate>
       <guid>http://localhost:1313/posts/float/</guid>
-      <description>&lt;p&gt;この記事では&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;コンピューターが実数を正確に扱えない理由&lt;/li&gt;
-&lt;li&gt;IEEE754 に基づく浮動小数点数の仕組み&lt;/li&gt;
-&lt;li&gt;どのような数が誤差なく表現できるのか&lt;/li&gt;
-&lt;li&gt;decimal 型や固定小数点数ではどうなるのか&lt;/li&gt;
-&lt;li&gt;精度を保証する計算方法の一例としての「区間演算」&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;について解説します。&lt;/p&gt;</description>
+      <description>&lt;p&gt;プログラミング中に &lt;strong&gt;「0.1 + 0.2 が 0.3 にならない」&lt;/strong&gt; といった、&lt;br&gt;
+浮動小数点数特有の挙動に戸惑った経験はないでしょうか。&lt;br&gt;
+これは、コンピューターが実数をそのまま正確に扱えないことに起因しています。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
