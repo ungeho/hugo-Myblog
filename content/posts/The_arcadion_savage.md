@@ -1,7 +1,7 @@
 +++
 title = 'The Arcadion Savage Preset'
 date = 2024-08-01T07:27:05+09:00
-draft = false
+draft = true
 categories = ["FFXIV"]
 tags = ["FFXIV,Splatoon"]
 # 目次を付与するオプション <!-- omit in toc -->

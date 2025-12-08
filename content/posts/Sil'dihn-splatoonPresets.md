@@ -1,7 +1,7 @@
 +++
 title = "異聞シラディハ Splatoon Layout"
 date = 2024-02-24T04:44:03+09:00
-draft = false
+draft = true
 categories = ["FFXIV"]
 tags = ["FFXIV","Splatoon"]
 # 目次を付与するオプション <!-- omit in toc -->

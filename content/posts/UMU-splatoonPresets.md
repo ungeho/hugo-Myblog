@@ -1,7 +1,7 @@
 +++
 title = "絶アルテマ Splatoon Layout"
 date = 2024-01-27T04:20:49+09:00
-draft = false
+draft = true
 categories = ["FFXIV"]
 tags = ["FFXIV","Splatoon"]
 +++

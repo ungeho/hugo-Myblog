@@ -1,7 +1,7 @@
 +++
 title = "絶バハムート Splatoon Layout"
 date = 2024-01-27T02:39:08+09:00
-draft = false
+draft = true
 categories = ["FFXIV"]
 tags = ["FFXIV","Splatoon"]
 # 目次を付与するオプション

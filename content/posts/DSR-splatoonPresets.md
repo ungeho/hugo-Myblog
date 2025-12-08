@@ -1,7 +1,7 @@
 +++
 title = '絶竜詩戦争 Splatoon Layout'
 date = 2024-02-07T03:59:51+09:00
-draft = false
+draft = true
 categories = ["FFXIV"]
 tags = ["FFXIV","Splatoon"]
 # 目次を付与するオプション <!-- omit in toc -->
