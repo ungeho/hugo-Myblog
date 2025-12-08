@@ -42,7 +42,9 @@ for x in range(1, 21):
     temp = x - a
     # (x - a) + a
     result = temp + a
+    # (x - a) + a の結果を表示
     print(f"({x:2d} - a) + a = {result:5.1f}",end="")
+    # result != x なら  Not Equal! を表示
     print("\n" if result == x else "   Not Equal!\n", end="")
 ```
 
