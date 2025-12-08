@@ -342,14 +342,14 @@ $$
 
 $$
 \begin{aligned}
-3.625 &= 2^1 + 2^0 + \frac{1}{2^1} + \frac{1}{2^3} \\\\
+\quad 3.625 &= 2^1 + 2^0 + \frac{1}{2^1} + \frac{1}{2^3} \\\\
       &= \frac{29}{2^3}
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-\quad 0.75  &= \frac{1}{2^1} + \frac{1}{2^2} \\\\
+0.75  &= \frac{1}{2^1} + \frac{1}{2^2} \\\\
       &= \frac{3}{2^2}
 \end{aligned}
 $$
