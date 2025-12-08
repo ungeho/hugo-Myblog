@@ -349,7 +349,7 @@ $$
 
 $$
 \begin{aligned}
-0.75  &= \frac{1}{2^1} + \frac{1}{2^2} \\\\
+\quad 0.75  &= \frac{1}{2^1} + \frac{1}{2^2} \\\\
       &= \frac{3}{2^2}
 \end{aligned}
 $$
