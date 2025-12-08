@@ -323,8 +323,8 @@ $$
 
 $$
 \begin{aligned}
-&\frac{M}{2^N}\\\\
-&M, N \in \mathbb{Z}
+&\frac{\mu}{2^\nu}\\\\
+&\mu, \nu \in \mathbb{Z}
 \end{aligned}
 $$
 
