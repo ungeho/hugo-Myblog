@@ -342,7 +342,7 @@ $$
 
 $$
 \begin{aligned}
-\qquad 3.625 &= 2^1 + 2^0 + \frac{1}{2^1} + \frac{1}{2^3} \\\\
+\qquad \qquad 3.625 &= 2^1 + 2^0 + \frac{1}{2^1} + \frac{1}{2^3} \\\\
       &= \frac{29}{2^3}
 \end{aligned}
 $$
