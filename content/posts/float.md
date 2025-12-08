@@ -323,8 +323,8 @@ $$
 
 $$
 \begin{aligned}
-\frac{M}{2^N}\\\\
-M, N \in \mathbb{Z}
+&\frac{M}{2^N}\\\\
+&M, N \in \mathbb{Z}
 \end{aligned}
 $$
 
