@@ -48,7 +48,7 @@ for x in range(1, 21):
 実行結果：
 
 ```bash
-> py .\calc.py
+> py calc.py
 ( 1 - a) + a =   1.0
 ( 2 - a) + a =   2.0
 ( 3 - a) + a =   4.0
