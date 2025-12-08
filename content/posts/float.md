@@ -42,7 +42,8 @@ for x in range(1, 21):
     temp = x - a
     # (x - a) + a
     result = temp + a
-    print(f"({x:2d} - a) + a = {result:5.1f}")
+    print(f"({x:2d} - a) + a = {result:5.1f}",end="")
+    print("\n" if result == x else "   Not Equal!\n", end="")
 ```
 
 実行結果：
@@ -51,24 +52,24 @@ for x in range(1, 21):
 > py calc.py
 ( 1 - a) + a =   1.0
 ( 2 - a) + a =   2.0
-( 3 - a) + a =   4.0
+( 3 - a) + a =   4.0   Not Equal!
 ( 4 - a) + a =   4.0
-( 5 - a) + a =   8.0
-( 6 - a) + a =   8.0
-( 7 - a) + a =   8.0
+( 5 - a) + a =   8.0   Not Equal!
+( 6 - a) + a =   8.0   Not Equal!
+( 7 - a) + a =   8.0   Not Equal!
 ( 8 - a) + a =   8.0
-( 9 - a) + a =  16.0
-(10 - a) + a =  16.0
-(11 - a) + a =  16.0
-(12 - a) + a =  16.0
-(13 - a) + a =  16.0
-(14 - a) + a =  16.0
-(15 - a) + a =  16.0
+( 9 - a) + a =  16.0   Not Equal!
+(10 - a) + a =  16.0   Not Equal!
+(11 - a) + a =  16.0   Not Equal!
+(12 - a) + a =  16.0   Not Equal!
+(13 - a) + a =  16.0   Not Equal!
+(14 - a) + a =  16.0   Not Equal!
+(15 - a) + a =  16.0   Not Equal!
 (16 - a) + a =  16.0
-(17 - a) + a =  32.0
-(18 - a) + a =  32.0
-(19 - a) + a =  32.0
-(20 - a) + a =  32.0
+(17 - a) + a =  32.0   Not Equal!
+(18 - a) + a =  32.0   Not Equal!
+(19 - a) + a =  32.0   Not Equal!
+(20 - a) + a =  32.0   Not Equal!
 ```
 
 多くのケースで$(x - a) + a \neq x$となっています。  
