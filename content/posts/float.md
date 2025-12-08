@@ -324,7 +324,7 @@ $$
 $$
 \begin{aligned}
 &\frac{\mu}{2^\nu}\\\\
-&\mu, \nu \in \mathbb{Z}
+\mu, \nu &\in \mathbb{Z}
 \end{aligned}
 $$
 
