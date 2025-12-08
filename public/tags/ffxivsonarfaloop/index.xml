@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>FFXIV,Sonar,Faloop on </title>
-    <link>//localhost:1313/tags/ffxivsonarfaloop/</link>
-    <description>Recent content in FFXIV,Sonar,Faloop on </description>
+    <title>FFXIV,Sonar,Faloop on ungehoBlog</title>
+    <link>http://localhost:1313/tags/ffxivsonarfaloop/</link>
+    <description>Recent content in FFXIV,Sonar,Faloop on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
+    <language>ja</language>
     <lastBuildDate>Fri, 13 Sep 2024 03:13:38 +0900</lastBuildDate>
-    <atom:link href="//localhost:1313/tags/ffxivsonarfaloop/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/ffxivsonarfaloop/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>モブハント用</title>
-      <link>//localhost:1313/posts/hunts/</link>
+      <link>http://localhost:1313/posts/hunts/</link>
       <pubDate>Fri, 13 Sep 2024 03:13:38 +0900</pubDate>
-      <guid>//localhost:1313/posts/hunts/</guid>
+      <guid>http://localhost:1313/posts/hunts/</guid>
       <description>&lt;h1 id=&#34;必要なプラグイン&#34;&gt;必要なプラグイン&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;Yes Already&lt;br&gt;
@@ -57,52 +57,7 @@ lifestreamにも対応。
 &lt;/ul&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;https://raw.githubusercontent.com/paissaheavyindustries/Dalamud-Repo/main/repo.json
 &lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;設定の変更が不要なプラグイン&#34;&gt;設定の変更が不要なプラグイン&lt;/h1&gt;
-&lt;p&gt;多分不要。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Yes Already&lt;/li&gt;
-&lt;li&gt;Lifestream&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h1 id=&#34;設定の変更が必要なプラグイン&#34;&gt;設定の変更が必要なプラグイン&lt;/h1&gt;
-&lt;h2 id=&#34;sonar&#34;&gt;Sonar&lt;/h2&gt;
-&lt;p&gt;目的別に設定を行う。&lt;/p&gt;
-&lt;h3 id=&#34;共通設定&#34;&gt;共通設定&lt;/h3&gt;
-&lt;p&gt;ゲーム内チャットで&lt;code&gt;/sonarcfg&lt;/code&gt;と入力。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;モブの情報を受信する範囲の設定をリージョンに変更&lt;br&gt;
-&lt;code&gt;General&lt;/code&gt;タブ&lt;br&gt;
-&lt;code&gt;Receive Jurisdiction&lt;/code&gt;を&lt;code&gt;Region&lt;/code&gt;に設定にする。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;sモブを狩りたい時の設定&#34;&gt;Sモブを狩りたい時の設定&lt;/h3&gt;
-&lt;p&gt;ゲーム内チャットで&lt;code&gt;/sonarcfg&lt;/code&gt;と入力。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;特定の地域のSモブの情報をリージョンの範囲で通知させる。&lt;br&gt;
-&lt;code&gt;Hunts&lt;/code&gt;タブ&lt;br&gt;
-&lt;code&gt;Hunt Report Notifications&lt;/code&gt;&lt;br&gt;
-&lt;code&gt;Granular Hunt Reporting Settings&lt;/code&gt;にチェック。&lt;br&gt;
-必要な地域のSモブを&lt;code&gt;Region&lt;/code&gt;に設定。&lt;br&gt;
-必要のない地域は&lt;code&gt;None&lt;/code&gt;に設定。&lt;/li&gt;
-&lt;li&gt;通知時に音を鳴らす。&lt;br&gt;
-&lt;code&gt;Hunts&lt;/code&gt;タブ&lt;br&gt;
-&lt;code&gt;Hunt Sound Alerts Configuration&lt;/code&gt;&lt;br&gt;
-&lt;code&gt;Play sound on Rank S&lt;/code&gt;にチェック&lt;br&gt;
-音の種類はお好み。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;aモブ連戦に参加したいときの設定&#34;&gt;Aモブ連戦に参加したいときの設定&lt;/h3&gt;
-&lt;p&gt;ゲーム内チャットで&lt;code&gt;/sonarcfg&lt;/code&gt;と入力。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;特定の地域のAモブの情報をリージョンの範囲で通知させる。&lt;br&gt;
-&lt;code&gt;Hunts&lt;/code&gt;タブ&lt;br&gt;
-&lt;code&gt;Hunt Report Notifications&lt;/code&gt;&lt;br&gt;
-&lt;code&gt;Granular Hunt Reporting Settings&lt;/code&gt;にチェック。&lt;br&gt;
-必要な地域のAモブを&lt;code&gt;Data Center&lt;/code&gt;に設定。&lt;br&gt;
-必要のない地域は&lt;code&gt;None&lt;/code&gt;に設定。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;divinationfaloopintegration&#34;&gt;Divination.FaloopIntegration&lt;/h2&gt;
-&lt;p&gt;ゲーム内チャットで&lt;code&gt;/faloop&lt;/code&gt;と入力。&lt;br&gt;
-&lt;code&gt;Sモブ&lt;/code&gt;タブ&lt;br&gt;
-&lt;code&gt;通知先&lt;/code&gt;をお好みで設定&lt;br&gt;
-&lt;code&gt;モブが沸いた時の通知&lt;/code&gt;のみチェック&lt;br&gt;
-&lt;code&gt;モブの管轄&lt;/code&gt;から必要な地域のSモブを&lt;code&gt;リージョン(物理DC)&lt;/code&gt;に設定。&lt;/p&gt;</description>
+&lt;p&gt;多分不要。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

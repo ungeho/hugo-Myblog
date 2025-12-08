@@ -1,67 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>WaymarkPlugin on </title>
-    <link>//localhost:1313/tags/waymarkplugin/</link>
-    <description>Recent content in WaymarkPlugin on </description>
+    <title>WaymarkPlugin on ungehoBlog</title>
+    <link>http://localhost:1313/tags/waymarkplugin/</link>
+    <description>Recent content in WaymarkPlugin on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
+    <language>ja</language>
     <lastBuildDate>Sat, 27 Jan 2024 03:15:32 +0900</lastBuildDate>
-    <atom:link href="//localhost:1313/tags/waymarkplugin/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/waymarkplugin/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>FF14の座標の計算方法と豆知識</title>
-      <link>//localhost:1313/posts/splatooncoord/</link>
+      <link>http://localhost:1313/posts/splatooncoord/</link>
       <pubDate>Sat, 27 Jan 2024 03:15:32 +0900</pubDate>
-      <guid>//localhost:1313/posts/splatooncoord/</guid>
+      <guid>http://localhost:1313/posts/splatooncoord/</guid>
       <description>&lt;p&gt;&lt;code&gt;splatoon&lt;/code&gt;や&lt;code&gt;waymarkPreset&lt;/code&gt;プラグインのlayout作成に便利な式と豆知識&lt;/p&gt;
 &lt;h3 id=&#34;splatoonのlayout作成のtips&#34;&gt;splatoonのlayout作成のTips&lt;/h3&gt;
 &lt;p&gt;設定を行う場合は&lt;code&gt;A realm Recorded&lt;/code&gt;を使うと楽&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;ツール&lt;/code&gt;-&amp;gt;&lt;code&gt;ロガー&lt;/code&gt;から、&lt;code&gt;ロガーを有効にする&lt;/code&gt;と&lt;code&gt;viewer mode&lt;/code&gt;にチェックを入れるとオブジェクトを確認出来る。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;ツール&lt;/code&gt;-&amp;gt;&lt;code&gt;エクスプローラー&lt;/code&gt;から&lt;code&gt;VFX Path&lt;/code&gt;等を確認出来る。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;ツール&lt;/code&gt;-&amp;gt;&lt;code&gt;ログ&lt;/code&gt;から&lt;code&gt;cast id&lt;/code&gt;等を確認出来る。&lt;/p&gt;
-&lt;h3 id=&#34;ff14の座標の計算&#34;&gt;FF14の座標の計算&lt;/h3&gt;
-&lt;h4 id=&#34;座標の指定&#34;&gt;座標の指定&lt;/h4&gt;
-&lt;p&gt;以下のコードブロックから式をコピーして、必要な変数を書き換えて使用します。&lt;/p&gt;
-&lt;p&gt;大抵の場合はこれで事足りる。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;$x$座標&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;CX+R*cos(Ang*π/180)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;$$
-\displaystyle x = c_x + r \times \cos \left( \frac{ Ang \times \pi}{180} \right)
-$$&lt;/p&gt;
-&lt;p&gt;$c_x=$ 中心の$x$座標&lt;br&gt;
-$r=$長さ（半径）&lt;br&gt;
-$Ang=$角度&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;$y$座標&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;CY-R*sin(Ang*π/180)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;$$
-\displaystyle y = c_y - r \times \sin \left( \frac{ Ang \times \pi}{180} \right)
-$$&lt;/p&gt;
-&lt;p&gt;$c_y=$中心の$y$座標&lt;br&gt;
-$r=$長さ（半径）&lt;br&gt;
-$Ang=$角度&lt;/p&gt;
-&lt;p&gt;中心の$x$,$y$座標は、マップの中心の座標対象、あるいは対象となるモンスターやプレイヤーから任意にずらした座標の分を設定する事が多いです。&lt;br&gt;
-Y座標は、中心の座標から設定&lt;br&gt;
-また、多くの場合は中心の座標は(100,100)、稀に(0,0)やその他、Y座標が違う場合がある。&lt;br&gt;
-再生4層零式、煉獄1層零式など、ノーマルで特別な演出があったフィールドは特殊な座標になりやすい。&lt;/p&gt;
-&lt;p&gt;例として、マップの中心座標が$x=100$、$y=100$で角度45度に10m進んだ先に円を描きたい場合の$x$座標と$y$座標は&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;$x$座標&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;100+10*cos(45*π/180)
-&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;$y$座標&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;100-10*sin(45*π/180)
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;2点間の距離&#34;&gt;2点間の距離&lt;/h4&gt;
-&lt;p&gt;ノックバック距離の計算に使う。&lt;/p&gt;
-&lt;h4 id=&#34;内分&#34;&gt;内分&lt;/h4&gt;
-&lt;p&gt;特殊な散開などに使う。&lt;/p&gt;
-&lt;h4 id=&#34;散開に必要な距離&#34;&gt;散開に必要な距離&lt;/h4&gt;
-&lt;p&gt;8人が散開する時に、敵のタゲサ上で散開してAoEが重なるかを計算する事も出来る。&lt;/p&gt;</description>
+&lt;p&gt;&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;ツール&lt;/code&gt;-&amp;gt;&lt;code&gt;ロガー&lt;/code&gt;から、&lt;code&gt;ロガーを有効にする&lt;/code&gt;と&lt;code&gt;viewer mode&lt;/code&gt;にチェックを入れるとオブジェクトを確認出来る。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

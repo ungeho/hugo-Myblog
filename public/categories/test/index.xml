@@ -1,95 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Test on </title>
-    <link>//localhost:1313/categories/test/</link>
-    <description>Recent content in Test on </description>
+    <title>Test on ungehoBlog</title>
+    <link>http://localhost:1313/categories/test/</link>
+    <description>Recent content in Test on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
+    <language>ja</language>
     <lastBuildDate>Mon, 22 Jan 2024 19:01:13 +0900</lastBuildDate>
-    <atom:link href="//localhost:1313/categories/test/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/categories/test/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My First Post</title>
-      <link>//localhost:1313/posts/my-first-post/</link>
+      <link>http://localhost:1313/posts/my-first-post/</link>
       <pubDate>Mon, 22 Jan 2024 19:01:13 +0900</pubDate>
-      <guid>//localhost:1313/posts/my-first-post/</guid>
+      <guid>http://localhost:1313/posts/my-first-post/</guid>
       <description>&lt;p&gt;&lt;code&gt;draft = true&lt;/code&gt;にした場合&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;hugo server&lt;/code&gt; で &lt;code&gt;-D&lt;/code&gt; オプションを付与しないと表示されない。&lt;/p&gt;
 &lt;p&gt;現在は、デフォルトで&lt;code&gt;draft = false&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;これは、マークダウンのテストです。&lt;/p&gt;
-&lt;p&gt;tagsは&amp;quot;test&amp;quot;&lt;/p&gt;
-&lt;p&gt;descriptionは&amp;quot;てすと&amp;quot;&lt;/p&gt;
-&lt;p&gt;てすとてすと&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;太字&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;イタリック&lt;/em&gt;&lt;/p&gt;
-&lt;h1 id=&#34;これは見出しです&#34;&gt;これは見出しです。&lt;/h1&gt;
-&lt;p&gt;&lt;del&gt;取り消し線&lt;/del&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Fruit
-&lt;ul&gt;
-&lt;li&gt;Apple&lt;/li&gt;
-&lt;li&gt;Orange&lt;/li&gt;
-&lt;li&gt;Banana&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol&gt;
-&lt;li&gt;手順1
-&lt;ol&gt;
-&lt;li&gt;手順1-1&lt;/li&gt;
-&lt;li&gt;手順1-2&lt;/li&gt;
-&lt;li&gt;手順1-3&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;blockquote&gt;
-&lt;p&gt;引用&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;列１&lt;/th&gt;
-          &lt;th&gt;列２&lt;/th&gt;
-          &lt;th&gt;列３&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;a&lt;/td&gt;
-          &lt;td&gt;bb&lt;/td&gt;
-          &lt;td&gt;ccc&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;xxx&lt;/td&gt;
-          &lt;td&gt;yy&lt;/td&gt;
-          &lt;td&gt;z&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;注釈１&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://supercutelalafell.netlify.app/&#34;&gt;リンク&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;コード&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;罫線&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;コードブロック&lt;/p&gt;
-&lt;p&gt;言語の識別子を書くと対応したシンタックスハイライトが適用される。&lt;/p&gt;
-&lt;p&gt;{linenos=inline}を追加する事で、行番号をつけられる。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;s&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;JavaScript syntax highlighting&amp;#34;&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;alert&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;s&lt;/span&gt;);
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;{hl_lines=[1, 3,&amp;ldquo;5-9&amp;rdquo;]}のように、網掛けしたい行を指定することで
-任意に網掛けを行う事が出来る。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex; background-color:#3c3d38&#34;&gt;&lt;span&gt;s &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Python syntax highlighting&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex; background-color:#3c3d38&#34;&gt;&lt;span&gt;print s
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 総和&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex; background-color:#3c3d38&#34;&gt;&lt;span&gt;sum &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex; background-color:#3c3d38&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex; background-color:#3c3d38&#34;&gt;&lt;span&gt;    sum &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; i
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex; background-color:#3c3d38&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;No language indicated, so no syntax highlighting.
-But let&amp;#39;s throw in a &amp;lt;b&amp;gt;tag&amp;lt;/b&amp;gt;.
-&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;copy text
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;del&gt;AnanteテーマではKatexは使えなかったのでこちら&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;を参考にした。&lt;/del&gt;&lt;/p&gt;</description>
+&lt;p&gt;tagsは&amp;quot;test&amp;quot;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

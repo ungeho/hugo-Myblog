@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="ja" dir="auto">
 
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>モブハント用 | </title>
+<title>モブハント用 | ungehoBlog</title>
 <meta name="keywords" content="FFXIV,Sonar,Faloop">
 <meta name="description" content="必要なプラグイン
 
@@ -51,63 +51,18 @@ Lemegeton
 
 https://raw.githubusercontent.com/paissaheavyindustries/Dalamud-Repo/main/repo.json
 設定の変更が不要なプラグイン
-多分不要。
-
-Yes Already
-Lifestream
-
-設定の変更が必要なプラグイン
-Sonar
-目的別に設定を行う。
-共通設定
-ゲーム内チャットで/sonarcfgと入力。
-
-モブの情報を受信する範囲の設定をリージョンに変更
-Generalタブ
-Receive JurisdictionをRegionに設定にする。
-
-Sモブを狩りたい時の設定
-ゲーム内チャットで/sonarcfgと入力。
-
-特定の地域のSモブの情報をリージョンの範囲で通知させる。
-Huntsタブ
-Hunt Report Notifications
-Granular Hunt Reporting Settingsにチェック。
-必要な地域のSモブをRegionに設定。
-必要のない地域はNoneに設定。
-通知時に音を鳴らす。
-Huntsタブ
-Hunt Sound Alerts Configuration
-Play sound on Rank Sにチェック
-音の種類はお好み。
-
-Aモブ連戦に参加したいときの設定
-ゲーム内チャットで/sonarcfgと入力。
-
-特定の地域のAモブの情報をリージョンの範囲で通知させる。
-Huntsタブ
-Hunt Report Notifications
-Granular Hunt Reporting Settingsにチェック。
-必要な地域のAモブをData Centerに設定。
-必要のない地域はNoneに設定。
-
-Divination.FaloopIntegration
-ゲーム内チャットで/faloopと入力。
-Sモブタブ
-通知先をお好みで設定
-モブが沸いた時の通知のみチェック
-モブの管轄から必要な地域のSモブをリージョン(物理DC)に設定。">
+多分不要。">
 <meta name="author" content="ungeho">
-<link rel="canonical" href="//localhost:1313/posts/hunts/">
+<link rel="canonical" href="http://localhost:1313/posts/hunts/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
-<link rel="icon" href="//localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="//localhost:1313/favicon/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="//localhost:1313/favicon/favicon-32x32.png">
-<link rel="apple-touch-icon" href="//localhost:1313/favicon/apple-touch-icon.png">
-<link rel="mask-icon" href="//localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="//localhost:1313/posts/hunts/">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/hunts/">
 <noscript>
     <style>
         #theme-toggle,
@@ -146,6 +101,38 @@ Sモブタブ
     </style>
 </noscript>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ]
+        });
+    });
+</script>
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.mermaid) {
+            mermaid.initialize({
+                startOnLoad: true,
+            });
+        }
+    });
+</script>
+
+
 </head>
 
 <body class="" id="top">
@@ -163,6 +150,7 @@ Sモブタブ
 <header class="header">
     <nav class="nav">
         <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -189,6 +177,31 @@ Sモブタブ
             </div>
         </div>
         <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </header>
@@ -196,7 +209,7 @@ Sモブタブ
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="//localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="//localhost:1313/posts/">Posts</a></div>
+    <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
     <h1 class="post-title entry-hint-parent">
       モブハント用
       <span class="entry-hint" title="Draft">
@@ -206,13 +219,13 @@ Sモブタブ
         </svg>
       </span>
     </h1>
-    <div class="post-meta"><span title='2024-09-13 03:13:38 +0900 JST'>2024/09/13</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;ungeho
+    <div class="post-meta"><span title='2024-09-13 03:13:38 +0900 JST'>2024/09/13</span>&nbsp;·&nbsp;4 分&nbsp;·&nbsp;ungeho
 
 </div>
   </header> <div class="toc">
     <details  open>
         <summary accesskey="c" title="(Alt + C)">
-            <span class="details">Table of Contents</span>
+            <span class="details">目次</span>
         </summary>
 
         <div class="inner"><ul>
@@ -396,16 +409,16 @@ Sモブの見逃しの回避や、HP状況の確認（討伐開始されたか�
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="//localhost:1313/tags/ffxivsonarfaloop/">FFXIV,Sonar,Faloop</a></li>
+      <li><a href="http://localhost:1313/tags/ffxivsonarfaloop/">FFXIV,Sonar,Faloop</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="//localhost:1313/posts/float/">
-    <span class="title">« Prev</span>
+  <a class="prev" href="http://localhost:1313/posts/float/">
+    <span class="title">« 前へ</span>
     <br>
-    <span>浮動小数点数についての話</span>
+    <span>浮動小数点数の基礎と誤差の仕組み</span>
   </a>
-  <a class="next" href="//localhost:1313/posts/the_arcadion_savage/">
-    <span class="title">Next »</span>
+  <a class="next" href="http://localhost:1313/posts/the_arcadion_savage/">
+    <span class="title">次へ »</span>
     <br>
     <span>The Arcadion Savage Preset</span>
   </a>
@@ -415,7 +428,7 @@ Sモブの見逃しの回避や、HP状況の確認（討伐開始されたか�
 <ul class="share-buttons">
     <li>
         <a target="_blank" rel="noopener noreferrer" aria-label="share モブハント用 on x"
-            href="https://x.com/intent/tweet/?text=%e3%83%a2%e3%83%96%e3%83%8f%e3%83%b3%e3%83%88%e7%94%a8&amp;url=%2f%2flocalhost%3a1313%2fposts%2fhunts%2f&amp;hashtags=FFXIV%2cSonar%2cFaloop">
+            href="https://x.com/intent/tweet/?text=%e3%83%a2%e3%83%96%e3%83%8f%e3%83%b3%e3%83%88%e7%94%a8&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fhunts%2f&amp;hashtags=FFXIV%2cSonar%2cFaloop">
             <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
                 <path
                     d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
@@ -429,7 +442,7 @@ Sモブの見逃しの回避や、HP状況の確認（討伐開始されたか�
     </main>
     
 <footer class="footer">
-    <span>&copy; 2025 <a href="//localhost:1313/"></a></span>
+    <span>&copy; 2025 <a href="http://localhost:1313/">ungehoBlog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -502,12 +515,12 @@ Sモブの見逃しの回避や、HP状況の確認（討伐開始されたか�
 
         const copybutton = document.createElement('button');
         copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'copy';
+        copybutton.innerHTML = 'コピー';
 
         function copyingDone() {
-            copybutton.innerHTML = 'copied!';
+            copybutton.innerHTML = 'コピーされました!';
             setTimeout(() => {
-                copybutton.innerHTML = 'copy';
+                copybutton.innerHTML = 'コピー';
             }, 2000);
         }
 
