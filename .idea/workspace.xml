@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="82ff97ad-49d0-4fe8-8b7a-815c1c05e63b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/hugo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/hugo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layouts/_default/index.json" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/index.json.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/about/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/about/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/search.5af4020d9f268f5585e1929a2a7a7a16cc6fbebd62b57d1cc1092d9257f1f878.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/search.63c6039653f28d84066c3e1d7fbad68ebe5da2e84db19120e6ac7a4f536e1245.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/search.747eac0b17975b01a25962de5a3cf55c2028c13bd7a0816702b1105c67f689af.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/search.7f9f6382c171f6c980143815542343d916cd50c1eee2b16825015ef136498463.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/search.d1362ec293cf71afa4ec91a3127b0e980d0376c9ae5046ec08f7b326b3f62e50.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/search.d258af29f4c2639d886d03e15b7c1c5a68c006ae9fb4fdc7951751a7c107a1cd.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/ffxiv/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/ffxiv/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/ffxiv/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/ffxiv/page/2/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/league-of-legends/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/league-of-legends/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/league-of-legends/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/programming/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/programming/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/programming/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/programming/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/programming/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/programming/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/test/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/test/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/test/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/プログラミング/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/プログラミング/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/プログラミング/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/aloalo_island-splatoonpresets/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/dsr-splatoonpresets/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/dsr_pre_p1_vault/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/float/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/posts/float/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/hunts/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/posts/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/posts/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/interval/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/posts/interval/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/lol-lux/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/mount_rokkkon-splatoonpresets/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/my-first-post/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/posts/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/page/2/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/sildihn-splatoonpresets/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/splatooncoord/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/the_arcadion_savage/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/ucob-splatoonpresets/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/umu-splatoonpresets/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/posts/yesalreadypreset/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/robots.txt" beforeDir="false" afterPath="$PROJECT_DIR$/public/robots.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/search/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/search/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/sitemap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/dsr/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/dsr/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/dsr/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/ffxiv/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/ffxiv/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/ffxiv/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/ffxivsonarfaloop/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/ffxivsonarfaloop/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/ffxivsonarfaloop/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/ffxivsplatoon/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/ffxivsplatoon/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/ffxivsplatoon/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/float/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/float/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/float/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/float/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/float/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/float/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/float浮動小数点数/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/float浮動小数点数/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/float浮動小数点数/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/float浮動小数点数プログラミング/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/float浮動小数点数プログラミング/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/float浮動小数点数プログラミング/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/ieee754/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/ieee754/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/ieee754/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/ieee754/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/ieee754/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/ieee754/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/league-of-legends/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/league-of-legends/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/league-of-legends/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/preparation/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/preparation/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/preparation/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/programming/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/programming/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/programming/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/splatoon/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/splatoon/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/splatoon/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/waymarkplugin/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/waymarkplugin/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/waymarkplugin/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/yesalready/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/yesalready/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/yesalready/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/プログラミング/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/プログラミング/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/プログラミング/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/プログラミング/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/プログラミング/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/プログラミング/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/区間演算/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/区間演算/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/区間演算/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/区間演算/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/区間演算/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/区間演算/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/数値計算/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/数値計算/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/数値計算/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/数値計算/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/数値計算/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/数値計算/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/浮動小数点数/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/浮動小数点数/index.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/浮動小数点数/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/誤差/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/誤差/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/誤差/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/誤差/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/誤差/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/誤差/page/1/index.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="36c4IEKaOau9XevcKMCwOA3mWuJ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\git\hugo-Myblog\layouts" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28238.7" />
+        <option value="bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-IU-252.28238.7" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="デフォルトタスク">
+      <changelist id="82ff97ad-49d0-4fe8-8b7a-815c1c05e63b" name="Changes" comment="" />
+      <created>1745716511941</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1745716511941</updated>
+      <workItem from="1745716513647" duration="52000" />
+      <workItem from="1765292446259" duration="559000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
