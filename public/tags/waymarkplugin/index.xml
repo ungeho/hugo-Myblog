@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>WaymarkPlugin on ungehoBlog</title>
+    <link>http://localhost:1313/tags/waymarkplugin/</link>
+    <description>Recent content in WaymarkPlugin on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sat, 27 Jan 2024 03:15:32 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/waymarkplugin/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FF14の座標の計算方法と豆知識</title>
+      <link>http://localhost:1313/posts/splatooncoord/</link>
+      <pubDate>Sat, 27 Jan 2024 03:15:32 +0900</pubDate>
+      <guid>http://localhost:1313/posts/splatooncoord/</guid>
+      <description>&lt;p&gt;&lt;code&gt;splatoon&lt;/code&gt;や&lt;code&gt;waymarkPreset&lt;/code&gt;プラグインのlayout作成に便利な式と豆知識&lt;/p&gt;
+&lt;h3 id=&#34;splatoonのlayout作成のtips&#34;&gt;splatoonのlayout作成のTips&lt;/h3&gt;
+&lt;p&gt;設定を行う場合は&lt;code&gt;A realm Recorded&lt;/code&gt;を使うと楽&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;ツール&lt;/code&gt;-&amp;gt;&lt;code&gt;ロガー&lt;/code&gt;から、&lt;code&gt;ロガーを有効にする&lt;/code&gt;と&lt;code&gt;viewer mode&lt;/code&gt;にチェックを入れるとオブジェクトを確認出来る。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

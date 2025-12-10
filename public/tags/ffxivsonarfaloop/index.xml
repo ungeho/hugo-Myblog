@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>FFXIV,Sonar,Faloop on ungehoBlog</title>
+    <link>http://localhost:1313/tags/ffxivsonarfaloop/</link>
+    <description>Recent content in FFXIV,Sonar,Faloop on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Fri, 13 Sep 2024 03:13:38 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/ffxivsonarfaloop/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>モブハント用</title>
+      <link>http://localhost:1313/posts/hunts/</link>
+      <pubDate>Fri, 13 Sep 2024 03:13:38 +0900</pubDate>
+      <guid>http://localhost:1313/posts/hunts/</guid>
+      <description>&lt;h1 id=&#34;必要なプラグイン&#34;&gt;必要なプラグイン&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Yes Already&lt;br&gt;
+Lifestreamプラグインを使用する為に必須。&lt;/li&gt;
+&lt;li&gt;Lifestream&lt;br&gt;
+DC移動、サーバー移動、インスタンス切り替えなどエーテライト周りの動作を自動で行うプラグイン。&lt;br&gt;
+YesAlreadyプラグインが必須。
+&lt;ul&gt;
+&lt;li&gt;通常版はリポジトリなし（初期の状態で使用可能）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Sonar&lt;br&gt;
+リスキーモブの位置やHP状況を共有するプラグイン。&lt;br&gt;
+基本的に通常版を使用。
+&lt;ul&gt;
+&lt;li&gt;通常版はリポジトリなし（初期の状態で使用可能）&lt;/li&gt;
+&lt;li&gt;プレビュー版のリポジトリ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;https://raw.githubusercontent.com/FFXIV-Sonar/SonarRepo/main/pluginmaster.json
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;Divination.FaloopIntegration&lt;br&gt;
+Faloopに報告された情報を、チャットに表示するプラグイン&lt;br&gt;
+役割はSonarとほぼ同じ。&lt;/li&gt;
+&lt;li&gt;Divination.AetheryteLinkInChat&lt;br&gt;
+座標付きのチャットが表示された時、一番近いエーテライトのリンク（クリックするとテレポートを行う）が付与されるプラグイン。&lt;br&gt;
+lifestreamにも対応。
+&lt;ul&gt;
+&lt;li&gt;リポジトリ(Divination.~~)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;https://xiv.starry.blue/plugins/master.json
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;Lemegeton&lt;br&gt;
+現地に到着した後の、Sモブの位置とHP確認に使用。
+&lt;ul&gt;
+&lt;li&gt;リポジトリ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;https://raw.githubusercontent.com/paissaheavyindustries/Dalamud-Repo/main/repo.json
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;設定の変更が不要なプラグイン&#34;&gt;設定の変更が不要なプラグイン&lt;/h1&gt;
+&lt;p&gt;多分不要。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

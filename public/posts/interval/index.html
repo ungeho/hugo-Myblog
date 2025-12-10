@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ja" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>区間演算ライブラリの紹介 | ungehoBlog</title>
+<meta name="keywords" content="Float, IEEE754, 数値計算, 誤差, プログラミング, 区間演算">
+<meta name="description" content="
+
+💡 この記事は「浮動小数点数の基礎」シリーズの一部です。
+1. 浮動小数点数の基礎と誤差の仕組み
+2. 区間演算 👈 今ここ
+
+
+浮動小数点数で計算をしていると、「どこまでが正しい値なのか？」 という不安が常につきまといます。">
+<meta name="author" content="ungeho">
+<link rel="canonical" href="http://localhost:1313/posts/interval/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/interval/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ]
+        });
+    });
+</script>
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.mermaid) {
+            mermaid.initialize({
+                startOnLoad: true,
+            });
+        }
+    });
+</script>
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      区間演算ライブラリの紹介
+    </h1>
+    <div class="post-meta"><span title='2025-12-09 14:46:40 +0900 JST'>2025/12/09</span>&nbsp;·&nbsp;8 分&nbsp;·&nbsp;ungeho
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目次</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%8c%ba%e9%96%93%e6%bc%94%e7%ae%97interval-arithmetic" aria-label="区間演算(Interval arithmetic)">区間演算(Interval arithmetic)</a><ul>
+                        
+                <li>
+                    <a href="#%e5%8c%ba%e9%96%93%e6%bc%94%e7%ae%97%e3%81%ae%e7%a8%ae%e9%a1%9e" aria-label="区間演算の種類">区間演算の種類</a><ul>
+                        
+                <li>
+                    <a href="#1-%e4%b8%8a%e7%ab%af%e4%b8%8b%e7%ab%af%e5%9e%8binf-sup-%e5%9e%8b-interval--inf-sup" aria-label="1. 上端下端型(inf-sup 型 interval = [inf, sup])">1. 上端下端型(inf-sup 型 interval = [inf, sup])</a></li>
+                <li>
+                    <a href="#2-%e4%b8%ad%e5%bf%83%e5%8d%8a%e5%be%84%e5%9e%8bmid-rad-%e5%9e%8b-interval--mid-rad" aria-label="2. 中心半径型(mid-rad 型 interval = [mid, rad])">2. 中心半径型(mid-rad 型 interval = [mid, rad])</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%8c%ba%e9%96%93%e6%bc%94%e7%ae%97%e3%81%ab%e3%82%88%e3%82%8b%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc" aria-label="区間演算による精度保証">区間演算による精度保証</a></li>
+                <li>
+                    <a href="#%e5%8c%ba%e9%96%93%e6%bc%94%e7%ae%97%e3%83%a9%e3%82%a4%e3%83%96%e3%83%a9%e3%83%aa%e3%81%ae%e7%b4%b9%e4%bb%8b" aria-label="区間演算ライブラリの紹介">区間演算ライブラリの紹介</a><ul>
+                        
+                <li>
+                    <a href="#%e4%b8%8a%e7%ab%af%e4%b8%8b%e7%ab%af%e5%9e%8binfsup-interval" aria-label="上端下端型（Inf–Sup Interval）">上端下端型（Inf–Sup Interval）</a></li>
+                <li>
+                    <a href="#%e4%b8%ad%e5%bf%83%e5%8d%8a%e5%be%84%e5%9e%8bmidrad-interval" aria-label="中心半径型（Mid–Rad Interval）">中心半径型（Mid–Rad Interval）</a></li></ul>
+                </li>
+                <li>
+                    <a href="#python-flint%e3%81%ae%e5%b0%8e%e5%85%a5windows" aria-label="Python-FLINTの導入(Windows)">Python-FLINTの導入(Windows)</a><ul>
+                        
+                <li>
+                    <a href="#%e7%b2%be%e5%ba%a6%e3%81%ae%e5%a4%89%e6%9b%b4" aria-label="精度の変更">精度の変更</a></li>
+                <li>
+                    <a href="#%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e3%81%95%e3%82%8c%e3%81%a6%e3%81%84%e3%82%8b%e6%a1%81%e3%81%a0%e3%81%91%e3%82%92%e5%87%ba%e5%8a%9b%e3%81%99%e3%82%8b" aria-label="精度保証されている桁だけを出力する">精度保証されている桁だけを出力する</a></li></ul>
+                </li></ul>
+                </li>
+                <li>
+                    <a href="#%e3%81%be%e3%81%a8%e3%82%81" aria-label="まとめ">まとめ</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><hr>
+<blockquote>
+<p>💡 <strong>この記事は「浮動小数点数の基礎」シリーズの一部です。</strong><br>
+<a href="../float"><strong>1. 浮動小数点数の基礎と誤差の仕組み</strong></a><br>
+<a href="../interval"><strong>2. 区間演算</strong></a> <strong>👈 今ここ</strong></p>
+</blockquote>
+<hr>
+<p>浮動小数点数で計算をしていると、<strong>「どこまでが正しい値なのか？」</strong> という不安が常につきまといます。</p>
+<p>丸め誤差は1回の計算では小さくても、<strong>1,000回</strong>、<strong>1,000,000回</strong>と繰り返されるうちに<strong>無視できない大きさ</strong>になっていきます。</p>
+<p>計算結果をひとつの値として扱う従来のアプローチでは、丸め誤差が累積してしまう問題があります。そこで役立つのが、<strong>区間演算(Interval Arithmetic)</strong> です。<br>
+計算結果を「ひとつの値」ではなく、<strong>真値を必ず含む範囲（区間）</strong> として扱うことで、<strong>厳密に正しい値</strong>を計算します。</p>
+<p>この記事では、区間演算の仕組みと、実際に利用できる区間演算ライブラリを紹介します。</p>
+<h2 id="区間演算interval-arithmetic">区間演算(Interval arithmetic)<a hidden class="anchor" aria-hidden="true" href="#区間演算interval-arithmetic">#</a></h2>
+<p>区間演算とは、<strong>数値を1つの値ではなく「その値が存在しうる範囲（区間）」として扱う計算手法</strong>です。</p>
+<p>浮動小数点数では、丸め誤差によって<strong>計算結果が真の値からずれてしまう可能性</strong>があります。<br>
+1回の演算では小さな誤差に感じるかもしませんが、丸め誤差が発生する演算を</p>
+<ul>
+<li><strong>1,000回</strong></li>
+<li><strong>10,000回</strong></li>
+<li><strong>1,000,000回</strong></li>
+</ul>
+<p>と繰り返されると、丸め誤差が蓄積して無視できない大きさに達することがあります。</p>
+<hr>
+<p>そこで、実数$x$を1点で近似するのではなく<br>
+<strong>機械的に表現できる浮動小数点数を端点にもつ閉区間</strong></p>
+<p>$$
+\begin{aligned}
+X = [a,b]
+\end{aligned}
+$$</p>
+<p>として表現します。</p>
+<p>これは「実数$x$は必ず$a$以上$b$以下のどこかにある」という形にすることで<strong>厳密に正しい</strong>ものにしています。</p>
+<p>$$
+\begin{aligned}
+a \le x \le b
+\end{aligned}
+$$</p>
+<p>丸め誤差を無視することなく、むしろ<strong>丸め誤差ごと包み込む形で表現</strong>するのが区間演算の特徴です。</p>
+<h3 id="区間演算の種類">区間演算の種類<a hidden class="anchor" aria-hidden="true" href="#区間演算の種類">#</a></h3>
+<p>区間演算には大きく分けて<strong>上端下端型(inf-sup)</strong> と<strong>中心半径型(mid-rad)</strong> の2種類があります。</p>
+<hr>
+<h4 id="1-上端下端型inf-sup-型-interval--inf-sup">1. 上端下端型(inf-sup 型 interval = [inf, sup])<a hidden class="anchor" aria-hidden="true" href="#1-上端下端型inf-sup-型-interval--inf-sup">#</a></h4>
+<p>数値を「<strong>下端(inf)</strong>」と「<strong>上端(sup)</strong>」のペアで直接表現する方法です。</p>
+<p>$$
+\begin{aligned}
+X = [ inf , sup ]
+\end{aligned}
+$$</p>
+<p>上端下端型の区間演算では</p>
+<ul>
+<li><strong>下向き丸め</strong><br>
+下端を計算</li>
+<li><strong>上向き丸め</strong><br>
+上端を計算</li>
+</ul>
+<p>のように計算します。</p>
+<p>これにより、<strong>丸め誤差があっても必ず&quot;真の値を含む区間&quot;を保証できる</strong>のが最大の利点です。</p>
+<ul>
+<li><strong>上端下端型(inf-sup)</strong><br>
+数値を<code>[下端,上端]</code>のペアで表現。<br>
+下端を計算するときは下向き丸め、上端を計算するときは上向き丸めで計算することで、丸めの影響を把握して真の値を区間内に包含する。</li>
+<li><strong>中心半径型(mid-rad)</strong><br>
+数値を<code>[中心点,半径]</code>で表現<br>
+$mid \pm rad$のように区間を表現する。</li>
+</ul>
+<hr>
+<h4 id="2-中心半径型mid-rad-型-interval--mid-rad">2. 中心半径型(mid-rad 型 interval = [mid, rad])<a hidden class="anchor" aria-hidden="true" href="#2-中心半径型mid-rad-型-interval--mid-rad">#</a></h4>
+<p>数値を「<strong>中心(mid)</strong>」と「<strong>半径(rad)</strong>」で表現します。</p>
+<p>$$
+\begin{aligned}
+X = mid \pm rad
+\end{aligned}
+$$</p>
+<p>つまり区間は</p>
+<p>$$
+\begin{aligned}
+X = [mid - rad , mid + rad]
+\end{aligned}
+$$</p>
+<p>と解釈できます。</p>
+<h3 id="区間演算による精度保証">区間演算による精度保証<a hidden class="anchor" aria-hidden="true" href="#区間演算による精度保証">#</a></h3>
+<p>浮動小数点数で計算していると<br>
+「<strong>この結果は何桁目まで信じてよいのか？</strong>」<br>
+という疑問が常につきまといます。</p>
+<p>通常の計算では、丸め誤差がどのように蓄積したのかを知ることができないため、<strong>結果のどこまでが正しい値なのか</strong>を判断できません。</p>
+<p>そこで役に立つのが<strong>区間演算(Interval Arithmetic)</strong> です。</p>
+<hr>
+<p>例として$\pi$を区間で表現してみましょう。</p>
+<p>$$
+\begin{aligned}
+\pi = [3.1415 , 3.1416]
+\end{aligned}
+$$</p>
+<p>これは次の意味を表します。</p>
+<p>$$
+\begin{aligned}
+3.1415  \le  \pi  \le  3.1416
+\end{aligned}
+$$</p>
+<p>ここで、区間の両端で一致している桁を見ると</p>
+<p>$$
+\begin{aligned}
+{\color{red}3.141}5  \le  \pi  \le  {\color{red}3.141}6
+\end{aligned}
+$$</p>
+<p>赤文字の$3.141$の部分は左右で同じため、<strong>この4桁までは必ず正しい(精度が保証されている)</strong> ことがわかります。</p>
+<h3 id="区間演算ライブラリの紹介">区間演算ライブラリの紹介<a hidden class="anchor" aria-hidden="true" href="#区間演算ライブラリの紹介">#</a></h3>
+<p>区間演算を実際に扱うためのライブラリは、<strong>上端下端型（inf-sup 型）</strong> と <strong>中心半径型（mid-rad 型）</strong> に分かれています。<br>
+それぞれで代表的なライブラリを紹介します。</p>
+<hr>
+<h4 id="上端下端型infsup-interval">上端下端型（Inf–Sup Interval）<a hidden class="anchor" aria-hidden="true" href="#上端下端型infsup-interval">#</a></h4>
+<ul>
+<li><strong>kv ライブラリ（C++）</strong><br>
+C++ で実装された精度保証付き数値計算ライブラリです。<br>
+上端下端（inf–sup）で区間を扱うため、丸め方向を明示的に制御しながら区間を計算できます。<br>
+使用には <strong>Boost</strong> が必要です。<br>
+👉 <a href="https://verifiedby.me/kv/"><strong>kvライブラリ公式サイト</strong></a></li>
+</ul>
+<hr>
+<h4 id="中心半径型midrad-interval">中心半径型（Mid–Rad Interval）<a hidden class="anchor" aria-hidden="true" href="#中心半径型midrad-interval">#</a></h4>
+<ul>
+<li>
+<p><strong>Arb ライブラリ（C言語 / FLINT 統合）</strong><br>
+C/C++で使える高速な多倍長計算/中心半径型の区間演算ライブラリです。<br>
+特殊関数の高精度計算にも用いられています。<br>
+現在はFLINTに統合されたようです。<br>
+Linux / macOS で動作します。<br>
+👉 <a href="https://arblib.org/setup.html"><strong>Arb Library Setup</strong></a></p>
+</li>
+<li>
+<p><strong>Python-FLINT（Python バインディング）</strong><br>
+Arb / FLINT を Python から利用できる拡張モジュールです。<br>
+Windows でも動作し、Python で高精度かつ精度保証付きの計算を行いたい場合に最適です。<br>
+👉 <a href="https://fredrikj.net/python-flint/setup.html"><strong>Python-FLINT Setup</strong></a></p>
+</li>
+</ul>
+<h3 id="python-flintの導入windows">Python-FLINTの導入(Windows)<a hidden class="anchor" aria-hidden="true" href="#python-flintの導入windows">#</a></h3>
+<p>現在の筆者の環境がwindowsな為、ここではPython FLINTの導入をしていきます。<br>
+他のOSを使っている方はArbライブラリが統合されたFLINTやkvライブラリを導入すると良いです。</p>
+<p>モジュールのインストール</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">py -m pip install python-flint
+</span></span></code></pre></div><p>次のようにプログラムを作成</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">flint</span> <span class="kn">import</span> <span class="n">arb</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">arb</span><span class="o">.</span><span class="n">pi</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span></code></pre></div><p>実行結果</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>3.14159265358979 +/- 3.34e-15<span class="o">]</span>
+</span></span></code></pre></div><p>これは、次のような意味になっています。</p>
+<p>$$
+\begin{aligned}
+3.14159265358979  \pm  (3.34 \times 10^{-15})
+\end{aligned}
+$$</p>
+<p>範囲で表すと</p>
+<p>$$
+\begin{aligned}
+3.14159265358979  -  (3.34 \times 10^{-15}) \le \pi \le 3.14159265358979  +  (3.34 \times 10^{-15})
+\end{aligned}
+$$</p>
+<p>です。</p>
+<hr>
+<h4 id="精度の変更">精度の変更<a hidden class="anchor" aria-hidden="true" href="#精度の変更">#</a></h4>
+<p>精度が保証された値をさらに高精度に求めるために、精度の変更を行っていきます。</p>
+<p><strong>1. 精度をビット数(2進数)で指定する。</strong></p>
+<p>プログラムを次のように変更します。<br>
+ビットで精度を指定したい時は<code>ctx.prec</code>を使用します。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">flint</span> <span class="kn">import</span> <span class="n">arb</span><span class="p">,</span> <span class="n">ctx</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 精度を106ビットに設定(10進で約32桁の精度)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ctx</span><span class="o">.</span><span class="n">prec</span> <span class="o">=</span> <span class="mi">106</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">arb</span><span class="o">.</span><span class="n">pi</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span></code></pre></div><p><code>106bit</code>の精度は、10進数では次のように換算されます。</p>
+<p>$$
+\begin{aligned}
+106\times \log_{10}(2) \approx 31.9
+\end{aligned}
+$$</p>
+<p>実行結果</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>3.141592653589793238462643383279 +/- 5.06e-31<span class="o">]</span>
+</span></span></code></pre></div><p><strong>2. 精度を10進数で指定する。</strong></p>
+<p>プログラムを次のように変更します。<br>
+10進数で精度を指定したいときは<code>ctx.dps</code>を使用します。<br>
+10進で50桁程度の精度に設定します。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">flint</span> <span class="kn">import</span> <span class="n">arb</span><span class="p">,</span> <span class="n">ctx</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 10進でおよそ50桁分の精度</span>
+</span></span><span class="line"><span class="cl"><span class="n">ctx</span><span class="o">.</span><span class="n">dps</span> <span class="o">=</span> <span class="mi">50</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">arb</span><span class="o">.</span><span class="n">pi</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span></code></pre></div><p>実行結果</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>3.1415926535897932384626433832795028841971693993751 +/- 9.51e-51<span class="o">]</span>
+</span></span></code></pre></div><hr>
+<h4 id="精度保証されている桁だけを出力する">精度保証されている桁だけを出力する<a hidden class="anchor" aria-hidden="true" href="#精度保証されている桁だけを出力する">#</a></h4>
+<p><code>showgood</code>関数を使うと、<code>mid</code>のうち<code>radius</code>の影響を受けない<br>
+<strong>「区間の上下端が一致している桁(=good digits,精度保証値)」</strong> だけを表示出来ます。</p>
+<p>Arbの区間表示は</p>
+<pre tabindex="0"><code class="language-in" data-lang="in">[mid +/- rad]
+</code></pre><p>という形ですが、これは数学的には次の不等式を表しています。</p>
+<p>$$
+\begin{aligned}
+mid - rad \le x \le mid + rad
+\end{aligned}
+$$</p>
+<p>ここで</p>
+<ul>
+<li>上端</li>
+</ul>
+<p>$$
+\begin{aligned}
+hi = mid + rad
+\end{aligned}
+$$</p>
+<ul>
+<li>下端</li>
+</ul>
+<p>$$
+\begin{aligned}
+lo = mid - rad
+\end{aligned}
+$$</p>
+<p>とすると$hi$と$lo$を並べてみたときに、<strong>先頭から共通している桁</strong>は区間内のどんな真の値$x$を取っても変わらない桁になります。</p>
+<p><code>showgood</code>はまさにこの</p>
+<ul>
+<li><strong>上端$hi$と下端$lo$が一致している部分だけを抜き出した表示</strong></li>
+<li><strong>つまり「精度が保証されている桁」だけを抜き出したmidの表現</strong></li>
+</ul>
+<p>を出力する関数です。</p>
+<hr>
+<p>プログラムを次のように変更します。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">flint</span> <span class="kn">import</span> <span class="n">arb</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">showgood</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 計算精度を50桁に設定</span>
+</span></span><span class="line"><span class="cl"><span class="n">ctx</span><span class="o">.</span><span class="n">dps</span> <span class="o">=</span> <span class="mi">50</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">arb</span><span class="o">.</span><span class="n">pi</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;通常の出力:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;showgoodによる出力:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">showgood</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">arb</span><span class="o">.</span><span class="n">pi</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ctx.dps を指定していれば、dps=50は省略しても良い。</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># showgood(lambda: arb.pi(), dps=50)</span>
+</span></span></code></pre></div><p>実行結果</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">通常の出力:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>3.1415926535897932384626433832795028841971693993751 +/- 9.51e-51<span class="o">]</span>
+</span></span><span class="line"><span class="cl">showgoodによる出力:
+</span></span><span class="line"><span class="cl">3.1415926535897932384626433832795028841971693993751
+</span></span></code></pre></div><blockquote>
+<p>※環境によっては<br>
+<code>3.1415926535897932384626433832795028841971693993751xxxx</code><br>
+のように、不確かな桁が<code>x</code>でマスクされる形式で出力される場合もあります。</p>
+</blockquote>
+<p>実行例のように<code>showgood</code>は、区間演算の結果から、確実に正しいとされる桁のみを表示する機能です。<br>
+この機能を使うことで、計算結果にどの程度の信頼性があるかを簡単に確認できます。</p>
+<hr>
+<p>他にも、<code>Python-FLINT</code>モジュールには様々な機能があります。</p>
+<p><code>arb</code>は<strong>実数の精度保証付きの数値計算</strong>に使用され、<code>acb</code>は虚数を含む計算を行いたい場合に使用します。<strong>虚数の精度保証付きの数値計算</strong>が必要な場合に、<code>acb</code>を使用することで、<strong>複素数計算を高精度</strong>に行えます。</p>
+<p>さらに詳しい使い方やAPIについては👉 <a href="https://fredrikj.net/python-flint/#reference"><strong>Python-FLINT リファレンス</strong></a> をご覧ください。</p>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<p>本記事では<strong>区間演算（Interval Arithmetic）</strong> についての紹介と<br>
+実際に使える区間演算ライブラリ(kv / Arb / Python-FLINT)を紹介しました。</p>
+<p>浮動小数点数は、本質的に</p>
+<ul>
+<li><strong>有効桁が有限</strong></li>
+<li><strong>計算量が増えるほど丸め誤差が蓄積する</strong></li>
+<li><strong>扱える値の範囲が有限</strong></li>
+</ul>
+<p>といったような制約を持っています。</p>
+<p>それに対し、区間演算は</p>
+<ul>
+<li><strong>「真値が必ず含まれる範囲」を計算する</strong></li>
+<li><strong>丸め誤差ごと安全に包み込む</strong></li>
+<li><strong>結果のどこまでが信頼できるか(精度保証)が得られる</strong></li>
+</ul>
+<p>という特徴を備えています。</p>
+<p>ここで紹介した<strong>Arb / Python-FLINTの中心半径型(mid-rad)</strong> は<strong>高速・高精度</strong> であり<br>
+数学計算・数値計算・誤差評価などで広く利用されています。</p>
+<hr>
+<p>✔️ <strong>本記事のポイント</strong></p>
+<ul>
+<li><strong>区間演算では、丸め誤差を避けるために、計算結果を単一の値ではなく、誤差を含んだ範囲（区間）で表現することで、真値を必ず包含している区間を計算します。</strong></li>
+<li><strong>区間演算には上端下端(inf-sup)型と中心半径(mid-rad)型の2種類の方法がある。</strong></li>
+<li><strong>PythonではPython-FLINTが手軽で強力</strong></li>
+<li><strong><code>showgood</code>を使うと保証された桁だけを取り出せる</strong></li>
+</ul>
+<hr>
+<p>✔️ <strong>今後の記事では&hellip;</strong></p>
+<ul>
+<li><strong>数値積分</strong></li>
+<li><strong>数値微分</strong></li>
+<li><strong>精度保証付きの自動微分</strong></li>
+</ul>
+<p>などを紹介します。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/float/">Float</a></li>
+      <li><a href="http://localhost:1313/tags/ieee754/">IEEE754</a></li>
+      <li><a href="http://localhost:1313/tags/%E6%95%B0%E5%80%A4%E8%A8%88%E7%AE%97/">数値計算</a></li>
+      <li><a href="http://localhost:1313/tags/%E8%AA%A4%E5%B7%AE/">誤差</a></li>
+      <li><a href="http://localhost:1313/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">プログラミング</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%8C%BA%E9%96%93%E6%BC%94%E7%AE%97/">区間演算</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="http://localhost:1313/posts/float/">
+    <span class="title">次へ »</span>
+    <br>
+    <span>浮動小数点数の基礎と誤差の仕組み</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 区間演算ライブラリの紹介 on x"
+            href="https://x.com/intent/tweet/?text=%e5%8c%ba%e9%96%93%e6%bc%94%e7%ae%97%e3%83%a9%e3%82%a4%e3%83%96%e3%83%a9%e3%83%aa%e3%81%ae%e7%b4%b9%e4%bb%8b&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2finterval%2f&amp;hashtags=Float%2cIEEE754%2c%e6%95%b0%e5%80%a4%e8%a8%88%e7%ae%97%2c%e8%aa%a4%e5%b7%ae%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0%2c%e5%8c%ba%e9%96%93%e6%bc%94%e7%ae%97">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="http://localhost:1313/">ungehoBlog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script></body>
+
+</html>

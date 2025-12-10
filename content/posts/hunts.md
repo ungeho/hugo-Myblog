@@ -12,7 +12,6 @@ tocopen = true
 math = false
 +++
 
-
 # 必要なプラグイン
 
 * Yes Already  

@@ -1,7 +1,9 @@
 {{- $.Scratch.Set "index" slice -}}
 {{- $.Scratch.Set "seen" dict -}}
 
-{{- range site.RegularPages -}}
+{{- $pages := where site.RegularPages "Type" "ne" "page" -}}
+
+{{- range $pages -}}
   {{- if and (not .Params.searchHidden) (ne .Layout "archives") (ne .Layout "search") }}
     {{- $permalink := .Permalink -}}
     {{- if not (index ($.Scratch.Get "seen") $permalink) }}
@@ -14,6 +16,6 @@
       {{- $.Scratch.SetInMap "seen" $permalink true -}}
     {{- end }}
   {{- end }}
-{{- end -}}
+{{- end }}
 
 {{- $.Scratch.Get "index" | jsonify -}}
