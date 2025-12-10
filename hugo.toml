@@ -70,7 +70,7 @@ weight = 30
     [params.profileMode]
         enabled = true
         title = "Ungeho"
-        subtitle = "ネトゲ廃人"
+        subtitle = "ネトゲ大好きおたく"
         imageUrl = "profile.png"
         imageWidth = 256
         imageHeight = 256
