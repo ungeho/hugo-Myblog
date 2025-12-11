@@ -5,13 +5,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>浮動小数点数の基礎と誤差の仕組み | ungehoBlog</title>
+<title>浮動小数点数 | ungehoBlog</title>
 <meta name="keywords" content="Float, IEEE754, 数値計算, 誤差, プログラミング">
 <meta name="description" content="
 
-💡 この記事は「浮動小数点数の基礎」シリーズの一部です。
-1. 浮動小数点数の基礎と誤差の仕組み 👈 今ここ
+💡 この記事は「コンピューターで計算する」シリーズの一部です。
+1. 浮動小数点数👈 今ここ
 2. 区間演算
+3. 数値積分
 
 
 プログラミング中に 「0.1 &#43; 0.2 が 0.3 にならない」 といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。
@@ -175,7 +176,7 @@
   <header class="post-header">
     <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
     <h1 class="post-title entry-hint-parent">
-      浮動小数点数の基礎と誤差の仕組み
+      浮動小数点数
     </h1>
     <div class="post-meta"><span title='2025-12-07 19:03:04 +0900 JST'>2025/12/07</span>&nbsp;·&nbsp;11 分&nbsp;·&nbsp;ungeho
 
@@ -237,9 +238,10 @@
 
   <div class="post-content"><hr>
 <blockquote>
-<p>💡 <strong>この記事は「浮動小数点数の基礎」シリーズの一部です。</strong><br>
-<a href="../float"><strong>1. 浮動小数点数の基礎と誤差の仕組み</strong></a> <strong>👈 今ここ</strong><br>
-<a href="../interval"><strong>2. 区間演算</strong></a></p>
+<p>💡 <strong>この記事は「コンピューターで計算する」シリーズの一部です。</strong><br>
+<a href="../float"><strong>1. 浮動小数点数</strong></a><strong>👈 今ここ</strong><br>
+<a href="../interval"><strong>2. 区間演算</strong></a><br>
+<a href="../numericalIntegration"><strong>3. 数値積分</strong></a></p>
 </blockquote>
 <hr>
 <p>プログラミング中に <strong>「0.1 + 0.2 が 0.3 にならない」</strong> といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。<br>
@@ -666,15 +668,20 @@ $$</p>
   <a class="prev" href="http://localhost:1313/posts/interval/">
     <span class="title">« 前へ</span>
     <br>
-    <span>区間演算ライブラリの紹介</span>
+    <span>区間演算</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/hunts/">
+    <span class="title">次へ »</span>
+    <br>
+    <span>モブハント用</span>
   </a>
 </nav>
 
 
 <ul class="share-buttons">
     <li>
-        <a target="_blank" rel="noopener noreferrer" aria-label="share 浮動小数点数の基礎と誤差の仕組み on x"
-            href="https://x.com/intent/tweet/?text=%e6%b5%ae%e5%8b%95%e5%b0%8f%e6%95%b0%e7%82%b9%e6%95%b0%e3%81%ae%e5%9f%ba%e7%a4%8e%e3%81%a8%e8%aa%a4%e5%b7%ae%e3%81%ae%e4%bb%95%e7%b5%84%e3%81%bf&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2ffloat%2f&amp;hashtags=Float%2cIEEE754%2c%e6%95%b0%e5%80%a4%e8%a8%88%e7%ae%97%2c%e8%aa%a4%e5%b7%ae%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0">
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 浮動小数点数 on x"
+            href="https://x.com/intent/tweet/?text=%e6%b5%ae%e5%8b%95%e5%b0%8f%e6%95%b0%e7%82%b9%e6%95%b0&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2ffloat%2f&amp;hashtags=Float%2cIEEE754%2c%e6%95%b0%e5%80%a4%e8%a8%88%e7%ae%97%2c%e8%aa%a4%e5%b7%ae%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0">
             <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
                 <path
                     d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
