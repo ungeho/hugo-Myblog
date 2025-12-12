@@ -6,8 +6,24 @@
     <description>Recent content in 誤差 on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Wed, 10 Dec 2025 20:28:15 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 12 Dec 2025 13:50:42 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/%E8%AA%A4%E5%B7%AE/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>数値微分</title>
+      <link>http://localhost:1313/posts/numericaldifferentiation/</link>
+      <pubDate>Fri, 12 Dec 2025 13:50:42 +0900</pubDate>
+      <guid>http://localhost:1313/posts/numericaldifferentiation/</guid>
+      <description>&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
+&lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;コンピューターを用いた具体的な計算によって関数の傾きを求める手法を&lt;strong&gt;数値微分(numerical differentiation)&lt;/strong&gt; と呼びます。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>数値積分</title>
       <link>http://localhost:1313/posts/numericalintegration/</link>
@@ -53,7 +69,7 @@
 &lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;p&gt;プログラミング中に &lt;strong&gt;「0.1 + 0.2 が 0.3 にならない」&lt;/strong&gt; といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。&lt;br&gt;
-これは、コンピューターが実数をそのまま正確に扱えないことに起因しています。&lt;/p&gt;</description>
+これは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

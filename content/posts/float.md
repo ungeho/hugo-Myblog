@@ -5,7 +5,7 @@ draft = false
 categories = ["Programming"]
 tags = ["Float", "IEEE754", "数値計算", "誤差", "プログラミング"]
 showtoc = true
-tocopen = true
+tocopen = false
 math = true
 +++
 
