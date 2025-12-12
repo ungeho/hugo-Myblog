@@ -9,6 +9,9 @@ enableRobotsTXT = true
 buildDrafts = false
 buildFuture = false
 buildExpired = false
+# 開発環境では未来日付の記事も表示する
+buildFuture = true
+
 
 # メニュー（ヘッダー右側）
 [[menu.main]]

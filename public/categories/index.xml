@@ -15,26 +15,5 @@
       <guid>http://localhost:1313/categories/programming/</guid>
       <description></description>
     </item>
-    <item>
-      <title>FFXIV</title>
-      <link>http://localhost:1313/categories/ffxiv/</link>
-      <pubDate>Fri, 13 Sep 2024 03:13:38 +0900</pubDate>
-      <guid>http://localhost:1313/categories/ffxiv/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>League of Legends</title>
-      <link>http://localhost:1313/categories/league-of-legends/</link>
-      <pubDate>Sun, 26 May 2024 17:00:04 +0900</pubDate>
-      <guid>http://localhost:1313/categories/league-of-legends/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Test</title>
-      <link>http://localhost:1313/categories/test/</link>
-      <pubDate>Mon, 22 Jan 2024 19:01:13 +0900</pubDate>
-      <guid>http://localhost:1313/categories/test/</guid>
-      <description></description>
-    </item>
   </channel>
 </rss>
