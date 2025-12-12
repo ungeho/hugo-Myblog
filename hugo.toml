@@ -7,10 +7,9 @@ theme = 'PaperMod'
 
 enableRobotsTXT = true
 buildDrafts = false
-buildFuture = false
-buildExpired = false
-# 開発環境では未来日付の記事も表示する
+# 将来の日付の記事もビルドする
 buildFuture = true
+buildExpired = false
 
 
 # メニュー（ヘッダー右側）
