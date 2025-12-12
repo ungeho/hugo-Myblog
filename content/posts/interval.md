@@ -18,6 +18,7 @@ math = true
 > [**1. 浮動小数点数**](../float)  
 > [**2. 区間演算**](../interval)**👈 今ここ**  
 > [**3. 数値積分**](../numericalIntegration)  
+> [**4. 数値微分**](../numericalDifferentiation)  
 
 ---
 
