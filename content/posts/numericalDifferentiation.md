@@ -98,6 +98,8 @@ $$
 
 前進差分の誤差は$O(h)$です。
 
+---
+
 ### 後退差分(Backward Difference)
 
 $$
@@ -108,6 +110,8 @@ h &= \sqrt{\epsilon}\max(1, |x|)
 $$
 
 後退差分の誤差は$O(h)$です。
+
+---
 
 ### 中心差分(Central Difference)
 
