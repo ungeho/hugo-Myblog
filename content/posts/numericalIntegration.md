@@ -19,6 +19,7 @@ math = true
 > [**2. 区間演算**](../interval)  
 > [**3. 数値積分**](../numericalIntegration) **👈 今ここ**  
 > [**4. 数値微分**](../numericalDifferentiation)  
+> [**5. 自動微分**](../autoDiff)  
 
 ---
 

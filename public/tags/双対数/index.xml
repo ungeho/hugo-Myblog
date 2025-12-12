@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>双対数 on ungehoBlog</title>
+    <link>http://localhost:1313/tags/%E5%8F%8C%E5%AF%BE%E6%95%B0/</link>
+    <description>Recent content in 双対数 on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Fri, 12 Dec 2025 16:30:33 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E5%8F%8C%E5%AF%BE%E6%95%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>双対数を用いた自動微分</title>
+      <link>http://localhost:1313/posts/autodiff/</link>
+      <pubDate>Fri, 12 Dec 2025 16:30:33 +0900</pubDate>
+      <guid>http://localhost:1313/posts/autodiff/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;自動微分(Automatic Differentiation,AD)&lt;/strong&gt; は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。&lt;/p&gt;
+&lt;p&gt;特に**双対数(Dual numbers)**を用いた手法では、入力を$x+\epsilon$ として計算するだけで、関数値$f(x)$ と導関数$f^{\prime}(x)$ が同時に得られ、数値微分のような誤差や$h$ の選択が不要になります。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
