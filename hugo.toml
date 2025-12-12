@@ -54,6 +54,8 @@ weight = 30
     author = 'ungeho'
     DateFormat = "2006/01/02"
     defaultTheme = 'auto'
+    # postsフォルダ内を記事一覧として扱う
+    mainSections = ["posts"]
 
     ShowReadingTime = true
     ShowShareButtons = true
