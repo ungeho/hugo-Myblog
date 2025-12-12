@@ -4,6 +4,8 @@
 
 [build.environment]
     HUGO_VERSION = "0.121.2"
+    # 将来の日付の記事もビルドする
+    HUGO_BUILDFUTURE = "true"
 
 [context.production.environment]
     HUGO_ENV           = "production"

@@ -57,7 +57,6 @@ weight = 30
     defaultTheme = 'auto'
     # postsフォルダ内を記事一覧として扱う
     mainSections = ["posts"]
-    ShowAllPagesInArchive = true
 
     ShowReadingTime = true
     ShowShareButtons = true
