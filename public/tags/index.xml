@@ -78,5 +78,68 @@
       <guid>http://localhost:1313/tags/%E5%8C%BA%E9%96%93%E6%BC%94%E7%AE%97/</guid>
       <description></description>
     </item>
+    <item>
+      <title>FFXIV,Sonar,Faloop</title>
+      <link>http://localhost:1313/tags/ffxivsonarfaloop/</link>
+      <pubDate>Fri, 13 Sep 2024 03:13:38 +0900</pubDate>
+      <guid>http://localhost:1313/tags/ffxivsonarfaloop/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>FFXIV,Splatoon</title>
+      <link>http://localhost:1313/tags/ffxivsplatoon/</link>
+      <pubDate>Thu, 01 Aug 2024 07:27:05 +0900</pubDate>
+      <guid>http://localhost:1313/tags/ffxivsplatoon/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>League of Legends</title>
+      <link>http://localhost:1313/tags/league-of-legends/</link>
+      <pubDate>Sun, 26 May 2024 17:00:04 +0900</pubDate>
+      <guid>http://localhost:1313/tags/league-of-legends/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>FFXIV</title>
+      <link>http://localhost:1313/tags/ffxiv/</link>
+      <pubDate>Fri, 22 Mar 2024 20:21:08 +0900</pubDate>
+      <guid>http://localhost:1313/tags/ffxiv/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Splatoon</title>
+      <link>http://localhost:1313/tags/splatoon/</link>
+      <pubDate>Fri, 22 Mar 2024 20:21:08 +0900</pubDate>
+      <guid>http://localhost:1313/tags/splatoon/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>DSR</title>
+      <link>http://localhost:1313/tags/dsr/</link>
+      <pubDate>Thu, 01 Feb 2024 05:09:18 +0900</pubDate>
+      <guid>http://localhost:1313/tags/dsr/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Preparation</title>
+      <link>http://localhost:1313/tags/preparation/</link>
+      <pubDate>Thu, 01 Feb 2024 05:09:18 +0900</pubDate>
+      <guid>http://localhost:1313/tags/preparation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>YesAlready</title>
+      <link>http://localhost:1313/tags/yesalready/</link>
+      <pubDate>Sun, 28 Jan 2024 18:09:26 +0900</pubDate>
+      <guid>http://localhost:1313/tags/yesalready/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>WaymarkPlugin</title>
+      <link>http://localhost:1313/tags/waymarkplugin/</link>
+      <pubDate>Sat, 27 Jan 2024 03:15:32 +0900</pubDate>
+      <guid>http://localhost:1313/tags/waymarkplugin/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

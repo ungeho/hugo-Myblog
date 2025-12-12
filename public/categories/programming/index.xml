@@ -88,7 +88,8 @@
 &lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
 &lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;p&gt;プログラミング中に &lt;strong&gt;「0.1 + 0.2 が 0.3 にならない」&lt;/strong&gt; といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。&lt;br&gt;

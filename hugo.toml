@@ -15,20 +15,19 @@ buildExpired = false
 identifier = "about"
 name = "About"
 url = "/about"
-weight = 15
+weight = 5
 
 [[menu.main]]
 identifier = "posts"
 name = "Posts"
 url = "/posts"
-weight = 5
+weight = 10
 
 [[menu.main]]
 identifier = "archives"
 name       = "Archive"
 url        = "/archives/"
-weight     = 30
-
+weight     = 15
 
 [[menu.main]]
 identifier = "search"

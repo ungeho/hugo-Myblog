@@ -144,13 +144,18 @@
         </div>
         <ul id="menu">
             <li>
+                <a href="http://localhost:1313/about" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
                 <a href="http://localhost:1313/posts" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/about" title="About">
-                    <span>About</span>
+                <a href="http://localhost:1313/archives/" title="Archive">
+                    <span>Archive</span>
                 </a>
             </li>
             <li>
@@ -307,7 +312,7 @@ $$</p>
 <p>という非常にシンプルな形が得られます。<br>
 ここで</p>
 <ul>
-<li>実数部：$f(x)$</li>
+<li>実部：$f(x)$</li>
 <li>$\varepsilon$の係数：$f^{\prime}(x)$</li>
 </ul>
 <p>が得られるため、双対数を使うことで<strong>関数値と導関数</strong>が同時に計算できるわけです。</p>
@@ -373,7 +378,7 @@ $$</p>
 x + \varepsilon y
 \end{aligned}
 $$</p>
-<p>を扱えるように、<strong>加算・乗算・初等関数などの基本的な演算をオペレーターオーバーロードによって再定義する</strong> ことで実現できます。<br>
+<p>を扱えるように、<strong>四則演算などの基本的な演算をオペレーターオーバーロードによって再定義する</strong> ことで実現できます。<br>
 具体的には、ほとんど行列演算の実装になります。</p>
 <p>代入演算子(<code>+=</code>,<code>-=</code>,<code>*=</code>,<code>/=</code>)や符号<code>-</code>は演算子を上書きした四則演算を使って演算します。<br>
 一部の特殊関数は定義した特殊関数を使用します。</p>
@@ -1192,7 +1197,7 @@ $$</p>
 </span></span></span><span class="line"><span class="cl"><span class="s1">f(x) (exact-like)  = [21.437699394856499942536605542730404247329089189979126594003547131771280961691209 +/- 4.59e-79]
 </span></span></span><span class="line"><span class="cl"><span class="s1">f&#39;</span><span class="o">(</span>x<span class="o">)</span> <span class="o">(</span>exact-like<span class="o">)</span> <span class="o">=</span> <span class="o">[</span>19.287834753577782208311647433138084351108611465818774471674468084248344679936378 +/- 5.27e-79<span class="o">]</span>
 </span></span></code></pre></div><h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
-<p>本記事では，双対数（Dual numbers）を用いた自動微分の仕組みについて</p>
+<p>本記事では、<strong>双対数（Dual numbers）</strong> を用いた自動微分の仕組みについて</p>
 <ul>
 <li><strong>双対数の定義とテイラー展開から見た原理</strong></li>
 <li><strong>双対数を 2×2 上三角行列表現に落とし込む方法</strong></li>

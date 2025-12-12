@@ -135,13 +135,18 @@
         </div>
         <ul id="menu">
             <li>
+                <a href="http://localhost:1313/about" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
                 <a href="http://localhost:1313/posts" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/about" title="About">
-                    <span>About</span>
+                <a href="http://localhost:1313/archives/" title="Archive">
+                    <span>Archive</span>
                 </a>
             </li>
             <li>
@@ -171,16 +176,21 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">双対数を用いた自動微分
+    <h2 class="entry-hint-parent">自動微分
     </h2>
   </header>
   <div class="entry-content">
-    <p>自動微分(Automatic Differentiation,AD) は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。
-特に**双対数(Dual numbers)**を用いた手法では、入力を$x&#43;\epsilon$ として計算するだけで、関数値$f(x)$ と導関数$f^{\prime}(x)$ が同時に得られ、数値微分のような誤差や$h$ の選択が不要になります。
+    <p> 💡 この記事は「コンピューターで計算する」シリーズの一部です。
+1. 浮動小数点数
+2. 区間演算
+3. 数値積分
+4. 数値微分
+5. 自動微分 👈 今ここ
+自動微分(Automatic Differentiation,AD) は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-12-12 16:30:33 +0900 JST'>2025/12/12</span>&nbsp;·&nbsp;1 分&nbsp;·&nbsp;ungeho</footer>
-  <a class="entry-link" aria-label="post link to 双対数を用いた自動微分" href="http://localhost:1313/posts/autodiff/"></a>
+  <footer class="entry-footer"><span title='2025-12-12 16:30:33 +0900 JST'>2025/12/12</span>&nbsp;·&nbsp;10 分&nbsp;·&nbsp;ungeho</footer>
+  <a class="entry-link" aria-label="post link to 自動微分" href="http://localhost:1313/posts/autodiff/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -194,6 +204,7 @@
 2. 区間演算
 3. 数値積分
 4. 数値微分 👈 今ここ
+5. 自動微分
 コンピューターを用いた具体的な計算によって関数の傾きを求める手法を数値微分(numerical differentiation) と呼びます。
 ...</p>
   </div>
@@ -212,6 +223,7 @@
 2. 区間演算
 3. 数値積分 👈 今ここ
 4. 数値微分
+5. 自動微分
 多くの積分は「紙とペン」で簡単に計算できるとは限りません。
 実際、積分の中には
 ...</p>
@@ -231,6 +243,7 @@
 2. 区間演算👈 今ここ
 3. 数値積分
 4. 数値微分
+5. 自動微分
 浮動小数点数で計算をしていると、「どこまでが正しい値なのか？」 という不安が常につきまといます。
 ...</p>
   </div>
@@ -249,6 +262,7 @@
 2. 区間演算
 3. 数値積分
 4. 数値微分
+5. 自動微分
 プログラミング中に 「0.1 &#43; 0.2 が 0.3 にならない」 といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。
 これは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。
 ...</p>
