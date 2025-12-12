@@ -12,16 +12,23 @@ buildExpired = false
 
 # メニュー（ヘッダー右側）
 [[menu.main]]
+identifier = "about"
+name = "About"
+url = "/about"
+weight = 15
+
+[[menu.main]]
 identifier = "posts"
 name = "Posts"
 url = "/posts"
 weight = 5
 
 [[menu.main]]
-identifier = "about"
-name = "About"
-url = "/about"
-weight = 15
+identifier = "archives"
+name       = "Archive"
+url        = "/archives/"
+weight     = 30
+
 
 [[menu.main]]
 identifier = "search"
