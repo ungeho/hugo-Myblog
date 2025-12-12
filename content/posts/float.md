@@ -16,6 +16,8 @@ math = true
 > [**2. 区間演算**](../interval)  
 > [**3. 数値積分**](../numericalIntegration)  
 > [**4. 数値微分**](../numericalDifferentiation)  
+> [**5. 自動微分**](../autoDiff)  
+
 ---
 
 プログラミング中に **「0.1 + 0.2 が 0.3 にならない」** といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。  
