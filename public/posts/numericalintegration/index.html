@@ -345,7 +345,7 @@ $$</p>
 <p>とすると、複合台形公式は次のように表されます。</p>
 <p>$$
 \begin{aligned}
-T_{n} \approx h \times ( \frac{f(a)}{2} + \sum_{i=1}^{n-1}f( a + hi ) + \frac{f(b)}{2} )
+T_{n} \approx h \times \left( \frac{f(a)}{2} + \sum_{i=1}^{n-1}f( a + hi ) + \frac{f(b)}{2} \right)
 \end{aligned}
 $$</p>
 <p>ここで</p>
@@ -482,8 +482,8 @@ $$</p>
 <p>$$
 \begin{aligned}
 \int_{a}^{b} f(x)dx &amp;= \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt\\
-\phi(t) &amp;= \frac{b - a}{2} \tanh(\frac{\pi}{2}\sinh(t)) + \frac{a + b}{2}\\
-\phi^{\prime}(t) &amp;= \frac{b - a}{4} \frac{\pi \cosh(t)}{\cosh^{2}(\frac{\pi}{2}\sinh(t))}
+\phi(t) &amp;= \frac{b - a}{2} \tanh \left( \frac{\pi}{2}\sinh(t) \right) + \frac{a + b}{2}\\
+\phi^{\prime}(t) &amp;= \frac{b - a}{4} \frac{\pi \cosh(t)}{\cosh^{2} \left( \frac{\pi}{2}\sinh(t) \right)}
 \end{aligned}
 $$</p>
 <p>$\phi(t)$ は</p>
@@ -502,7 +502,7 @@ $\phi^{\prime}(t)$ は $|t| \to \infty$ で<strong>二重指数的(かなり急�
 <p>この式は$t \to -\infty$で<strong>二重指数的(かなり急激)<strong>に $-1$へ近づいて、$t \to \infty$で</strong>二重指数的(かなり急激)に</strong> $1$へ近づいていきます。</p>
 <p>$$
 \begin{aligned}
-\tanh(\frac{\pi}{2}\sinh(t))
+\tanh \left(\frac{\pi}{2}\sinh(t) \right)
 \end{aligned}
 $$</p>
 <p>そのため</p>
@@ -514,7 +514,7 @@ $$</p>
 $$</p>
 <p>のような式が <strong>浮動小数点の桁落ち</strong> を引き起こすことがあります。<br>
 台形測のループの中でループの端点付近で桁落ちが発生したことで、結果がNaNになることもあります。</p>
-<p>桁落ちが発生した場合の対処法として、$\tanh(\frac{\pi}{2}\sinh(t))-1$または$\tanh(\frac{\pi}{2}\sinh(t))+1$のような形にならないように、<strong>式変形を行う</strong>ことで対処することができます。</p>
+<p>桁落ちが発生した場合の対処法として、$\tanh \left(\frac{\pi}{2}\sinh(t) \right)-1$または $\tanh \left(\frac{\pi}{2}\sinh(t) \right)+1$ のような形にならないように、<strong>式変形を行う</strong>ことで対処することができます。</p>
 <p>また、ここで使用されている特殊関数$\sinh(x)$、$\cosh(x)$、$\tanh(x)$は<strong>双曲線関数(hyperbolic function)</strong> とよばれ、それぞれ次のように定義されています。</p>
 <p>$$
 \begin{aligned}
@@ -529,8 +529,8 @@ $$</p>
 <p>$$
 \begin{aligned}
 \int_{a}^{\infty} f(x)dx &amp;= \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt\\
-\phi(t) &amp;= a + \exp(\frac{\pi}{2}\sinh(t))\\
-\phi^{\prime}(t) &amp;= \frac{\pi}{2}\cosh(t)\exp(\frac{\pi}{2}\sinh(t))
+\phi(t) &amp;= a + \exp \left(\frac{\pi}{2}\sinh(t) \right)\\
+\phi^{\prime}(t) &amp;= \frac{\pi}{2}\cosh(t)\exp \left(\frac{\pi}{2}\sinh(t) \right)
 \end{aligned}
 $$</p>
 <p>$\phi(t)$ は</p>
@@ -569,8 +569,8 @@ $$</p>
 <p>$$
 \begin{aligned}
 \int_{-\infty}^{\infty} f(x)dx &amp;= \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt\\
-\phi(t) &amp;= \sinh(\frac{\pi}{2}\sinh(t))\\
-\phi^{\prime}(t) &amp;= \frac{\pi}{2}\cosh(t)\cosh(\frac{\pi}{2}\sinh(t))
+\phi(t) &amp;= \sinh \left(\frac{\pi}{2}\sinh(t) \right)\\
+\phi^{\prime}(t) &amp;= \frac{\pi}{2}\cosh(t)\cosh \left(\frac{\pi}{2}\sinh(t) \right)
 \end{aligned}
 $$</p>
 <p>$\phi(t)$ は</p>
@@ -611,8 +611,8 @@ $$</p>
 \begin{aligned}
 \int_{-\infty}^{\infty} &amp;g(t) dt\\
 g(t) &amp;= \frac{\phi^{\prime}(t)}{\sqrt{\phi(t)}}\\
-\phi(t) &amp;= \frac{1}{2} (\tanh(\frac{\pi}{2}\sinh(t)) + 1)\\
-\phi^{\prime}(t) &amp;=  \frac{\pi \cosh(t)}{4 \cosh^{2}(\frac{\pi}{2}\sinh(t))}
+\phi(t) &amp;= \frac{1}{2} \left(\tanh \left(\frac{\pi}{2}\sinh(t) \right) + 1\right)\\
+\phi^{\prime}(t) &amp;=  \frac{\pi \cosh(t)}{4 \cosh^{2} \left(\frac{\pi}{2}\sinh(t) \right)}
 \end{aligned}
 $$</p>
 <p>のような積分に変換されます。<br>
@@ -628,7 +628,7 @@ h\sum_{i=-n}^{n} g(ih)
 $$</p>
 <p>$$
 \begin{aligned}
-g(ih) = \frac{\pi \cosh(ih)}{4 \cosh^{2}(\frac{\pi}{2}\sinh(ih))\sqrt{\frac{1}{2} (\tanh(\frac{\pi}{2}\sinh(ih)) + 1)}}
+g(ih) = \frac{\pi \cosh(ih)}{4 \cosh^{2}\left(\frac{\pi}{2}\sinh(ih)\right)\sqrt{\frac{1}{2} \left(\tanh \left(\frac{\pi}{2}\sinh(ih) \right) + 1\right)}}
 \end{aligned}
 $$</p>
 <p>$$
@@ -787,7 +787,7 @@ $$</p>
   <tbody>
       <tr>
           <td><strong>誤差の減衰</strong></td>
-          <td>$O(\frac{1}{n^{2}})$ <strong>多項式収束</strong></td>
+          <td>$O\left(\frac{1}{n^{2}}\right)$ <strong>多項式収束</strong></td>
           <td>$O(\exp(-cn))$ <strong>指数収束</strong></td>
       </tr>
       <tr>
@@ -824,7 +824,7 @@ $$</p>
 理論的には台形公式の誤差は
 $$
 \begin{aligned}
-O(\frac{1}{n^{2}})
+O\left(\frac{1}{n^{2}}\right)
 \end{aligned}
 $$
 の多項式的な収束を示し、実際グラフでも<strong>ほぼ直線的に下がる緩やかな減衰</strong> になっています。</li>

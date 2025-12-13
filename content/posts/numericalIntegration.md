@@ -130,7 +130,7 @@ $$
 
 $$
 \begin{aligned}
-T_{n} \approx h \times ( \frac{f(a)}{2} + \sum_{i=1}^{n-1}f( a + hi ) + \frac{f(b)}{2} )
+T_{n} \approx h \times \left( \frac{f(a)}{2} + \sum_{i=1}^{n-1}f( a + hi ) + \frac{f(b)}{2} \right)
 \end{aligned}
 $$
 
@@ -302,8 +302,8 @@ $$
 $$
 \begin{aligned}
 \int_{a}^{b} f(x)dx &= \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt\\\\
-\phi(t) &= \frac{b - a}{2} \tanh(\frac{\pi}{2}\sinh(t)) + \frac{a + b}{2}\\\\
-\phi^{\prime}(t) &= \frac{b - a}{4} \frac{\pi \cosh(t)}{\cosh^{2}(\frac{\pi}{2}\sinh(t))}
+\phi(t) &= \frac{b - a}{2} \tanh \left( \frac{\pi}{2}\sinh(t) \right) + \frac{a + b}{2}\\\\
+\phi^{\prime}(t) &= \frac{b - a}{4} \frac{\pi \cosh(t)}{\cosh^{2} \left( \frac{\pi}{2}\sinh(t) \right)}
 \end{aligned}
 $$
 
@@ -331,7 +331,7 @@ $\phi^{\prime}(t)$ は $|t| \to \infty$ で**二重指数的(かなり急激)** 
 
 $$
 \begin{aligned}
-\tanh(\frac{\pi}{2}\sinh(t))
+\tanh \left(\frac{\pi}{2}\sinh(t) \right)
 \end{aligned}
 $$
 
@@ -347,7 +347,7 @@ $$
 のような式が **浮動小数点の桁落ち** を引き起こすことがあります。  
 台形測のループの中でループの端点付近で桁落ちが発生したことで、結果がNaNになることもあります。  
 
-桁落ちが発生した場合の対処法として、$\tanh(\frac{\pi}{2}\sinh(t))-1$または$\tanh(\frac{\pi}{2}\sinh(t))+1$のような形にならないように、**式変形を行う**ことで対処することができます。  
+桁落ちが発生した場合の対処法として、$\tanh \left(\frac{\pi}{2}\sinh(t) \right)-1$または $\tanh \left(\frac{\pi}{2}\sinh(t) \right)+1$ のような形にならないように、**式変形を行う**ことで対処することができます。  
   
 また、ここで使用されている特殊関数$\sinh(x)$、$\cosh(x)$、$\tanh(x)$は**双曲線関数(hyperbolic function)** とよばれ、それぞれ次のように定義されています。
 
@@ -368,8 +368,8 @@ $$
 $$
 \begin{aligned}
 \int_{a}^{\infty} f(x)dx &= \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt\\\\
-\phi(t) &= a + \exp(\frac{\pi}{2}\sinh(t))\\\\
-\phi^{\prime}(t) &= \frac{\pi}{2}\cosh(t)\exp(\frac{\pi}{2}\sinh(t))
+\phi(t) &= a + \exp \left(\frac{\pi}{2}\sinh(t) \right)\\\\
+\phi^{\prime}(t) &= \frac{\pi}{2}\cosh(t)\exp \left(\frac{\pi}{2}\sinh(t) \right)
 \end{aligned}
 $$
 
@@ -425,8 +425,8 @@ $$
 $$
 \begin{aligned}
 \int_{-\infty}^{\infty} f(x)dx &= \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt\\\\
-\phi(t) &= \sinh(\frac{\pi}{2}\sinh(t))\\\\
-\phi^{\prime}(t) &= \frac{\pi}{2}\cosh(t)\cosh(\frac{\pi}{2}\sinh(t))
+\phi(t) &= \sinh \left(\frac{\pi}{2}\sinh(t) \right)\\\\
+\phi^{\prime}(t) &= \frac{\pi}{2}\cosh(t)\cosh \left(\frac{\pi}{2}\sinh(t) \right)
 \end{aligned}
 $$
 
@@ -481,8 +481,8 @@ $$
 \begin{aligned}
 \int_{-\infty}^{\infty} &g(t) dt\\\\
 g(t) &= \frac{\phi^{\prime}(t)}{\sqrt{\phi(t)}}\\\\
-\phi(t) &= \frac{1}{2} (\tanh(\frac{\pi}{2}\sinh(t)) + 1)\\\\
-\phi^{\prime}(t) &=  \frac{\pi \cosh(t)}{4 \cosh^{2}(\frac{\pi}{2}\sinh(t))}
+\phi(t) &= \frac{1}{2} \left(\tanh \left(\frac{\pi}{2}\sinh(t) \right) + 1\right)\\\\
+\phi^{\prime}(t) &=  \frac{\pi \cosh(t)}{4 \cosh^{2} \left(\frac{\pi}{2}\sinh(t) \right)}
 \end{aligned}
 $$
 
@@ -503,7 +503,7 @@ $$
 
 $$
 \begin{aligned}
-g(ih) = \frac{\pi \cosh(ih)}{4 \cosh^{2}(\frac{\pi}{2}\sinh(ih))\sqrt{\frac{1}{2} (\tanh(\frac{\pi}{2}\sinh(ih)) + 1)}}
+g(ih) = \frac{\pi \cosh(ih)}{4 \cosh^{2}\left(\frac{\pi}{2}\sinh(ih)\right)\sqrt{\frac{1}{2} \left(\tanh \left(\frac{\pi}{2}\sinh(ih) \right) + 1\right)}}
 \end{aligned}
 $$
 
@@ -692,7 +692,7 @@ if __name__ == "__main__":
 
 | 項目  | **台形公式** | **DE公式** |
 | ------------------ | ------------- | ------------------------- |
-| **誤差の減衰**   | $O(\frac{1}{n^{2}})$ **多項式収束**  | $O(\exp(-cn))$ **指数収束**  |
+| **誤差の減衰**   | $O\left(\frac{1}{n^{2}}\right)$ **多項式収束**  | $O(\exp(-cn))$ **指数収束**  |
 | **無限区間の積分**  | ❌ 直接は不可（変換が必要）  | ✅DE変換で自然に処理できる   |
 | **端点の特異点** | 計算不能（端点発散） | 計算可能  |
 | **実装の容易さ**  | ◎ 非常に簡単   | △ 変数変換・微分計算が必要  |
@@ -718,7 +718,7 @@ Trapezoidal rule(台形公式)とDE rule(二重指数関数型積分公式)の�
   理論的には台形公式の誤差は
   $$
   \begin{aligned}
-  O(\frac{1}{n^{2}})
+  O\left(\frac{1}{n^{2}}\right)
   \end{aligned}
   $$
   の多項式的な収束を示し、実際グラフでも**ほぼ直線的に下がる緩やかな減衰** になっています。
