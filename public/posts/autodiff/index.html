@@ -184,7 +184,7 @@
     <h1 class="post-title entry-hint-parent">
       自動微分
     </h1>
-    <div class="post-meta"><span title='2025-12-12 16:30:33 +0900 JST'>2025/12/12</span>&nbsp;·&nbsp;10 分&nbsp;·&nbsp;ungeho
+    <div class="post-meta"><span title='2025-12-12 16:30:33 +0900 JST'>2025/12/12</span>&nbsp;·&nbsp;12 分&nbsp;·&nbsp;ungeho
 
 </div>
   </header> <div class="toc">
@@ -460,7 +460,7 @@ $$</p>
 <p>より</p>
 <p>$$
 \begin{aligned}
-(x + y \varepsilon) + (v + w \varepsilon)
+(x + y \varepsilon) - (v + w \varepsilon)
 \end{aligned}
 $$</p>
 <p>は</p>
@@ -485,7 +485,7 @@ $$</p>
 <p>まとめると</p>
 <p>$$
 \begin{aligned}
-(x + y \varepsilon) + (v + w \varepsilon) =
+(x + y \varepsilon) - (v + w \varepsilon) =
 \begin{pmatrix}
 x-v &amp; y-w \\
 0 &amp; x-v
@@ -831,13 +831,13 @@ $$</p>
 <p>与えられた$x + \varepsilon y$を次のように計算します。</p>
 <p>$$
 \begin{aligned}
-x + y \varepsilon = x \times (1 + \frac{y \varepsilon}{x})
+x + y \varepsilon = x \times \left(1 + \frac{y \varepsilon}{x} \right)
 \end{aligned}
 $$</p>
 <p>より</p>
 <p>$$
 \begin{aligned}
-\log(x \times (1 + \frac{y \varepsilon}{x})) = \log(x) + \log(1 + \frac{y \varepsilon} {x})
+\log \left( x \times \left( 1 + \frac{y \varepsilon}{x} \right) \right) = \log(x) + \log \left(1 + \frac{y \varepsilon} {x} \right)
 \end{aligned}
 $$</p>
 <p>対数関数は与えられた行列を$1 + X$としたとき$\log(1 + X)$は</p>
@@ -854,16 +854,16 @@ $$</p>
 \end{aligned}
 $$</p>
 <p>とする。
-双対数$(1 + \frac{y \varepsilon}{x})$ は$\varepsilon^{2} = 0$より$k \ge 2$のときの項が$0$になるので</p>
+双対数$ \left(1 + \frac{y \varepsilon}{x} \right)$ は$\varepsilon^{2} = 0$より$k \ge 2$のときの項が$0$になるので</p>
 <p>$$
 \begin{aligned}
-\log(1 + \frac{y \varepsilon}{x}) = \sum_{k=1}^{\infty} \frac{(-1)^{k+1}}{k} (\frac{y \varepsilon}{x})^{k} = \frac{y \varepsilon}{x}
+\log \left(1 + \frac{y \varepsilon}{x} \right) = \sum_{k=1}^{\infty} \frac{(-1)^{k+1}}{k} \left( \frac{y \varepsilon}{x} \right) ^{k} = \frac{y \varepsilon}{x}
 \end{aligned}
 $$</p>
 <p>よって</p>
 <p>$$
 \begin{aligned}
-\log(x \times (1 + \frac{y \varepsilon}{x})) = \log(x) + \frac{y \varepsilon}{x}
+\log \left( x \times \left(1 + \frac{y \varepsilon}{x} \right) \right) = \log(x) + \frac{y \varepsilon}{x}
 \end{aligned}
 $$</p>
 <p>まとめると</p>
@@ -908,7 +908,34 @@ X^n = (X^{-1})^{|n|}
 $$</p>
 <p>（逆行列を使って正の指数と同様に計算）</p>
 <hr>
-<p><strong>2. $n$ が整数でない場合（実数乗・非整数指数）</strong></p>
+<p><strong>2. $n$ が実数のとき（実数乗・非整数指数）</strong></p>
+<p>まず条件として、双対数</p>
+<p>$$
+\begin{aligned}
+X = x + y\varepsilon
+\end{aligned}
+$$</p>
+<p>の実部 $x$ が$0$より大きい値である必要があります。</p>
+<p>すなわち、指数 $n$ が実数</p>
+<p>$$
+\begin{aligned}
+n \in \mathbb{R}
+\end{aligned}
+$$</p>
+<p>である場合、双対数 $X$ は</p>
+<p>$$
+\begin{aligned}
+X = x + y\varepsilon,\qquad x &gt; 0
+\end{aligned}
+$$</p>
+<p>を満たさなければなりません。</p>
+<p>これは、実数における累乗</p>
+<p>$$
+\begin{aligned}
+x^n = \exp(n\log x)
+\end{aligned}
+$$</p>
+<p>が $x&gt;0$ のもとで定義されることと完全に一致しています。</p>
 <p>一般の実数指数 $n$ に対しては，指数関数と対数関数を使って</p>
 <p>$$
 \begin{aligned}
@@ -935,10 +962,17 @@ $$</p>
 すなわち</p>
 <p>$$
 \begin{aligned}
-\sqrt{X} = X^{1/2}
+\sqrt{X} = X^{\frac{1}{2}}
 \end{aligned}
 $$</p>
-<p>であるため、前節で定義した累乗演算 $X^n$ を指数 $n = 0.5$ として評価すれば平方根が計算できます。</p>
+<p>ただし、双対数 $X$ の実部が$0$より大きいこと。つまり</p>
+<p>$$
+\begin{aligned}
+X = x + y\varepsilon,\qquad x &gt; 0
+\end{aligned}
+$$</p>
+<p>を満たすことが条件です。<br>
+前節で定義した累乗演算 $X^n$ を指数 $n = \frac{1}{2}$ として評価すれば平方根が計算できます。</p>
 <hr>
 <h4 id="行列表現に対する平方根">行列表現に対する平方根<a hidden class="anchor" aria-hidden="true" href="#行列表現に対する平方根">#</a></h4>
 <p>双対数の行列表現</p>
@@ -949,16 +983,17 @@ X =
 x &amp; y \\
 0 &amp; x
 \end{pmatrix}
+,\qquad x &gt; 0
 \end{aligned}
 $$</p>
 <p>に対しては，</p>
 <p>$$
 \begin{aligned}
-X^{1/2}
+\sqrt{X}
 =
 \begin{pmatrix}
-x^{1/2} &amp; \frac{1}{2} x^{-1/2} y \\
-0 &amp; x^{1/2}
+\sqrt{x} &amp; \frac{y}{2\sqrt{x}} \\
+0 &amp; \sqrt{x}
 \end{pmatrix}
 \end{aligned}
 $$</p>
@@ -972,14 +1007,15 @@ $$</p>
 <hr>
 <h4 id="実装上の処理">実装上の処理<a hidden class="anchor" aria-hidden="true" href="#実装上の処理">#</a></h4>
 <ul>
-<li>$n = 0.5$ として累乗演算 <code>pow(X, n)</code> を呼び出すだけでよい</li>
-<li>内部では
+<li>$n = \frac{1}{2}$ として累乗演算 <code>pow(X, n)</code> を呼び出すだけでよい</li>
+<li>累乗の節で示したように
 <ul>
-<li>整数指数かどうかを判定</li>
-<li>非整数なので<br>
+<li>指数$n$が整数かどうかを判定</li>
+<li>非整数の場合は、実部が$0$より大きいか$(x &gt; 0)$を判定</li>
+<li>実部が0より大きいのであれば、指数関数と対数関数を用いて<br>
 $$
 \begin{aligned}
-X^{0.5} = \exp!\left(0.5 \log X\right)
+\sqrt{X} = X^{\frac{1}{2}} = \exp \left(\frac{1}{2} \log X\right)
 \end{aligned}
 $$
 の形で処理される</li>
@@ -995,10 +1031,23 @@ $$
 x + \varepsilon y
 \end{aligned}
 $$</p>
-<p>という形の数を用いることで、<strong>関数値とその微分値</strong>を同時に計算出来ます。</p>
-<p>さらに、実数部・微分値の計算に**Python-FLINTの<code>arb</code>型(実数のための区間演算)**を用いることで、丸め誤差を含めた <strong>「真の値を必ず含む区間」としての自動微分の結果</strong> を得ることができます。</p>
+<p>という形の数を用いることで、<strong>関数値とその微分値</strong> を同時に計算出来ます。</p>
+<p>さらに、実数部・微分値の計算に<strong>Python-FLINTの<code>arb</code>型(実数のための区間演算)</strong> を用いることで、丸め誤差を含めた <strong>「真の値を必ず含む区間」としての自動微分の結果</strong> を得ることができます。</p>
 <p>次のプログラムは、Python-FLINTを用いて、双対数により自動微分を行いつつ、<code>arb</code>による区間で精度保証を行う実装例です。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">flint</span> <span class="kn">import</span> <span class="n">arb</span><span class="p">,</span> <span class="n">ctx</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">require_pos</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">arb</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s2">&#34;x&#34;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    v が『確実に正』であることを要求する。
+</span></span></span><span class="line"><span class="cl"><span class="s2">    （区間が 0 を含む可能性があれば定義域外として止める）
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">pass</span>
+</span></span><span class="line"><span class="cl">    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">what</span><span class="si">}</span><span class="s2"> must be strictly positive (interval must not include 0). got </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">DualArb</span><span class="p">:</span>
@@ -1078,15 +1127,37 @@ $$</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1"># --- 累乗 ---</span>
 </span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s2">        (x + eps dx)^n, n はスカラー（int/float/arb）だけ対応。
-</span></span></span><span class="line"><span class="cl"><span class="s2">        d/dx x^n = n x^(n-1) を使う。
+</span></span></span><span class="line"><span class="cl"><span class="s2">        (x + eps dx)^n
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - n が int（整数）なら、通常の整数乗として扱う
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - それ以外（実数指数）は x&gt;0 を要求（実数の log が必要）
 </span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">DualArb</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&#34;DualArb ** DualArb は未実装（スカラー指数だけ対応）。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># --- 1) 整数指数（Python int） ---</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># (x + eps dx)^0 = 1, 微分は 0</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 0 の負整数乗は不可</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># arb の「0と等しい」判定は曖昧になり得るので安全側に倒す</span>
+</span></span><span class="line"><span class="cl">                <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="s2">&#34;0 の負整数乗は定義できません。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 0 を含む可能性がある区間ならアウト</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="s2">&#34;0 を含む区間の負整数乗は定義できません。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">**</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">            <span class="n">der</span> <span class="o">=</span> <span class="n">arb</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">der</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># --- 2) 非整数指数（実数指数） ---</span>
 </span></span><span class="line"><span class="cl">        <span class="n">n_arb</span> <span class="o">=</span> <span class="n">arb</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 実数としての x^n を exp(n log x) で定義するので x&gt;0 が必要</span>
+</span></span><span class="line"><span class="cl">        <span class="n">require_pos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s2">&#34;pow real-part (non-integer exponent)&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">**</span> <span class="n">n_arb</span>
 </span></span><span class="line"><span class="cl">        <span class="n">der</span> <span class="o">=</span> <span class="n">n_arb</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">**</span> <span class="p">(</span><span class="n">n_arb</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">der</span><span class="p">)</span>
@@ -1118,8 +1189,10 @@ $$</p>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">dual_log</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s2">    log(x + eps dx) = log(x) + eps * dx / x
+</span></span></span><span class="line"><span class="cl"><span class="s2">    定義域（実数）：実部が strictly positive
 </span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">require_pos</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s2">&#34;log real-part&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">log</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">der</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">dual_sin</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -1145,10 +1218,13 @@ $$</p>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">dual_sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s2">    sqrt(x + eps dx) = sqrt(x) + eps * dx / (2 * sqrt(x))
+</span></span></span><span class="line"><span class="cl"><span class="s2">    定義域（実数）：実部が strictly positive
 </span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">require_pos</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s2">&#34;sqrt real-part&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">v</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">sqrt</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">der</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">v</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
@@ -1209,7 +1285,7 @@ $$</p>
 <hr>
 <p>双対数を使うことで</p>
 <ul>
-<li>関数値 $f(x)$ と導関数 $f&rsquo;(x)$ を <strong>1 回の評価で同時に得られる</strong></li>
+<li>関数値 $f(x)$ と導関数 $f^{\prime}(x)$ を <strong>1 回の評価で同時に得られる</strong></li>
 <li>差分幅 $h$ の調整が不要で，<strong>数値微分のようなステップサイズ起因の誤差がない</strong></li>
 <li>実装は「いつもの実数演算」をそのまま双対数（行列）に拡張するだけ</li>
 </ul>
@@ -1227,10 +1303,13 @@ $$</p>
 <li><strong>数値微分：実装は簡単だが，誤差と $h$ の選び方に悩まされる</strong></li>
 <li><strong>自動微分：精度保証には区間演算を用いるのみで良い</strong></li>
 </ul>
-<p>という性質の違いがあり、とても気持ちのよい手法だと感じてもらえたら嬉しいです。</p>
+<p>という性質の違いがあり、とても気持ちのよい手法だと感じてもらえたら嬉しいです。<br>
+特に、<strong>区間演算を用いるのみで精度が保証される(数式上の誤差がない)</strong> は双対数を用いた微分の大きな利点です。</p>
 <p>また双対数を使った自動微分は</p>
 <ul>
-<li><strong>$n$次の超双対数による$n$階微分の計算</strong></li>
+<li><strong>$n$次の超双対数による$n$階微分の計算</strong><br>
+ただし、$n$は整数であり$n \ge 2$で、$n$階微分を行うときの$n$次の超双対数の行列サイズは$2^{n} \times 2^{n}$であり、$n$次の超双対数の数は$2^{n-1}$個になる。<br>
+そのため、行列の計算量が膨大になる。</li>
 </ul>
 <p>にも発展させることができます。</p>
 

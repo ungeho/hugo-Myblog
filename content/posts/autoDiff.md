@@ -285,7 +285,7 @@ $$
 
 $$
 \begin{aligned}
-(x + y \varepsilon) + (v + w \varepsilon)
+(x + y \varepsilon) - (v + w \varepsilon)
 \end{aligned}
 $$
 
@@ -314,7 +314,7 @@ $$
 
 $$
 \begin{aligned}
-(x + y \varepsilon) + (v + w \varepsilon) =
+(x + y \varepsilon) - (v + w \varepsilon) =
 \begin{pmatrix}
 x-v & y-w \\\\
 0 & x-v
@@ -721,7 +721,7 @@ $$
 
 $$
 \begin{aligned}
-x + y \varepsilon = x \times (1 + \frac{y \varepsilon}{x})
+x + y \varepsilon = x \times \left(1 + \frac{y \varepsilon}{x} \right)
 \end{aligned}
 $$
 
@@ -729,7 +729,7 @@ $$
 
 $$
 \begin{aligned}
-\log(x \times (1 + \frac{y \varepsilon}{x})) = \log(x) + \log(1 + \frac{y \varepsilon} {x})
+\log \left( x \times \left( 1 + \frac{y \varepsilon}{x} \right) \right) = \log(x) + \log \left(1 + \frac{y \varepsilon} {x} \right)
 \end{aligned}
 $$
 
@@ -752,11 +752,11 @@ $$
 $$
 
 とする。
-双対数$(1 + \frac{y \varepsilon}{x})$ は$\varepsilon^{2} = 0$より$k \ge 2$のときの項が$0$になるので
+双対数$ \left(1 + \frac{y \varepsilon}{x} \right)$ は$\varepsilon^{2} = 0$より$k \ge 2$のときの項が$0$になるので
 
 $$
 \begin{aligned}
-\log(1 + \frac{y \varepsilon}{x}) = \sum_{k=1}^{\infty} \frac{(-1)^{k+1}}{k} (\frac{y \varepsilon}{x})^{k} = \frac{y \varepsilon}{x}
+\log \left(1 + \frac{y \varepsilon}{x} \right) = \sum_{k=1}^{\infty} \frac{(-1)^{k+1}}{k} \left( \frac{y \varepsilon}{x} \right) ^{k} = \frac{y \varepsilon}{x}
 \end{aligned}
 $$
 
@@ -764,7 +764,7 @@ $$
 
 $$
 \begin{aligned}
-\log(x \times (1 + \frac{y \varepsilon}{x})) = \log(x) + \frac{y \varepsilon}{x}
+\log \left( x \times \left(1 + \frac{y \varepsilon}{x} \right) \right) = \log(x) + \frac{y \varepsilon}{x}
 \end{aligned}
 $$
 
@@ -820,8 +820,46 @@ $$
 
 ---
 
-**2. $n$ が整数でない場合（実数乗・非整数指数）**
+**2. $n$ が実数のとき（実数乗・非整数指数）**
 
+まず条件として、双対数
+
+$$
+\begin{aligned}
+X = x + y\varepsilon
+\end{aligned}
+$$
+
+の実部 $x$ が$0$より大きい値である必要があります。
+
+すなわち、指数 $n$ が実数
+
+$$
+\begin{aligned}
+n \in \mathbb{R}
+\end{aligned}
+$$
+
+である場合、双対数 $X$ は
+
+$$
+\begin{aligned}
+X = x + y\varepsilon,\qquad x > 0
+\end{aligned}
+$$
+
+を満たさなければなりません。
+
+これは、実数における累乗
+
+$$
+\begin{aligned}
+x^n = \exp(n\log x)
+\end{aligned}
+$$
+
+が $x>0$ のもとで定義されることと完全に一致しています。
+  
 一般の実数指数 $n$ に対しては，指数関数と対数関数を使って
 
 $$
@@ -858,11 +896,20 @@ $$
 
 $$
 \begin{aligned}
-\sqrt{X} = X^{1/2}
+\sqrt{X} = X^{\frac{1}{2}}
 \end{aligned}
 $$
 
-であるため、前節で定義した累乗演算 $X^n$ を指数 $n = 0.5$ として評価すれば平方根が計算できます。
+ただし、双対数 $X$ の実部が$0$より大きいこと。つまり
+
+$$
+\begin{aligned}
+X = x + y\varepsilon,\qquad x > 0
+\end{aligned}
+$$
+
+を満たすことが条件です。  
+前節で定義した累乗演算 $X^n$ を指数 $n = \frac{1}{2}$ として評価すれば平方根が計算できます。
 
 ---
 
@@ -877,6 +924,7 @@ X =
 x & y \\\\
 0 & x
 \end{pmatrix}
+,\qquad x > 0
 \end{aligned}
 $$
 
@@ -884,11 +932,11 @@ $$
 
 $$
 \begin{aligned}
-X^{1/2}
+\sqrt{X}
 \=
 \begin{pmatrix}
-x^{1/2} & \frac{1}{2} x^{-1/2} y \\\\
-0 & x^{1/2}
+\sqrt{x} & \frac{y}{2\sqrt{x}} \\\\
+0 & \sqrt{x}
 \end{pmatrix}
 \end{aligned}
 $$
@@ -907,13 +955,14 @@ $$
 
 #### 実装上の処理
 
-- $n = 0.5$ として累乗演算 `pow(X, n)` を呼び出すだけでよい  
-- 内部では  
-  - 整数指数かどうかを判定  
-  - 非整数なので  
+- $n = \frac{1}{2}$ として累乗演算 `pow(X, n)` を呼び出すだけでよい  
+- 累乗の節で示したように  
+  - 指数$n$が整数かどうかを判定  
+  - 非整数の場合は、実部が$0$より大きいか$(x > 0)$を判定  
+  - 実部が0より大きいのであれば、指数関数と対数関数を用いて  
     $$
     \begin{aligned}
-      X^{0.5} = \exp\!\left(0.5 \log X\right)
+      \sqrt{X} = X^{\frac{1}{2}} = \exp \left(\frac{1}{2} \log X\right)
     \end{aligned}
     $$
     の形で処理される
@@ -940,6 +989,19 @@ $$
 
 ```python
 from flint import arb, ctx
+
+def require_pos(v: arb, *, what="x"):
+    """
+    v が『確実に正』であることを要求する。
+    （区間が 0 を含む可能性があれば定義域外として止める）
+    """
+    try:
+        if v > 0:
+            return
+    except TypeError:
+        pass
+    raise ValueError(
+        f"{what} must be strictly positive (interval must not include 0). got {v}")
 
 
 class DualArb:
@@ -1019,15 +1081,37 @@ class DualArb:
 
     # --- 累乗 ---
 
+
     def __pow__(self, n):
         """
-        (x + eps dx)^n, n はスカラー（int/float/arb）だけ対応。
-        d/dx x^n = n x^(n-1) を使う。
+        (x + eps dx)^n
+        - n が int（整数）なら、通常の整数乗として扱う
+        - それ以外（実数指数）は x>0 を要求（実数の log が必要）
         """
         if isinstance(n, DualArb):
             raise TypeError("DualArb ** DualArb は未実装（スカラー指数だけ対応）。")
+        # --- 1) 整数指数（Python int） ---
+        if isinstance(n, int):
+            if n == 0:
+                # (x + eps dx)^0 = 1, 微分は 0
+                return DualArb(1, 0)
+            if n < 0:
+                # 0 の負整数乗は不可
+                # arb の「0と等しい」判定は曖昧になり得るので安全側に倒す
+                try:
+                    if self.val == 0:
+                        raise ZeroDivisionError("0 の負整数乗は定義できません。")
+                except TypeError:
+                    # 0 を含む可能性がある区間ならアウト
+                    raise ZeroDivisionError("0 を含む区間の負整数乗は定義できません。")
+            val = self.val ** n
+            der = arb(n) * (self.val ** (n - 1)) * self.der
+            return DualArb(val, der)
 
+        # --- 2) 非整数指数（実数指数） ---
         n_arb = arb(n)
+        # 実数としての x^n を exp(n log x) で定義するので x>0 が必要
+        require_pos(self.val, what="pow real-part (non-integer exponent)")
         val = self.val ** n_arb
         der = n_arb * (self.val ** (n_arb - 1)) * self.der
         return DualArb(val, der)
@@ -1059,8 +1143,10 @@ def dual_exp(x):
 def dual_log(x):
     """
     log(x + eps dx) = log(x) + eps * dx / x
+    定義域（実数）：実部が strictly positive
     """
     x = DualArb.lift(x)
+    require_pos(x.val, what="log real-part")
     return DualArb(x.val.log(), x.der / x.val)
 
 def dual_sin(x):
@@ -1086,10 +1172,13 @@ def dual_tan(x):
 def dual_sqrt(x):
     """
     sqrt(x + eps dx) = sqrt(x) + eps * dx / (2 * sqrt(x))
+    定義域（実数）：実部が strictly positive
     """
     x = DualArb.lift(x)
+    require_pos(x.val, what="sqrt real-part")
     v = x.val.sqrt()
     return DualArb(v, x.der / (2 * v))
+
 
 
 
@@ -1159,7 +1248,7 @@ f'(x) (exact-like) = [19.2878347535777822083116474331380843511086114658187744716
 
 双対数を使うことで
 
-- 関数値 $f(x)$ と導関数 $f'(x)$ を **1 回の評価で同時に得られる**  
+- 関数値 $f(x)$ と導関数 $f^{\prime}(x)$ を **1 回の評価で同時に得られる**  
 - 差分幅 $h$ の調整が不要で，**数値微分のようなステップサイズ起因の誤差がない**  
 - 実装は「いつもの実数演算」をそのまま双対数（行列）に拡張するだけ
 
@@ -1181,7 +1270,8 @@ f'(x) (exact-like) = [19.2878347535777822083116474331380843511086114658187744716
 - **数値微分：実装は簡単だが，誤差と $h$ の選び方に悩まされる**  
 - **自動微分：精度保証には区間演算を用いるのみで良い**
 
-という性質の違いがあり、とても気持ちのよい手法だと感じてもらえたら嬉しいです。
+という性質の違いがあり、とても気持ちのよい手法だと感じてもらえたら嬉しいです。  
+特に、**区間演算を用いるのみで精度が保証される(数式上の誤差がない)** は双対数を用いた微分の大きな利点です。
 
 また双対数を使った自動微分は
 
