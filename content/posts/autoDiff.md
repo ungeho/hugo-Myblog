@@ -1300,9 +1300,7 @@ Pythonではこの差が特に顕著になるため、スカラー2個を直接�
 
 $$
 \begin{aligned}
-\begin{pmatrix}
 \exp(x + \epsilon) = \exp(x) + \varepsilon \exp(x)
-\end{pmatrix}
 \end{aligned}
 $$
 
