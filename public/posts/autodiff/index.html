@@ -184,7 +184,7 @@
     <h1 class="post-title entry-hint-parent">
       自動微分
     </h1>
-    <div class="post-meta"><span title='2025-12-12 16:30:33 +0900 JST'>2025/12/12</span>&nbsp;·&nbsp;12 分&nbsp;·&nbsp;ungeho
+    <div class="post-meta"><span title='2025-12-12 16:30:33 +0900 JST'>2025/12/12</span>&nbsp;·&nbsp;14 分&nbsp;·&nbsp;ungeho
 
 </div>
   </header> <div class="toc">
@@ -233,7 +233,23 @@
                 </li></ul>
                 </li>
                 <li>
-                    <a href="#python-flint%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%9f%e5%8f%8c%e5%af%be%e6%95%b0%e3%81%ab%e3%82%88%e3%82%8b%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e4%bb%98%e3%81%8d%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86" aria-label="Python-FLINTを使った双対数による精度保証付き自動微分">Python-FLINTを使った双対数による精度保証付き自動微分</a></li>
+                    <a href="#python-flint%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%9f%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e4%bb%98%e3%81%8d%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86" aria-label="Python-FLINTを使った精度保証付き自動微分">Python-FLINTを使った精度保証付き自動微分</a></li>
+                <li>
+                    <a href="#arb%e3%83%a9%e3%82%a4%e3%83%96%e3%83%a9%e3%83%aac%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%9f%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e4%bb%98%e3%81%8d%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86" aria-label="Arbライブラリ(C&#43;&#43;)を使った精度保証付き自動微分">Arbライブラリ(C++)を使った精度保証付き自動微分</a><ul>
+                        
+                <li>
+                    <a href="#python%e7%89%88%e3%81%a7%e3%81%af%e3%81%aa%e3%81%9c%e8%a1%8c%e5%88%97%e8%a1%a8%e7%8f%be%e3%82%92%e6%8e%a1%e7%94%a8%e3%81%97%e3%81%aa%e3%81%8b%e3%81%a3%e3%81%9f%e3%81%8b" aria-label="Python版ではなぜ行列表現を採用しなかったか">Python版ではなぜ行列表現を採用しなかったか</a><ul>
+                        
+                <li>
+                    <a href="#1python%e3%81%a7%e3%81%af%e8%a1%8c%e5%88%97%e6%bc%94%e7%ae%97%e3%81%ae%e3%82%aa%e3%83%bc%e3%83%90%e3%83%bc%e3%83%98%e3%83%83%e3%83%89%e3%81%8c%e5%a4%a7%e3%81%8d%e3%81%84" aria-label="1.Pythonでは行列演算のオーバーヘッドが大きい">1.Pythonでは行列演算のオーバーヘッドが大きい</a></li>
+                <li>
+                    <a href="#2%e8%a1%8c%e5%88%97%e9%96%a2%e6%95%b0%e3%81%af%e5%bf%85%e8%a6%81%e4%bb%a5%e4%b8%8a%e3%81%ab%e4%b8%80%e8%88%ac%e7%9a%84" aria-label="2.行列関数は「必要以上に一般的」">2.行列関数は「必要以上に一般的」</a></li>
+                <li>
+                    <a href="#3%e6%8b%a1%e5%bc%b5%e6%80%a7%e9%ab%98%e9%9a%8e%e5%be%ae%e5%88%86%e3%81%a8%e3%81%ae%e7%9b%b8%e6%80%a7" aria-label="3.拡張性(高階微分)との相性">3.拡張性(高階微分)との相性</a></li>
+                <li>
+                    <a href="#4%e8%a1%a8%e7%8f%be%e3%81%ae%e9%81%95%e3%81%84%e3%81%a7%e3%81%82%e3%81%a3%e3%81%a6%e6%9c%ac%e8%b3%aa%e3%81%af%e5%90%8c%e3%81%98" aria-label="4.表現の違いであって、本質は同じ">4.表現の違いであって、本質は同じ</a></li></ul>
+                </li></ul>
+                </li>
                 <li>
                     <a href="#%e3%81%be%e3%81%a8%e3%82%81" aria-label="まとめ">まとめ</a>
                 </li>
@@ -1024,16 +1040,9 @@ $$
 </ul>
 <p>これにより，双対数に対する平方根が自然に計算できます。</p>
 <hr>
-<h2 id="python-flintを使った双対数による精度保証付き自動微分">Python-FLINTを使った双対数による精度保証付き自動微分<a hidden class="anchor" aria-hidden="true" href="#python-flintを使った双対数による精度保証付き自動微分">#</a></h2>
-<p>双対数を使った自動微分では</p>
-<p>$$
-\begin{aligned}
-x + \varepsilon y
-\end{aligned}
-$$</p>
-<p>という形の数を用いることで、<strong>関数値とその微分値</strong> を同時に計算出来ます。</p>
-<p>さらに、実数部・微分値の計算に<strong>Python-FLINTの<code>arb</code>型(実数のための区間演算)</strong> を用いることで、丸め誤差を含めた <strong>「真の値を必ず含む区間」としての自動微分の結果</strong> を得ることができます。</p>
-<p>次のプログラムは、Python-FLINTを用いて、双対数により自動微分を行いつつ、<code>arb</code>による区間で精度保証を行う実装例です。</p>
+<h2 id="python-flintを使った精度保証付き自動微分">Python-FLINTを使った精度保証付き自動微分<a hidden class="anchor" aria-hidden="true" href="#python-flintを使った精度保証付き自動微分">#</a></h2>
+<p>これは、<code>arb-FLINT</code>の<code>arb</code>で区間演算を用いた精度保証付きの自動微分です。<br>
+ここでは <strong>双対数の$ 2 \times 2$ 行列による表現は使わず</strong> <code>(値, 微分)</code> を持つオブジェクトを演算で伝播させることで自動微分を実現しています。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">flint</span> <span class="kn">import</span> <span class="n">arb</span><span class="p">,</span> <span class="n">ctx</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">require_pos</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">arb</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s2">&#34;x&#34;</span><span class="p">):</span>
@@ -1272,7 +1281,107 @@ $$</p>
 </span></span></span><span class="line"><span class="cl"><span class="s1">-------------- 検算用の結果出力 ---------------------
 </span></span></span><span class="line"><span class="cl"><span class="s1">f(x) (exact-like)  = [21.437699394856499942536605542730404247329089189979126594003547131771280961691209 +/- 4.59e-79]
 </span></span></span><span class="line"><span class="cl"><span class="s1">f&#39;</span><span class="o">(</span>x<span class="o">)</span> <span class="o">(</span>exact-like<span class="o">)</span> <span class="o">=</span> <span class="o">[</span>19.287834753577782208311647433138084351108611465818774471674468084248344679936378 +/- 5.27e-79<span class="o">]</span>
-</span></span></code></pre></div><h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+</span></span></code></pre></div><h2 id="arbライブラリcを使った精度保証付き自動微分">Arbライブラリ(C++)を使った精度保証付き自動微分<a hidden class="anchor" aria-hidden="true" href="#arbライブラリcを使った精度保証付き自動微分">#</a></h2>
+<p>双対数による微分は、$\varepsilon^2 = 0$ を満たす元 $\varepsilon$ を用いて</p>
+<p>$$
+\begin{aligned}
+f(x + \varepsilon) = f(x) + \varepsilon f^{\prime}(x)
+\end{aligned}
+$$</p>
+<p>と表されます。</p>
+<p>これを</p>
+<p>$$
+\begin{aligned}
+x + \varepsilon =
+\begin{pmatrix}
+x &amp; 1 \\
+0 &amp; x
+\end{pmatrix}
+\end{aligned}
+$$</p>
+<p>という $2 \times 2$ 上三角行列として表現し，
+Arb ライブラリの区間演算を用いて 1 階の自動微分を
+精度保証付きで実装した例は，次のリポジトリにまとめています。</p>
+<p><a href="https://github.com/ungeho/arb-diff">📦<strong>双対数を使った精度保証付き自動微分</strong></a></p>
+<h3 id="python版ではなぜ行列表現を採用しなかったか">Python版ではなぜ行列表現を採用しなかったか<a hidden class="anchor" aria-hidden="true" href="#python版ではなぜ行列表現を採用しなかったか">#</a></h3>
+<p>C++版では双対数$x+\varepsilon$を</p>
+<p>$$
+\begin{aligned}
+\begin{pmatrix}
+x &amp; \varepsilon \\
+0 &amp; x
+\end{pmatrix}
+\end{aligned}
+$$</p>
+<p>という $2\times2$ 上三角行列で表現し、行列積によって微分を自動的に伝播させている。</p>
+<p>一方、Python 版ではこの行列表現を採用せず、<code>(値, 微分値)</code> を明示的に保持する自動微分の実装を選択した。<br>
+その理由は主に次の点にある。</p>
+<hr>
+<h4 id="1pythonでは行列演算のオーバーヘッドが大きい">1.Pythonでは行列演算のオーバーヘッドが大きい<a hidden class="anchor" aria-hidden="true" href="#1pythonでは行列演算のオーバーヘッドが大きい">#</a></h4>
+<p><code>arb_mat</code>を用いた行列演算は、スカラー<code>arb</code>の演算と比べてオーバーヘッドが大きい。</p>
+<p>双対数による1階微分では本質的に</p>
+<ul>
+<li>値<strong>x</strong></li>
+<li>微分値<strong>dx</strong></li>
+</ul>
+<p>の2つのスカラーだけを扱えば十分であり、常に$2 \times 2$ 行列を構成・演算する必要がない。</p>
+<p>Pythonではこの差が特に顕著になるため、スカラー2個を直接伝播させる方が実用的。</p>
+<hr>
+<h4 id="2行列関数は必要以上に一般的">2.行列関数は「必要以上に一般的」<a hidden class="anchor" aria-hidden="true" href="#2行列関数は必要以上に一般的">#</a></h4>
+<p><code>arb_mat_exp</code>や<code>arb_mat_log</code>などの行列関数は、<strong>一般行列</strong>を対象としたアルゴリズムとして実装されています。</p>
+<p>しかし双対数に対応する行列は常に</p>
+<ul>
+<li>上三角行列</li>
+<li>特殊な冪零構造$(\varepsilon^{2} = 0)$</li>
+</ul>
+<p>を持ちます。</p>
+<p>この特殊構造を生かすなら</p>
+<p>$$
+\begin{aligned}
+\begin{pmatrix}
+\exp(x + \epsilon) = \exp(x) + \varepsilon \exp(x)
+\end{pmatrix}
+\end{aligned}
+$$</p>
+<p>のような簡潔な式で十分で、一般行列の初等関数を計算するのは過剰です。</p>
+<p>Python版では、双対数として必要な微分則のみを明示的に実装することで、計算と実装の両面で簡潔さを保っています。</p>
+<hr>
+<h4 id="3拡張性高階微分との相性">3.拡張性(高階微分)との相性<a hidden class="anchor" aria-hidden="true" href="#3拡張性高階微分との相性">#</a></h4>
+<p>1階のスカラー微分に限れば、$2 \times 2$の表現は非常に有効です。</p>
+<p>しかし<strong>高階微分</strong>へ拡張する場合、行列サイズや構造は急速に複雑になります。</p>
+<p>たとえば、$(n \ge 2)$として <strong>$n$階微分(高階微分)への拡張</strong> を行う場合、 <strong>超双対数(Hyper Dual Numbers)</strong> を用いる方法が考えられます。<br>
+しかし、$n$階微分を超双対数を行列で表現する場合</p>
+<ul>
+<li><strong>行列サイズ：$2^{n} \times 2^{n}$</strong></li>
+<li><strong>行列の数　：$2^{n-1}$個</strong></li>
+</ul>
+<p>のように、急速にサイズや数が増えていき、構造も複雑になります。</p>
+<p>Python版の<code>(val, der)</code>形式は</p>
+<ul>
+<li><strong><code>der</code>をさらにdualにすれば高階に対応</strong></li>
+</ul>
+<p>といったような拡張が自然であり、自動微分の一般的な設計と親和性が高いと思います。</p>
+<hr>
+<h4 id="4表現の違いであって本質は同じ">4.表現の違いであって、本質は同じ<a hidden class="anchor" aria-hidden="true" href="#4表現の違いであって本質は同じ">#</a></h4>
+<p>なお、Python版が行列表現を用いないからといって、双対数そのものを使っていないわけではありません。</p>
+<p><code>(値, 微分値)</code>を演算ごとに伝播させる方法は</p>
+<p>$$
+\begin{aligned}
+f(x + \varepsilon) = f(x) + \varepsilon f^{\prime}(x)
+\end{aligned}
+$$</p>
+<p>を内部的に扱っているのと等価です。</p>
+<p>これは実装上の表現の違いであり、数学的な意味での自動微分の本質はC++版と変わりません。</p>
+<hr>
+<p>まとめると</p>
+<ul>
+<li><strong>Python版</strong><br>
+<code>(値, 微分値)</code>を明示的に伝播し、軽量で拡張しやすい実装を採用</li>
+<li><strong>C++版</strong><br>
+行列表現による双対数を活かし、Arbの行列演算で自動微分を実装</li>
+</ul>
+<p>両者は異なる実装戦略を取っていますが、いずれも双対数に基づく自動微分という点で本質的に同じです。</p>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
 <p>本記事では、<strong>双対数（Dual numbers）</strong> を用いた自動微分の仕組みについて</p>
 <ul>
 <li><strong>双対数の定義とテイラー展開から見た原理</strong></li>
@@ -1304,14 +1413,7 @@ $$</p>
 <li><strong>自動微分：精度保証には区間演算を用いるのみで良い</strong></li>
 </ul>
 <p>という性質の違いがあり、とても気持ちのよい手法だと感じてもらえたら嬉しいです。<br>
-特に、<strong>区間演算を用いるのみで精度が保証される(数式上の誤差がない)</strong> は双対数を用いた微分の大きな利点です。</p>
-<p>また双対数を使った自動微分は</p>
-<ul>
-<li><strong>$n$次の超双対数による$n$階微分の計算</strong><br>
-ただし、$n$は整数であり$n \ge 2$で、$n$階微分を行うときの$n$次の超双対数の行列サイズは$2^{n} \times 2^{n}$であり、$n$次の超双対数の数は$2^{n-1}$個になる。<br>
-そのため、行列の計算量が膨大になる。</li>
-</ul>
-<p>にも発展させることができます。</p>
+特に、<strong>区間演算を用いるのみで精度が保証される(数式上の誤差がない)</strong> は双対数を用いた自動微分の大きな利点です。</p>
 
 
   </div>
