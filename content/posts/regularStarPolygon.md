@@ -34,6 +34,8 @@ math = true
 しかしそれでは少し味気ないので、
 本記事では 星形正多角形のアルゴリズムを整理し、実装の観点からまとめてみたいと思います。
 
+---
+
 ### 星形正多角形とは？
 
 正$d$角形としたとき、$d$は2より大きい有理数です。
@@ -113,6 +115,8 @@ $$
 $$
 
 と表せます。
+
+---
 
 ### 星形正多角形を描画するプログラムの実装
 
@@ -284,6 +288,8 @@ if __name__ == "__main__":
 
 ![regular star polygon2](/img/png/regularStarPolygon02.png)
 
+---
+
 #### 実行結果3：157/50(3.14)角形
 
 ```bash
@@ -295,6 +301,8 @@ if __name__ == "__main__":
 
 ![regular star polygon3](/img/png/regularStarPolygon03.png)
 
+---
+
 #### 実行結果4：2.1(21/10)角形
 
 ```bash
@@ -305,6 +313,8 @@ if __name__ == "__main__":
 ```
 
 ![regular star polygon3](/img/png/regularStarPolygon04.png)
+
+---
 
 #### 補足
 
