@@ -1,6 +1,6 @@
 +++
 title = '星形正多角形'
-date = 2025-12-14T12:13:06+09:00
+date = "2025-12-14T12:13:06+09:00"
 draft = false
 categories = ["Programming"]
 tags = ["星形正多角形","regular star polygon","平面幾何学図形","プログラミング"]
