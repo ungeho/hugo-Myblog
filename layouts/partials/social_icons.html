@@ -9,7 +9,7 @@
  -->
 
 
-{{- /* compat: never touch .Site.Social (removed in Hugo v0.124+) */ -}}
+{{- /* compat: never touch Site Social (removed in Hugo v0.124+) */ -}}
 {{- $icons := site.Params.socialIcons -}}
 {{- with $icons -}}
 <div class="social-icons" {{ with $.align }}align="{{ . }}" {{ end }}>

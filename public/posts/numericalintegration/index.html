@@ -1,4 +1,13 @@
-<!doctype html><html lang=ja dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>数値積分 | ungehoBlog</title><meta name=keywords content="Float,IEEE754,数値計算,誤差,プログラミング,数値積分"><meta name=description content="
+<!DOCTYPE html>
+<html lang="ja" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>数値積分 | ungehoBlog</title>
+<meta name="keywords" content="Float, IEEE754, 数値計算, 誤差, プログラミング, 数値積分">
+<meta name="description" content="
 
 💡 この記事は「コンピューターで計算する」シリーズの一部です。
 1. 浮動小数点数
@@ -9,327 +18,1009 @@
 
 
 多くの積分は「紙とペン」で簡単に計算できるとは限りません。
-実際、積分の中には"><meta name=author content="ungeho"><link rel=canonical href=https://ungeho.netlify.app/posts/numericalintegration/><link crossorigin=anonymous href=/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as=style><link rel=icon href=https://ungeho.netlify.app/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://ungeho.netlify.app/favicon/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://ungeho.netlify.app/favicon/favicon-32x32.png><link rel=apple-touch-icon href=https://ungeho.netlify.app/favicon/apple-touch-icon.png><link rel=mask-icon href=https://ungeho.netlify.app/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=ja href=https://ungeho.netlify.app/posts/numericalintegration/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script><script defer src=https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js></script><script>document.addEventListener("DOMContentLoaded",function(){window.mermaid&&mermaid.initialize({startOnLoad:!0})})</script><meta property="og:title" content="数値積分"><meta property="og:description" content="
+実際、積分の中には">
+<meta name="author" content="ungeho">
+<link rel="canonical" href="http://localhost:1313/posts/numericalintegration/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/numericalintegration/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
 
-💡 この記事は「コンピューターで計算する」シリーズの一部です。
-1. 浮動小数点数
-2. 区間演算
-3. 数値積分 👈 今ここ
-4. 数値微分
-5. 自動微分
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ]
+        });
+    });
+</script>
 
 
-多くの積分は「紙とペン」で簡単に計算できるとは限りません。
-実際、積分の中には"><meta property="og:type" content="article"><meta property="og:url" content="https://ungeho.netlify.app/posts/numericalintegration/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-12-10T20:28:15+09:00"><meta property="article:modified_time" content="2025-12-10T20:28:15+09:00"><meta property="og:site_name" content="ungehoBlog"><meta name=twitter:card content="summary"><meta name=twitter:title content="数値積分"><meta name=twitter:description content="
 
-💡 この記事は「コンピューターで計算する」シリーズの一部です。
-1. 浮動小数点数
-2. 区間演算
-3. 数値積分 👈 今ここ
-4. 数値微分
-5. 自動微分
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.mermaid) {
+            mermaid.initialize({
+                startOnLoad: true,
+            });
+        }
+    });
+</script>
 
 
-多くの積分は「紙とペン」で簡単に計算できるとは限りません。
-実際、積分の中には"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://ungeho.netlify.app/posts/"},{"@type":"ListItem","position":2,"name":"数値積分","item":"https://ungeho.netlify.app/posts/numericalintegration/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"数値積分","name":"数値積分","description":" 💡 この記事は「コンピューターで計算する」シリーズの一部です。\n1. 浮動小数点数\n2. 区間演算\n3. 数値積分 👈 今ここ\n4. 数値微分\n5. 自動微分\n多くの積分は「紙とペン」で簡単に計算できるとは限りません。\n実際、積分の中には\n","keywords":["Float","IEEE754","数値計算","誤差","プログラミング","数値積分"],"articleBody":" 💡 この記事は「コンピューターで計算する」シリーズの一部です。\n1. 浮動小数点数\n2. 区間演算\n3. 数値積分 👈 今ここ\n4. 数値微分\n5. 自動微分\n多くの積分は「紙とペン」で簡単に計算できるとは限りません。\n実際、積分の中には\n原始関数を初等関数で表せない といった理由で、解析的に解くことが難しいものが多数存在します。\nそのため、コンピューターを用いて積分を数値的に近似して求める手法(数値積分) が重要になります。\n数値積分では、関数の値を離散的に評価し、それらを小さな面積の総和として積み上げることで積分を近似します。\n数値積分(Numerical Integration) 与えられた関数の定積分の値を、解析的(紙とペンを使って式変形などを行う厳密な計算) ではなく、コンピューターを使って数値的に近似値を求める方法を数値積分(Numerical Integration) と呼びます。\n特に次のような場合に有効です\n解析的に積分できない関数を扱いたいとき 関数が複雑で厳密な解を求めるのが困難なとき 関数の式がなく、離散的なデータ点しか存在しないとき コンピューターは繰り返しの計算を高速かつ正確に行うことが得意です。\n積分区間を細かい区間に分割し、それぞれの部分の面積を求めて足し合わせる処理も素早く行うことができます。\n解析的に積分が出来ない例 解析的に積分することが困難な例として、次のような積分があります。\n$$ \\begin{aligned} \\int^{\\frac{\\pi}{2}}_{0} \\frac{d \\theta}{\\sqrt{1 - 0.5 \\sin^{2} \\theta }} \\end{aligned} $$\nこの積分の被積分関数は、初等関数で表現できる原始関数を持ちません。\nこのタイプの積分は数学的に特別な形をしており、実は楕円積分(Elliptic Integral) と呼ばれる「特殊関数」に分類されるものです。\nつまり、普通の関数(多項式・指数関数・三角関数など)をどれだけ組み合わせても、原始関数を表現することはできないため、解析的に解くことができません。\nそのため、値を求める方法の一つとして\n数値積分を用いて近似値を求める が用いられることがあります。\n解析的に積分できる関数は意外と限られており、現代では数値積分が極めて重要な役割を果たしています。\n数値積分法 この記事では次の数値積分法を紹介します。\n台形公式(Trapezoidal Rule) 二重指数関数型積分公式(DoubleExponentialFormula) 台形公式は最も基本的で理解しやすい数値積分法であり、多くの手法の基礎となります。\n一方、DE法(二重指数関数型積分公式)は、積分区間の端点に特異点(関数値が無限大に発散する点) を持つ関数に対しても高精度な結果を得られる強力な手法です。\nそれぞれの手法の特徴・利点について、わかりやすく解説していきます。\n台形公式(Trapezoidal Rule) 台形公式は、台形の面積を求める公式\n$$ \\begin{aligned} \\frac{(\\text{上底} + \\text{下底}) \\times \\text{高さ}}{2} \\end{aligned} $$\nに基づいて、定積分の値を台形の面積の和として近似する手法です。\n積分区間をいくつかの小さな区間に分割し、各区間で関数の値を「上底」と「下底」 、小区間の区間幅を「高さ」 とみなすことで、曲線のある面積を台形の集まりとして近似します。\n複合台形公式(Composite Trapezoidal Rule) 積分区間$[a,b]$を等間隔の小区間に分割し、その各区間に積分則を適用する方法を複合則と呼びます。\n特に、各小区間に台形公式を適用し、それらを足し合わせたものを複合台形公式(Composite Trapezoidal Rule) といいます。\n積分区間を$n$個の等間隔の小区間に分割し、各区間に台形公式を適用して得られる近似値を$T_{n}$とすると\n$$ \\begin{aligned} \\int_{a}^{b} f(x)dx \\approx T_{n} \\end{aligned} $$\nとなります。\n$T_{n}$の具体的な式 小区間(刻み幅)を\n$$ \\begin{aligned} h = \\frac{b - a}{ n } \\end{aligned} $$\nとすると、複合台形公式は次のように表されます。\n$$ \\begin{aligned} T_{n} \\approx h \\times \\left( \\frac{f(a)}{2} + \\sum_{i=1}^{n-1}f( a + hi ) + \\frac{f(b)}{2} \\right) \\end{aligned} $$\nここで\n$$ \\begin{aligned} \\frac{f(a)}{2} + \\sum_{i=1}^{n-1}f( a + hi ) + \\frac{f(b)}{2} \\end{aligned} $$\nは全ての台形の上底と下底の総和に対応し\n$$ \\begin{aligned} h \\end{aligned} $$\nは台形の高さに対応します。\n離散化(Discretization) このように、元々連続的な値で定義されている関数$f(x)$を\n$$ \\begin{aligned} f(a) \\quad,\\quad f(a + h) \\quad,\\quad f(a + 2h) \\quad,\\quad \\dots \\quad,\\quad f(b) \\end{aligned} $$\nという離散的な点によって近似的に扱うことを離散化(Discretization) と呼びます。\n台形公式の実装 次のPythonの例は、複合台形公式を用いて\n$$ \\begin{aligned} \\int_{0}^{1} x\\exp(x)dx = 1 \\end{aligned} $$\nの定積分を近似する方法を示したものです。\nimport numpy as np # 被積分関数 f(x) = x * exp(x) def f(x): return x * np.exp(x) # 複合台形公式 def trapezoidal_rule(f, a, b, n): h = (b - a) / n # aからbまでn+1個の等間隔の点を生成 x = np.linspace(a, b, n + 1) y = f(x) # y[0]とy[-1]は端点の関数値、f(a)とf(b) # [1:-1](a","wordCount":"7142","inLanguage":"ja","datePublished":"2025-12-10T20:28:15+09:00","dateModified":"2025-12-10T20:28:15+09:00","author":{"@type":"Person","name":"ungeho"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ungeho.netlify.app/posts/numericalintegration/"},"publisher":{"@type":"Organization","name":"ungehoBlog","logo":{"@type":"ImageObject","url":"https://ungeho.netlify.app/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://ungeho.netlify.app/ accesskey=h title="ungehoBlog (Alt + H)">ungehoBlog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)">
-<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button><ul class=lang-switch><li>|</li></ul></div></div><ul id=menu><li><a href=https://ungeho.netlify.app/about title=About><span>About</span></a></li><li><a href=https://ungeho.netlify.app/posts title=Posts><span>Posts</span></a></li><li><a href=https://ungeho.netlify.app/archives/ title=Archive><span>Archive</span></a></li><li><a href=https://ungeho.netlify.app/search title="Search (Alt + /)" accesskey=/><span>Search</span></a></li><li><a href=https://ungeho.netlify.app/categories/ title=Categories><span>Categories</span></a></li><li><a href=https://ungeho.netlify.app/tags/ title=Tags><span>Tags</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://ungeho.netlify.app/>ホーム</a>&nbsp;»&nbsp;<a href=https://ungeho.netlify.app/posts/>Posts</a></div><h1 class="post-title entry-hint-parent">数値積分</h1><div class=post-meta><span title='2025-12-10 20:28:15 +0900 JST'>2025/12/10</span>&nbsp;·&nbsp;15 分&nbsp;·&nbsp;ungeho</div></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>目次</span></summary><div class=inner><ul><li><a href=#%e6%95%b0%e5%80%a4%e7%a9%8d%e5%88%86numerical-integration aria-label="数値積分(Numerical Integration)">数値積分(Numerical Integration)</a></li><li><a href=#%e8%a7%a3%e6%9e%90%e7%9a%84%e3%81%ab%e7%a9%8d%e5%88%86%e3%81%8c%e5%87%ba%e6%9d%a5%e3%81%aa%e3%81%84%e4%be%8b aria-label=解析的に積分が出来ない例>解析的に積分が出来ない例</a></li><li><a href=#%e6%95%b0%e5%80%a4%e7%a9%8d%e5%88%86%e6%b3%95 aria-label=数値積分法>数値積分法</a><ul><li><a href=#%e5%8f%b0%e5%bd%a2%e5%85%ac%e5%bc%8ftrapezoidal-rule aria-label="台形公式(Trapezoidal Rule)">台形公式(Trapezoidal Rule)</a><ul><li><a href=#%e8%a4%87%e5%90%88%e5%8f%b0%e5%bd%a2%e5%85%ac%e5%bc%8fcomposite-trapezoidal-rule aria-label="複合台形公式(Composite Trapezoidal Rule)">複合台形公式(Composite Trapezoidal Rule)</a></li><li><a href=#t_n%e3%81%ae%e5%85%b7%e4%bd%93%e7%9a%84%e3%81%aa%e5%bc%8f aria-label=$T_{n}$の具体的な式>$T_{n}$の具体的な式</a></li><li><a href=#%e9%9b%a2%e6%95%a3%e5%8c%96discretization aria-label=離散化(Discretization)>離散化(Discretization)</a></li><li><a href=#%e5%8f%b0%e5%bd%a2%e5%85%ac%e5%bc%8f%e3%81%ae%e5%ae%9f%e8%a3%85 aria-label=台形公式の実装>台形公式の実装</a></li></ul></li><li><a href=#%e4%ba%8c%e9%87%8d%e6%8c%87%e6%95%b0%e9%96%a2%e6%95%b0%e5%9e%8b%e7%a9%8d%e5%88%86%e5%85%ac%e5%bc%8fdouble-exponential-formula aria-label="二重指数関数型積分公式(Double Exponential Formula)">二重指数関数型積分公式(Double Exponential Formula)</a><ul><li><a href=#de%e5%85%ac%e5%bc%8fdouble-exponential-formula%e3%81%ae%e8%a8%88%e7%ae%97%e6%89%8b%e9%a0%86 aria-label="DE公式(Double Exponential Formula)の計算手順">DE公式(Double Exponential Formula)の計算手順</a></li></ul></li><li><a href=#de%e5%a4%89%e6%8f%9b aria-label=DE変換>DE変換</a><ul><li><a href=#%e6%9c%89%e9%99%90%e5%8c%ba%e9%96%93ab aria-label=有限区間$[a,b]$>有限区間$[a,b]$</a></li><li><a href=#%e6%a1%81%e8%90%bd%e3%81%a1%e3%81%a7%e7%b5%90%e6%9e%9c%e3%81%8cnan%e3%81%ab%e3%81%aa%e3%82%8b%e3%81%93%e3%81%a8%e3%81%8c%e3%81%82%e3%82%8b aria-label=桁落ちで結果がNaNになることがある>桁落ちで結果がNaNになることがある</a></li><li><a href=#%e5%8d%8a%e7%84%a1%e9%99%90%e5%8c%ba%e9%96%93ainfty aria-label=半無限区間$[a,\infty)$>半無限区間$[a,\infty)$</a></li><li><a href=#%e7%a9%8d%e5%88%86%e5%8c%ba%e9%96%93%e3%81%8cinftyb%e3%81%ae%e5%a0%b4%e5%90%88 aria-label=積分区間が$(\infty,b]$の場合>積分区間が$(\infty,b]$の場合</a></li><li><a href=#%e5%a4%89%e6%95%b0%e5%a4%89%e6%8f%9b%e5%89%8d%e3%81%ae%e8%a2%ab%e7%a9%8d%e5%88%86%e9%96%a2%e6%95%b0%e3%81%8c%e6%8c%87%e6%95%b0%e7%9a%84%e6%b8%9b%e8%a1%b0%e3%82%92%e6%8c%81%e3%81%a4%e5%a0%b4%e5%90%88 aria-label=変数変換前の被積分関数が指数的減衰を持つ場合>変数変換前の被積分関数が指数的減衰を持つ場合</a></li><li><a href=#%e7%a9%8d%e5%88%86%e5%8c%ba%e9%96%93%e3%81%8c-infty-infty%e3%81%ae%e5%a0%b4%e5%90%88 aria-label="積分区間が$(-\infty, \infty)$の場合">積分区間が$(-\infty, \infty)$の場合</a></li></ul></li><li><a href=#de%e5%85%ac%e5%bc%8f%e3%81%ae%e5%85%b7%e4%bd%93%e4%be%8b aria-label=DE公式の具体例>DE公式の具体例</a></li><li><a href=#de%e5%85%ac%e5%bc%8f%e3%81%ae%e5%ae%9f%e8%a3%85%e4%be%8b aria-label=DE公式の実装例>DE公式の実装例</a><ul><li><a href=#%e6%a1%81%e8%90%bd%e3%81%a1%e3%82%92%e9%81%bf%e3%81%91%e3%82%8b%e3%81%9f%e3%82%81%e3%81%ae%e5%bc%8f%e5%a4%89%e5%bd%a2 aria-label=桁落ちを避けるための式変形>桁落ちを避けるための式変形</a></li></ul></li><li><a href=#%e5%8f%b0%e5%bd%a2%e5%85%ac%e5%bc%8f%e3%81%a8de%e5%85%ac%e5%bc%8f%e3%81%ae%e7%89%b9%e5%be%b4%e3%81%ae%e6%af%94%e8%bc%83 aria-label=台形公式とDE公式の特徴の比較>台形公式とDE公式の特徴の比較</a></li><li><a href=#%e5%8f%b0%e5%bd%a2%e5%85%ac%e5%bc%8f%e3%81%a8de%e5%85%ac%e5%bc%8f%e3%81%ae%e8%aa%a4%e5%b7%ae%e3%81%ae%e6%b8%9b%e8%a1%b0%e3%82%92%e6%af%94%e8%bc%83 aria-label=台形公式とDE公式の誤差の減衰を比較>台形公式とDE公式の誤差の減衰を比較</a></li></ul></li><li><a href=#%e5%8c%ba%e9%96%93%e6%bc%94%e7%ae%97%e3%81%ab%e3%82%88%e3%82%8b%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e3%81%ab%e3%81%a4%e3%81%84%e3%81%a6 aria-label=区間演算による精度保証について>区間演算による精度保証について</a></li><li><a href=#%e3%81%be%e3%81%a8%e3%82%81 aria-label=まとめ>まとめ</a></li></ul></div></details></div><div class=post-content><hr><blockquote><p>💡 <strong>この記事は「コンピューターで計算する」シリーズの一部です。</strong><br><a href=../float><strong>1. 浮動小数点数</strong></a><br><a href=../interval><strong>2. 区間演算</strong></a><br><a href=../numericalIntegration><strong>3. 数値積分</strong></a> <strong>👈 今ここ</strong><br><a href=../numericalDifferentiation><strong>4. 数値微分</strong></a><br><a href=../autoDiff><strong>5. 自動微分</strong></a></p></blockquote><hr><p>多くの積分は「紙とペン」で簡単に計算できるとは限りません。<br>実際、積分の中には</p><ul><li><strong>原始関数を初等関数で表せない</strong></li></ul><p>といった理由で、<strong>解析的に解くことが難しいもの</strong>が多数存在します。</p><p>そのため、コンピューターを用いて積分を<strong>数値的に近似して求める手法(数値積分)</strong> が重要になります。<br><strong>数値積分では、関数の値を離散的に評価し、それらを小さな面積の総和として積み上げる</strong>ことで積分を近似します。</p><h2 id=数値積分numerical-integration>数値積分(Numerical Integration)<a hidden class=anchor aria-hidden=true href=#数値積分numerical-integration>#</a></h2><p>与えられた関数の定積分の値を、<strong>解析的(紙とペンを使って式変形などを行う厳密な計算)</strong> ではなく、コンピューターを使って<strong>数値的に近似値を求める</strong>方法を<strong>数値積分(Numerical Integration)</strong> と呼びます。</p><p>特に次のような場合に有効です</p><ul><li><strong>解析的に積分できない関数を扱いたいとき</strong></li><li><strong>関数が複雑で厳密な解を求めるのが困難なとき</strong></li><li><strong>関数の式がなく、離散的なデータ点しか存在しないとき</strong></li></ul><p>コンピューターは<strong>繰り返しの計算を高速かつ正確</strong>に行うことが得意です。<br>積分区間を細かい区間に分割し、それぞれの部分の面積を求めて足し合わせる処理も素早く行うことができます。</p><h2 id=解析的に積分が出来ない例>解析的に積分が出来ない例<a hidden class=anchor aria-hidden=true href=#解析的に積分が出来ない例>#</a></h2><p>解析的に積分することが困難な例として、次のような積分があります。</p><p>$$
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/about" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      数値積分
+    </h1>
+    <div class="post-meta"><span title='2025-12-10 20:28:15 +0900 JST'>2025/12/10</span>&nbsp;·&nbsp;15 分&nbsp;·&nbsp;ungeho
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目次</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e6%95%b0%e5%80%a4%e7%a9%8d%e5%88%86numerical-integration" aria-label="数値積分(Numerical Integration)">数値積分(Numerical Integration)</a></li>
+                <li>
+                    <a href="#%e8%a7%a3%e6%9e%90%e7%9a%84%e3%81%ab%e7%a9%8d%e5%88%86%e3%81%8c%e5%87%ba%e6%9d%a5%e3%81%aa%e3%81%84%e4%be%8b" aria-label="解析的に積分が出来ない例">解析的に積分が出来ない例</a></li>
+                <li>
+                    <a href="#%e6%95%b0%e5%80%a4%e7%a9%8d%e5%88%86%e6%b3%95" aria-label="数値積分法">数値積分法</a><ul>
+                        
+                <li>
+                    <a href="#%e5%8f%b0%e5%bd%a2%e5%85%ac%e5%bc%8ftrapezoidal-rule" aria-label="台形公式(Trapezoidal Rule)">台形公式(Trapezoidal Rule)</a><ul>
+                        
+                <li>
+                    <a href="#%e8%a4%87%e5%90%88%e5%8f%b0%e5%bd%a2%e5%85%ac%e5%bc%8fcomposite-trapezoidal-rule" aria-label="複合台形公式(Composite Trapezoidal Rule)">複合台形公式(Composite Trapezoidal Rule)</a></li>
+                <li>
+                    <a href="#t_n%e3%81%ae%e5%85%b7%e4%bd%93%e7%9a%84%e3%81%aa%e5%bc%8f" aria-label="$T_{n}$の具体的な式">$T_{n}$の具体的な式</a></li>
+                <li>
+                    <a href="#%e9%9b%a2%e6%95%a3%e5%8c%96discretization" aria-label="離散化(Discretization)">離散化(Discretization)</a></li>
+                <li>
+                    <a href="#%e5%8f%b0%e5%bd%a2%e5%85%ac%e5%bc%8f%e3%81%ae%e5%ae%9f%e8%a3%85" aria-label="台形公式の実装">台形公式の実装</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e4%ba%8c%e9%87%8d%e6%8c%87%e6%95%b0%e9%96%a2%e6%95%b0%e5%9e%8b%e7%a9%8d%e5%88%86%e5%85%ac%e5%bc%8fdouble-exponential-formula" aria-label="二重指数関数型積分公式(Double Exponential Formula)">二重指数関数型積分公式(Double Exponential Formula)</a><ul>
+                        
+                <li>
+                    <a href="#de%e5%85%ac%e5%bc%8fdouble-exponential-formula%e3%81%ae%e8%a8%88%e7%ae%97%e6%89%8b%e9%a0%86" aria-label="DE公式(Double Exponential Formula)の計算手順">DE公式(Double Exponential Formula)の計算手順</a></li></ul>
+                </li>
+                <li>
+                    <a href="#de%e5%a4%89%e6%8f%9b" aria-label="DE変換">DE変換</a><ul>
+                        
+                <li>
+                    <a href="#%e6%9c%89%e9%99%90%e5%8c%ba%e9%96%93ab" aria-label="有限区間$[a,b]$">有限区間$[a,b]$</a></li>
+                <li>
+                    <a href="#%e6%a1%81%e8%90%bd%e3%81%a1%e3%81%a7%e7%b5%90%e6%9e%9c%e3%81%8cnan%e3%81%ab%e3%81%aa%e3%82%8b%e3%81%93%e3%81%a8%e3%81%8c%e3%81%82%e3%82%8b" aria-label="桁落ちで結果がNaNになることがある">桁落ちで結果がNaNになることがある</a></li>
+                <li>
+                    <a href="#%e5%8d%8a%e7%84%a1%e9%99%90%e5%8c%ba%e9%96%93ainfty" aria-label="半無限区間$[a,\infty)$">半無限区間$[a,\infty)$</a></li>
+                <li>
+                    <a href="#%e7%a9%8d%e5%88%86%e5%8c%ba%e9%96%93%e3%81%8cinftyb%e3%81%ae%e5%a0%b4%e5%90%88" aria-label="積分区間が$(\infty,b]$の場合">積分区間が$(\infty,b]$の場合</a></li>
+                <li>
+                    <a href="#%e5%a4%89%e6%95%b0%e5%a4%89%e6%8f%9b%e5%89%8d%e3%81%ae%e8%a2%ab%e7%a9%8d%e5%88%86%e9%96%a2%e6%95%b0%e3%81%8c%e6%8c%87%e6%95%b0%e7%9a%84%e6%b8%9b%e8%a1%b0%e3%82%92%e6%8c%81%e3%81%a4%e5%a0%b4%e5%90%88" aria-label="変数変換前の被積分関数が指数的減衰を持つ場合">変数変換前の被積分関数が指数的減衰を持つ場合</a></li>
+                <li>
+                    <a href="#%e7%a9%8d%e5%88%86%e5%8c%ba%e9%96%93%e3%81%8c-infty-infty%e3%81%ae%e5%a0%b4%e5%90%88" aria-label="積分区間が$(-\infty, \infty)$の場合">積分区間が$(-\infty, \infty)$の場合</a></li></ul>
+                </li>
+                <li>
+                    <a href="#de%e5%85%ac%e5%bc%8f%e3%81%ae%e5%85%b7%e4%bd%93%e4%be%8b" aria-label="DE公式の具体例">DE公式の具体例</a></li>
+                <li>
+                    <a href="#de%e5%85%ac%e5%bc%8f%e3%81%ae%e5%ae%9f%e8%a3%85%e4%be%8b" aria-label="DE公式の実装例">DE公式の実装例</a><ul>
+                        
+                <li>
+                    <a href="#%e6%a1%81%e8%90%bd%e3%81%a1%e3%82%92%e9%81%bf%e3%81%91%e3%82%8b%e3%81%9f%e3%82%81%e3%81%ae%e5%bc%8f%e5%a4%89%e5%bd%a2" aria-label="桁落ちを避けるための式変形">桁落ちを避けるための式変形</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%8f%b0%e5%bd%a2%e5%85%ac%e5%bc%8f%e3%81%a8de%e5%85%ac%e5%bc%8f%e3%81%ae%e7%89%b9%e5%be%b4%e3%81%ae%e6%af%94%e8%bc%83" aria-label="台形公式とDE公式の特徴の比較">台形公式とDE公式の特徴の比較</a></li>
+                <li>
+                    <a href="#%e5%8f%b0%e5%bd%a2%e5%85%ac%e5%bc%8f%e3%81%a8de%e5%85%ac%e5%bc%8f%e3%81%ae%e8%aa%a4%e5%b7%ae%e3%81%ae%e6%b8%9b%e8%a1%b0%e3%82%92%e6%af%94%e8%bc%83" aria-label="台形公式とDE公式の誤差の減衰を比較">台形公式とDE公式の誤差の減衰を比較</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%8c%ba%e9%96%93%e6%bc%94%e7%ae%97%e3%81%ab%e3%82%88%e3%82%8b%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e3%81%ab%e3%81%a4%e3%81%84%e3%81%a6" aria-label="区間演算による精度保証について">区間演算による精度保証について</a></li>
+                <li>
+                    <a href="#%e3%81%be%e3%81%a8%e3%82%81" aria-label="まとめ">まとめ</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><hr>
+<blockquote>
+<p>💡 <strong>この記事は「コンピューターで計算する」シリーズの一部です。</strong><br>
+<a href="../float"><strong>1. 浮動小数点数</strong></a><br>
+<a href="../interval"><strong>2. 区間演算</strong></a><br>
+<a href="../numericalIntegration"><strong>3. 数値積分</strong></a> <strong>👈 今ここ</strong><br>
+<a href="../numericalDifferentiation"><strong>4. 数値微分</strong></a><br>
+<a href="../autoDiff"><strong>5. 自動微分</strong></a></p>
+</blockquote>
+<hr>
+<p>多くの積分は「紙とペン」で簡単に計算できるとは限りません。<br>
+実際、積分の中には</p>
+<ul>
+<li><strong>原始関数を初等関数で表せない</strong></li>
+</ul>
+<p>といった理由で、<strong>解析的に解くことが難しいもの</strong>が多数存在します。</p>
+<p>そのため、コンピューターを用いて積分を<strong>数値的に近似して求める手法(数値積分)</strong>  が重要になります。<br>
+<strong>数値積分では、関数の値を離散的に評価し、それらを小さな面積の総和として積み上げる</strong>ことで積分を近似します。</p>
+<h2 id="数値積分numerical-integration">数値積分(Numerical Integration)<a hidden class="anchor" aria-hidden="true" href="#数値積分numerical-integration">#</a></h2>
+<p>与えられた関数の定積分の値を、<strong>解析的(紙とペンを使って式変形などを行う厳密な計算)</strong> ではなく、コンピューターを使って<strong>数値的に近似値を求める</strong>方法を<strong>数値積分(Numerical Integration)</strong> と呼びます。</p>
+<p>特に次のような場合に有効です</p>
+<ul>
+<li><strong>解析的に積分できない関数を扱いたいとき</strong></li>
+<li><strong>関数が複雑で厳密な解を求めるのが困難なとき</strong></li>
+<li><strong>関数の式がなく、離散的なデータ点しか存在しないとき</strong></li>
+</ul>
+<p>コンピューターは<strong>繰り返しの計算を高速かつ正確</strong>に行うことが得意です。<br>
+積分区間を細かい区間に分割し、それぞれの部分の面積を求めて足し合わせる処理も素早く行うことができます。</p>
+<h2 id="解析的に積分が出来ない例">解析的に積分が出来ない例<a hidden class="anchor" aria-hidden="true" href="#解析的に積分が出来ない例">#</a></h2>
+<p>解析的に積分することが困難な例として、次のような積分があります。</p>
+<p>$$
 \begin{aligned}
 \int^{\frac{\pi}{2}}_{0} \frac{d \theta}{\sqrt{1 - 0.5 \sin^{2} \theta }}
 \end{aligned}
-$$</p><p>この積分の被積分関数は、<strong>初等関数で表現できる原始関数を持ちません。</strong><br>このタイプの積分は数学的に特別な形をしており、実は<strong>楕円積分(Elliptic Integral)</strong> と呼ばれる「特殊関数」に分類されるものです。</p><p>つまり、普通の関数(多項式・指数関数・三角関数など)をどれだけ組み合わせても、原始関数を表現することはできないため、<strong>解析的に解くことができません。</strong></p><p>そのため、値を求める方法の一つとして</p><ul><li><strong>数値積分を用いて近似値を求める</strong></li></ul><p>が用いられることがあります。</p><p>解析的に積分できる関数は意外と限られており、現代では数値積分が極めて重要な役割を果たしています。</p><h2 id=数値積分法>数値積分法<a hidden class=anchor aria-hidden=true href=#数値積分法>#</a></h2><p>この記事では次の数値積分法を紹介します。</p><ul><li><strong>台形公式(Trapezoidal Rule)</strong></li><li><strong>二重指数関数型積分公式(DoubleExponentialFormula)</strong></li></ul><p>台形公式は最も基本的で理解しやすい数値積分法であり、多くの手法の基礎となります。<br>一方、<strong>DE法(二重指数関数型積分公式)<strong>は、積分区間の端点に</strong>特異点(関数値が無限大に発散する点)</strong> を持つ関数に対しても高精度な結果を得られる強力な手法です。</p><p>それぞれの手法の特徴・利点について、わかりやすく解説していきます。</p><h3 id=台形公式trapezoidal-rule>台形公式(Trapezoidal Rule)<a hidden class=anchor aria-hidden=true href=#台形公式trapezoidal-rule>#</a></h3><p>台形公式は、台形の面積を求める公式</p><p>$$
+$$</p>
+<p>この積分の被積分関数は、<strong>初等関数で表現できる原始関数を持ちません。</strong><br>
+このタイプの積分は数学的に特別な形をしており、実は<strong>楕円積分(Elliptic Integral)</strong> と呼ばれる「特殊関数」に分類されるものです。</p>
+<p>つまり、普通の関数(多項式・指数関数・三角関数など)をどれだけ組み合わせても、原始関数を表現することはできないため、<strong>解析的に解くことができません。</strong></p>
+<p>そのため、値を求める方法の一つとして</p>
+<ul>
+<li><strong>数値積分を用いて近似値を求める</strong></li>
+</ul>
+<p>が用いられることがあります。</p>
+<p>解析的に積分できる関数は意外と限られており、現代では数値積分が極めて重要な役割を果たしています。</p>
+<h2 id="数値積分法">数値積分法<a hidden class="anchor" aria-hidden="true" href="#数値積分法">#</a></h2>
+<p>この記事では次の数値積分法を紹介します。</p>
+<ul>
+<li><strong>台形公式(Trapezoidal Rule)</strong></li>
+<li><strong>二重指数関数型積分公式(DoubleExponentialFormula)</strong></li>
+</ul>
+<p>台形公式は最も基本的で理解しやすい数値積分法であり、多くの手法の基礎となります。<br>
+一方、<strong>DE法(二重指数関数型積分公式)<strong>は、積分区間の端点に</strong>特異点(関数値が無限大に発散する点)</strong> を持つ関数に対しても高精度な結果を得られる強力な手法です。</p>
+<p>それぞれの手法の特徴・利点について、わかりやすく解説していきます。</p>
+<h3 id="台形公式trapezoidal-rule">台形公式(Trapezoidal Rule)<a hidden class="anchor" aria-hidden="true" href="#台形公式trapezoidal-rule">#</a></h3>
+<p>台形公式は、台形の面積を求める公式</p>
+<p>$$
 \begin{aligned}
 \frac{(\text{上底} + \text{下底}) \times \text{高さ}}{2}
 \end{aligned}
-$$</p><p>に基づいて、<strong>定積分の値を台形の面積の和として近似する</strong>手法です。</p><p>積分区間をいくつかの小さな区間に分割し、各区間で<strong>関数の値を「上底」と「下底」</strong> 、<strong>小区間の区間幅を「高さ」</strong> とみなすことで、曲線のある面積を台形の集まりとして近似します。</p><p><img loading=lazy src=/img/gif/trapezoid_xexp.gif alt="Trapezoid GIF"></p><hr><h4 id=複合台形公式composite-trapezoidal-rule>複合台形公式(Composite Trapezoidal Rule)<a hidden class=anchor aria-hidden=true href=#複合台形公式composite-trapezoidal-rule>#</a></h4><p>積分区間$[a,b]$を等間隔の小区間に分割し、その各区間に積分則を適用する方法を<strong>複合則</strong>と呼びます。<br>特に、各小区間に<strong>台形公式</strong>を適用し、それらを足し合わせたものを<strong>複合台形公式(Composite Trapezoidal Rule)</strong> といいます。</p><p>積分区間を$n$個の等間隔の小区間に分割し、各区間に台形公式を適用して得られる近似値を$T_{n}$とすると</p><p>$$
+$$</p>
+<p>に基づいて、<strong>定積分の値を台形の面積の和として近似する</strong>手法です。</p>
+<p>積分区間をいくつかの小さな区間に分割し、各区間で<strong>関数の値を「上底」と「下底」</strong> 、<strong>小区間の区間幅を「高さ」</strong> とみなすことで、曲線のある面積を台形の集まりとして近似します。</p>
+<p><img loading="lazy" src="/img/gif/trapezoid_xexp.gif" alt="Trapezoid GIF"  />
+</p>
+<hr>
+<h4 id="複合台形公式composite-trapezoidal-rule">複合台形公式(Composite Trapezoidal Rule)<a hidden class="anchor" aria-hidden="true" href="#複合台形公式composite-trapezoidal-rule">#</a></h4>
+<p>積分区間$[a,b]$を等間隔の小区間に分割し、その各区間に積分則を適用する方法を<strong>複合則</strong>と呼びます。<br>
+特に、各小区間に<strong>台形公式</strong>を適用し、それらを足し合わせたものを<strong>複合台形公式(Composite Trapezoidal Rule)</strong> といいます。</p>
+<p>積分区間を$n$個の等間隔の小区間に分割し、各区間に台形公式を適用して得られる近似値を$T_{n}$とすると</p>
+<p>$$
 \begin{aligned}
 \int_{a}^{b} f(x)dx \approx T_{n}
 \end{aligned}
-$$</p><p>となります。</p><hr><h4 id=t_nの具体的な式>$T_{n}$の具体的な式<a hidden class=anchor aria-hidden=true href=#t_nの具体的な式>#</a></h4><p>小区間(刻み幅)を</p><p>$$
+$$</p>
+<p>となります。</p>
+<hr>
+<h4 id="t_nの具体的な式">$T_{n}$の具体的な式<a hidden class="anchor" aria-hidden="true" href="#t_nの具体的な式">#</a></h4>
+<p>小区間(刻み幅)を</p>
+<p>$$
 \begin{aligned}
 h = \frac{b - a}{ n }
 \end{aligned}
-$$</p><p>とすると、複合台形公式は次のように表されます。</p><p>$$
+$$</p>
+<p>とすると、複合台形公式は次のように表されます。</p>
+<p>$$
 \begin{aligned}
 T_{n} \approx h \times \left( \frac{f(a)}{2} + \sum_{i=1}^{n-1}f( a + hi ) + \frac{f(b)}{2} \right)
 \end{aligned}
-$$</p><p>ここで</p><p>$$
+$$</p>
+<p>ここで</p>
+<p>$$
 \begin{aligned}
 \frac{f(a)}{2} + \sum_{i=1}^{n-1}f( a + hi ) + \frac{f(b)}{2}
 \end{aligned}
-$$</p><p>は<strong>全ての台形の上底と下底の総和</strong>に対応し</p><p>$$
+$$</p>
+<p>は<strong>全ての台形の上底と下底の総和</strong>に対応し</p>
+<p>$$
 \begin{aligned}
 h
 \end{aligned}
-$$</p><p>は<strong>台形の高さ</strong>に対応します。</p><hr><h4 id=離散化discretization>離散化(Discretization)<a hidden class=anchor aria-hidden=true href=#離散化discretization>#</a></h4><p>このように、元々連続的な値で定義されている関数$f(x)$を</p><p>$$
+$$</p>
+<p>は<strong>台形の高さ</strong>に対応します。</p>
+<hr>
+<h4 id="離散化discretization">離散化(Discretization)<a hidden class="anchor" aria-hidden="true" href="#離散化discretization">#</a></h4>
+<p>このように、元々連続的な値で定義されている関数$f(x)$を</p>
+<p>$$
 \begin{aligned}
 f(a) \quad,\quad f(a + h) \quad,\quad f(a + 2h) \quad,\quad \dots \quad,\quad f(b)
 \end{aligned}
-$$</p><p>という<strong>離散的な点</strong>によって近似的に扱うことを<strong>離散化(Discretization)</strong> と呼びます。</p><hr><h4 id=台形公式の実装>台形公式の実装<a hidden class=anchor aria-hidden=true href=#台形公式の実装>#</a></h4><p>次のPythonの例は、複合台形公式を用いて</p><p>$$
+$$</p>
+<p>という<strong>離散的な点</strong>によって近似的に扱うことを<strong>離散化(Discretization)</strong> と呼びます。</p>
+<hr>
+<h4 id="台形公式の実装">台形公式の実装<a hidden class="anchor" aria-hidden="true" href="#台形公式の実装">#</a></h4>
+<p>次のPythonの例は、複合台形公式を用いて</p>
+<p>$$
 \begin{aligned}
 \int_{0}^{1} x\exp(x)dx = 1
 \end{aligned}
-$$</p><p>の定積分を近似する方法を示したものです。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># 被積分関数 f(x) = x * exp(x)</span>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>f</span><span class=p>(</span><span class=n>x</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>x</span> <span class=o>*</span> <span class=n>np</span><span class=o>.</span><span class=n>exp</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># 複合台形公式</span>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>trapezoidal_rule</span><span class=p>(</span><span class=n>f</span><span class=p>,</span> <span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>n</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=n>h</span> <span class=o>=</span> <span class=p>(</span><span class=n>b</span> <span class=o>-</span> <span class=n>a</span><span class=p>)</span> <span class=o>/</span> <span class=n>n</span>
-</span></span><span class=line><span class=cl>    <span class=c1># aからbまでn+1個の等間隔の点を生成</span>
-</span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>linspace</span><span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>n</span> <span class=o>+</span> <span class=mi>1</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>y</span> <span class=o>=</span> <span class=n>f</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=c1># y[0]とy[-1]は端点の関数値、f(a)とf(b)</span>
-</span></span><span class=line><span class=cl>    <span class=c1># [1:-1](a&lt;b)の範囲の点での関数値の和を計算</span>
-</span></span><span class=line><span class=cl>    <span class=n>approx</span> <span class=o>=</span> <span class=n>h</span> <span class=o>*</span> <span class=p>(</span><span class=mf>0.5</span> <span class=o>*</span> <span class=n>y</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>+</span> <span class=n>y</span><span class=p>[</span><span class=mi>1</span><span class=p>:</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span><span class=o>.</span><span class=n>sum</span><span class=p>()</span> <span class=o>+</span> <span class=mf>0.5</span> <span class=o>*</span> <span class=n>y</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>])</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>approx</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
-</span></span><span class=line><span class=cl>    <span class=n>a</span><span class=p>,</span> <span class=n>b</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>,</span> <span class=mf>1.0</span>  <span class=c1># 積分区間</span>
-</span></span><span class=line><span class=cl>    <span class=c1># 真値 (解析的に求めたときの値)</span>
-</span></span><span class=line><span class=cl>    <span class=n>true_value</span> <span class=o>=</span> <span class=mf>1.0</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1># 分割数nのリスト</span>
-</span></span><span class=line><span class=cl>    <span class=n>n_values</span> <span class=o>=</span> <span class=p>[</span><span class=mi>2</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>8</span><span class=p>,</span> <span class=mi>16</span><span class=p>,</span> <span class=mi>32</span><span class=p>,</span> <span class=mi>64</span><span class=p>,</span> <span class=mi>128</span><span class=p>]</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;f(x) = x * exp(x) on [0, 1]&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;n</span><span class=se>\t</span><span class=s2> approx</span><span class=se>\t\t</span><span class=s2> error&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;-&#34;</span> <span class=o>*</span> <span class=mi>35</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>n</span> <span class=ow>in</span> <span class=n>n_values</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>        <span class=n>approx</span> <span class=o>=</span> <span class=n>trapezoidal_rule</span><span class=p>(</span><span class=n>f</span><span class=p>,</span> <span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>n</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=n>error</span> <span class=o>=</span> <span class=nb>abs</span><span class=p>(</span><span class=n>true_value</span> <span class=o>-</span> <span class=n>approx</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;</span><span class=si>{</span><span class=n>n</span><span class=si>}</span><span class=se>\t</span><span class=s2> </span><span class=si>{</span><span class=n>approx</span><span class=si>:</span><span class=s2>.10f</span><span class=si>}</span><span class=se>\t</span><span class=s2> </span><span class=si>{</span><span class=n>error</span><span class=si>:</span><span class=s2>.2e</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s2>&#34;__main__&#34;</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>    <span class=n>main</span><span class=p>()</span>
-</span></span></code></pre></div><hr><p>実行結果</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>f<span class=o>(</span>x<span class=o>)</span> <span class=o>=</span> x * exp<span class=o>(</span>x<span class=o>)</span> on <span class=o>[</span>0, 1<span class=o>]</span>
-</span></span><span class=line><span class=cl>n        approx          error
-</span></span><span class=line><span class=cl>-----------------------------------
-</span></span><span class=line><span class=cl><span class=m>2</span>        1.0917507748    9.18e-02
-</span></span><span class=line><span class=cl><span class=m>4</span>        1.0230644791    2.31e-02
-</span></span><span class=line><span class=cl><span class=m>8</span>        1.0057741074    5.77e-03
-</span></span><span class=line><span class=cl><span class=m>16</span>       1.0014440271    1.44e-03
-</span></span><span class=line><span class=cl><span class=m>32</span>       1.0003610380    3.61e-04
-</span></span><span class=line><span class=cl><span class=m>64</span>       1.0000902615    9.03e-05
-</span></span><span class=line><span class=cl><span class=m>128</span>      1.0000225655    2.26e-05
-</span></span></code></pre></div><p>分点数$n$を増やし刻み幅$h$を細かくするにつれて、台形公式の近似値が真値1に収束していく様子がよくわかります。</p><p>数値積分では、一般に<strong>分点数を増やすことで精度を上げる</strong>というアプローチをとります。しかし、分割数を増やせばその分だけ<strong>計算回数も増加</strong>し、コンピューター上では<strong>丸め誤差</strong>が蓄積してしまいます。</p><p>したがって、単純に分割数を増やすだけでは限界があり、<strong>分点数を増やした時に高速に収束する高精度な積分法</strong>が求められます。</p><p>その代表的な手法が<strong>DE公式(Double Exponential Formula, 二重指数関数型積分公式)</strong> です。</p><h3 id=二重指数関数型積分公式double-exponential-formula>二重指数関数型積分公式(Double Exponential Formula)<a hidden class=anchor aria-hidden=true href=#二重指数関数型積分公式double-exponential-formula>#</a></h3><p>二重指数関数型積分公式(DE公式)は、台形公式をベースとしながらも、特別な変数変換を行うことで<strong>非常に高速な収束</strong> を実現する積分法です。<br>従来の数値積分法と比べ、次のような大きなメリットがあります。</p><ul><li><strong>分点数を増やした際の収束が非常に速く、高精度な結果が得られる</strong></li><li><strong>被積分関数が積分区間の端点(無限に発散する点)を持っていても適用できる</strong></li><li><strong>無限区間や半無限区間の積分にも自然に拡張できる</strong></li></ul><p>これらの特性により、DE公式は現代の数値積分手法の中でも特に強力で、科学技術計算や統計、計算物理など幅広い分野で用いられています。</p><hr><h4 id=de公式double-exponential-formulaの計算手順>DE公式(Double Exponential Formula)の計算手順<a hidden class=anchor aria-hidden=true href=#de公式double-exponential-formulaの計算手順>#</a></h4><p>DE公式は、<strong>積分区間の端点に特異性を持つ関数や、無限区間の積分</strong>を高精度で計算するための強力な手法です。<br>その計算は次の2段階で行われます。</p><ol><li><p><strong>元の積分に対して変数変換（DE変換）を行う</strong></p><ul><li>変数変換 $x = \phi(t)$ により、積分区間を $(-\infty, \infty)$ に写す。</li><li>もとの積分区間の端点にある特異性は、変数変換後には「無限遠点（非常に遠い位置）」へ押し出される。</li></ul></li><li><p><strong>変数変換後の積分に台形則を適用する</strong></p><ul><li>変換後の被積分関数は、$|t|$ が大きくなるにつれて <strong>二重指数的に減衰（急激に 0 に近づく）</strong> 。</li><li>このため、台形則による数値積分の<strong>収束が非常に速く</strong>なる。</li></ul></li></ol><hr><p>変数変換によって積分は次の形になる</p><p>$$
+$$</p>
+<p>の定積分を近似する方法を示したものです。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 被積分関数 f(x) = x * exp(x)</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 複合台形公式</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">trapezoidal_rule</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># aからbまでn+1個の等間隔の点を生成</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># y[0]とy[-1]は端点の関数値、f(a)とf(b)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># [1:-1](a&lt;b)の範囲の点での関数値の和を計算</span>
+</span></span><span class="line"><span class="cl">    <span class="n">approx</span> <span class="o">=</span> <span class="n">h</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">approx</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span>  <span class="c1"># 積分区間</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 真値 (解析的に求めたときの値)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">true_value</span> <span class="o">=</span> <span class="mf">1.0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 分割数nのリスト</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;f(x) = x * exp(x) on [0, 1]&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;n</span><span class="se">\t</span><span class="s2"> approx</span><span class="se">\t\t</span><span class="s2"> error&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;-&#34;</span> <span class="o">*</span> <span class="mi">35</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">n_values</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">approx</span> <span class="o">=</span> <span class="n">trapezoidal_rule</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">error</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">true_value</span> <span class="o">-</span> <span class="n">approx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="se">\t</span><span class="s2"> </span><span class="si">{</span><span class="n">approx</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="se">\t</span><span class="s2"> </span><span class="si">{</span><span class="n">error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></div><hr>
+<p>実行結果</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">f<span class="o">(</span>x<span class="o">)</span> <span class="o">=</span> x * exp<span class="o">(</span>x<span class="o">)</span> on <span class="o">[</span>0, 1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">n        approx          error
+</span></span><span class="line"><span class="cl">-----------------------------------
+</span></span><span class="line"><span class="cl"><span class="m">2</span>        1.0917507748    9.18e-02
+</span></span><span class="line"><span class="cl"><span class="m">4</span>        1.0230644791    2.31e-02
+</span></span><span class="line"><span class="cl"><span class="m">8</span>        1.0057741074    5.77e-03
+</span></span><span class="line"><span class="cl"><span class="m">16</span>       1.0014440271    1.44e-03
+</span></span><span class="line"><span class="cl"><span class="m">32</span>       1.0003610380    3.61e-04
+</span></span><span class="line"><span class="cl"><span class="m">64</span>       1.0000902615    9.03e-05
+</span></span><span class="line"><span class="cl"><span class="m">128</span>      1.0000225655    2.26e-05
+</span></span></code></pre></div><p>分点数$n$を増やし刻み幅$h$を細かくするにつれて、台形公式の近似値が真値1に収束していく様子がよくわかります。</p>
+<p>数値積分では、一般に<strong>分点数を増やすことで精度を上げる</strong>というアプローチをとります。しかし、分割数を増やせばその分だけ<strong>計算回数も増加</strong>し、コンピューター上では<strong>丸め誤差</strong>が蓄積してしまいます。</p>
+<p>したがって、単純に分割数を増やすだけでは限界があり、<strong>分点数を増やした時に高速に収束する高精度な積分法</strong>が求められます。</p>
+<p>その代表的な手法が<strong>DE公式(Double Exponential Formula, 二重指数関数型積分公式)</strong> です。</p>
+<h3 id="二重指数関数型積分公式double-exponential-formula">二重指数関数型積分公式(Double Exponential Formula)<a hidden class="anchor" aria-hidden="true" href="#二重指数関数型積分公式double-exponential-formula">#</a></h3>
+<p>二重指数関数型積分公式(DE公式)は、台形公式をベースとしながらも、特別な変数変換を行うことで<strong>非常に高速な収束</strong> を実現する積分法です。<br>
+従来の数値積分法と比べ、次のような大きなメリットがあります。</p>
+<ul>
+<li><strong>分点数を増やした際の収束が非常に速く、高精度な結果が得られる</strong></li>
+<li><strong>被積分関数が積分区間の端点(無限に発散する点)を持っていても適用できる</strong></li>
+<li><strong>無限区間や半無限区間の積分にも自然に拡張できる</strong></li>
+</ul>
+<p>これらの特性により、DE公式は現代の数値積分手法の中でも特に強力で、科学技術計算や統計、計算物理など幅広い分野で用いられています。</p>
+<hr>
+<h4 id="de公式double-exponential-formulaの計算手順">DE公式(Double Exponential Formula)の計算手順<a hidden class="anchor" aria-hidden="true" href="#de公式double-exponential-formulaの計算手順">#</a></h4>
+<p>DE公式は、<strong>積分区間の端点に特異性を持つ関数や、無限区間の積分</strong>を高精度で計算するための強力な手法です。<br>
+その計算は次の2段階で行われます。</p>
+<ol>
+<li>
+<p><strong>元の積分に対して変数変換（DE変換）を行う</strong></p>
+<ul>
+<li>変数変換 $x = \phi(t)$ により、積分区間を $(-\infty, \infty)$ に写す。</li>
+<li>もとの積分区間の端点にある特異性は、変数変換後には「無限遠点（非常に遠い位置）」へ押し出される。</li>
+</ul>
+</li>
+<li>
+<p><strong>変数変換後の積分に台形則を適用する</strong></p>
+<ul>
+<li>変換後の被積分関数は、$|t|$ が大きくなるにつれて <strong>二重指数的に減衰（急激に 0 に近づく）</strong> 。</li>
+<li>このため、台形則による数値積分の<strong>収束が非常に速く</strong>なる。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>変数変換によって積分は次の形になる</p>
+<p>$$
 \begin{aligned}
 \int_{a}^{b} f(x)dx = \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt
 \end{aligned}
-$$</p><p>この積分に<strong>台形則</strong>を適用すると</p><p>$$
+$$</p>
+<p>この積分に<strong>台形則</strong>を適用すると</p>
+<p>$$
 \begin{aligned}
-\int_{a}^{b} f(x)dx &\approx h \sum_{i=-n}^{n} f(\phi(ih))\phi^{\prime}(ih)\\
-h &= \frac{\log(3n)}{n}
+\int_{a}^{b} f(x)dx &amp;\approx h \sum_{i=-n}^{n} f(\phi(ih))\phi^{\prime}(ih)\\
+h &amp;= \frac{\log(3n)}{n}
 \end{aligned}
-$$</p><p>変換後の変数の高速な減衰によって<strong>極めて精度の高い数値積分</strong> が得られます。</p><h3 id=de変換>DE変換<a hidden class=anchor aria-hidden=true href=#de変換>#</a></h3><hr><h4 id=有限区間ab>有限区間$[a,b]$<a hidden class=anchor aria-hidden=true href=#有限区間ab>#</a></h4><p>積分区間が有限な区間$[a,b]$である場合は次のように変換します。</p><p>$$
+$$</p>
+<p>変換後の変数の高速な減衰によって<strong>極めて精度の高い数値積分</strong> が得られます。</p>
+<h3 id="de変換">DE変換<a hidden class="anchor" aria-hidden="true" href="#de変換">#</a></h3>
+<hr>
+<h4 id="有限区間ab">有限区間$[a,b]$<a hidden class="anchor" aria-hidden="true" href="#有限区間ab">#</a></h4>
+<p>積分区間が有限な区間$[a,b]$である場合は次のように変換します。</p>
+<p>$$
 \begin{aligned}
-\int_{a}^{b} f(x)dx &= \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt\\
-\phi(t) &= \frac{b - a}{2} \tanh \left( \frac{\pi}{2}\sinh(t) \right) + \frac{a + b}{2}\\
-\phi^{\prime}(t) &= \frac{b - a}{4} \frac{\pi \cosh(t)}{\cosh^{2} \left( \frac{\pi}{2}\sinh(t) \right)}
+\int_{a}^{b} f(x)dx &amp;= \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt\\
+\phi(t) &amp;= \frac{b - a}{2} \tanh \left( \frac{\pi}{2}\sinh(t) \right) + \frac{a + b}{2}\\
+\phi^{\prime}(t) &amp;= \frac{b - a}{4} \frac{\pi \cosh(t)}{\cosh^{2} \left( \frac{\pi}{2}\sinh(t) \right)}
 \end{aligned}
-$$</p><p>$\phi(t)$ は</p><p>$$
+$$</p>
+<p>$\phi(t)$ は</p>
+<p>$$
 \begin{aligned}
-\phi(t) \to a\qquad &,\qquad(t \to -\infty)\\
-\phi(t) \to b\qquad &,\qquad(t \to \infty)
+\phi(t) \to a\qquad &amp;,\qquad(t \to -\infty)\\
+\phi(t) \to b\qquad &amp;,\qquad(t \to \infty)
 \end{aligned}
-$$</p><p>のように、$ t \to -\infty $ で $a$、$ t \to +\infty $ で $b$ に近づきます。</p><p>また、被積分関数の積分区間の端点にある特異点を「無限遠へ押し出す」本当の理由は <strong>$\phi^{\prime}(t)$</strong> にあります。<br>$\phi^{\prime}(t)$ は $|t| \to \infty$ で<strong>二重指数的(かなり急激)</strong> に $0$ に減衰します。</p><p>そのため、元々は積分区間の端点 $(a, b)$ に存在していた特異性は、変換後の積分では「無限遠に押し出され、積分にほとんど寄与しない」という扱いやすい形へ変換されます。</p><hr><h4 id=桁落ちで結果がnanになることがある>桁落ちで結果がNaNになることがある<a hidden class=anchor aria-hidden=true href=#桁落ちで結果がnanになることがある>#</a></h4><p>この式は$t \to -\infty$で<strong>二重指数的(かなり急激)<strong>に $-1$へ近づいて、$t \to \infty$で</strong>二重指数的(かなり急激)に</strong> $1$へ近づいていきます。</p><p>$$
+$$</p>
+<p>のように、$ t \to -\infty $ で $a$、$ t \to +\infty $ で $b$ に近づきます。</p>
+<p>また、被積分関数の積分区間の端点にある特異点を「無限遠へ押し出す」本当の理由は <strong>$\phi^{\prime}(t)$</strong> にあります。<br>
+$\phi^{\prime}(t)$ は $|t| \to \infty$ で<strong>二重指数的(かなり急激)</strong> に $0$ に減衰します。</p>
+<p>そのため、元々は積分区間の端点 $(a, b)$ に存在していた特異性は、変換後の積分では「無限遠に押し出され、積分にほとんど寄与しない」という扱いやすい形へ変換されます。</p>
+<hr>
+<h4 id="桁落ちで結果がnanになることがある">桁落ちで結果がNaNになることがある<a hidden class="anchor" aria-hidden="true" href="#桁落ちで結果がnanになることがある">#</a></h4>
+<p>この式は$t \to -\infty$で<strong>二重指数的(かなり急激)<strong>に $-1$へ近づいて、$t \to \infty$で</strong>二重指数的(かなり急激)に</strong> $1$へ近づいていきます。</p>
+<p>$$
 \begin{aligned}
 \tanh \left(\frac{\pi}{2}\sinh(t) \right)
 \end{aligned}
-$$</p><p>そのため</p><p>$$
+$$</p>
+<p>そのため</p>
+<p>$$
 \begin{aligned}
-\tanh(u) &- 1\\
-\tanh(u) &+ 1
+\tanh(u) &amp;- 1\\
+\tanh(u) &amp;+ 1
 \end{aligned}
-$$</p><p>のような式が <strong>浮動小数点の桁落ち</strong> を引き起こすことがあります。<br>台形測のループの中でループの端点付近で桁落ちが発生したことで、結果がNaNになることもあります。</p><p>桁落ちが発生した場合の対処法として、$\tanh \left(\frac{\pi}{2}\sinh(t) \right)-1$または $\tanh \left(\frac{\pi}{2}\sinh(t) \right)+1$ のような形にならないように、<strong>式変形を行う</strong>ことで対処することができます。</p><p>また、ここで使用されている特殊関数$\sinh(x)$、$\cosh(x)$、$\tanh(x)$は<strong>双曲線関数(hyperbolic function)</strong> とよばれ、それぞれ次のように定義されています。</p><p>$$
+$$</p>
+<p>のような式が <strong>浮動小数点の桁落ち</strong> を引き起こすことがあります。<br>
+台形測のループの中でループの端点付近で桁落ちが発生したことで、結果がNaNになることもあります。</p>
+<p>桁落ちが発生した場合の対処法として、$\tanh \left(\frac{\pi}{2}\sinh(t) \right)-1$または $\tanh \left(\frac{\pi}{2}\sinh(t) \right)+1$ のような形にならないように、<strong>式変形を行う</strong>ことで対処することができます。</p>
+<p>また、ここで使用されている特殊関数$\sinh(x)$、$\cosh(x)$、$\tanh(x)$は<strong>双曲線関数(hyperbolic function)</strong> とよばれ、それぞれ次のように定義されています。</p>
+<p>$$
 \begin{aligned}
-\sinh(x) &= \frac{\exp(x) - \exp(-x)}{2}\\
-\cosh(x) &= \frac{\exp(x) + \exp(-x)}{2}\\
-\tanh(x) &= \frac{\sinh(x)}{\cosh(x)} = \frac{\exp(x) - \exp(-x)}{\exp(x) + \exp(-x)}
+\sinh(x) &amp;= \frac{\exp(x) - \exp(-x)}{2}\\
+\cosh(x) &amp;= \frac{\exp(x) + \exp(-x)}{2}\\
+\tanh(x) &amp;= \frac{\sinh(x)}{\cosh(x)} = \frac{\exp(x) - \exp(-x)}{\exp(x) + \exp(-x)}
 \end{aligned}
-$$</p><hr><h4 id=半無限区間ainfty>半無限区間$[a,\infty)$<a hidden class=anchor aria-hidden=true href=#半無限区間ainfty>#</a></h4><p>積分区間が半無限区間$[a,\infty)$である場合は次のように変換します。</p><p>$$
+$$</p>
+<hr>
+<h4 id="半無限区間ainfty">半無限区間$[a,\infty)$<a hidden class="anchor" aria-hidden="true" href="#半無限区間ainfty">#</a></h4>
+<p>積分区間が半無限区間$[a,\infty)$である場合は次のように変換します。</p>
+<p>$$
 \begin{aligned}
-\int_{a}^{\infty} f(x)dx &= \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt\\
-\phi(t) &= a + \exp \left(\frac{\pi}{2}\sinh(t) \right)\\
-\phi^{\prime}(t) &= \frac{\pi}{2}\cosh(t)\exp \left(\frac{\pi}{2}\sinh(t) \right)
+\int_{a}^{\infty} f(x)dx &amp;= \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt\\
+\phi(t) &amp;= a + \exp \left(\frac{\pi}{2}\sinh(t) \right)\\
+\phi^{\prime}(t) &amp;= \frac{\pi}{2}\cosh(t)\exp \left(\frac{\pi}{2}\sinh(t) \right)
 \end{aligned}
-$$</p><p>$\phi(t)$ は</p><p>$$
+$$</p>
+<p>$\phi(t)$ は</p>
+<p>$$
 \begin{aligned}
-\phi(t) \to a\qquad &,\qquad(t \to -\infty)\\
-\phi(t) \to \infty\qquad &,\qquad(t \to \infty)
+\phi(t) \to a\qquad &amp;,\qquad(t \to -\infty)\\
+\phi(t) \to \infty\qquad &amp;,\qquad(t \to \infty)
 \end{aligned}
-$$</p><p>のように、$ t \to -\infty $ で $a$、$ t \to +\infty $ で $\infty$ に近づきます。</p><hr><h4 id=積分区間がinftybの場合>積分区間が$(\infty,b]$の場合<a hidden class=anchor aria-hidden=true href=#積分区間がinftybの場合>#</a></h4><p>$$
+$$</p>
+<p>のように、$ t \to -\infty $ で $a$、$ t \to +\infty $ で $\infty$ に近づきます。</p>
+<hr>
+<h4 id="積分区間がinftybの場合">積分区間が$(\infty,b]$の場合<a hidden class="anchor" aria-hidden="true" href="#積分区間がinftybの場合">#</a></h4>
+<p>$$
 \begin{aligned}
 \int_{a}^{b} f(x)dx = -\int_{b}^{a} f(x) dx
 \end{aligned}
-$$</p><p>を使います。つまり</p><p>$$
+$$</p>
+<p>を使います。つまり</p>
+<p>$$
 \begin{aligned}
 \int_{-\infty}^{b} f(x)dx = -\int_{b}^{\infty} f(x) dx
 \end{aligned}
-$$</p><p>として公式を適用して計算を行います。</p><hr><h4 id=変数変換前の被積分関数が指数的減衰を持つ場合>変数変換前の被積分関数が指数的減衰を持つ場合<a hidden class=anchor aria-hidden=true href=#変数変換前の被積分関数が指数的減衰を持つ場合>#</a></h4><p>変数変換前の積分が既に指数的減衰特徴を持つ場合は次のように変換します。</p><p>$$
+$$</p>
+<p>として公式を適用して計算を行います。</p>
+<hr>
+<h4 id="変数変換前の被積分関数が指数的減衰を持つ場合">変数変換前の被積分関数が指数的減衰を持つ場合<a hidden class="anchor" aria-hidden="true" href="#変数変換前の被積分関数が指数的減衰を持つ場合">#</a></h4>
+<p>変数変換前の積分が既に指数的減衰特徴を持つ場合は次のように変換します。</p>
+<p>$$
 \begin{aligned}
 \phi(t) = \exp(t - \exp( -t))
 \end{aligned}
-$$</p><hr><h4 id=積分区間が-infty-inftyの場合>積分区間が$(-\infty, \infty)$の場合<a hidden class=anchor aria-hidden=true href=#積分区間が-infty-inftyの場合>#</a></h4><p>積分区間が半無限区間$(-\infty,\infty)$である場合は次のように変換します。</p><p>$$
+$$</p>
+<hr>
+<h4 id="積分区間が-infty-inftyの場合">積分区間が$(-\infty, \infty)$の場合<a hidden class="anchor" aria-hidden="true" href="#積分区間が-infty-inftyの場合">#</a></h4>
+<p>積分区間が半無限区間$(-\infty,\infty)$である場合は次のように変換します。</p>
+<p>$$
 \begin{aligned}
-\int_{-\infty}^{\infty} f(x)dx &= \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt\\
-\phi(t) &= \sinh \left(\frac{\pi}{2}\sinh(t) \right)\\
-\phi^{\prime}(t) &= \frac{\pi}{2}\cosh(t)\cosh \left(\frac{\pi}{2}\sinh(t) \right)
+\int_{-\infty}^{\infty} f(x)dx &amp;= \int_{-\infty}^{\infty} f(\phi(t))\phi^{\prime}(t) dt\\
+\phi(t) &amp;= \sinh \left(\frac{\pi}{2}\sinh(t) \right)\\
+\phi^{\prime}(t) &amp;= \frac{\pi}{2}\cosh(t)\cosh \left(\frac{\pi}{2}\sinh(t) \right)
 \end{aligned}
-$$</p><p>$\phi(t)$ は</p><p>$$
+$$</p>
+<p>$\phi(t)$ は</p>
+<p>$$
 \begin{aligned}
-\phi(t) \to \infty\qquad &,\qquad(t \to -\infty)\\
-\phi(t) \to \infty\qquad &,\qquad(t \to \infty)
+\phi(t) \to \infty\qquad &amp;,\qquad(t \to -\infty)\\
+\phi(t) \to \infty\qquad &amp;,\qquad(t \to \infty)
 \end{aligned}
-$$</p><p>のように、$ t \to -\infty $ で $-\infty$、$ t \to +\infty $ で $\infty$ に二重指数的に近づきます。</p><hr><h3 id=de公式の具体例>DE公式の具体例<a hidden class=anchor aria-hidden=true href=#de公式の具体例>#</a></h3><p>次の積分</p><p>$$
+$$</p>
+<p>のように、$ t \to -\infty $ で $-\infty$、$ t \to +\infty $ で $\infty$ に二重指数的に近づきます。</p>
+<hr>
+<h3 id="de公式の具体例">DE公式の具体例<a hidden class="anchor" aria-hidden="true" href="#de公式の具体例">#</a></h3>
+<p>次の積分</p>
+<p>$$
 \begin{aligned}
 \int_{0}^{1} \frac{dx}{\sqrt{x}} = 2
 \end{aligned}
-$$</p><p>にDE公式を適用します。<br>この積分の真値は$2$であり、被積分関数$\frac{1}{\sqrt{x}}$は積分区間の端点$x=0$で特異性を持ちます。</p><p><img loading=lazy src=/img/png/de_frame0.png alt="DE F0"></p><p>この画像のように、<strong>$x$が$0$に近づくにつれて$f(x)$が発散</strong>していることがわかります。<br>台形公式では、$x$が$0$に近づくにつれて$f(x)$が$\infty$に発散することで、扱える範囲の値を超えてしまい、このような積分をうまく計算することができません。</p><p>この積分</p><p>$$
+$$</p>
+<p>にDE公式を適用します。<br>
+この積分の真値は$2$であり、被積分関数$\frac{1}{\sqrt{x}}$は積分区間の端点$x=0$で特異性を持ちます。</p>
+<p><img loading="lazy" src="/img/png/de_frame0.png" alt="DE F0"  />
+</p>
+<p>この画像のように、<strong>$x$が$0$に近づくにつれて$f(x)$が発散</strong>していることがわかります。<br>
+台形公式では、$x$が$0$に近づくにつれて$f(x)$が$\infty$に発散することで、扱える範囲の値を超えてしまい、このような積分をうまく計算することができません。</p>
+<p>この積分</p>
+<p>$$
 \begin{aligned}
 \int_{0}^{1} f(x)dx
 \end{aligned}
-$$</p><p>$$
+$$</p>
+<p>$$
 \begin{aligned}
 f(x) = \frac{1}{\sqrt{x}}
 \end{aligned}
-$$</p><p>にDE変換を適用することで</p><p>$$
+$$</p>
+<p>にDE変換を適用することで</p>
+<p>$$
 \begin{aligned}
 \int_{-\infty}^{\infty} &amp;g(t) dt\\
-g(t) &= \frac{\phi^{\prime}(t)}{\sqrt{\phi(t)}}\\
-\phi(t) &= \frac{1}{2} \left(\tanh \left(\frac{\pi}{2}\sinh(t) \right) + 1\right)\\
-\phi^{\prime}(t) &= \frac{\pi \cosh(t)}{4 \cosh^{2} \left(\frac{\pi}{2}\sinh(t) \right)}
+g(t) &amp;= \frac{\phi^{\prime}(t)}{\sqrt{\phi(t)}}\\
+\phi(t) &amp;= \frac{1}{2} \left(\tanh \left(\frac{\pi}{2}\sinh(t) \right) + 1\right)\\
+\phi^{\prime}(t) &amp;=  \frac{\pi \cosh(t)}{4 \cosh^{2} \left(\frac{\pi}{2}\sinh(t) \right)}
 \end{aligned}
-$$</p><p>のような積分に変換されます。<br>DE変換後のこの被積分関数をグラフにすると</p><p><img loading=lazy src=/img/png/de_frame3.png alt="DE F0"></p><p>のように$|t| \to \infty$ で<strong>急激に0に近づく(二重指数的に減衰)</strong> していることがわかります。</p><p>これに、台形則を次のように適用します。</p><p>$$
+$$</p>
+<p>のような積分に変換されます。<br>
+DE変換後のこの被積分関数をグラフにすると</p>
+<p><img loading="lazy" src="/img/png/de_frame3.png" alt="DE F0"  />
+</p>
+<p>のように$|t| \to \infty$ で<strong>急激に0に近づく(二重指数的に減衰)</strong> していることがわかります。</p>
+<p>これに、台形則を次のように適用します。</p>
+<p>$$
 \begin{aligned}
 h\sum_{i=-n}^{n} g(ih)
 \end{aligned}
-$$</p><p>$$
+$$</p>
+<p>$$
 \begin{aligned}
 g(ih) = \frac{\pi \cosh(ih)}{4 \cosh^{2}\left(\frac{\pi}{2}\sinh(ih)\right)\sqrt{\frac{1}{2} \left(\tanh \left(\frac{\pi}{2}\sinh(ih) \right) + 1\right)}}
 \end{aligned}
-$$</p><p>$$
+$$</p>
+<p>$$
 \begin{aligned}
-h &= \frac{\log(3n)}{n}
+h &amp;= \frac{\log(3n)}{n}
 \end{aligned}
-$$</p><p>このようにDE変換をした後に、台形則を適用して、分点数$n$を大きくしながら計算を行う様子をグラフにすると、次のようになります。</p><p><img loading=lazy src=/img/gif/de_transform_1_over_sqrtx.gif alt="DE GIF"></p><p>上のアニメーションからわかるように、DE変換後に適用する台形則は、通常の台形則とまったく同じ動作をしているわけではありません。</p><p>分点数 $n$ を増やすとき、台形則の分割が細かくなるだけでなく、<strong>数値積分を行う区間そのものが徐々に広がっています</strong> 。</p><p>これは、DE変換によって積分が</p><p>$$
+$$</p>
+<p>このようにDE変換をした後に、台形則を適用して、分点数$n$を大きくしながら計算を行う様子をグラフにすると、次のようになります。</p>
+<p><img loading="lazy" src="/img/gif/de_transform_1_over_sqrtx.gif" alt="DE GIF"  />
+</p>
+<p>上のアニメーションからわかるように、DE変換後に適用する台形則は、通常の台形則とまったく同じ動作をしているわけではありません。</p>
+<p>分点数 $n$ を増やすとき、台形則の分割が細かくなるだけでなく、<strong>数値積分を行う区間そのものが徐々に広がっています</strong> 。</p>
+<p>これは、DE変換によって積分が</p>
+<p>$$
 \begin{aligned}
 \int_{-\infty}^{\infty} g(t),dt
 \end{aligned}
-$$</p><p>という無限区間の積分に変換されているためで、実際の数値計算では</p><p>$$
+$$</p>
+<p>という無限区間の積分に変換されているためで、実際の数値計算では</p>
+<p>$$
 \begin{aligned}
 t \in [-nh,\ nh]
 \end{aligned}
-$$</p><p>の有限区間を切り出して台形則を適用しています。</p><p>分点数$n$が増えるとともにこの区間が外側へ広がるため、DE公式の収束には「刻み幅が小さくなる効果」(<strong>離散化誤差の減少</strong>)と「無限区間をより広く含める効果」(<strong>切り捨て誤差の減少</strong>)の両方が寄与しています。</p><p>DE公式では、分点数$n$を増やすと <strong>「刻み幅が小さくなる（離散化誤差が減る）」</strong> と <strong>「積分区間が広がる（切り捨て誤差が減る）」</strong> の2つの効果が同時に進みます。</p><p>この2つの誤差は、<strong>DE変換後の被積分関数$g(t)$の二重指数的な減衰</strong> によって、 <strong>常に同じくらいの大きさ</strong> に保たれるよう設計されています。</p><p>その結果、誤差全体が $\exp(-cn)$のように指数的に減衰し、通常の台形公式と比べて<strong>圧倒的に速い収束</strong> が得られます。</p><hr><h3 id=de公式の実装例>DE公式の実装例<a hidden class=anchor aria-hidden=true href=#de公式の実装例>#</a></h3><p>次の積分をDE(Double Exponential)公式で計算します。</p><p>$$
+$$</p>
+<p>の有限区間を切り出して台形則を適用しています。</p>
+<p>分点数$n$が増えるとともにこの区間が外側へ広がるため、DE公式の収束には「刻み幅が小さくなる効果」(<strong>離散化誤差の減少</strong>)と「無限区間をより広く含める効果」(<strong>切り捨て誤差の減少</strong>)の両方が寄与しています。</p>
+<p>DE公式では、分点数$n$を増やすと <strong>「刻み幅が小さくなる（離散化誤差が減る）」</strong> と <strong>「積分区間が広がる（切り捨て誤差が減る）」</strong> の2つの効果が同時に進みます。</p>
+<p>この2つの誤差は、<strong>DE変換後の被積分関数$g(t)$の二重指数的な減衰</strong> によって、 <strong>常に同じくらいの大きさ</strong> に保たれるよう設計されています。</p>
+<p>その結果、誤差全体が $\exp(-cn)$のように指数的に減衰し、通常の台形公式と比べて<strong>圧倒的に速い収束</strong> が得られます。</p>
+<hr>
+<h3 id="de公式の実装例">DE公式の実装例<a hidden class="anchor" aria-hidden="true" href="#de公式の実装例">#</a></h3>
+<p>次の積分をDE(Double Exponential)公式で計算します。</p>
+<p>$$
 \begin{aligned}
 \int_{0}^{1} \frac{dx}{\sqrt{x}} = 2
 \end{aligned}
-$$</p><p>この積分の被積分関数</p><p>$$
+$$</p>
+<p>この積分の被積分関数</p>
+<p>$$
 \begin{aligned}
 f(x) = \frac{1}{\sqrt{x}}
 \end{aligned}
-$$</p><p>は、区間の端点$x=0$に特異性を持つため、通常の台形公式では正しく扱うことができません。</p><p>DE公式では</p><ol><li><strong>変数変換$x = \phi(t)$により、端点の特異性を無限遠にとばす</strong></li><li><strong>二重指数的に減衰する関数に変換された後で台形測を適用</strong></li></ol><p>という流れで効率的に数値積分を行います。</p><hr><h4 id=桁落ちを避けるための式変形>桁落ちを避けるための式変形<a hidden class=anchor aria-hidden=true href=#桁落ちを避けるための式変形>#</a></h4><p>DE変換を適用してそのまま計算をすると</p><ul><li><strong>$\tanh(&mldr;) - 1$のような危険な差による桁落ち</strong></li><li><strong>部分的に巨大な値が発生することでオーバーフロー</strong></li></ul><p>などの原因によって、結果がNaNやInfになってしまうことがあります。<br>今回の実装例はその典型例です。</p><p>そこで、正負で場合分けした<strong>ロジスティック関数</strong></p><p>$$
+$$</p>
+<p>は、区間の端点$x=0$に特異性を持つため、通常の台形公式では正しく扱うことができません。</p>
+<p>DE公式では</p>
+<ol>
+<li><strong>変数変換$x = \phi(t)$により、端点の特異性を無限遠にとばす</strong></li>
+<li><strong>二重指数的に減衰する関数に変換された後で台形測を適用</strong></li>
+</ol>
+<p>という流れで効率的に数値積分を行います。</p>
+<hr>
+<h4 id="桁落ちを避けるための式変形">桁落ちを避けるための式変形<a hidden class="anchor" aria-hidden="true" href="#桁落ちを避けるための式変形">#</a></h4>
+<p>DE変換を適用してそのまま計算をすると</p>
+<ul>
+<li><strong>$\tanh(&hellip;) - 1$のような危険な差による桁落ち</strong></li>
+<li><strong>部分的に巨大な値が発生することでオーバーフロー</strong></li>
+</ul>
+<p>などの原因によって、結果がNaNやInfになってしまうことがあります。<br>
+今回の実装例はその典型例です。</p>
+<p>そこで、正負で場合分けした<strong>ロジスティック関数</strong></p>
+<p>$$
 \begin{aligned}
 \sigma(x) = \frac{1}{1+e^{-x}}
 \end{aligned}
-$$</p><p>を用いて安全に計算しています。</p><p>pythonで実装すると次のようになります。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># ---- 被積分関数 f(x) = 1/sqrt(x) ----</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>f</span><span class=p>(</span><span class=n>x</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mf>1.0</span> <span class=o>/</span> <span class=n>np</span><span class=o>.</span><span class=n>sqrt</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># ---- ロジスティック関数（符号で安定化） ----</span>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>logistic</span><span class=p>(</span><span class=n>z</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=c1># σ(z) = 1 / (1 + exp(-z)) を桁落ち・オーバーフローしないように計算</span>
-</span></span><span class=line><span class=cl>    <span class=n>out</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>empty_like</span><span class=p>(</span><span class=n>z</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>pos</span> <span class=o>=</span> <span class=n>z</span> <span class=o>&gt;=</span> <span class=mi>0</span>
-</span></span><span class=line><span class=cl>    <span class=n>neg</span> <span class=o>=</span> <span class=o>~</span><span class=n>pos</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1># z &gt;= 0 のとき: exp(-z) は 0～1 に収まるので安全</span>
-</span></span><span class=line><span class=cl>    <span class=n>out</span><span class=p>[</span><span class=n>pos</span><span class=p>]</span> <span class=o>=</span> <span class=mf>1.0</span> <span class=o>/</span> <span class=p>(</span><span class=mf>1.0</span> <span class=o>+</span> <span class=n>np</span><span class=o>.</span><span class=n>exp</span><span class=p>(</span><span class=o>-</span><span class=n>z</span><span class=p>[</span><span class=n>pos</span><span class=p>]))</span>
-</span></span><span class=line><span class=cl>    <span class=c1># z &lt; 0 のとき: exp(z) は 0～1 に収まるので安全</span>
-</span></span><span class=line><span class=cl>    <span class=n>ez</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>exp</span><span class=p>(</span><span class=n>z</span><span class=p>[</span><span class=n>neg</span><span class=p>])</span>
-</span></span><span class=line><span class=cl>    <span class=n>out</span><span class=p>[</span><span class=n>neg</span><span class=p>]</span> <span class=o>=</span> <span class=n>ez</span> <span class=o>/</span> <span class=p>(</span><span class=mf>1.0</span> <span class=o>+</span> <span class=n>ez</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>out</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># ---- DE変換 φ(t) と φ&#39;(t)（両方とも安定版） ----</span>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>phi_and_phi_prime</span><span class=p>(</span><span class=n>t</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=c1># u = (π/2) sinh(t)</span>
-</span></span><span class=line><span class=cl>    <span class=n>u</span> <span class=o>=</span> <span class=p>(</span><span class=n>np</span><span class=o>.</span><span class=n>pi</span> <span class=o>/</span> <span class=mf>2.0</span><span class=p>)</span> <span class=o>*</span> <span class=n>np</span><span class=o>.</span><span class=n>sinh</span><span class=p>(</span><span class=n>t</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>z</span> <span class=o>=</span> <span class=mf>2.0</span> <span class=o>*</span> <span class=n>u</span>  <span class=c1># = π sinh(t)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=n>s</span> <span class=o>=</span> <span class=n>logistic</span><span class=p>(</span><span class=n>z</span><span class=p>)</span>         <span class=c1># s = σ(z) = φ(t)</span>
-</span></span><span class=line><span class=cl>    <span class=n>phi</span> <span class=o>=</span> <span class=n>s</span>                 <span class=c1># φ(t) 自体が σ(z)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1># φ&#39;(t) = π cosh(t) * s * (1 - s)</span>
-</span></span><span class=line><span class=cl>    <span class=n>dphi</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>pi</span> <span class=o>*</span> <span class=n>np</span><span class=o>.</span><span class=n>cosh</span><span class=p>(</span><span class=n>t</span><span class=p>)</span> <span class=o>*</span> <span class=n>s</span> <span class=o>*</span> <span class=p>(</span><span class=mf>1.0</span> <span class=o>-</span> <span class=n>s</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>phi</span><span class=p>,</span> <span class=n>dphi</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># ---- DE公式で積分を計算 ----</span>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>de_integrate</span><span class=p>(</span><span class=n>n</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=c1># 刻み幅 h = log(3n) / n</span>
-</span></span><span class=line><span class=cl>    <span class=n>h</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>log</span><span class=p>(</span><span class=mf>3.0</span> <span class=o>*</span> <span class=n>n</span><span class=p>)</span> <span class=o>/</span> <span class=n>n</span>
-</span></span><span class=line><span class=cl>    <span class=n>total</span> <span class=o>=</span> <span class=mf>0.0</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>k</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=o>-</span><span class=n>n</span><span class=p>,</span> <span class=n>n</span> <span class=o>+</span> <span class=mi>1</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=n>t</span> <span class=o>=</span> <span class=n>k</span> <span class=o>*</span> <span class=n>h</span>
-</span></span><span class=line><span class=cl>        <span class=n>x</span><span class=p>,</span> <span class=n>dphi</span> <span class=o>=</span> <span class=n>phi_and_phi_prime</span><span class=p>(</span><span class=n>t</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=n>total</span> <span class=o>+=</span> <span class=n>f</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=o>*</span> <span class=n>dphi</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>h</span> <span class=o>*</span> <span class=n>total</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
-</span></span><span class=line><span class=cl>    <span class=n>true_value</span> <span class=o>=</span> <span class=mf>2.0</span>
-</span></span><span class=line><span class=cl>    <span class=n>n_values</span> <span class=o>=</span> <span class=p>[</span><span class=mi>4</span><span class=p>,</span> <span class=mi>8</span><span class=p>,</span> <span class=mi>16</span><span class=p>,</span> <span class=mi>32</span><span class=p>,</span> <span class=mi>64</span><span class=p>,</span> <span class=mi>128</span><span class=p>]</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;DE integration of ∫0^1 dx/√x (with underflow/cancellation-safe transform)&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34; n       approx            error&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;-------------------------------------------&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>n</span> <span class=ow>in</span> <span class=n>n_values</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>        <span class=n>approx</span> <span class=o>=</span> <span class=n>de_integrate</span><span class=p>(</span><span class=n>n</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=n>error</span> <span class=o>=</span> <span class=nb>abs</span><span class=p>(</span><span class=n>approx</span> <span class=o>-</span> <span class=n>true_value</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;</span><span class=si>{</span><span class=n>n</span><span class=si>:</span><span class=s2>3d</span><span class=si>}</span><span class=s2>   </span><span class=si>{</span><span class=n>approx</span><span class=si>:</span><span class=s2> .12f</span><span class=si>}</span><span class=s2>   </span><span class=si>{</span><span class=n>error</span><span class=si>:</span><span class=s2>.3e</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s2>&#34;__main__&#34;</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>    <span class=n>main</span><span class=p>()</span>
-</span></span></code></pre></div><p>実行結果</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl> n       approx            error
-</span></span><span class=line><span class=cl>-------------------------------------------
-</span></span><span class=line><span class=cl>  <span class=m>4</span>    2.000012041343   1.204e-05
-</span></span><span class=line><span class=cl>  <span class=m>8</span>    2.000000004154   4.154e-09
-</span></span><span class=line><span class=cl> <span class=m>16</span>    2.000000000000   2.220e-15
-</span></span><span class=line><span class=cl> <span class=m>32</span>    2.000000000000   4.441e-16
-</span></span><span class=line><span class=cl> <span class=m>64</span>    2.000000000000   4.441e-16
-</span></span><span class=line><span class=cl><span class=m>128</span>    2.000000000000   1.554e-15
-</span></span></code></pre></div><hr><h3 id=台形公式とde公式の特徴の比較>台形公式とDE公式の特徴の比較<a hidden class=anchor aria-hidden=true href=#台形公式とde公式の特徴の比較>#</a></h3><p>台形公式とDE公式の特徴を比較すると次のようになります。</p><table><thead><tr><th>項目</th><th><strong>台形公式</strong></th><th><strong>DE公式</strong></th></tr></thead><tbody><tr><td><strong>誤差の減衰</strong></td><td>$O\left(\frac{1}{n^{2}}\right)$ <strong>多項式収束</strong></td><td>$O(\exp(-cn))$ <strong>指数収束</strong></td></tr><tr><td><strong>無限区間の積分</strong></td><td>❌ 直接は不可（変換が必要）</td><td>✅DE変換で自然に処理できる</td></tr><tr><td><strong>端点の特異点</strong></td><td>計算不能（端点発散）</td><td>計算可能</td></tr><tr><td><strong>実装の容易さ</strong></td><td>◎ 非常に簡単</td><td>△ 変数変換・微分計算が必要</td></tr></tbody></table><hr><h3 id=台形公式とde公式の誤差の減衰を比較>台形公式とDE公式の誤差の減衰を比較<a hidden class=anchor aria-hidden=true href=#台形公式とde公式の誤差の減衰を比較>#</a></h3><p>次の定積分を、台形公式とDE公式で計算して誤差の減衰を比較します。</p><p>$$
+$$</p>
+<p>を用いて安全に計算しています。</p>
+<p>pythonで実装すると次のようになります。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ---- 被積分関数 f(x) = 1/sqrt(x) ----</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ---- ロジスティック関数（符号で安定化） ----</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">logistic</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># σ(z) = 1 / (1 + exp(-z)) を桁落ち・オーバーフローしないように計算</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pos</span> <span class="o">=</span> <span class="n">z</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">neg</span> <span class="o">=</span> <span class="o">~</span><span class="n">pos</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># z &gt;= 0 のとき: exp(-z) は 0～1 に収まるので安全</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">z</span><span class="p">[</span><span class="n">pos</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># z &lt; 0 のとき: exp(z) は 0～1 に収まるので安全</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ez</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">neg</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span><span class="p">[</span><span class="n">neg</span><span class="p">]</span> <span class="o">=</span> <span class="n">ez</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">ez</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">out</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ---- DE変換 φ(t) と φ&#39;(t)（両方とも安定版） ----</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">phi_and_phi_prime</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># u = (π/2) sinh(t)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">z</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">u</span>  <span class="c1"># = π sinh(t)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">s</span> <span class="o">=</span> <span class="n">logistic</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>         <span class="c1"># s = σ(z) = φ(t)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">phi</span> <span class="o">=</span> <span class="n">s</span>                 <span class="c1"># φ(t) 自体が σ(z)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># φ&#39;(t) = π cosh(t) * s * (1 - s)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dphi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">s</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">phi</span><span class="p">,</span> <span class="n">dphi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ---- DE公式で積分を計算 ----</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">de_integrate</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 刻み幅 h = log(3n) / n</span>
+</span></span><span class="line"><span class="cl">    <span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">t</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="n">h</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span><span class="p">,</span> <span class="n">dphi</span> <span class="o">=</span> <span class="n">phi_and_phi_prime</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">total</span> <span class="o">+=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">dphi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">h</span> <span class="o">*</span> <span class="n">total</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">true_value</span> <span class="o">=</span> <span class="mf">2.0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;DE integration of ∫0^1 dx/√x (with underflow/cancellation-safe transform)&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34; n       approx            error&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;-------------------------------------------&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">n_values</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">approx</span> <span class="o">=</span> <span class="n">de_integrate</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">error</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">approx</span> <span class="o">-</span> <span class="n">true_value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">approx</span><span class="si">:</span><span class="s2"> .12f</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">error</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></div><p>実行結果</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> n       approx            error
+</span></span><span class="line"><span class="cl">-------------------------------------------
+</span></span><span class="line"><span class="cl">  <span class="m">4</span>    2.000012041343   1.204e-05
+</span></span><span class="line"><span class="cl">  <span class="m">8</span>    2.000000004154   4.154e-09
+</span></span><span class="line"><span class="cl"> <span class="m">16</span>    2.000000000000   2.220e-15
+</span></span><span class="line"><span class="cl"> <span class="m">32</span>    2.000000000000   4.441e-16
+</span></span><span class="line"><span class="cl"> <span class="m">64</span>    2.000000000000   4.441e-16
+</span></span><span class="line"><span class="cl"><span class="m">128</span>    2.000000000000   1.554e-15
+</span></span></code></pre></div><hr>
+<h3 id="台形公式とde公式の特徴の比較">台形公式とDE公式の特徴の比較<a hidden class="anchor" aria-hidden="true" href="#台形公式とde公式の特徴の比較">#</a></h3>
+<p>台形公式とDE公式の特徴を比較すると次のようになります。</p>
+<table>
+  <thead>
+      <tr>
+          <th>項目</th>
+          <th><strong>台形公式</strong></th>
+          <th><strong>DE公式</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>誤差の減衰</strong></td>
+          <td>$O\left(\frac{1}{n^{2}}\right)$ <strong>多項式収束</strong></td>
+          <td>$O(\exp(-cn))$ <strong>指数収束</strong></td>
+      </tr>
+      <tr>
+          <td><strong>無限区間の積分</strong></td>
+          <td>❌ 直接は不可（変換が必要）</td>
+          <td>✅DE変換で自然に処理できる</td>
+      </tr>
+      <tr>
+          <td><strong>端点の特異点</strong></td>
+          <td>計算不能（端点発散）</td>
+          <td>計算可能</td>
+      </tr>
+      <tr>
+          <td><strong>実装の容易さ</strong></td>
+          <td>◎ 非常に簡単</td>
+          <td>△ 変数変換・微分計算が必要</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h3 id="台形公式とde公式の誤差の減衰を比較">台形公式とDE公式の誤差の減衰を比較<a hidden class="anchor" aria-hidden="true" href="#台形公式とde公式の誤差の減衰を比較">#</a></h3>
+<p>次の定積分を、台形公式とDE公式で計算して誤差の減衰を比較します。</p>
+<p>$$
 \begin{aligned}
 \int_{0}^{1} e^{x} dx = e - 1
 \end{aligned}
-$$</p><p>Trapezoidal rule(台形公式)とDE rule(二重指数関数型積分公式)の誤差の減衰を対数グラフで比較しています。</p><p><img loading=lazy src=/img/png/error_exp_trap_vs_de.png alt="Trapezoidal vs DE"></p><ul><li><strong>台形公式(青)</strong><br>分点数$n$を増やすと徐々に誤差が減衰していきますが、その減衰速度は速くありません。<br>理論的には台形公式の誤差は
+$$</p>
+<p>Trapezoidal rule(台形公式)とDE rule(二重指数関数型積分公式)の誤差の減衰を対数グラフで比較しています。</p>
+<p><img loading="lazy" src="/img/png/error_exp_trap_vs_de.png" alt="Trapezoidal vs DE"  />
+</p>
+<ul>
+<li><strong>台形公式(青)</strong><br>
+分点数$n$を増やすと徐々に誤差が減衰していきますが、その減衰速度は速くありません。<br>
+理論的には台形公式の誤差は
 $$
 \begin{aligned}
 O\left(\frac{1}{n^{2}}\right)
 \end{aligned}
 $$
-の多項式的な収束を示し、実際グラフでも<strong>ほぼ直線的に下がる緩やかな減衰</strong> になっています。</li><li><strong>DE公式(橙)</strong><br>小さな$n$でも誤差が急激に減衰し、$n=16$を超えたあたりで早くも$10^{-15}$<strong>(倍精度浮動小数点数が保持できる桁の限界付近)</strong> に達しています。<br>これはDE公式の誤差が
+の多項式的な収束を示し、実際グラフでも<strong>ほぼ直線的に下がる緩やかな減衰</strong> になっています。</li>
+<li><strong>DE公式(橙)</strong><br>
+小さな$n$でも誤差が急激に減衰し、$n=16$を超えたあたりで早くも$10^{-15}$<strong>(倍精度浮動小数点数が保持できる桁の限界付近)</strong> に達しています。<br>
+これはDE公式の誤差が
 $$
 \begin{aligned}
 O(\exp(-cn))
 \end{aligned}
 $$
-のような<strong>指数的収束</strong> を示すためで、台形公式と比べて圧倒的に早く収束することがわかります。</li><li><strong>全体の比較</strong><br>台形公式は分点数$n$を増やすほど少しずつ精度が上がるのに対し、DE公式は<strong>極めて少ない分点数で機械精度に達する</strong>ほど高効率です。<br>滑らかな関数$e^{x}$に対しても、DE公式が非常に高い性能を発揮することを示しています。</li></ul><h2 id=区間演算による精度保証について>区間演算による精度保証について<a hidden class=anchor aria-hidden=true href=#区間演算による精度保証について>#</a></h2><p>台形公式やDE公式はいずれも<strong>数値的な近似手法</strong>であり積分値を厳密に求める際には、何らかの誤差が含まれます。</p><ul><li>台形公式では主に<strong>離散化誤差</strong>(刻み幅による誤差)</li><li>DE公式では<strong>離散化誤差</strong>に加えて変数変換後の全無限の積分区間を有限区間で「打ち切る」ことによる<strong>打ち切り誤差</strong></li></ul><p>これらの誤差が理論的に存在します。</p><p><strong>精度保証付き数値計算(Verified Numerics)</strong> を実現するためには、<strong>これらすべての誤差要因を厳密に評価し、最終結果を区間として包含する</strong>必要があります。</p><p>しかし、誤差項の理論的扱いは非常に高度であり、特にDE公式のように変数変換を伴う手法では、誤差の評価式そのものが複雑になります。</p><p>そのため、ここでは詳細な理論展開には踏み込みません。<br>精度保証付き数値計算を本格的に学びたい方のために、参考となる書籍のみ紹介することにします。</p><p><a href=https://www.coronasha.co.jp/np/isbn/9784339028874/>📘<strong>精度保証付き数値計算の基礎</strong></a></p><h2 id=まとめ>まとめ<a hidden class=anchor aria-hidden=true href=#まとめ>#</a></h2><p>この記事では、数値積分の基本である<strong>台形公式</strong>と積分区間の端点の特異点や無限区間の積分にも対応できる高精度な手法である<strong>DE(Double Exponential)公式</strong>を紹介しました。</p><ul><li><strong>台形公式はシンプルで実装しやすい反面、収束は多項式的で、特異点には弱い</strong></li><li><strong>DE公式は変数変換によって積分区間の端点の特異点を無限遠点へ押し出し、指数的な収束を実現する非常に強力な手法</strong></li><li><strong>DE公式を実装する際には桁落ちやオーバーフローを避けるために式変形が必要なことがある</strong></li><li><strong>精度保証を行うには、離散化誤差・打切り誤差などの理論的な誤差を数学的に評価し、区間演算で包含する必要がある</strong></li></ul><p>現代の数値計算では「解析的に積分できない関数」のほうが一般的です。<br>そのため、<strong>数値積分の基礎を理解し、適切な方法を選択できることは非常に重要</strong>です。</p><p>台形公式のような基本的な手法だけでなく、DE公式のような高精度手法まで理解しておくと、実際の科学技術計算・統計計算・シミュレーションなどで大きな力になります。</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://ungeho.netlify.app/tags/float/>Float</a></li><li><a href=https://ungeho.netlify.app/tags/ieee754/>IEEE754</a></li><li><a href=https://ungeho.netlify.app/tags/%E6%95%B0%E5%80%A4%E8%A8%88%E7%AE%97/>数値計算</a></li><li><a href=https://ungeho.netlify.app/tags/%E8%AA%A4%E5%B7%AE/>誤差</a></li><li><a href=https://ungeho.netlify.app/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/>プログラミング</a></li><li><a href=https://ungeho.netlify.app/tags/%E6%95%B0%E5%80%A4%E7%A9%8D%E5%88%86/>数値積分</a></li></ul><nav class=paginav><a class=prev href=https://ungeho.netlify.app/posts/numericaldifferentiation/><span class=title>« 前へ</span><br><span>数値微分</span>
-</a><a class=next href=https://ungeho.netlify.app/posts/interval/><span class=title>次へ »</span><br><span>区間演算</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 数値積分 on x" href="https://x.com/intent/tweet/?text=%e6%95%b0%e5%80%a4%e7%a9%8d%e5%88%86&amp;url=https%3a%2f%2fungeho.netlify.app%2fposts%2fnumericalintegration%2f&amp;hashtags=Float%2cIEEE754%2c%e6%95%b0%e5%80%a4%e8%a8%88%e7%ae%97%2c%e8%aa%a4%e5%b7%ae%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0%2c%e6%95%b0%e5%80%a4%e7%a9%8d%e5%88%86"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2025 <a href=https://ungeho.netlify.app/>ungehoBlog</a></span>
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
-</a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+のような<strong>指数的収束</strong> を示すためで、台形公式と比べて圧倒的に早く収束することがわかります。</li>
+<li><strong>全体の比較</strong><br>
+台形公式は分点数$n$を増やすほど少しずつ精度が上がるのに対し、DE公式は<strong>極めて少ない分点数で機械精度に達する</strong>ほど高効率です。<br>
+滑らかな関数$e^{x}$に対しても、DE公式が非常に高い性能を発揮することを示しています。</li>
+</ul>
+<h2 id="区間演算による精度保証について">区間演算による精度保証について<a hidden class="anchor" aria-hidden="true" href="#区間演算による精度保証について">#</a></h2>
+<p>台形公式やDE公式はいずれも<strong>数値的な近似手法</strong>であり積分値を厳密に求める際には、何らかの誤差が含まれます。</p>
+<ul>
+<li>台形公式では主に<strong>離散化誤差</strong>(刻み幅による誤差)</li>
+<li>DE公式では<strong>離散化誤差</strong>に加えて変数変換後の全無限の積分区間を有限区間で「打ち切る」ことによる<strong>打ち切り誤差</strong></li>
+</ul>
+<p>これらの誤差が理論的に存在します。</p>
+<p><strong>精度保証付き数値計算(Verified Numerics)</strong> を実現するためには、<strong>これらすべての誤差要因を厳密に評価し、最終結果を区間として包含する</strong>必要があります。</p>
+<p>しかし、誤差項の理論的扱いは非常に高度であり、特にDE公式のように変数変換を伴う手法では、誤差の評価式そのものが複雑になります。</p>
+<p>そのため、ここでは詳細な理論展開には踏み込みません。<br>
+精度保証付き数値計算を本格的に学びたい方のために、参考となる書籍のみ紹介することにします。</p>
+<p><a href="https://www.coronasha.co.jp/np/isbn/9784339028874/">📘<strong>精度保証付き数値計算の基礎</strong></a></p>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<p>この記事では、数値積分の基本である<strong>台形公式</strong>と積分区間の端点の特異点や無限区間の積分にも対応できる高精度な手法である<strong>DE(Double Exponential)公式</strong>を紹介しました。</p>
+<ul>
+<li><strong>台形公式はシンプルで実装しやすい反面、収束は多項式的で、特異点には弱い</strong></li>
+<li><strong>DE公式は変数変換によって積分区間の端点の特異点を無限遠点へ押し出し、指数的な収束を実現する非常に強力な手法</strong></li>
+<li><strong>DE公式を実装する際には桁落ちやオーバーフローを避けるために式変形が必要なことがある</strong></li>
+<li><strong>精度保証を行うには、離散化誤差・打切り誤差などの理論的な誤差を数学的に評価し、区間演算で包含する必要がある</strong></li>
+</ul>
+<p>現代の数値計算では「解析的に積分できない関数」のほうが一般的です。<br>
+そのため、<strong>数値積分の基礎を理解し、適切な方法を選択できることは非常に重要</strong>です。</p>
+<p>台形公式のような基本的な手法だけでなく、DE公式のような高精度手法まで理解しておくと、実際の科学技術計算・統計計算・シミュレーションなどで大きな力になります。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/float/">Float</a></li>
+      <li><a href="http://localhost:1313/tags/ieee754/">IEEE754</a></li>
+      <li><a href="http://localhost:1313/tags/%E6%95%B0%E5%80%A4%E8%A8%88%E7%AE%97/">数値計算</a></li>
+      <li><a href="http://localhost:1313/tags/%E8%AA%A4%E5%B7%AE/">誤差</a></li>
+      <li><a href="http://localhost:1313/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">プログラミング</a></li>
+      <li><a href="http://localhost:1313/tags/%E6%95%B0%E5%80%A4%E7%A9%8D%E5%88%86/">数値積分</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/numericaldifferentiation/">
+    <span class="title">« 前へ</span>
+    <br>
+    <span>数値微分</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/interval/">
+    <span class="title">次へ »</span>
+    <br>
+    <span>区間演算</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 数値積分 on x"
+            href="https://x.com/intent/tweet/?text=%e6%95%b0%e5%80%a4%e7%a9%8d%e5%88%86&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fnumericalintegration%2f&amp;hashtags=Float%2cIEEE754%2c%e6%95%b0%e5%80%a4%e8%a8%88%e7%ae%97%2c%e8%aa%a4%e5%b7%ae%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0%2c%e6%95%b0%e5%80%a4%e7%a9%8d%e5%88%86">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="http://localhost:1313/">ungehoBlog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script></body>
+
+</html>

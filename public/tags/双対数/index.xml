@@ -1,11 +1,29 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>双対数 on ungehoBlog</title><link>https://ungeho.netlify.app/tags/%E5%8F%8C%E5%AF%BE%E6%95%B0/</link><description>Recent content in 双対数 on ungehoBlog</description><generator>Hugo -- gohugo.io</generator><language>ja</language><lastBuildDate>Fri, 12 Dec 2025 16:30:33 +0900</lastBuildDate><atom:link href="https://ungeho.netlify.app/tags/%E5%8F%8C%E5%AF%BE%E6%95%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>自動微分</title><link>https://ungeho.netlify.app/posts/autodiff/</link><pubDate>Fri, 12 Dec 2025 16:30:33 +0900</pubDate><guid>https://ungeho.netlify.app/posts/autodiff/</guid><description>&lt;hr&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>双対数 on ungehoBlog</title>
+    <link>http://localhost:1313/tags/%E5%8F%8C%E5%AF%BE%E6%95%B0/</link>
+    <description>Recent content in 双対数 on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Fri, 12 Dec 2025 16:30:33 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E5%8F%8C%E5%AF%BE%E6%95%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>自動微分</title>
+      <link>http://localhost:1313/posts/autodiff/</link>
+      <pubDate>Fri, 12 Dec 2025 16:30:33 +0900</pubDate>
+      <guid>http://localhost:1313/posts/autodiff/</guid>
+      <description>&lt;hr&gt;
 &lt;blockquote&gt;
 &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
-&lt;a href="../float"&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href="../interval"&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href="../numericalIntegration"&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href="../numericalDifferentiation"&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href="../autoDiff"&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;/p&gt;
+&lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;strong&gt;自動微分(Automatic Differentiation,AD)&lt;/strong&gt; は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;&lt;strong&gt;自動微分(Automatic Differentiation,AD)&lt;/strong&gt; は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

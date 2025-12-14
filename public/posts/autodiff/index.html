@@ -1,4 +1,13 @@
-<!doctype html><html lang=ja dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>自動微分 | ungehoBlog</title><meta name=keywords content="Float,IEEE754,数値計算,誤差,プログラミング,自動微分,双対数"><meta name=description content="
+<!DOCTYPE html>
+<html lang="ja" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>自動微分 | ungehoBlog</title>
+<meta name="keywords" content="Float, IEEE754, 数値計算, 誤差, プログラミング, 自動微分, 双対数">
+<meta name="description" content="
 
 💡 この記事は「コンピューターで計算する」シリーズの一部です。
 1. 浮動小数点数
@@ -8,799 +17,1557 @@
 5. 自動微分 👈 今ここ
 
 
-自動微分(Automatic Differentiation,AD) は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。"><meta name=author content="ungeho"><link rel=canonical href=https://ungeho.netlify.app/posts/autodiff/><link crossorigin=anonymous href=/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as=style><link rel=icon href=https://ungeho.netlify.app/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://ungeho.netlify.app/favicon/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://ungeho.netlify.app/favicon/favicon-32x32.png><link rel=apple-touch-icon href=https://ungeho.netlify.app/favicon/apple-touch-icon.png><link rel=mask-icon href=https://ungeho.netlify.app/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=ja href=https://ungeho.netlify.app/posts/autodiff/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script><script defer src=https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js></script><script>document.addEventListener("DOMContentLoaded",function(){window.mermaid&&mermaid.initialize({startOnLoad:!0})})</script><meta property="og:title" content="自動微分"><meta property="og:description" content="
+自動微分(Automatic Differentiation,AD) は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。">
+<meta name="author" content="ungeho">
+<link rel="canonical" href="http://localhost:1313/posts/autodiff/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/autodiff/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
 
-💡 この記事は「コンピューターで計算する」シリーズの一部です。
-1. 浮動小数点数
-2. 区間演算
-3. 数値積分
-4. 数値微分
-5. 自動微分 👈 今ここ
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ]
+        });
+    });
+</script>
 
 
-自動微分(Automatic Differentiation,AD) は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。"><meta property="og:type" content="article"><meta property="og:url" content="https://ungeho.netlify.app/posts/autodiff/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-12-12T16:30:33+09:00"><meta property="article:modified_time" content="2025-12-12T16:30:33+09:00"><meta property="og:site_name" content="ungehoBlog"><meta name=twitter:card content="summary"><meta name=twitter:title content="自動微分"><meta name=twitter:description content="
 
-💡 この記事は「コンピューターで計算する」シリーズの一部です。
-1. 浮動小数点数
-2. 区間演算
-3. 数値積分
-4. 数値微分
-5. 自動微分 👈 今ここ
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.mermaid) {
+            mermaid.initialize({
+                startOnLoad: true,
+            });
+        }
+    });
+</script>
 
 
-自動微分(Automatic Differentiation,AD) は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://ungeho.netlify.app/posts/"},{"@type":"ListItem","position":2,"name":"自動微分","item":"https://ungeho.netlify.app/posts/autodiff/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"自動微分","name":"自動微分","description":" 💡 この記事は「コンピューターで計算する」シリーズの一部です。\n1. 浮動小数点数\n2. 区間演算\n3. 数値積分\n4. 数値微分\n5. 自動微分 👈 今ここ\n自動微分(Automatic Differentiation,AD) は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。\n","keywords":["Float","IEEE754","数値計算","誤差","プログラミング","自動微分","双対数"],"articleBody":" 💡 この記事は「コンピューターで計算する」シリーズの一部です。\n1. 浮動小数点数\n2. 区間演算\n3. 数値積分\n4. 数値微分\n5. 自動微分 👈 今ここ\n自動微分(Automatic Differentiation,AD) は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。\n特に双対数(Dual numbers) を用いた手法では、入力を$x+\\varepsilon$ として計算するだけで、関数値$f(x)$ と導関数$f^{\\prime}(x)$ が同時に得られ、数値微分のような誤差がなく$h$ の選択が不要になります。\n双対数を用いた自動微分 双対数（Dual Numbers）を用いた自動微分では、入力を\n$$ \\begin{aligned} x + \\varepsilon \\end{aligned} $$\nとしたときの関数の値が\n$$ \\begin{aligned} f(x + \\varepsilon) = f(x) + \\varepsilon f^{\\prime}(x) \\end{aligned} $$\nという形になることを利用して微分値を得ます。\nここで$\\varepsilon$は次の性質をもつ特別な元です\n$$ \\begin{aligned} \\varepsilon \u0026\\neq 0\\\\ \\varepsilon^{2} \u0026= 0 \\end{aligned} $$\nこれは「$\\varepsilon$ は二乗すると完全に消える」という意味を表します。\nテイラー展開から見た双対数の原理 ここで、次のテイラー級数を考えます。\n$$ \\begin{aligned} f(x + a) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)} (x)}{n!}(a)^{n} \\end{aligned} $$\nに$a=\\varepsilon$を代入すると\n$$ \\begin{aligned} f(x + \\varepsilon) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)} (x)}{n!}(\\varepsilon)^{n} \\end{aligned} $$\nこれを展開すると\n$$ \\begin{aligned} f(x + \\varepsilon) = f(x) + \\varepsilon f^{\\prime}(x) + \\varepsilon^{2} \\frac{f^{\\prime\\prime}(x)}{2!} +\\varepsilon^{3}\\frac{ f^{(3)}(x)}{3!} + \\dots \\end{aligned} $$\nしかし、双対数の定義より\n$$ \\begin{aligned} \\varepsilon^{2} = 0 \\end{aligned} $$\nであるため、二次以降の項が全て消えます。\nよって\n$$ \\begin{aligned} f(x + \\varepsilon) = f(x) + \\varepsilon f^{\\prime}(x) \\end{aligned} $$\nという非常にシンプルな形が得られます。\nここで\n実部：$f(x)$ $\\varepsilon$の係数：$f^{\\prime}(x)$ が得られるため、双対数を使うことで関数値と導関数が同時に計算できるわけです。\n双対数を行列で表現する $$ \\begin{aligned} x + \\varepsilon y \\end{aligned} $$\nは2 x 2 の上三角行列\n$$ \\begin{aligned} \\begin{pmatrix} x \u0026 y \\\\ 0 \u0026 x \\end{pmatrix} \\end{aligned} $$\nと全く同じ振る舞いをします。\nこのとき、双対数$\\varepsilon$ は\n$$ \\varepsilon = \\begin{aligned} \\begin{pmatrix} 0 \u0026 1 \\\\ 0 \u0026 0 \\end{pmatrix} \\end{aligned} $$\nであり、行列の積をとると\n$$ \\varepsilon^{2} = \\begin{aligned} \\begin{pmatrix} 0 \u0026 1 \\\\ 0 \u0026 0 \\end{pmatrix} \\times \\begin{pmatrix} 0 \u0026 1 \\\\ 0 \u0026 0 \\end{pmatrix} = \\begin{pmatrix} 0 \u0026 0 \\\\ 0 \u0026 0 \\end{pmatrix} \\end{aligned} $$\nしたがって\n$$ \\begin{aligned} \\varepsilon \u0026\\neq 0\\\\ \\varepsilon^{2} \u0026= 0 \\end{aligned} $$\nという双対数の性質が行列で正しく再現されています。\n実装上のアルゴリズム 双対数を用いた自動微分は、双対数\n$$ \\begin{aligned} x + \\varepsilon y \\end{aligned} $$\nを扱えるように、四則演算などの基本的な演算をオペレーターオーバーロードによって再定義する ことで実現できます。\n具体的には、ほとんど行列演算の実装になります。\n代入演算子(+=,-=,*=,/=)や符号-は演算子を上書きした四則演算を使って演算します。\n一部の特殊関数は定義した特殊関数を使用します。\n加算 + $$ \\begin{aligned} \\begin{pmatrix} a \u0026 b \\\\ c \u0026 d \\end{pmatrix} + \\begin{pmatrix} e \u0026 f \\\\ g \u0026 h \\end{pmatrix} = \\begin{pmatrix} a+e \u0026 b+f \\\\ c+g \u0026 d+h \\end{pmatrix} \\end{aligned} $$\nより\n$$ \\begin{aligned} (x + y \\varepsilon) + (v + w \\varepsilon) \\end{aligned} $$\nは\n$$ \\begin{aligned} \\begin{pmatrix} x \u0026 y \\\\ 0 \u0026 x \\end{pmatrix} + \\begin{pmatrix} v \u0026 w \\\\ 0 \u0026 v \\end{pmatrix} = \\begin{pmatrix} x+v \u0026 y+w \\\\ 0 \u0026 x+v \\end{pmatrix} \\end{aligned} $$\nまとめると\n$$ \\begin{aligned} (x + y \\varepsilon) + (v + w \\varepsilon) = \\begin{pmatrix} x+v \u0026 y+w \\\\ 0 \u0026 x+v \\end{pmatrix} \\end{aligned} $$\n減算 - $$ \\begin{aligned} \\begin{pmatrix} a \u0026 b \\\\ c \u0026 d \\end{pmatrix} - \\begin{pmatrix} e \u0026 f \\\\ g \u0026 h \\end{pmatrix} = \\begin{pmatrix} a-e \u0026 b-f \\\\ c-g \u0026 d-h \\end{pmatrix} \\end{aligned} $$\nより\n$$ \\begin{aligned} (x + y \\varepsilon) - (v + w \\varepsilon) \\end{aligned} $$\nは\n$$ \\begin{aligned} \\begin{pmatrix} x \u0026 y \\\\ 0 \u0026 x \\end{pmatrix} - \\begin{pmatrix} v \u0026 w \\\\ 0 \u0026 v \\end{pmatrix} = \\begin{pmatrix} x-v \u0026 y-w \\\\ 0 \u0026 x-v \\end{pmatrix} \\end{aligned} $$\nまとめると\n$$ \\begin{aligned} (x + y \\varepsilon) - (v + w \\varepsilon) = \\begin{pmatrix} x-v \u0026 y-w \\\\ 0 \u0026 x-v \\end{pmatrix} \\end{aligned} $$\nスカラー倍 $$ \\begin{aligned} k(x + y \\varepsilon) \\end{aligned} $$\nは\n$$ \\begin{aligned} k \\begin{pmatrix} x \u0026 y \\\\ 0 \u0026 x \\end{pmatrix} = \\begin{pmatrix} kx \u0026 ky \\\\ 0 \u0026 kx \\end{pmatrix} \\end{aligned} $$\nまとめると\n$$ \\begin{aligned} k(x + y \\varepsilon) = \\begin{pmatrix} kx \u0026 ky \\\\ 0 \u0026 kx \\end{pmatrix} \\end{aligned} $$\n乗算 * $$ \\begin{aligned} \\begin{pmatrix} a \u0026 b \\\\ c \u0026 d \\end{pmatrix} \\times \\begin{pmatrix} e \u0026 f \\\\ g \u0026 h \\end{pmatrix} = \\begin{pmatrix} ae + bg \u0026 af + bh \\\\ ce + dg \u0026 cf + dh \\end{pmatrix} \\end{aligned} $$\nより\n$$ \\begin{aligned} (x + y \\varepsilon) \\times (v + w \\varepsilon) \\end{aligned} $$\nは\n$$ \\begin{aligned} \\begin{pmatrix} x \u0026 y \\\\ 0 \u0026 x \\end{pmatrix} \\times \\begin{pmatrix} v \u0026 w \\\\ 0 \u0026 v \\end{pmatrix} = \\begin{pmatrix} xv \u0026 xw + yv \\\\ 0 \u0026 xv \\end{pmatrix} \\end{aligned} $$\nまとめると\n$$ \\begin{aligned} (x + y \\varepsilon) \\times (v + w \\varepsilon) = \\begin{pmatrix} xv \u0026 xw + yv \\\\ 0 \u0026 xv \\end{pmatrix} \\end{aligned} $$\n逆行列(除算 /) $$ \\begin{aligned} A = \\begin{pmatrix} a \u0026 b \\\\ c \u0026 d \\end{pmatrix}, \\qquad \\det(A) = ad - bc \\neq 0 \\end{aligned} $$\n$$ \\begin{aligned} A^{-1} = \\frac{1}{ad - bc} \\begin{pmatrix} d \u0026 -b \\\\ -c \u0026 a \\end{pmatrix} \\end{aligned} $$\nより\n$$ \\begin{aligned} (x + y \\varepsilon) \\div (v + w \\varepsilon) \\end{aligned} $$\nは$(v + w \\varepsilon)$ の逆行列を求めて\n$$ \\begin{aligned} v^{2} \\neq 0 \\end{aligned} $$\nより実部$v \\neq 0$ のとき\n$$ \\begin{aligned} \u0026\\begin{pmatrix} x \u0026 y \\\\ 0 \u0026 x \\end{pmatrix} \\times \\frac{1}{v^{2}} \\begin{pmatrix} v \u0026 -w \\\\ 0 \u0026 v \\end{pmatrix}\\\\ = \u0026\\begin{pmatrix} x \u0026 y \\\\ 0 \u0026 x \\end{pmatrix} \\times \\begin{pmatrix} \\frac{1}{v} \u0026 -\\frac{w}{v^{2}} \\\\ 0 \u0026 \\frac{1}{v} \\end{pmatrix}\\\\ = \u0026\\begin{pmatrix} \\frac{x}{v} \u0026 -\\frac{xw}{v^{2}}+\\frac{y}{v} \\\\ 0 \u0026 \\frac{x}{v} \\end{pmatrix}\\\\ = \u0026\\begin{pmatrix} \\frac{x}{v} \u0026 \\frac{yv-xw}{v^{2}} \\\\ 0 \u0026 \\frac{x}{v} \\end{pmatrix} \\end{aligned} $$\nまとめると\n$$ \\begin{aligned} (x + y \\varepsilon) \\div (v + w \\varepsilon) = \\begin{pmatrix} \\frac{x}{v} \u0026 \\frac{yv-xw}{v^{2}} \\\\ 0 \u0026 \\frac{x}{v} \\end{pmatrix} \\end{aligned} $$\n指数関数 与えられた$x + \\varepsilon y$を次のように計算します。\n$$ \\begin{aligned} \\exp(x + \\varepsilon y) = \\exp(x) \\times \\exp(\\varepsilon y) \\end{aligned} $$\n指数関数は与えられた行列を$X$としたとき$\\exp(X)$は\n$$ \\begin{aligned} \\exp(X) = \\sum_{k=0}^{\\infty} \\frac{X^{k}}{k!} \\end{aligned} $$\nです。\n実数部分$x$はそのまま\n$$ \\exp(x) $$\nとする。\n双対数$\\varepsilon y$ は$\\varepsilon^{2} = 0$より$k\\ge2$のときの項が$0$になるので\n$$ \\begin{aligned} \\exp(\\varepsilon y) = \\sum_{k=0}^{\\infty} \\frac{(\\varepsilon y)^{k}}{k!} = 1 + \\varepsilon y \\end{aligned} $$\nになる。\nこれをまとめると\n$$ \\begin{aligned} \\exp(x + \\varepsilon y) = \\exp(x) \\times (1 + \\varepsilon y) = \\exp(x) + \\varepsilon y \\exp(x) \\end{aligned} $$\nになり\n$$ \\begin{aligned} \\exp(x + \\varepsilon y) = \\begin{pmatrix} \\exp(x) \u0026 y \\exp(x) \\\\ 0 \u0026 \\exp(x) \\end{pmatrix} \\end{aligned} $$\nである。\n三角関数(sin,cos) 与えられた$x + \\varepsilon y$を次のように計算します。\n正弦関数(sin)の場合 $$ \\begin{aligned} \\sin(x + \\varepsilon y) = \\sin(x)\\times\\cos(\\varepsilon y) + \\cos(x) \\times \\sin(\\varepsilon y) \\end{aligned} $$\n余弦関数(cos)の場合 $$ \\begin{aligned} \\cos(x + \\varepsilon y) = \\cos(x)\\times\\cos(\\varepsilon y) - \\sin(x) \\times \\sin(\\varepsilon y) \\end{aligned} $$\n与えられた行列を$X$としたとき\n正弦関数(sin)は $$ \\begin{aligned} \\sin(X) = \\sum_{k=0}^{\\infty} \\frac{(-1)^{k}}{(2k + 1)!} X^{2k+1} \\end{aligned} $$\n余弦関数(cos)は $$ \\begin{aligned} \\cos(X) = \\sum_{k=0}^{\\infty} \\frac{(-1)^{k}}{(2k)!} X^{2k} \\end{aligned} $$\n指数関数の時と同じように、実部$x$はそのまま\n正弦関数(sin) $$ \\sin(x) $$\n余弦関数(cos) $$ \\cos(x) $$\nとする。\n双対数$\\varepsilon y$ は$\\varepsilon^{2} = 0$より$k\\ge1$のときの項が$0$になるので\n正弦関数(sin)は $$ \\begin{aligned} \\sin(\\varepsilon y) = \\sum_{k=0}^{\\infty} \\frac{(-1)^{k}}{(2k + 1)!} (\\varepsilon y)^{2k+1}=\\varepsilon y \\end{aligned} $$\n余弦関数(cos)は $$ \\begin{aligned} \\cos(\\varepsilon y) = \\sum_{k=0}^{\\infty} \\frac{(-1)^{k}}{(2k)!} (\\varepsilon y)^{2k} = 1 \\end{aligned} $$\nよって\n正弦関数(sin)は $$ \\begin{aligned} \u0026\\sin(x + \\varepsilon y)\\\\ = \u0026\\sin(x)\\times\\cos(\\varepsilon y) + \\cos(x) \\times \\sin(\\varepsilon y)\\\\ = \u0026\\sin(x) \\times 1 + \\cos(x) \\times \\varepsilon y \\\\ = \u0026\\sin(x) + \\varepsilon y \\cos(x) \\end{aligned} $$\n余弦関数(cos)は $$ \\begin{aligned} \u0026\\cos(x + \\varepsilon y)\\\\ = \u0026\\cos(x) \\times \\cos(\\varepsilon y) - \\sin(x) \\times \\sin(\\varepsilon y)\\\\ = \u0026\\cos(x) \\times 1 - \\sin(x) \\times \\varepsilon y\\\\ = \u0026\\cos(x) - \\varepsilon y \\sin(x) \\end{aligned} $$\nまとめると\n正弦関数(sin) $$ \\begin{aligned} \\sin(x + \\varepsilon y) = \\begin{pmatrix} \\sin(x) \u0026 y \\cos(x) \\\\ 0 \u0026 \\sin(x) \\end{pmatrix} \\end{aligned} $$\n余弦関数(cos) $$ \\begin{aligned} \\cos(x + \\varepsilon y) = \\begin{pmatrix} \\cos(x) \u0026 - y \\sin(x) \\\\ 0 \u0026 \\cos(x) \\end{pmatrix} \\end{aligned} $$\n三角関数(tan) $$ \\begin{aligned} \\tan(x + y \\varepsilon) = \\frac{\\sin(x + y\\varepsilon)}{\\cos(x + y\\varepsilon)} \\end{aligned} $$\nにより、三角関数(sin,cos)と乗算と逆行列(除算)を実装して、それらを利用ことで演算可能になる。\n対数関数(log) 与えられた$x + \\varepsilon y$を次のように計算します。\n$$ \\begin{aligned} x + y \\varepsilon = x \\times \\left(1 + \\frac{y \\varepsilon}{x} \\right) \\end{aligned} $$\nより\n$$ \\begin{aligned} \\log \\left( x \\times \\left( 1 + \\frac{y \\varepsilon}{x} \\right) \\right) = \\log(x) + \\log \\left(1 + \\frac{y \\varepsilon} {x} \\right) \\end{aligned} $$\n対数関数は与えられた行列を$1 + X$としたとき$\\log(1 + X)$は\n$$ \\begin{aligned} \\log(1 + X) = \\sum_{k=1}^{\\infty} \\frac{(-1)^{k+1}}{k} X^{k} \\end{aligned} $$\nです。\n実数部分$x$はそのまま\n$$ \\begin{aligned} \\log(x) \\end{aligned} $$\nとする。 双対数$ \\left(1 + \\frac{y \\varepsilon}{x} \\right)$ は$\\varepsilon^{2} = 0$より$k \\ge 2$のときの項が$0$になるので\n$$ \\begin{aligned} \\log \\left(1 + \\frac{y \\varepsilon}{x} \\right) = \\sum_{k=1}^{\\infty} \\frac{(-1)^{k+1}}{k} \\left( \\frac{y \\varepsilon}{x} \\right) ^{k} = \\frac{y \\varepsilon}{x} \\end{aligned} $$\nよって\n$$ \\begin{aligned} \\log \\left( x \\times \\left(1 + \\frac{y \\varepsilon}{x} \\right) \\right) = \\log(x) + \\frac{y \\varepsilon}{x} \\end{aligned} $$\nまとめると\n$$ \\begin{aligned} \\log(x + y \\varepsilon) = \\begin{pmatrix} \\log(x) \u0026 \\frac{y}{x} \\\\ 0 \u0026 \\log(x) \\end{pmatrix} \\end{aligned} $$\n累乗（power） 双対数の累乗 $X^n$ を計算する場合，指数 $n$ が整数か非整数かで扱いが異なります。\n1. $n$が整数の場合（整数乗）\n$n = 0$のとき $$ \\begin{aligned} X^{0} = I \\end{aligned} $$\n（単位行列を返す）\n$n \u003e 0$のとき $$ \\begin{aligned} X^n = \\underbrace{X X \\cdots X}_{n\\ \\text{回}} \\end{aligned} $$\n（反復乗算）\n$n \u003c 0$ のとき $$ \\begin{aligned} X^n = (X^{-1})^{|n|} \\end{aligned} $$\n（逆行列を使って正の指数と同様に計算）\n2. $n$ が実数のとき（実数乗・非整数指数）\nまず条件として、双対数\n$$ \\begin{aligned} X = x + y\\varepsilon \\end{aligned} $$\nの実部 $x$ が$0$より大きい値である必要があります。\nすなわち、指数 $n$ が実数\n$$ \\begin{aligned} n \\in \\mathbb{R} \\end{aligned} $$\nである場合、双対数 $X$ は\n$$ \\begin{aligned} X = x + y\\varepsilon,\\qquad x \u003e 0 \\end{aligned} $$\nを満たさなければなりません。\nこれは、実数における累乗\n$$ \\begin{aligned} x^n = \\exp(n\\log x) \\end{aligned} $$\nが $x\u003e0$ のもとで定義されることと完全に一致しています。\n一般の実数指数 $n$ に対しては，指数関数と対数関数を使って\n$$ \\begin{aligned} X^n = \\exp\\bigl(n \\log X\\bigr) \\end{aligned} $$\nと定義します。\nこれは実数の世界における定義\n$$ \\begin{aligned} x^n = \\exp\\bigl(n\\log x\\bigr) \\end{aligned} $$\nの行列版です。\n双対数は行列で表せるので\nlog(X)（上三角行列の対数） exp(n log(X))（上三角行列の指数） がすべて計算可能になり、任意実数指数の累乗を扱うことができます。\n平方根（Square root） 平方根は累乗の特別な場合として扱うことができます。\nすなわち\n$$ \\begin{aligned} \\sqrt{X} = X^{\\frac{1}{2}} \\end{aligned} $$\nただし、双対数 $X$ の実部が$0$より大きいこと。つまり\n$$ \\begin{aligned} X = x + y\\varepsilon,\\qquad x \u003e 0 \\end{aligned} $$\nを満たすことが条件です。\n前節で定義した累乗演算 $X^n$ を指数 $n = \\frac{1}{2}$ として評価すれば平方根が計算できます。\n行列表現に対する平方根 双対数の行列表現\n$$ \\begin{aligned} X = \\begin{pmatrix} x \u0026 y \\\\ 0 \u0026 x \\end{pmatrix} ,\\qquad x \u003e 0 \\end{aligned} $$\nに対しては，\n$$ \\begin{aligned} \\sqrt{X} = \\begin{pmatrix} \\sqrt{x} \u0026 \\frac{y}{2\\sqrt{x}} \\\\ 0 \u0026 \\sqrt{x} \\end{pmatrix} \\end{aligned} $$\nとなり，これは通常の平方根の微分法則\n$$ \\begin{aligned} \\frac{d}{dx} \\sqrt{x} = \\frac{1}{2\\sqrt{x}} \\end{aligned} $$\nと一致しています。\n実装上の処理 $n = \\frac{1}{2}$ として累乗演算 pow(X, n) を呼び出すだけでよい 累乗の節で示したように 指数$n$が整数かどうかを判定 非整数の場合は、実部が$0$より大きいか$(x \u003e 0)$を判定 実部が0より大きいのであれば、指数関数と対数関数を用いて\n$$ \\begin{aligned} \\sqrt{X} = X^{\\frac{1}{2}} = \\exp \\left(\\frac{1}{2} \\log X\\right) \\end{aligned} $$ の形で処理される これにより，双対数に対する平方根が自然に計算できます。\nPython-FLINTを使った精度保証付き自動微分 これは、arb-FLINTのarbで区間演算を用いた精度保証付きの自動微分です。\nここでは 双対数の$ 2 \\times 2$ 行列による表現は使わず (値, 微分) を持つオブジェクトを演算で伝播させることで自動微分を実現しています。\nfrom flint import arb, ctx def require_pos(v: arb, *, what=\"x\"): \"\"\" v が『確実に正』であることを要求する。 （区間が 0 を含む可能性があれば定義域外として止める） \"\"\" try: if v \u003e 0: return except TypeError: pass raise ValueError( f\"{what} must be strictly positive (interval must not include 0). got {v}\") class DualArb: \"\"\" Dual number over Arb: x + eps * dx (eps^2 = 0) val: arb — 実数部 x der: arb — 微分値 dx \"\"\" __slots__ = (\"val\", \"der\") def __init__(self, val=0, der=0): self.val = arb(val) self.der = arb(der) # --- ユーティリティ --- @staticmethod def lift(x): \"\"\"スカラー or DualArb を DualArb に持ち上げる。\"\"\" if isinstance(x, DualArb): return x return DualArb(x, 0) def copy(self): return DualArb(self.val, self.der) def __repr__(self): return f\"DualArb(val={self.val}, der={self.der})\" # --- 四則演算 --- def __add__(self, other): other = DualArb.lift(other) return DualArb(self.val + other.val, self.der + other.der) __radd__ = __add__ def __sub__(self, other): other = DualArb.lift(other) return DualArb(self.val - other.val, self.der - other.der) def __rsub__(self, other): other = DualArb.lift(other) return DualArb(other.val - self.val, other.der - self.der) def __neg__(self): return DualArb(-self.val, -self.der) def __mul__(self, other): other = DualArb.lift(other) # (x + eps dx)(y + eps dy) = xy + eps (x dy + y dx) val = self.val * other.val der = self.val * other.der + self.der * other.val return DualArb(val, der) __rmul__ = __mul__ def __truediv__(self, other): other = DualArb.lift(other) # (x + eps dx) / (y + eps dy) # = (x / y) + eps * ( (dx*y - x*dy) / y^2 ) inv = 1 / other.val val = self.val * inv der = (self.der * other.val - self.val * other.der) * (inv * inv) return DualArb(val, der) def __rtruediv__(self, other): # (a) / (x + eps dx) other = DualArb.lift(other) inv = 1 / self.val val = other.val * inv der = (other.der * self.val - other.val * self.der) * (inv * inv) return DualArb(val, der) # --- 累乗 --- def __pow__(self, n): \"\"\" (x + eps dx)^n - n が int（整数）なら、通常の整数乗として扱う - それ以外（実数指数）は x\u003e0 を要求（実数の log が必要） \"\"\" if isinstance(n, DualArb): raise TypeError(\"DualArb ** DualArb は未実装（スカラー指数だけ対応）。\") # --- 1) 整数指数（Python int） --- if isinstance(n, int): if n == 0: # (x + eps dx)^0 = 1, 微分は 0 return DualArb(1, 0) if n \u003c 0: # 0 の負整数乗は不可 # arb の「0と等しい」判定は曖昧になり得るので安全側に倒す try: if self.val == 0: raise ZeroDivisionError(\"0 の負整数乗は定義できません。\") except TypeError: # 0 を含む可能性がある区間ならアウト raise ZeroDivisionError(\"0 を含む区間の負整数乗は定義できません。\") val = self.val ** n der = arb(n) * (self.val ** (n - 1)) * self.der return DualArb(val, der) # --- 2) 非整数指数（実数指数） --- n_arb = arb(n) # 実数としての x^n を exp(n log x) で定義するので x\u003e0 が必要 require_pos(self.val, what=\"pow real-part (non-integer exponent)\") val = self.val ** n_arb der = n_arb * (self.val ** (n_arb - 1)) * self.der return DualArb(val, der) def __rpow__(self, base): \"\"\" base ** (x + eps dx) = exp((x + eps dx) * log(base)) \"\"\" base_arb = arb(base) if base_arb \u003c= 0: raise ValueError(\"base は正の実数にしてね（log が必要になるので）。\") # f(x) = base^x, f'(x) = base^x * log(base) val = base_arb ** self.val der = val * self.der * base_arb.log() return DualArb(val, der) # --- elementary functions on DualArb --- def dual_exp(x): \"\"\" exp(x + eps dx) = exp(x) + eps * dx * exp(x) \"\"\" x = DualArb.lift(x) v = x.val.exp() return DualArb(v, x.der * v) def dual_log(x): \"\"\" log(x + eps dx) = log(x) + eps * dx / x 定義域（実数）：実部が strictly positive \"\"\" x = DualArb.lift(x) require_pos(x.val, what=\"log real-part\") return DualArb(x.val.log(), x.der / x.val) def dual_sin(x): \"\"\" sin(x + eps dx) = sin(x) + eps * dx * cos(x) \"\"\" x = DualArb.lift(x) return DualArb(x.val.sin(), x.der * x.val.cos()) def dual_cos(x): \"\"\" cos(x + eps dx) = cos(x) - eps * dx * sin(x) \"\"\" x = DualArb.lift(x) return DualArb(x.val.cos(), -x.der * x.val.sin()) def dual_tan(x): \"\"\" tan = sin / cos で実装（安直版） \"\"\" return dual_sin(x) / dual_cos(x) def dual_sqrt(x): \"\"\" sqrt(x + eps dx) = sqrt(x) + eps * dx / (2 * sqrt(x)) 定義域（実数）：実部が strictly positive \"\"\" x = DualArb.lift(x) require_pos(x.val, what=\"sqrt real-part\") v = x.val.sqrt() return DualArb(v, x.der / (2 * v)) def differentiate(f, x0, dps=50): ctx.dps = dps x = DualArb(x0, 1) y = f(x) if not isinstance(y, DualArb): y = DualArb.lift(y) return y.val, y.der if __name__ == \"__main__\": from flint import arb # f(x) を DualArb で書く def f(x: DualArb) -\u003e DualArb: # f(x) = x^3 + 2 * sin(x) * exp(x) return x**3 + 2 * dual_sin(x) * dual_exp(x) # xの値と精度を入力 val, der = differentiate(f, x0=2, dps=80) # 結果出力 print(\"-------------- 自動微分の結果出力 -------------------\") print(\"f(x) =\", val) print(\"f'(x) =\", der) # ここからは検算用（普通のarbで計算） # 検算用の x の 値をarbで入力 x = arb(2) f_exact = x**3 + 2 * x.sin() * x.exp() # f'(x) = 3x^2 + 2[cos x * e^x + sin x * e^x] fprime_exact = 3 * x**2 + 2 * (x.cos() * x.exp() + x.sin() * x.exp()) # 検算出力 print(\"-------------- 検算用の結果出力 ---------------------\") print(\"f(x) (exact-like) =\", f_exact) print(\"f'(x) (exact-like) =\", fprime_exact) 実行結果\n-------------- 自動微分の結果出力 ------------------- f(x) = [21.437699394856499942536605542730404247329089189979126594003547131771280961691209 +/- 4.59e-79] f'(x) = [19.287834753577782208311647433138084351108611465818774471674468084248344679936378 +/- 5.27e-79] -------------- 検算用の結果出力 --------------------- f(x) (exact-like) = [21.437699394856499942536605542730404247329089189979126594003547131771280961691209 +/- 4.59e-79] f'(x) (exact-like) = [19.287834753577782208311647433138084351108611465818774471674468084248344679936378 +/- 5.27e-79] Arbライブラリ(C++)を使った精度保証付き自動微分 双対数による微分は、$\\varepsilon^2 = 0$ を満たす元 $\\varepsilon$ を用いて\n$$ \\begin{aligned} f(x + \\varepsilon) = f(x) + \\varepsilon f^{\\prime}(x) \\end{aligned} $$\nと表されます。\nこれを\n$$ \\begin{aligned} x + \\varepsilon = \\begin{pmatrix} x \u0026 1 \\\\ 0 \u0026 x \\end{pmatrix} \\end{aligned} $$\nという $2 \\times 2$ 上三角行列として表現し， Arb ライブラリの区間演算を用いて 1 階の自動微分を 精度保証付きで実装した例は，次のリポジトリにまとめています。\n📦双対数を使った精度保証付き自動微分\nPython版ではなぜ行列表現を採用しなかったか C++版では双対数$x+\\varepsilon$を\n$$ \\begin{aligned} \\begin{pmatrix} x \u0026 \\varepsilon \\\\ 0 \u0026 x \\end{pmatrix} \\end{aligned} $$\nという $2\\times2$ 上三角行列で表現し、行列積によって微分を自動的に伝播させている。\n一方、Python 版ではこの行列表現を採用せず、(値, 微分値) を明示的に保持する自動微分の実装を選択した。\nその理由は主に次の点にある。\n1.Pythonでは行列演算のオーバーヘッドが大きい arb_matを用いた行列演算は、スカラーarbの演算と比べてオーバーヘッドが大きい。\n双対数による1階微分では本質的に\n値　：$x$ 微分値：$dx$ の2つのスカラーだけを扱えば十分であり、常に$2 \\times 2$ 行列を構成・演算する必要がない。\nPythonではこの差が特に顕著になるため、スカラー2個を直接伝播させる方が実用的。\n2.行列関数は「必要以上に一般的」 arb_mat_expやarb_mat_logなどの行列関数は、一般行列を対象としたアルゴリズムとして実装されています。\nしかし双対数に対応する行列は常に\n上三角行列 特殊な冪零構造$(\\varepsilon^{2} = 0)$ を持ちます。\nこの特殊構造を生かすなら\n$$ \\begin{aligned} \\exp(x + \\epsilon) = \\exp(x) + \\varepsilon \\exp(x) \\end{aligned} $$\nのような簡潔な式で十分で、一般行列の初等関数を計算するのは過剰です。\nPython版では、双対数として必要な微分則のみを明示的に実装することで、計算と実装の両面で簡潔さを保っています。\n3.拡張性(高階微分)との相性 1階のスカラー微分に限れば、$2 \\times 2$の表現は非常に有効です。\nしかし高階微分へ拡張する場合、行列サイズや構造は急速に複雑になります。\nたとえば、$(n \\ge 2)$として $n$階微分(高階微分)への拡張 を行う場合、 超双対数(Hyper Dual Numbers) を用いる方法が考えられます。\nしかし、$n$階微分を超双対数を行列で表現する場合\n行列サイズ：$2^{n} \\times 2^{n}$ 行列の数　：$2^{n-1}$個 のように、急速にサイズや数が増えていき、構造も複雑になります。\nPython版の(val, der)形式は\nderをさらにdualにすれば高階に対応 といったような拡張が自然であり、自動微分の一般的な設計と親和性が高いと思います。\n4.表現の違いであって、本質は同じ なお、Python版が行列表現を用いないからといって、双対数そのものを使っていないわけではありません。\n(値, 微分値)を演算ごとに伝播させる方法は\n$$ \\begin{aligned} f(x + \\varepsilon) = f(x) + \\varepsilon f^{\\prime}(x) \\end{aligned} $$\nを内部的に扱っているのと等価です。\nこれは実装上の表現の違いであり、数学的な意味での自動微分の本質はC++版と変わりません。\nまとめると\nPython版\n(値, 微分値)を明示的に伝播し、軽量で拡張しやすい実装を採用 C++版\n行列表現による双対数を活かし、Arbの行列演算で自動微分を実装 両者は異なる実装戦略を取っていますが、いずれも双対数に基づく自動微分という点で本質的に同じです。\nまとめ 本記事では、双対数（Dual numbers） を用いた自動微分の仕組みについて\n双対数の定義とテイラー展開から見た原理 双対数を 2×2 上三角行列表現に落とし込む方法 四則演算（加算・減算・乗算・除算）の具体的な式 exp, log, sin, cos, tan, 累乗，平方根といった初等関数の拡張方法 それらを土台にした実装アルゴリズム といった流れで整理しました。\n双対数を使うことで\n関数値 $f(x)$ と導関数 $f^{\\prime}(x)$ を 1 回の評価で同時に得られる 差分幅 $h$ の調整が不要で，数値微分のようなステップサイズ起因の誤差がない 実装は「いつもの実数演算」をそのまま双対数（行列）に拡張するだけ といった利点があることがわかります。\nさらに，Python-FLINT の arb 型と組み合わせることで，\n実数部・微分値のどちらも 「真値を含む区間」 として表現できる 丸め誤差を含めた 精度保証付き自動微分 が実現できる というところまで到達しました。\n数値微分・自動微分を並べて見たとき\n数値微分：実装は簡単だが，誤差と $h$ の選び方に悩まされる 自動微分：精度保証には区間演算を用いるのみで良い という性質の違いがあり、とても気持ちのよい手法だと感じてもらえたら嬉しいです。\n特に、区間演算を用いるのみで精度が保証される(数式上の誤差がない) は双対数を用いた自動微分の大きな利点です。\n","wordCount":"6795","inLanguage":"ja","datePublished":"2025-12-12T16:30:33+09:00","dateModified":"2025-12-12T16:30:33+09:00","author":{"@type":"Person","name":"ungeho"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ungeho.netlify.app/posts/autodiff/"},"publisher":{"@type":"Organization","name":"ungehoBlog","logo":{"@type":"ImageObject","url":"https://ungeho.netlify.app/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://ungeho.netlify.app/ accesskey=h title="ungehoBlog (Alt + H)">ungehoBlog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)">
-<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button><ul class=lang-switch><li>|</li></ul></div></div><ul id=menu><li><a href=https://ungeho.netlify.app/about title=About><span>About</span></a></li><li><a href=https://ungeho.netlify.app/posts title=Posts><span>Posts</span></a></li><li><a href=https://ungeho.netlify.app/archives/ title=Archive><span>Archive</span></a></li><li><a href=https://ungeho.netlify.app/search title="Search (Alt + /)" accesskey=/><span>Search</span></a></li><li><a href=https://ungeho.netlify.app/categories/ title=Categories><span>Categories</span></a></li><li><a href=https://ungeho.netlify.app/tags/ title=Tags><span>Tags</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://ungeho.netlify.app/>ホーム</a>&nbsp;»&nbsp;<a href=https://ungeho.netlify.app/posts/>Posts</a></div><h1 class="post-title entry-hint-parent">自動微分</h1><div class=post-meta><span title='2025-12-12 16:30:33 +0900 JST'>2025/12/12</span>&nbsp;·&nbsp;14 分&nbsp;·&nbsp;ungeho</div></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>目次</span></summary><div class=inner><ul><li><a href=#%e5%8f%8c%e5%af%be%e6%95%b0%e3%82%92%e7%94%a8%e3%81%84%e3%81%9f%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86 aria-label=双対数を用いた自動微分>双対数を用いた自動微分</a><ul><li><a href=#%e3%83%86%e3%82%a4%e3%83%a9%e3%83%bc%e5%b1%95%e9%96%8b%e3%81%8b%e3%82%89%e8%a6%8b%e3%81%9f%e5%8f%8c%e5%af%be%e6%95%b0%e3%81%ae%e5%8e%9f%e7%90%86 aria-label=テイラー展開から見た双対数の原理>テイラー展開から見た双対数の原理</a></li><li><a href=#%e5%8f%8c%e5%af%be%e6%95%b0%e3%82%92%e8%a1%8c%e5%88%97%e3%81%a7%e8%a1%a8%e7%8f%be%e3%81%99%e3%82%8b aria-label=双対数を行列で表現する>双対数を行列で表現する</a></li><li><a href=#%e5%ae%9f%e8%a3%85%e4%b8%8a%e3%81%ae%e3%82%a2%e3%83%ab%e3%82%b4%e3%83%aa%e3%82%ba%e3%83%a0 aria-label=実装上のアルゴリズム>実装上のアルゴリズム</a><ul><li><a href=#%e5%8a%a0%e7%ae%97- aria-label="加算 +">加算 +</a></li><li><a href=#%e6%b8%9b%e7%ae%97-- aria-label="減算 -">減算 -</a></li><li><a href=#%e3%82%b9%e3%82%ab%e3%83%a9%e3%83%bc%e5%80%8d aria-label=スカラー倍>スカラー倍</a></li><li><a href=#%e4%b9%97%e7%ae%97- aria-label="乗算 *">乗算 *</a></li><li><a href=#%e9%80%86%e8%a1%8c%e5%88%97%e9%99%a4%e7%ae%97- aria-label="逆行列(除算 /)">逆行列(除算 /)</a></li><li><a href=#%e6%8c%87%e6%95%b0%e9%96%a2%e6%95%b0 aria-label=指数関数>指数関数</a></li><li><a href=#%e4%b8%89%e8%a7%92%e9%96%a2%e6%95%b0sincos aria-label=三角関数(sin,cos)>三角関数(sin,cos)</a></li><li><a href=#%e4%b8%89%e8%a7%92%e9%96%a2%e6%95%b0tan aria-label=三角関数(tan)>三角関数(tan)</a></li><li><a href=#%e5%af%be%e6%95%b0%e9%96%a2%e6%95%b0log aria-label=対数関数(log)>対数関数(log)</a></li><li><a href=#%e7%b4%af%e4%b9%97power aria-label=累乗（power）>累乗（power）</a></li><li><a href=#%e5%b9%b3%e6%96%b9%e6%a0%b9square-root aria-label="平方根（Square root）">平方根（Square root）</a></li><li><a href=#%e8%a1%8c%e5%88%97%e8%a1%a8%e7%8f%be%e3%81%ab%e5%af%be%e3%81%99%e3%82%8b%e5%b9%b3%e6%96%b9%e6%a0%b9 aria-label=行列表現に対する平方根>行列表現に対する平方根</a></li><li><a href=#%e5%ae%9f%e8%a3%85%e4%b8%8a%e3%81%ae%e5%87%a6%e7%90%86 aria-label=実装上の処理>実装上の処理</a></li></ul></li></ul></li><li><a href=#python-flint%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%9f%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e4%bb%98%e3%81%8d%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86 aria-label=Python-FLINTを使った精度保証付き自動微分>Python-FLINTを使った精度保証付き自動微分</a></li><li><a href=#arb%e3%83%a9%e3%82%a4%e3%83%96%e3%83%a9%e3%83%aac%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%9f%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e4%bb%98%e3%81%8d%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86 aria-label=Arbライブラリ(C++)を使った精度保証付き自動微分>Arbライブラリ(C++)を使った精度保証付き自動微分</a></li><li><a href=#python%e7%89%88%e3%81%a7%e3%81%af%e3%81%aa%e3%81%9c%e8%a1%8c%e5%88%97%e8%a1%a8%e7%8f%be%e3%82%92%e6%8e%a1%e7%94%a8%e3%81%97%e3%81%aa%e3%81%8b%e3%81%a3%e3%81%9f%e3%81%8b aria-label=Python版ではなぜ行列表現を採用しなかったか>Python版ではなぜ行列表現を採用しなかったか</a><ul><li><a href=#1python%e3%81%a7%e3%81%af%e8%a1%8c%e5%88%97%e6%bc%94%e7%ae%97%e3%81%ae%e3%82%aa%e3%83%bc%e3%83%90%e3%83%bc%e3%83%98%e3%83%83%e3%83%89%e3%81%8c%e5%a4%a7%e3%81%8d%e3%81%84 aria-label=1.Pythonでは行列演算のオーバーヘッドが大きい>1.Pythonでは行列演算のオーバーヘッドが大きい</a></li><li><a href=#2%e8%a1%8c%e5%88%97%e9%96%a2%e6%95%b0%e3%81%af%e5%bf%85%e8%a6%81%e4%bb%a5%e4%b8%8a%e3%81%ab%e4%b8%80%e8%88%ac%e7%9a%84 aria-label=2.行列関数は「必要以上に一般的」>2.行列関数は「必要以上に一般的」</a></li><li><a href=#3%e6%8b%a1%e5%bc%b5%e6%80%a7%e9%ab%98%e9%9a%8e%e5%be%ae%e5%88%86%e3%81%a8%e3%81%ae%e7%9b%b8%e6%80%a7 aria-label=3.拡張性(高階微分)との相性>3.拡張性(高階微分)との相性</a></li><li><a href=#4%e8%a1%a8%e7%8f%be%e3%81%ae%e9%81%95%e3%81%84%e3%81%a7%e3%81%82%e3%81%a3%e3%81%a6%e6%9c%ac%e8%b3%aa%e3%81%af%e5%90%8c%e3%81%98 aria-label=4.表現の違いであって、本質は同じ>4.表現の違いであって、本質は同じ</a></li></ul></li><li><a href=#%e3%81%be%e3%81%a8%e3%82%81 aria-label=まとめ>まとめ</a></li></ul></div></details></div><div class=post-content><hr><blockquote><p>💡 <strong>この記事は「コンピューターで計算する」シリーズの一部です。</strong><br><a href=../float><strong>1. 浮動小数点数</strong></a><br><a href=../interval><strong>2. 区間演算</strong></a><br><a href=../numericalIntegration><strong>3. 数値積分</strong></a><br><a href=../numericalDifferentiation><strong>4. 数値微分</strong></a><br><a href=../autoDiff><strong>5. 自動微分</strong></a> <strong>👈 今ここ</strong></p></blockquote><hr><p><strong>自動微分(Automatic Differentiation,AD)</strong> は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。</p><p>特に<strong>双対数(Dual numbers)</strong> を用いた手法では、入力を$x+\varepsilon$ として計算するだけで、関数値$f(x)$ と導関数$f^{\prime}(x)$ が同時に得られ、数値微分のような誤差がなく$h$ の選択が不要になります。</p><h2 id=双対数を用いた自動微分>双対数を用いた自動微分<a hidden class=anchor aria-hidden=true href=#双対数を用いた自動微分>#</a></h2><p>双対数（Dual Numbers）を用いた自動微分では、入力を</p><p>$$
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/about" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      自動微分
+    </h1>
+    <div class="post-meta"><span title='2025-12-12 16:30:33 +0900 JST'>2025/12/12</span>&nbsp;·&nbsp;14 分&nbsp;·&nbsp;ungeho
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目次</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%8f%8c%e5%af%be%e6%95%b0%e3%82%92%e7%94%a8%e3%81%84%e3%81%9f%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86" aria-label="双対数を用いた自動微分">双対数を用いた自動微分</a><ul>
+                        
+                <li>
+                    <a href="#%e3%83%86%e3%82%a4%e3%83%a9%e3%83%bc%e5%b1%95%e9%96%8b%e3%81%8b%e3%82%89%e8%a6%8b%e3%81%9f%e5%8f%8c%e5%af%be%e6%95%b0%e3%81%ae%e5%8e%9f%e7%90%86" aria-label="テイラー展開から見た双対数の原理">テイラー展開から見た双対数の原理</a></li>
+                <li>
+                    <a href="#%e5%8f%8c%e5%af%be%e6%95%b0%e3%82%92%e8%a1%8c%e5%88%97%e3%81%a7%e8%a1%a8%e7%8f%be%e3%81%99%e3%82%8b" aria-label="双対数を行列で表現する">双対数を行列で表現する</a></li>
+                <li>
+                    <a href="#%e5%ae%9f%e8%a3%85%e4%b8%8a%e3%81%ae%e3%82%a2%e3%83%ab%e3%82%b4%e3%83%aa%e3%82%ba%e3%83%a0" aria-label="実装上のアルゴリズム">実装上のアルゴリズム</a><ul>
+                        
+                <li>
+                    <a href="#%e5%8a%a0%e7%ae%97-" aria-label="加算 &#43;">加算 +</a></li>
+                <li>
+                    <a href="#%e6%b8%9b%e7%ae%97--" aria-label="減算 -">減算 -</a></li>
+                <li>
+                    <a href="#%e3%82%b9%e3%82%ab%e3%83%a9%e3%83%bc%e5%80%8d" aria-label="スカラー倍">スカラー倍</a></li>
+                <li>
+                    <a href="#%e4%b9%97%e7%ae%97-" aria-label="乗算 *">乗算 *</a></li>
+                <li>
+                    <a href="#%e9%80%86%e8%a1%8c%e5%88%97%e9%99%a4%e7%ae%97-" aria-label="逆行列(除算 /)">逆行列(除算 /)</a></li>
+                <li>
+                    <a href="#%e6%8c%87%e6%95%b0%e9%96%a2%e6%95%b0" aria-label="指数関数">指数関数</a></li>
+                <li>
+                    <a href="#%e4%b8%89%e8%a7%92%e9%96%a2%e6%95%b0sincos" aria-label="三角関数(sin,cos)">三角関数(sin,cos)</a></li>
+                <li>
+                    <a href="#%e4%b8%89%e8%a7%92%e9%96%a2%e6%95%b0tan" aria-label="三角関数(tan)">三角関数(tan)</a></li>
+                <li>
+                    <a href="#%e5%af%be%e6%95%b0%e9%96%a2%e6%95%b0log" aria-label="対数関数(log)">対数関数(log)</a></li>
+                <li>
+                    <a href="#%e7%b4%af%e4%b9%97power" aria-label="累乗（power）">累乗（power）</a></li>
+                <li>
+                    <a href="#%e5%b9%b3%e6%96%b9%e6%a0%b9square-root" aria-label="平方根（Square root）">平方根（Square root）</a></li>
+                <li>
+                    <a href="#%e8%a1%8c%e5%88%97%e8%a1%a8%e7%8f%be%e3%81%ab%e5%af%be%e3%81%99%e3%82%8b%e5%b9%b3%e6%96%b9%e6%a0%b9" aria-label="行列表現に対する平方根">行列表現に対する平方根</a></li>
+                <li>
+                    <a href="#%e5%ae%9f%e8%a3%85%e4%b8%8a%e3%81%ae%e5%87%a6%e7%90%86" aria-label="実装上の処理">実装上の処理</a></li></ul>
+                </li></ul>
+                </li>
+                <li>
+                    <a href="#python-flint%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%9f%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e4%bb%98%e3%81%8d%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86" aria-label="Python-FLINTを使った精度保証付き自動微分">Python-FLINTを使った精度保証付き自動微分</a></li>
+                <li>
+                    <a href="#arb%e3%83%a9%e3%82%a4%e3%83%96%e3%83%a9%e3%83%aac%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%9f%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e4%bb%98%e3%81%8d%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86" aria-label="Arbライブラリ(C&#43;&#43;)を使った精度保証付き自動微分">Arbライブラリ(C++)を使った精度保証付き自動微分</a></li>
+                <li>
+                    <a href="#python%e7%89%88%e3%81%a7%e3%81%af%e3%81%aa%e3%81%9c%e8%a1%8c%e5%88%97%e8%a1%a8%e7%8f%be%e3%82%92%e6%8e%a1%e7%94%a8%e3%81%97%e3%81%aa%e3%81%8b%e3%81%a3%e3%81%9f%e3%81%8b" aria-label="Python版ではなぜ行列表現を採用しなかったか">Python版ではなぜ行列表現を採用しなかったか</a><ul>
+                        
+                <li>
+                    <a href="#1python%e3%81%a7%e3%81%af%e8%a1%8c%e5%88%97%e6%bc%94%e7%ae%97%e3%81%ae%e3%82%aa%e3%83%bc%e3%83%90%e3%83%bc%e3%83%98%e3%83%83%e3%83%89%e3%81%8c%e5%a4%a7%e3%81%8d%e3%81%84" aria-label="1.Pythonでは行列演算のオーバーヘッドが大きい">1.Pythonでは行列演算のオーバーヘッドが大きい</a></li>
+                <li>
+                    <a href="#2%e8%a1%8c%e5%88%97%e9%96%a2%e6%95%b0%e3%81%af%e5%bf%85%e8%a6%81%e4%bb%a5%e4%b8%8a%e3%81%ab%e4%b8%80%e8%88%ac%e7%9a%84" aria-label="2.行列関数は「必要以上に一般的」">2.行列関数は「必要以上に一般的」</a></li>
+                <li>
+                    <a href="#3%e6%8b%a1%e5%bc%b5%e6%80%a7%e9%ab%98%e9%9a%8e%e5%be%ae%e5%88%86%e3%81%a8%e3%81%ae%e7%9b%b8%e6%80%a7" aria-label="3.拡張性(高階微分)との相性">3.拡張性(高階微分)との相性</a></li>
+                <li>
+                    <a href="#4%e8%a1%a8%e7%8f%be%e3%81%ae%e9%81%95%e3%81%84%e3%81%a7%e3%81%82%e3%81%a3%e3%81%a6%e6%9c%ac%e8%b3%aa%e3%81%af%e5%90%8c%e3%81%98" aria-label="4.表現の違いであって、本質は同じ">4.表現の違いであって、本質は同じ</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e3%81%be%e3%81%a8%e3%82%81" aria-label="まとめ">まとめ</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><hr>
+<blockquote>
+<p>💡 <strong>この記事は「コンピューターで計算する」シリーズの一部です。</strong><br>
+<a href="../float"><strong>1. 浮動小数点数</strong></a><br>
+<a href="../interval"><strong>2. 区間演算</strong></a><br>
+<a href="../numericalIntegration"><strong>3. 数値積分</strong></a><br>
+<a href="../numericalDifferentiation"><strong>4. 数値微分</strong></a><br>
+<a href="../autoDiff"><strong>5. 自動微分</strong></a> <strong>👈 今ここ</strong></p>
+</blockquote>
+<hr>
+<p><strong>自動微分(Automatic Differentiation,AD)</strong> は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。</p>
+<p>特に<strong>双対数(Dual numbers)</strong> を用いた手法では、入力を$x+\varepsilon$ として計算するだけで、関数値$f(x)$ と導関数$f^{\prime}(x)$ が同時に得られ、数値微分のような誤差がなく$h$ の選択が不要になります。</p>
+<h2 id="双対数を用いた自動微分">双対数を用いた自動微分<a hidden class="anchor" aria-hidden="true" href="#双対数を用いた自動微分">#</a></h2>
+<p>双対数（Dual Numbers）を用いた自動微分では、入力を</p>
+<p>$$
 \begin{aligned}
 x + \varepsilon
 \end{aligned}
-$$</p><p>としたときの関数の値が</p><p>$$
+$$</p>
+<p>としたときの関数の値が</p>
+<p>$$
 \begin{aligned}
 f(x + \varepsilon) = f(x) + \varepsilon f^{\prime}(x)
 \end{aligned}
-$$</p><p>という形になることを利用して微分値を得ます。</p><p>ここで$\varepsilon$は次の性質をもつ特別な元です</p><p>$$
+$$</p>
+<p>という形になることを利用して微分値を得ます。</p>
+<p>ここで$\varepsilon$は次の性質をもつ特別な元です</p>
+<p>$$
 \begin{aligned}
-\varepsilon &\neq 0\\
-\varepsilon^{2} &= 0
+\varepsilon &amp;\neq 0\\
+\varepsilon^{2} &amp;= 0
 \end{aligned}
-$$</p><p>これは「$\varepsilon$ は二乗すると完全に消える」という意味を表します。</p><hr><h3 id=テイラー展開から見た双対数の原理>テイラー展開から見た双対数の原理<a hidden class=anchor aria-hidden=true href=#テイラー展開から見た双対数の原理>#</a></h3><p>ここで、次のテイラー級数を考えます。</p><p>$$
+$$</p>
+<p>これは「$\varepsilon$ は二乗すると完全に消える」という意味を表します。</p>
+<hr>
+<h3 id="テイラー展開から見た双対数の原理">テイラー展開から見た双対数の原理<a hidden class="anchor" aria-hidden="true" href="#テイラー展開から見た双対数の原理">#</a></h3>
+<p>ここで、次のテイラー級数を考えます。</p>
+<p>$$
 \begin{aligned}
 f(x + a) = \sum_{n=0}^{\infty} \frac{f^{(n)} (x)}{n!}(a)^{n}
 \end{aligned}
-$$</p><p>に$a=\varepsilon$を代入すると</p><p>$$
+$$</p>
+<p>に$a=\varepsilon$を代入すると</p>
+<p>$$
 \begin{aligned}
 f(x + \varepsilon) = \sum_{n=0}^{\infty} \frac{f^{(n)} (x)}{n!}(\varepsilon)^{n}
 \end{aligned}
-$$</p><p>これを展開すると</p><p>$$
+$$</p>
+<p>これを展開すると</p>
+<p>$$
 \begin{aligned}
 f(x + \varepsilon) = f(x) + \varepsilon f^{\prime}(x) + \varepsilon^{2} \frac{f^{\prime\prime}(x)}{2!} +\varepsilon^{3}\frac{ f^{(3)}(x)}{3!} + \dots
 \end{aligned}
-$$</p><p>しかし、双対数の定義より</p><p>$$
+$$</p>
+<p>しかし、双対数の定義より</p>
+<p>$$
 \begin{aligned}
 \varepsilon^{2} = 0
 \end{aligned}
-$$</p><p>であるため、二次以降の項が全て消えます。<br>よって</p><p>$$
+$$</p>
+<p>であるため、二次以降の項が全て消えます。<br>
+よって</p>
+<p>$$
 \begin{aligned}
 f(x + \varepsilon) = f(x) + \varepsilon f^{\prime}(x)
 \end{aligned}
-$$</p><p>という非常にシンプルな形が得られます。<br>ここで</p><ul><li>実部：$f(x)$</li><li>$\varepsilon$の係数：$f^{\prime}(x)$</li></ul><p>が得られるため、双対数を使うことで<strong>関数値と導関数</strong>が同時に計算できるわけです。</p><hr><h3 id=双対数を行列で表現する>双対数を行列で表現する<a hidden class=anchor aria-hidden=true href=#双対数を行列で表現する>#</a></h3><p>$$
+$$</p>
+<p>という非常にシンプルな形が得られます。<br>
+ここで</p>
+<ul>
+<li>実部：$f(x)$</li>
+<li>$\varepsilon$の係数：$f^{\prime}(x)$</li>
+</ul>
+<p>が得られるため、双対数を使うことで<strong>関数値と導関数</strong>が同時に計算できるわけです。</p>
+<hr>
+<h3 id="双対数を行列で表現する">双対数を行列で表現する<a hidden class="anchor" aria-hidden="true" href="#双対数を行列で表現する">#</a></h3>
+<p>$$
 \begin{aligned}
 x + \varepsilon y
 \end{aligned}
-$$</p><p>は2 x 2 の上三角行列</p><p>$$
+$$</p>
+<p>は2 x 2 の上三角行列</p>
+<p>$$
 \begin{aligned}
 \begin{pmatrix}
-x & y \\
-0 & x
+x &amp; y \\
+0 &amp; x
 \end{pmatrix}
 \end{aligned}
-$$</p><p>と全く同じ振る舞いをします。<br>このとき、双対数$\varepsilon$ は</p><p>$$
+$$</p>
+<p>と全く同じ振る舞いをします。<br>
+このとき、双対数$\varepsilon$ は</p>
+<p>$$
 \varepsilon =
 \begin{aligned}
 \begin{pmatrix}
-0 & 1 \\
-0 & 0
+0 &amp; 1 \\
+0 &amp; 0
 \end{pmatrix}
 \end{aligned}
-$$</p><p>であり、行列の積をとると</p><p>$$
+$$</p>
+<p>であり、行列の積をとると</p>
+<p>$$
 \varepsilon^{2} =
 \begin{aligned}
 \begin{pmatrix}
-0 & 1 \\
-0 & 0
+0 &amp; 1 \\
+0 &amp; 0
 \end{pmatrix}
 \times
 \begin{pmatrix}
-0 & 1 \\
-0 & 0
+0 &amp; 1 \\
+0 &amp; 0
 \end{pmatrix}
 =
 \begin{pmatrix}
-0 & 0 \\
-0 & 0
+0 &amp; 0 \\
+0 &amp; 0
 \end{pmatrix}
 \end{aligned}
-$$</p><p>したがって</p><p>$$
+$$</p>
+<p>したがって</p>
+<p>$$
 \begin{aligned}
-\varepsilon &\neq 0\\
-\varepsilon^{2} &= 0
+\varepsilon &amp;\neq 0\\
+\varepsilon^{2} &amp;= 0
 \end{aligned}
-$$</p><p>という双対数の性質が行列で正しく再現されています。</p><h3 id=実装上のアルゴリズム>実装上のアルゴリズム<a hidden class=anchor aria-hidden=true href=#実装上のアルゴリズム>#</a></h3><p>双対数を用いた自動微分は、双対数</p><p>$$
+$$</p>
+<p>という双対数の性質が行列で正しく再現されています。</p>
+<h3 id="実装上のアルゴリズム">実装上のアルゴリズム<a hidden class="anchor" aria-hidden="true" href="#実装上のアルゴリズム">#</a></h3>
+<p>双対数を用いた自動微分は、双対数</p>
+<p>$$
 \begin{aligned}
 x + \varepsilon y
 \end{aligned}
-$$</p><p>を扱えるように、<strong>四則演算などの基本的な演算をオペレーターオーバーロードによって再定義する</strong> ことで実現できます。<br>具体的には、ほとんど行列演算の実装になります。</p><p>代入演算子(<code>+=</code>,<code>-=</code>,<code>*=</code>,<code>/=</code>)や符号<code>-</code>は演算子を上書きした四則演算を使って演算します。<br>一部の特殊関数は定義した特殊関数を使用します。</p><hr><h4 id=加算->加算 +<a hidden class=anchor aria-hidden=true href=#加算->#</a></h4><p>$$
+$$</p>
+<p>を扱えるように、<strong>四則演算などの基本的な演算をオペレーターオーバーロードによって再定義する</strong> ことで実現できます。<br>
+具体的には、ほとんど行列演算の実装になります。</p>
+<p>代入演算子(<code>+=</code>,<code>-=</code>,<code>*=</code>,<code>/=</code>)や符号<code>-</code>は演算子を上書きした四則演算を使って演算します。<br>
+一部の特殊関数は定義した特殊関数を使用します。</p>
+<hr>
+<h4 id="加算-">加算 +<a hidden class="anchor" aria-hidden="true" href="#加算-">#</a></h4>
+<p>$$
 \begin{aligned}
 \begin{pmatrix}
-a & b \\
-c & d
+a &amp; b \\
+c &amp; d
 \end{pmatrix}
 +
 \begin{pmatrix}
-e & f \\
-g & h
+e &amp; f \\
+g &amp; h
 \end{pmatrix}
 =
 \begin{pmatrix}
-a+e & b+f \\
-c+g & d+h
+a+e &amp; b+f \\
+c+g &amp; d+h
 \end{pmatrix}
 \end{aligned}
-$$</p><p>より</p><p>$$
+$$</p>
+<p>より</p>
+<p>$$
 \begin{aligned}
 (x + y \varepsilon) + (v + w \varepsilon)
 \end{aligned}
-$$</p><p>は</p><p>$$
+$$</p>
+<p>は</p>
+<p>$$
 \begin{aligned}
 \begin{pmatrix}
-x & y \\
-0 & x
+x &amp; y \\
+0 &amp; x
 \end{pmatrix}
 +
 \begin{pmatrix}
-v & w \\
-0 & v
+v &amp; w \\
+0 &amp; v
 \end{pmatrix}
 =
 \begin{pmatrix}
-x+v & y+w \\
-0 & x+v
+x+v &amp; y+w \\
+0 &amp; x+v
 \end{pmatrix}
 \end{aligned}
-$$</p><p>まとめると</p><p>$$
+$$</p>
+<p>まとめると</p>
+<p>$$
 \begin{aligned}
 (x + y \varepsilon) + (v + w \varepsilon) =
 \begin{pmatrix}
-x+v & y+w \\
-0 & x+v
+x+v &amp; y+w \\
+0 &amp; x+v
 \end{pmatrix}
 \end{aligned}
-$$</p><hr><h4 id=減算-->減算 -<a hidden class=anchor aria-hidden=true href=#減算-->#</a></h4><p>$$
+$$</p>
+<hr>
+<h4 id="減算--">減算 -<a hidden class="anchor" aria-hidden="true" href="#減算--">#</a></h4>
+<p>$$
 \begin{aligned}
 \begin{pmatrix}
-a & b \\
-c & d
+a &amp; b \\
+c &amp; d
 \end{pmatrix}
 -
 \begin{pmatrix}
-e & f \\
-g & h
+e &amp; f \\
+g &amp; h
 \end{pmatrix}
 =
 \begin{pmatrix}
-a-e & b-f \\
-c-g & d-h
+a-e &amp; b-f \\
+c-g &amp; d-h
 \end{pmatrix}
 \end{aligned}
-$$</p><p>より</p><p>$$
+$$</p>
+<p>より</p>
+<p>$$
 \begin{aligned}
 (x + y \varepsilon) - (v + w \varepsilon)
 \end{aligned}
-$$</p><p>は</p><p>$$
+$$</p>
+<p>は</p>
+<p>$$
 \begin{aligned}
 \begin{pmatrix}
-x & y \\
-0 & x
+x &amp; y \\
+0 &amp; x
 \end{pmatrix}
 -
 \begin{pmatrix}
-v & w \\
-0 & v
+v &amp; w \\
+0 &amp; v
 \end{pmatrix}
 =
 \begin{pmatrix}
-x-v & y-w \\
-0 & x-v
+x-v &amp; y-w \\
+0 &amp; x-v
 \end{pmatrix}
 \end{aligned}
-$$</p><p>まとめると</p><p>$$
+$$</p>
+<p>まとめると</p>
+<p>$$
 \begin{aligned}
 (x + y \varepsilon) - (v + w \varepsilon) =
 \begin{pmatrix}
-x-v & y-w \\
-0 & x-v
+x-v &amp; y-w \\
+0 &amp; x-v
 \end{pmatrix}
 \end{aligned}
-$$</p><hr><h4 id=スカラー倍>スカラー倍<a hidden class=anchor aria-hidden=true href=#スカラー倍>#</a></h4><p>$$
+$$</p>
+<hr>
+<h4 id="スカラー倍">スカラー倍<a hidden class="anchor" aria-hidden="true" href="#スカラー倍">#</a></h4>
+<p>$$
 \begin{aligned}
 k(x + y \varepsilon)
 \end{aligned}
-$$</p><p>は</p><p>$$
+$$</p>
+<p>は</p>
+<p>$$
 \begin{aligned}
 k
 \begin{pmatrix}
-x & y \\
-0 & x
+x &amp; y \\
+0 &amp; x
 \end{pmatrix}
 =
 \begin{pmatrix}
-kx & ky \\
-0 & kx
+kx &amp; ky \\
+0 &amp; kx
 \end{pmatrix}
 \end{aligned}
-$$</p><p>まとめると</p><p>$$
+$$</p>
+<p>まとめると</p>
+<p>$$
 \begin{aligned}
 k(x + y \varepsilon) =
 \begin{pmatrix}
-kx & ky \\
-0 & kx
+kx &amp; ky \\
+0 &amp; kx
 \end{pmatrix}
 \end{aligned}
-$$</p><hr><h4 id=乗算->乗算 *<a hidden class=anchor aria-hidden=true href=#乗算->#</a></h4><p>$$
+$$</p>
+<hr>
+<h4 id="乗算-">乗算 *<a hidden class="anchor" aria-hidden="true" href="#乗算-">#</a></h4>
+<p>$$
 \begin{aligned}
 \begin{pmatrix}
-a & b \\
-c & d
+a &amp; b \\
+c &amp; d
 \end{pmatrix}
 \times
 \begin{pmatrix}
-e & f \\
-g & h
+e &amp; f \\
+g &amp; h
 \end{pmatrix}
 =
 \begin{pmatrix}
-ae + bg & af + bh \\
-ce + dg & cf + dh
+ae + bg &amp; af + bh \\
+ce + dg &amp; cf + dh
 \end{pmatrix}
 \end{aligned}
-$$</p><p>より</p><p>$$
+$$</p>
+<p>より</p>
+<p>$$
 \begin{aligned}
 (x + y \varepsilon) \times (v + w \varepsilon)
 \end{aligned}
-$$</p><p>は</p><p>$$
+$$</p>
+<p>は</p>
+<p>$$
 \begin{aligned}
 \begin{pmatrix}
-x & y \\
-0 & x
+x &amp; y \\
+0 &amp; x
 \end{pmatrix}
 \times
 \begin{pmatrix}
-v & w \\
-0 & v
+v &amp; w \\
+0 &amp; v
 \end{pmatrix}
 =
 \begin{pmatrix}
-xv & xw + yv \\
-0 & xv
+xv &amp; xw + yv \\
+0 &amp; xv
 \end{pmatrix}
 \end{aligned}
-$$</p><p>まとめると</p><p>$$
+$$</p>
+<p>まとめると</p>
+<p>$$
 \begin{aligned}
 (x + y \varepsilon) \times (v + w \varepsilon) =
 \begin{pmatrix}
-xv & xw + yv \\
-0 & xv
+xv &amp; xw + yv \\
+0 &amp; xv
 \end{pmatrix}
 \end{aligned}
-$$</p><hr><h4 id=逆行列除算->逆行列(除算 /)<a hidden class=anchor aria-hidden=true href=#逆行列除算->#</a></h4><p>$$
+$$</p>
+<hr>
+<h4 id="逆行列除算-">逆行列(除算 /)<a hidden class="anchor" aria-hidden="true" href="#逆行列除算-">#</a></h4>
+<p>$$
 \begin{aligned}
 A =
 \begin{pmatrix}
-a & b \\
-c & d
+a &amp; b \\
+c &amp; d
 \end{pmatrix},
 \qquad
 \det(A) = ad - bc \neq 0
 \end{aligned}
-$$</p><p>$$
+$$</p>
+<p>$$
 \begin{aligned}
 A^{-1}
 = \frac{1}{ad - bc}
 \begin{pmatrix}
-d & -b \\
--c & a
+d &amp; -b \\
+-c &amp; a
 \end{pmatrix}
 \end{aligned}
-$$</p><p>より</p><p>$$
+$$</p>
+<p>より</p>
+<p>$$
 \begin{aligned}
 (x + y \varepsilon) \div (v + w \varepsilon)
 \end{aligned}
-$$</p><p>は$(v + w \varepsilon)$ の逆行列を求めて</p><p>$$
+$$</p>
+<p>は$(v + w \varepsilon)$ の逆行列を求めて</p>
+<p>$$
 \begin{aligned}
 v^{2} \neq 0
 \end{aligned}
-$$</p><p>より実部$v \neq 0$ のとき</p><p>$$
+$$</p>
+<p>より実部$v \neq 0$ のとき</p>
+<p>$$
 \begin{aligned}
-&\begin{pmatrix}
-x & y \\
-0 & x
+&amp;\begin{pmatrix}
+x &amp; y \\
+0 &amp; x
 \end{pmatrix}
 \times
 \frac{1}{v^{2}}
 \begin{pmatrix}
-v & -w \\
-0 & v
+v &amp; -w \\
+0 &amp; v
 \end{pmatrix}\\
 =
-&\begin{pmatrix}
-x & y \\
-0 & x
+&amp;\begin{pmatrix}
+x &amp; y \\
+0 &amp; x
 \end{pmatrix}
 \times
 \begin{pmatrix}
-\frac{1}{v} & -\frac{w}{v^{2}} \\
-0 & \frac{1}{v}
+\frac{1}{v} &amp; -\frac{w}{v^{2}} \\
+0 &amp; \frac{1}{v}
 \end{pmatrix}\\
 =
-&\begin{pmatrix}
-\frac{x}{v} & -\frac{xw}{v^{2}}+\frac{y}{v} \\
-0 & \frac{x}{v}
+&amp;\begin{pmatrix}
+\frac{x}{v} &amp; -\frac{xw}{v^{2}}+\frac{y}{v} \\
+0 &amp; \frac{x}{v}
 \end{pmatrix}\\
 =
-&\begin{pmatrix}
-\frac{x}{v} & \frac{yv-xw}{v^{2}} \\
-0 & \frac{x}{v}
+&amp;\begin{pmatrix}
+\frac{x}{v} &amp; \frac{yv-xw}{v^{2}} \\
+0 &amp; \frac{x}{v}
 \end{pmatrix}
 \end{aligned}
-$$</p><p>まとめると</p><p>$$
+$$</p>
+<p>まとめると</p>
+<p>$$
 \begin{aligned}
 (x + y \varepsilon) \div (v + w \varepsilon) =
 \begin{pmatrix}
-\frac{x}{v} & \frac{yv-xw}{v^{2}} \\
-0 & \frac{x}{v}
+\frac{x}{v} &amp; \frac{yv-xw}{v^{2}} \\
+0 &amp; \frac{x}{v}
 \end{pmatrix}
 \end{aligned}
-$$</p><hr><h4 id=指数関数>指数関数<a hidden class=anchor aria-hidden=true href=#指数関数>#</a></h4><p>与えられた$x + \varepsilon y$を次のように計算します。</p><p>$$
+$$</p>
+<hr>
+<h4 id="指数関数">指数関数<a hidden class="anchor" aria-hidden="true" href="#指数関数">#</a></h4>
+<p>与えられた$x + \varepsilon y$を次のように計算します。</p>
+<p>$$
 \begin{aligned}
 \exp(x + \varepsilon y) = \exp(x) \times \exp(\varepsilon y)
 \end{aligned}
-$$</p><p>指数関数は与えられた行列を$X$としたとき$\exp(X)$は</p><p>$$
+$$</p>
+<p>指数関数は与えられた行列を$X$としたとき$\exp(X)$は</p>
+<p>$$
 \begin{aligned}
 \exp(X) = \sum_{k=0}^{\infty} \frac{X^{k}}{k!}
 \end{aligned}
-$$</p><p>です。</p><p>実数部分$x$はそのまま</p><p>$$
+$$</p>
+<p>です。</p>
+<p>実数部分$x$はそのまま</p>
+<p>$$
 \exp(x)
-$$</p><p>とする。<br>双対数$\varepsilon y$ は$\varepsilon^{2} = 0$より$k\ge2$のときの項が$0$になるので</p><p>$$
+$$</p>
+<p>とする。<br>
+双対数$\varepsilon y$ は$\varepsilon^{2} = 0$より$k\ge2$のときの項が$0$になるので</p>
+<p>$$
 \begin{aligned}
 \exp(\varepsilon y) = \sum_{k=0}^{\infty} \frac{(\varepsilon y)^{k}}{k!} = 1 + \varepsilon y
 \end{aligned}
-$$</p><p>になる。</p><p>これをまとめると</p><p>$$
+$$</p>
+<p>になる。</p>
+<p>これをまとめると</p>
+<p>$$
 \begin{aligned}
 \exp(x + \varepsilon y) = \exp(x) \times (1 + \varepsilon y) = \exp(x) + \varepsilon y \exp(x)
 \end{aligned}
-$$</p><p>になり</p><p>$$
+$$</p>
+<p>になり</p>
+<p>$$
 \begin{aligned}
 \exp(x + \varepsilon y) =
 \begin{pmatrix}
-\exp(x) & y \exp(x) \\
-0 & \exp(x)
+\exp(x) &amp;  y \exp(x) \\
+0 &amp; \exp(x)
 \end{pmatrix}
 \end{aligned}
-$$</p><p>である。</p><hr><h4 id=三角関数sincos>三角関数(sin,cos)<a hidden class=anchor aria-hidden=true href=#三角関数sincos>#</a></h4><p>与えられた$x + \varepsilon y$を次のように計算します。</p><ul><li>正弦関数(sin)の場合</li></ul><p>$$
+$$</p>
+<p>である。</p>
+<hr>
+<h4 id="三角関数sincos">三角関数(sin,cos)<a hidden class="anchor" aria-hidden="true" href="#三角関数sincos">#</a></h4>
+<p>与えられた$x + \varepsilon y$を次のように計算します。</p>
+<ul>
+<li>正弦関数(sin)の場合</li>
+</ul>
+<p>$$
 \begin{aligned}
 \sin(x + \varepsilon y) = \sin(x)\times\cos(\varepsilon y) + \cos(x) \times \sin(\varepsilon y)
 \end{aligned}
-$$</p><ul><li>余弦関数(cos)の場合</li></ul><p>$$
+$$</p>
+<ul>
+<li>余弦関数(cos)の場合</li>
+</ul>
+<p>$$
 \begin{aligned}
 \cos(x + \varepsilon y) = \cos(x)\times\cos(\varepsilon y) - \sin(x) \times \sin(\varepsilon y)
 \end{aligned}
-$$</p><p>与えられた行列を$X$としたとき</p><ul><li>正弦関数(sin)は</li></ul><p>$$
+$$</p>
+<p>与えられた行列を$X$としたとき</p>
+<ul>
+<li>正弦関数(sin)は</li>
+</ul>
+<p>$$
 \begin{aligned}
 \sin(X) = \sum_{k=0}^{\infty} \frac{(-1)^{k}}{(2k + 1)!} X^{2k+1}
 \end{aligned}
-$$</p><ul><li>余弦関数(cos)は</li></ul><p>$$
+$$</p>
+<ul>
+<li>余弦関数(cos)は</li>
+</ul>
+<p>$$
 \begin{aligned}
 \cos(X) = \sum_{k=0}^{\infty} \frac{(-1)^{k}}{(2k)!} X^{2k}
 \end{aligned}
-$$</p><p>指数関数の時と同じように、実部$x$はそのまま</p><ul><li>正弦関数(sin)</li></ul><p>$$
+$$</p>
+<p>指数関数の時と同じように、実部$x$はそのまま</p>
+<ul>
+<li>正弦関数(sin)</li>
+</ul>
+<p>$$
 \sin(x)
-$$</p><ul><li>余弦関数(cos)</li></ul><p>$$
+$$</p>
+<ul>
+<li>余弦関数(cos)</li>
+</ul>
+<p>$$
 \cos(x)
-$$</p><p>とする。<br>双対数$\varepsilon y$ は$\varepsilon^{2} = 0$より$k\ge1$のときの項が$0$になるので</p><ul><li>正弦関数(sin)は</li></ul><p>$$
+$$</p>
+<p>とする。<br>
+双対数$\varepsilon y$ は$\varepsilon^{2} = 0$より$k\ge1$のときの項が$0$になるので</p>
+<ul>
+<li>正弦関数(sin)は</li>
+</ul>
+<p>$$
 \begin{aligned}
 \sin(\varepsilon y) = \sum_{k=0}^{\infty} \frac{(-1)^{k}}{(2k + 1)!} (\varepsilon y)^{2k+1}=\varepsilon y
 \end{aligned}
-$$</p><ul><li>余弦関数(cos)は</li></ul><p>$$
+$$</p>
+<ul>
+<li>余弦関数(cos)は</li>
+</ul>
+<p>$$
 \begin{aligned}
 \cos(\varepsilon y) = \sum_{k=0}^{\infty} \frac{(-1)^{k}}{(2k)!} (\varepsilon y)^{2k} = 1
 \end{aligned}
-$$</p><p>よって</p><ul><li>正弦関数(sin)は</li></ul><p>$$
+$$</p>
+<p>よって</p>
+<ul>
+<li>正弦関数(sin)は</li>
+</ul>
+<p>$$
 \begin{aligned}
-&\sin(x + \varepsilon y)\\
-= &\sin(x)\times\cos(\varepsilon y) + \cos(x) \times \sin(\varepsilon y)\\
-= &\sin(x) \times 1 + \cos(x) \times \varepsilon y \\
-= &\sin(x) + \varepsilon y \cos(x)
+&amp;\sin(x + \varepsilon y)\\
+= &amp;\sin(x)\times\cos(\varepsilon y) + \cos(x) \times \sin(\varepsilon y)\\
+= &amp;\sin(x) \times 1 + \cos(x) \times \varepsilon y \\
+= &amp;\sin(x) + \varepsilon y \cos(x)
 \end{aligned}
-$$</p><ul><li>余弦関数(cos)は</li></ul><p>$$
+$$</p>
+<ul>
+<li>余弦関数(cos)は</li>
+</ul>
+<p>$$
 \begin{aligned}
-&\cos(x + \varepsilon y)\\
-= &\cos(x) \times \cos(\varepsilon y) - \sin(x) \times \sin(\varepsilon y)\\
-= &\cos(x) \times 1 - \sin(x) \times \varepsilon y\\
-= &\cos(x) - \varepsilon y \sin(x)
+&amp;\cos(x + \varepsilon y)\\
+= &amp;\cos(x) \times \cos(\varepsilon y) - \sin(x) \times \sin(\varepsilon y)\\
+= &amp;\cos(x) \times 1 - \sin(x) \times \varepsilon y\\
+= &amp;\cos(x) - \varepsilon y \sin(x)
 \end{aligned}
-$$</p><p>まとめると</p><ul><li>正弦関数(sin)</li></ul><p>$$
+$$</p>
+<p>まとめると</p>
+<ul>
+<li>正弦関数(sin)</li>
+</ul>
+<p>$$
 \begin{aligned}
 \sin(x + \varepsilon y) =
 \begin{pmatrix}
-\sin(x) & y \cos(x) \\
-0 & \sin(x)
+\sin(x) &amp; y \cos(x) \\
+0 &amp; \sin(x)
 \end{pmatrix}
 \end{aligned}
-$$</p><ul><li>余弦関数(cos)</li></ul><p>$$
+$$</p>
+<ul>
+<li>余弦関数(cos)</li>
+</ul>
+<p>$$
 \begin{aligned}
 \cos(x + \varepsilon y) =
 \begin{pmatrix}
-\cos(x) & - y \sin(x) \\
-0 & \cos(x)
+\cos(x) &amp; - y \sin(x) \\
+0 &amp; \cos(x)
 \end{pmatrix}
 \end{aligned}
-$$</p><hr><h4 id=三角関数tan>三角関数(tan)<a hidden class=anchor aria-hidden=true href=#三角関数tan>#</a></h4><p>$$
+$$</p>
+<hr>
+<h4 id="三角関数tan">三角関数(tan)<a hidden class="anchor" aria-hidden="true" href="#三角関数tan">#</a></h4>
+<p>$$
 \begin{aligned}
 \tan(x + y \varepsilon) = \frac{\sin(x + y\varepsilon)}{\cos(x + y\varepsilon)}
 \end{aligned}
-$$</p><p>により、三角関数(sin,cos)と乗算と逆行列(除算)を実装して、それらを利用ことで演算可能になる。</p><hr><h4 id=対数関数log>対数関数(log)<a hidden class=anchor aria-hidden=true href=#対数関数log>#</a></h4><p>与えられた$x + \varepsilon y$を次のように計算します。</p><p>$$
+$$</p>
+<p>により、三角関数(sin,cos)と乗算と逆行列(除算)を実装して、それらを利用ことで演算可能になる。</p>
+<hr>
+<h4 id="対数関数log">対数関数(log)<a hidden class="anchor" aria-hidden="true" href="#対数関数log">#</a></h4>
+<p>与えられた$x + \varepsilon y$を次のように計算します。</p>
+<p>$$
 \begin{aligned}
 x + y \varepsilon = x \times \left(1 + \frac{y \varepsilon}{x} \right)
 \end{aligned}
-$$</p><p>より</p><p>$$
+$$</p>
+<p>より</p>
+<p>$$
 \begin{aligned}
 \log \left( x \times \left( 1 + \frac{y \varepsilon}{x} \right) \right) = \log(x) + \log \left(1 + \frac{y \varepsilon} {x} \right)
 \end{aligned}
-$$</p><p>対数関数は与えられた行列を$1 + X$としたとき$\log(1 + X)$は</p><p>$$
+$$</p>
+<p>対数関数は与えられた行列を$1 + X$としたとき$\log(1 + X)$は</p>
+<p>$$
 \begin{aligned}
 \log(1 + X) = \sum_{k=1}^{\infty} \frac{(-1)^{k+1}}{k} X^{k}
 \end{aligned}
-$$</p><p>です。</p><p>実数部分$x$はそのまま</p><p>$$
+$$</p>
+<p>です。</p>
+<p>実数部分$x$はそのまま</p>
+<p>$$
 \begin{aligned}
 \log(x)
 \end{aligned}
-$$</p><p>とする。
-双対数$ \left(1 + \frac{y \varepsilon}{x} \right)$ は$\varepsilon^{2} = 0$より$k \ge 2$のときの項が$0$になるので</p><p>$$
+$$</p>
+<p>とする。
+双対数$ \left(1 + \frac{y \varepsilon}{x} \right)$ は$\varepsilon^{2} = 0$より$k \ge 2$のときの項が$0$になるので</p>
+<p>$$
 \begin{aligned}
 \log \left(1 + \frac{y \varepsilon}{x} \right) = \sum_{k=1}^{\infty} \frac{(-1)^{k+1}}{k} \left( \frac{y \varepsilon}{x} \right) ^{k} = \frac{y \varepsilon}{x}
 \end{aligned}
-$$</p><p>よって</p><p>$$
+$$</p>
+<p>よって</p>
+<p>$$
 \begin{aligned}
 \log \left( x \times \left(1 + \frac{y \varepsilon}{x} \right) \right) = \log(x) + \frac{y \varepsilon}{x}
 \end{aligned}
-$$</p><p>まとめると</p><p>$$
+$$</p>
+<p>まとめると</p>
+<p>$$
 \begin{aligned}
 \log(x + y \varepsilon) =
 \begin{pmatrix}
-\log(x) & \frac{y}{x} \\
-0 & \log(x)
+\log(x) &amp; \frac{y}{x} \\
+0 &amp; \log(x)
 \end{pmatrix}
 \end{aligned}
-$$</p><h4 id=累乗power>累乗（power）<a hidden class=anchor aria-hidden=true href=#累乗power>#</a></h4><p>双対数の累乗 $X^n$ を計算する場合，指数 $n$ が整数か非整数かで扱いが異なります。</p><hr><p><strong>1. $n$が整数の場合（整数乗）</strong></p><ul><li>$n = 0$のとき</li></ul><p>$$
+$$</p>
+<h4 id="累乗power">累乗（power）<a hidden class="anchor" aria-hidden="true" href="#累乗power">#</a></h4>
+<p>双対数の累乗 $X^n$ を計算する場合，指数 $n$ が整数か非整数かで扱いが異なります。</p>
+<hr>
+<p><strong>1. $n$が整数の場合（整数乗）</strong></p>
+<ul>
+<li>$n = 0$のとき</li>
+</ul>
+<p>$$
 \begin{aligned}
 X^{0} = I
 \end{aligned}
-$$</p><p>（単位行列を返す）</p><ul><li>$n > 0$のとき</li></ul><p>$$
+$$</p>
+<p>（単位行列を返す）</p>
+<ul>
+<li>$n &gt; 0$のとき</li>
+</ul>
+<p>$$
 \begin{aligned}
 X^n = \underbrace{X X \cdots X}_{n\ \text{回}}
 \end{aligned}
-$$</p><p>（反復乗算）</p><ul><li>$n &lt; 0$ のとき</li></ul><p>$$
+$$</p>
+<p>（反復乗算）</p>
+<ul>
+<li>$n &lt; 0$ のとき</li>
+</ul>
+<p>$$
 \begin{aligned}
 X^n = (X^{-1})^{|n|}
 \end{aligned}
-$$</p><p>（逆行列を使って正の指数と同様に計算）</p><hr><p><strong>2. $n$ が実数のとき（実数乗・非整数指数）</strong></p><p>まず条件として、双対数</p><p>$$
+$$</p>
+<p>（逆行列を使って正の指数と同様に計算）</p>
+<hr>
+<p><strong>2. $n$ が実数のとき（実数乗・非整数指数）</strong></p>
+<p>まず条件として、双対数</p>
+<p>$$
 \begin{aligned}
 X = x + y\varepsilon
 \end{aligned}
-$$</p><p>の実部 $x$ が$0$より大きい値である必要があります。</p><p>すなわち、指数 $n$ が実数</p><p>$$
+$$</p>
+<p>の実部 $x$ が$0$より大きい値である必要があります。</p>
+<p>すなわち、指数 $n$ が実数</p>
+<p>$$
 \begin{aligned}
 n \in \mathbb{R}
 \end{aligned}
-$$</p><p>である場合、双対数 $X$ は</p><p>$$
+$$</p>
+<p>である場合、双対数 $X$ は</p>
+<p>$$
 \begin{aligned}
-X = x + y\varepsilon,\qquad x > 0
+X = x + y\varepsilon,\qquad x &gt; 0
 \end{aligned}
-$$</p><p>を満たさなければなりません。</p><p>これは、実数における累乗</p><p>$$
+$$</p>
+<p>を満たさなければなりません。</p>
+<p>これは、実数における累乗</p>
+<p>$$
 \begin{aligned}
 x^n = \exp(n\log x)
 \end{aligned}
-$$</p><p>が $x>0$ のもとで定義されることと完全に一致しています。</p><p>一般の実数指数 $n$ に対しては，指数関数と対数関数を使って</p><p>$$
+$$</p>
+<p>が $x&gt;0$ のもとで定義されることと完全に一致しています。</p>
+<p>一般の実数指数 $n$ に対しては，指数関数と対数関数を使って</p>
+<p>$$
 \begin{aligned}
 X^n = \exp\bigl(n \log X\bigr)
 \end{aligned}
-$$</p><p>と定義します。</p><p>これは実数の世界における定義</p><p>$$
+$$</p>
+<p>と定義します。</p>
+<p>これは実数の世界における定義</p>
+<p>$$
 \begin{aligned}
 x^n = \exp\bigl(n\log x\bigr)
 \end{aligned}
-$$</p><p>の行列版です。</p><p>双対数は行列で表せるので</p><ul><li><code>log(X)</code>（上三角行列の対数）</li><li><code>exp(n log(X))</code>（上三角行列の指数）</li></ul><p>がすべて計算可能になり、任意実数指数の累乗を扱うことができます。</p><hr><h4 id=平方根square-root>平方根（Square root）<a hidden class=anchor aria-hidden=true href=#平方根square-root>#</a></h4><p>平方根は累乗の特別な場合として扱うことができます。<br>すなわち</p><p>$$
+$$</p>
+<p>の行列版です。</p>
+<p>双対数は行列で表せるので</p>
+<ul>
+<li><code>log(X)</code>（上三角行列の対数）</li>
+<li><code>exp(n log(X))</code>（上三角行列の指数）</li>
+</ul>
+<p>がすべて計算可能になり、任意実数指数の累乗を扱うことができます。</p>
+<hr>
+<h4 id="平方根square-root">平方根（Square root）<a hidden class="anchor" aria-hidden="true" href="#平方根square-root">#</a></h4>
+<p>平方根は累乗の特別な場合として扱うことができます。<br>
+すなわち</p>
+<p>$$
 \begin{aligned}
 \sqrt{X} = X^{\frac{1}{2}}
 \end{aligned}
-$$</p><p>ただし、双対数 $X$ の実部が$0$より大きいこと。つまり</p><p>$$
+$$</p>
+<p>ただし、双対数 $X$ の実部が$0$より大きいこと。つまり</p>
+<p>$$
 \begin{aligned}
-X = x + y\varepsilon,\qquad x > 0
+X = x + y\varepsilon,\qquad x &gt; 0
 \end{aligned}
-$$</p><p>を満たすことが条件です。<br>前節で定義した累乗演算 $X^n$ を指数 $n = \frac{1}{2}$ として評価すれば平方根が計算できます。</p><hr><h4 id=行列表現に対する平方根>行列表現に対する平方根<a hidden class=anchor aria-hidden=true href=#行列表現に対する平方根>#</a></h4><p>双対数の行列表現</p><p>$$
+$$</p>
+<p>を満たすことが条件です。<br>
+前節で定義した累乗演算 $X^n$ を指数 $n = \frac{1}{2}$ として評価すれば平方根が計算できます。</p>
+<hr>
+<h4 id="行列表現に対する平方根">行列表現に対する平方根<a hidden class="anchor" aria-hidden="true" href="#行列表現に対する平方根">#</a></h4>
+<p>双対数の行列表現</p>
+<p>$$
 \begin{aligned}
 X =
 \begin{pmatrix}
-x & y \\
-0 & x
+x &amp; y \\
+0 &amp; x
 \end{pmatrix}
-,\qquad x > 0
+,\qquad x &gt; 0
 \end{aligned}
-$$</p><p>に対しては，</p><p>$$
+$$</p>
+<p>に対しては，</p>
+<p>$$
 \begin{aligned}
 \sqrt{X}
 =
 \begin{pmatrix}
-\sqrt{x} & \frac{y}{2\sqrt{x}} \\
-0 & \sqrt{x}
+\sqrt{x} &amp; \frac{y}{2\sqrt{x}} \\
+0 &amp; \sqrt{x}
 \end{pmatrix}
 \end{aligned}
-$$</p><p>となり，これは通常の平方根の微分法則</p><p>$$
+$$</p>
+<p>となり，これは通常の平方根の微分法則</p>
+<p>$$
 \begin{aligned}
 \frac{d}{dx} \sqrt{x} = \frac{1}{2\sqrt{x}}
 \end{aligned}
-$$</p><p>と一致しています。</p><hr><h4 id=実装上の処理>実装上の処理<a hidden class=anchor aria-hidden=true href=#実装上の処理>#</a></h4><ul><li>$n = \frac{1}{2}$ として累乗演算 <code>pow(X, n)</code> を呼び出すだけでよい</li><li>累乗の節で示したように<ul><li>指数$n$が整数かどうかを判定</li><li>非整数の場合は、実部が$0$より大きいか$(x > 0)$を判定</li><li>実部が0より大きいのであれば、指数関数と対数関数を用いて<br>$$
+$$</p>
+<p>と一致しています。</p>
+<hr>
+<h4 id="実装上の処理">実装上の処理<a hidden class="anchor" aria-hidden="true" href="#実装上の処理">#</a></h4>
+<ul>
+<li>$n = \frac{1}{2}$ として累乗演算 <code>pow(X, n)</code> を呼び出すだけでよい</li>
+<li>累乗の節で示したように
+<ul>
+<li>指数$n$が整数かどうかを判定</li>
+<li>非整数の場合は、実部が$0$より大きいか$(x &gt; 0)$を判定</li>
+<li>実部が0より大きいのであれば、指数関数と対数関数を用いて<br>
+$$
 \begin{aligned}
 \sqrt{X} = X^{\frac{1}{2}} = \exp \left(\frac{1}{2} \log X\right)
 \end{aligned}
 $$
-の形で処理される</li></ul></li></ul><p>これにより，双対数に対する平方根が自然に計算できます。</p><hr><h2 id=python-flintを使った精度保証付き自動微分>Python-FLINTを使った精度保証付き自動微分<a hidden class=anchor aria-hidden=true href=#python-flintを使った精度保証付き自動微分>#</a></h2><p>これは、<code>arb-FLINT</code>の<code>arb</code>で区間演算を用いた精度保証付きの自動微分です。<br>ここでは <strong>双対数の$ 2 \times 2$ 行列による表現は使わず</strong> <code>(値, 微分)</code> を持つオブジェクトを演算で伝播させることで自動微分を実現しています。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>flint</span> <span class=kn>import</span> <span class=n>arb</span><span class=p>,</span> <span class=n>ctx</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>require_pos</span><span class=p>(</span><span class=n>v</span><span class=p>:</span> <span class=n>arb</span><span class=p>,</span> <span class=o>*</span><span class=p>,</span> <span class=n>what</span><span class=o>=</span><span class=s2>&#34;x&#34;</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
-</span></span></span><span class=line><span class=cl><span class=s2>    v が『確実に正』であることを要求する。
-</span></span></span><span class=line><span class=cl><span class=s2>    （区間が 0 を含む可能性があれば定義域外として止める）
-</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=k>try</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>v</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>            <span class=k>return</span>
-</span></span><span class=line><span class=cl>    <span class=k>except</span> <span class=ne>TypeError</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>        <span class=k>pass</span>
-</span></span><span class=line><span class=cl>    <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span>
-</span></span><span class=line><span class=cl>        <span class=sa>f</span><span class=s2>&#34;</span><span class=si>{</span><span class=n>what</span><span class=si>}</span><span class=s2> must be strictly positive (interval must not include 0). got </span><span class=si>{</span><span class=n>v</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>DualArb</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
-</span></span></span><span class=line><span class=cl><span class=s2>    Dual number over Arb:
-</span></span></span><span class=line><span class=cl><span class=s2>        x + eps * dx  (eps^2 = 0)
-</span></span></span><span class=line><span class=cl><span class=s2>
-</span></span></span><span class=line><span class=cl><span class=s2>    val: arb  — 実数部 x
-</span></span></span><span class=line><span class=cl><span class=s2>    der: arb  — 微分値 dx
-</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=vm>__slots__</span> <span class=o>=</span> <span class=p>(</span><span class=s2>&#34;val&#34;</span><span class=p>,</span> <span class=s2>&#34;der&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>val</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>der</span><span class=o>=</span><span class=mi>0</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>=</span> <span class=n>arb</span><span class=p>(</span><span class=n>val</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>der</span> <span class=o>=</span> <span class=n>arb</span><span class=p>(</span><span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1># --- ユーティリティ ---</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=nd>@staticmethod</span>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>lift</span><span class=p>(</span><span class=n>x</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;スカラー or DualArb を DualArb に持ち上げる。&#34;&#34;&#34;</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>DualArb</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>x</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=mi>0</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>copy</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>val</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__repr__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=sa>f</span><span class=s2>&#34;DualArb(val=</span><span class=si>{</span><span class=bp>self</span><span class=o>.</span><span class=n>val</span><span class=si>}</span><span class=s2>, der=</span><span class=si>{</span><span class=bp>self</span><span class=o>.</span><span class=n>der</span><span class=si>}</span><span class=s2>)&#34;</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1># --- 四則演算 ---</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__add__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=n>other</span> <span class=o>=</span> <span class=n>DualArb</span><span class=o>.</span><span class=n>lift</span><span class=p>(</span><span class=n>other</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>+</span> <span class=n>other</span><span class=o>.</span><span class=n>val</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>der</span> <span class=o>+</span> <span class=n>other</span><span class=o>.</span><span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=fm>__radd__</span> <span class=o>=</span> <span class=fm>__add__</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__sub__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=n>other</span> <span class=o>=</span> <span class=n>DualArb</span><span class=o>.</span><span class=n>lift</span><span class=p>(</span><span class=n>other</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>-</span> <span class=n>other</span><span class=o>.</span><span class=n>val</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>der</span> <span class=o>-</span> <span class=n>other</span><span class=o>.</span><span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__rsub__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=n>other</span> <span class=o>=</span> <span class=n>DualArb</span><span class=o>.</span><span class=n>lift</span><span class=p>(</span><span class=n>other</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>other</span><span class=o>.</span><span class=n>val</span> <span class=o>-</span> <span class=bp>self</span><span class=o>.</span><span class=n>val</span><span class=p>,</span> <span class=n>other</span><span class=o>.</span><span class=n>der</span> <span class=o>-</span> <span class=bp>self</span><span class=o>.</span><span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__neg__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=o>-</span><span class=bp>self</span><span class=o>.</span><span class=n>val</span><span class=p>,</span> <span class=o>-</span><span class=bp>self</span><span class=o>.</span><span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__mul__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=n>other</span> <span class=o>=</span> <span class=n>DualArb</span><span class=o>.</span><span class=n>lift</span><span class=p>(</span><span class=n>other</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=c1># (x + eps dx)(y + eps dy) = xy + eps (x dy + y dx)</span>
-</span></span><span class=line><span class=cl>        <span class=n>val</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>*</span> <span class=n>other</span><span class=o>.</span><span class=n>val</span>
-</span></span><span class=line><span class=cl>        <span class=n>der</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>*</span> <span class=n>other</span><span class=o>.</span><span class=n>der</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>der</span> <span class=o>*</span> <span class=n>other</span><span class=o>.</span><span class=n>val</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>val</span><span class=p>,</span> <span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=fm>__rmul__</span> <span class=o>=</span> <span class=fm>__mul__</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__truediv__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=n>other</span> <span class=o>=</span> <span class=n>DualArb</span><span class=o>.</span><span class=n>lift</span><span class=p>(</span><span class=n>other</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=c1># (x + eps dx) / (y + eps dy)</span>
-</span></span><span class=line><span class=cl>        <span class=c1># = (x / y) + eps * ( (dx*y - x*dy) / y^2 )</span>
-</span></span><span class=line><span class=cl>        <span class=n>inv</span> <span class=o>=</span> <span class=mi>1</span> <span class=o>/</span> <span class=n>other</span><span class=o>.</span><span class=n>val</span>
-</span></span><span class=line><span class=cl>        <span class=n>val</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>*</span> <span class=n>inv</span>
-</span></span><span class=line><span class=cl>        <span class=n>der</span> <span class=o>=</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>der</span> <span class=o>*</span> <span class=n>other</span><span class=o>.</span><span class=n>val</span> <span class=o>-</span> <span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>*</span> <span class=n>other</span><span class=o>.</span><span class=n>der</span><span class=p>)</span> <span class=o>*</span> <span class=p>(</span><span class=n>inv</span> <span class=o>*</span> <span class=n>inv</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>val</span><span class=p>,</span> <span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__rtruediv__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=c1># (a) / (x + eps dx)</span>
-</span></span><span class=line><span class=cl>        <span class=n>other</span> <span class=o>=</span> <span class=n>DualArb</span><span class=o>.</span><span class=n>lift</span><span class=p>(</span><span class=n>other</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=n>inv</span> <span class=o>=</span> <span class=mi>1</span> <span class=o>/</span> <span class=bp>self</span><span class=o>.</span><span class=n>val</span>
-</span></span><span class=line><span class=cl>        <span class=n>val</span> <span class=o>=</span> <span class=n>other</span><span class=o>.</span><span class=n>val</span> <span class=o>*</span> <span class=n>inv</span>
-</span></span><span class=line><span class=cl>        <span class=n>der</span> <span class=o>=</span> <span class=p>(</span><span class=n>other</span><span class=o>.</span><span class=n>der</span> <span class=o>*</span> <span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>-</span> <span class=n>other</span><span class=o>.</span><span class=n>val</span> <span class=o>*</span> <span class=bp>self</span><span class=o>.</span><span class=n>der</span><span class=p>)</span> <span class=o>*</span> <span class=p>(</span><span class=n>inv</span> <span class=o>*</span> <span class=n>inv</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>val</span><span class=p>,</span> <span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1># --- 累乗 ---</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__pow__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>n</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;
-</span></span></span><span class=line><span class=cl><span class=s2>        (x + eps dx)^n
-</span></span></span><span class=line><span class=cl><span class=s2>        - n が int（整数）なら、通常の整数乗として扱う
-</span></span></span><span class=line><span class=cl><span class=s2>        - それ以外（実数指数）は x&gt;0 を要求（実数の log が必要）
-</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=n>DualArb</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>            <span class=k>raise</span> <span class=ne>TypeError</span><span class=p>(</span><span class=s2>&#34;DualArb ** DualArb は未実装（スカラー指数だけ対応）。&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=c1># --- 1) 整数指数（Python int） ---</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=nb>int</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>n</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>                <span class=c1># (x + eps dx)^0 = 1, 微分は 0</span>
-</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>0</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>n</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>                <span class=c1># 0 の負整数乗は不可</span>
-</span></span><span class=line><span class=cl>                <span class=c1># arb の「0と等しい」判定は曖昧になり得るので安全側に倒す</span>
-</span></span><span class=line><span class=cl>                <span class=k>try</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>                    <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>                        <span class=k>raise</span> <span class=ne>ZeroDivisionError</span><span class=p>(</span><span class=s2>&#34;0 の負整数乗は定義できません。&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>                <span class=k>except</span> <span class=ne>TypeError</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>                    <span class=c1># 0 を含む可能性がある区間ならアウト</span>
-</span></span><span class=line><span class=cl>                    <span class=k>raise</span> <span class=ne>ZeroDivisionError</span><span class=p>(</span><span class=s2>&#34;0 を含む区間の負整数乗は定義できません。&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>            <span class=n>val</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>**</span> <span class=n>n</span>
-</span></span><span class=line><span class=cl>            <span class=n>der</span> <span class=o>=</span> <span class=n>arb</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=o>*</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>**</span> <span class=p>(</span><span class=n>n</span> <span class=o>-</span> <span class=mi>1</span><span class=p>))</span> <span class=o>*</span> <span class=bp>self</span><span class=o>.</span><span class=n>der</span>
-</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>val</span><span class=p>,</span> <span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>        <span class=c1># --- 2) 非整数指数（実数指数） ---</span>
-</span></span><span class=line><span class=cl>        <span class=n>n_arb</span> <span class=o>=</span> <span class=n>arb</span><span class=p>(</span><span class=n>n</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=c1># 実数としての x^n を exp(n log x) で定義するので x&gt;0 が必要</span>
-</span></span><span class=line><span class=cl>        <span class=n>require_pos</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>val</span><span class=p>,</span> <span class=n>what</span><span class=o>=</span><span class=s2>&#34;pow real-part (non-integer exponent)&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=n>val</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>**</span> <span class=n>n_arb</span>
-</span></span><span class=line><span class=cl>        <span class=n>der</span> <span class=o>=</span> <span class=n>n_arb</span> <span class=o>*</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>val</span> <span class=o>**</span> <span class=p>(</span><span class=n>n_arb</span> <span class=o>-</span> <span class=mi>1</span><span class=p>))</span> <span class=o>*</span> <span class=bp>self</span><span class=o>.</span><span class=n>der</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>val</span><span class=p>,</span> <span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__rpow__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>base</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;
-</span></span></span><span class=line><span class=cl><span class=s2>        base ** (x + eps dx)
-</span></span></span><span class=line><span class=cl><span class=s2>        = exp((x + eps dx) * log(base))
-</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
-</span></span><span class=line><span class=cl>        <span class=n>base_arb</span> <span class=o>=</span> <span class=n>arb</span><span class=p>(</span><span class=n>base</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>base_arb</span> <span class=o>&lt;=</span> <span class=mi>0</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s2>&#34;base は正の実数にしてね（log が必要になるので）。&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>        <span class=c1># f(x) = base^x, f&#39;(x) = base^x * log(base)</span>
-</span></span><span class=line><span class=cl>        <span class=n>val</span> <span class=o>=</span> <span class=n>base_arb</span> <span class=o>**</span> <span class=bp>self</span><span class=o>.</span><span class=n>val</span>
-</span></span><span class=line><span class=cl>        <span class=n>der</span> <span class=o>=</span> <span class=n>val</span> <span class=o>*</span> <span class=bp>self</span><span class=o>.</span><span class=n>der</span> <span class=o>*</span> <span class=n>base_arb</span><span class=o>.</span><span class=n>log</span><span class=p>()</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>val</span><span class=p>,</span> <span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># --- elementary functions on DualArb ---</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>dual_exp</span><span class=p>(</span><span class=n>x</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
-</span></span></span><span class=line><span class=cl><span class=s2>    exp(x + eps dx) = exp(x) + eps * dx * exp(x)
-</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=n>DualArb</span><span class=o>.</span><span class=n>lift</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>v</span> <span class=o>=</span> <span class=n>x</span><span class=o>.</span><span class=n>val</span><span class=o>.</span><span class=n>exp</span><span class=p>()</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>v</span><span class=p>,</span> <span class=n>x</span><span class=o>.</span><span class=n>der</span> <span class=o>*</span> <span class=n>v</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>dual_log</span><span class=p>(</span><span class=n>x</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
-</span></span></span><span class=line><span class=cl><span class=s2>    log(x + eps dx) = log(x) + eps * dx / x
-</span></span></span><span class=line><span class=cl><span class=s2>    定義域（実数）：実部が strictly positive
-</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=n>DualArb</span><span class=o>.</span><span class=n>lift</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>require_pos</span><span class=p>(</span><span class=n>x</span><span class=o>.</span><span class=n>val</span><span class=p>,</span> <span class=n>what</span><span class=o>=</span><span class=s2>&#34;log real-part&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>x</span><span class=o>.</span><span class=n>val</span><span class=o>.</span><span class=n>log</span><span class=p>(),</span> <span class=n>x</span><span class=o>.</span><span class=n>der</span> <span class=o>/</span> <span class=n>x</span><span class=o>.</span><span class=n>val</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>dual_sin</span><span class=p>(</span><span class=n>x</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
-</span></span></span><span class=line><span class=cl><span class=s2>    sin(x + eps dx) = sin(x) + eps * dx * cos(x)
-</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=n>DualArb</span><span class=o>.</span><span class=n>lift</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>x</span><span class=o>.</span><span class=n>val</span><span class=o>.</span><span class=n>sin</span><span class=p>(),</span> <span class=n>x</span><span class=o>.</span><span class=n>der</span> <span class=o>*</span> <span class=n>x</span><span class=o>.</span><span class=n>val</span><span class=o>.</span><span class=n>cos</span><span class=p>())</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>dual_cos</span><span class=p>(</span><span class=n>x</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
-</span></span></span><span class=line><span class=cl><span class=s2>    cos(x + eps dx) = cos(x) - eps * dx * sin(x)
-</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=n>DualArb</span><span class=o>.</span><span class=n>lift</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>x</span><span class=o>.</span><span class=n>val</span><span class=o>.</span><span class=n>cos</span><span class=p>(),</span> <span class=o>-</span><span class=n>x</span><span class=o>.</span><span class=n>der</span> <span class=o>*</span> <span class=n>x</span><span class=o>.</span><span class=n>val</span><span class=o>.</span><span class=n>sin</span><span class=p>())</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>dual_tan</span><span class=p>(</span><span class=n>x</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
-</span></span></span><span class=line><span class=cl><span class=s2>    tan = sin / cos で実装（安直版）
-</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>dual_sin</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=o>/</span> <span class=n>dual_cos</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>dual_sqrt</span><span class=p>(</span><span class=n>x</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;
-</span></span></span><span class=line><span class=cl><span class=s2>    sqrt(x + eps dx) = sqrt(x) + eps * dx / (2 * sqrt(x))
-</span></span></span><span class=line><span class=cl><span class=s2>    定義域（実数）：実部が strictly positive
-</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
-</span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=n>DualArb</span><span class=o>.</span><span class=n>lift</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>require_pos</span><span class=p>(</span><span class=n>x</span><span class=o>.</span><span class=n>val</span><span class=p>,</span> <span class=n>what</span><span class=o>=</span><span class=s2>&#34;sqrt real-part&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>v</span> <span class=o>=</span> <span class=n>x</span><span class=o>.</span><span class=n>val</span><span class=o>.</span><span class=n>sqrt</span><span class=p>()</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>v</span><span class=p>,</span> <span class=n>x</span><span class=o>.</span><span class=n>der</span> <span class=o>/</span> <span class=p>(</span><span class=mi>2</span> <span class=o>*</span> <span class=n>v</span><span class=p>))</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>differentiate</span><span class=p>(</span><span class=n>f</span><span class=p>,</span> <span class=n>x0</span><span class=p>,</span> <span class=n>dps</span><span class=o>=</span><span class=mi>50</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=n>ctx</span><span class=o>.</span><span class=n>dps</span> <span class=o>=</span> <span class=n>dps</span>
-</span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=n>DualArb</span><span class=p>(</span><span class=n>x0</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>y</span> <span class=o>=</span> <span class=n>f</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=ow>not</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>y</span><span class=p>,</span> <span class=n>DualArb</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=n>y</span> <span class=o>=</span> <span class=n>DualArb</span><span class=o>.</span><span class=n>lift</span><span class=p>(</span><span class=n>y</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>y</span><span class=o>.</span><span class=n>val</span><span class=p>,</span> <span class=n>y</span><span class=o>.</span><span class=n>der</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s2>&#34;__main__&#34;</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>    <span class=kn>from</span> <span class=nn>flint</span> <span class=kn>import</span> <span class=n>arb</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1># f(x) を DualArb で書く</span>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>f</span><span class=p>(</span><span class=n>x</span><span class=p>:</span> <span class=n>DualArb</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>DualArb</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>        <span class=c1># f(x) = x^3 + 2 * sin(x) * exp(x)</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>x</span><span class=o>**</span><span class=mi>3</span> <span class=o>+</span> <span class=mi>2</span> <span class=o>*</span> <span class=n>dual_sin</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=o>*</span> <span class=n>dual_exp</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1># xの値と精度を入力</span>
-</span></span><span class=line><span class=cl>    <span class=n>val</span><span class=p>,</span> <span class=n>der</span> <span class=o>=</span> <span class=n>differentiate</span><span class=p>(</span><span class=n>f</span><span class=p>,</span> <span class=n>x0</span><span class=o>=</span><span class=mi>2</span><span class=p>,</span> <span class=n>dps</span><span class=o>=</span><span class=mi>80</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1># 結果出力</span>
-</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;-------------- 自動微分の結果出力 -------------------&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;f(x)  =&#34;</span><span class=p>,</span> <span class=n>val</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;f&#39;(x) =&#34;</span><span class=p>,</span> <span class=n>der</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1># ここからは検算用（普通のarbで計算）</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1># 検算用の x の 値をarbで入力</span>
-</span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=n>arb</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>f_exact</span> <span class=o>=</span> <span class=n>x</span><span class=o>**</span><span class=mi>3</span> <span class=o>+</span> <span class=mi>2</span> <span class=o>*</span> <span class=n>x</span><span class=o>.</span><span class=n>sin</span><span class=p>()</span> <span class=o>*</span> <span class=n>x</span><span class=o>.</span><span class=n>exp</span><span class=p>()</span>
-</span></span><span class=line><span class=cl>    <span class=c1># f&#39;(x) = 3x^2 + 2[cos x * e^x + sin x * e^x]</span>
-</span></span><span class=line><span class=cl>    <span class=n>fprime_exact</span> <span class=o>=</span> <span class=mi>3</span> <span class=o>*</span> <span class=n>x</span><span class=o>**</span><span class=mi>2</span> <span class=o>+</span> <span class=mi>2</span> <span class=o>*</span> <span class=p>(</span><span class=n>x</span><span class=o>.</span><span class=n>cos</span><span class=p>()</span> <span class=o>*</span> <span class=n>x</span><span class=o>.</span><span class=n>exp</span><span class=p>()</span> <span class=o>+</span> <span class=n>x</span><span class=o>.</span><span class=n>sin</span><span class=p>()</span> <span class=o>*</span> <span class=n>x</span><span class=o>.</span><span class=n>exp</span><span class=p>())</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1># 検算出力</span>
-</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;-------------- 検算用の結果出力 ---------------------&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;f(x) (exact-like)  =&#34;</span><span class=p>,</span> <span class=n>f_exact</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;f&#39;(x) (exact-like) =&#34;</span><span class=p>,</span> <span class=n>fprime_exact</span><span class=p>)</span>
-</span></span></code></pre></div><p>実行結果</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>-------------- 自動微分の結果出力 -------------------
-</span></span><span class=line><span class=cl>f<span class=o>(</span>x<span class=o>)</span>  <span class=o>=</span> <span class=o>[</span>21.437699394856499942536605542730404247329089189979126594003547131771280961691209 +/- 4.59e-79<span class=o>]</span>
-</span></span><span class=line><span class=cl>f<span class=s1>&#39;(x) = [19.287834753577782208311647433138084351108611465818774471674468084248344679936378 +/- 5.27e-79]
-</span></span></span><span class=line><span class=cl><span class=s1>-------------- 検算用の結果出力 ---------------------
-</span></span></span><span class=line><span class=cl><span class=s1>f(x) (exact-like)  = [21.437699394856499942536605542730404247329089189979126594003547131771280961691209 +/- 4.59e-79]
-</span></span></span><span class=line><span class=cl><span class=s1>f&#39;</span><span class=o>(</span>x<span class=o>)</span> <span class=o>(</span>exact-like<span class=o>)</span> <span class=o>=</span> <span class=o>[</span>19.287834753577782208311647433138084351108611465818774471674468084248344679936378 +/- 5.27e-79<span class=o>]</span>
-</span></span></code></pre></div><h2 id=arbライブラリcを使った精度保証付き自動微分>Arbライブラリ(C++)を使った精度保証付き自動微分<a hidden class=anchor aria-hidden=true href=#arbライブラリcを使った精度保証付き自動微分>#</a></h2><p>双対数による微分は、$\varepsilon^2 = 0$ を満たす元 $\varepsilon$ を用いて</p><p>$$
+の形で処理される</li>
+</ul>
+</li>
+</ul>
+<p>これにより，双対数に対する平方根が自然に計算できます。</p>
+<hr>
+<h2 id="python-flintを使った精度保証付き自動微分">Python-FLINTを使った精度保証付き自動微分<a hidden class="anchor" aria-hidden="true" href="#python-flintを使った精度保証付き自動微分">#</a></h2>
+<p>これは、<code>arb-FLINT</code>の<code>arb</code>で区間演算を用いた精度保証付きの自動微分です。<br>
+ここでは <strong>双対数の$ 2 \times 2$ 行列による表現は使わず</strong> <code>(値, 微分)</code> を持つオブジェクトを演算で伝播させることで自動微分を実現しています。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">flint</span> <span class="kn">import</span> <span class="n">arb</span><span class="p">,</span> <span class="n">ctx</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">require_pos</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">arb</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s2">&#34;x&#34;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    v が『確実に正』であることを要求する。
+</span></span></span><span class="line"><span class="cl"><span class="s2">    （区間が 0 を含む可能性があれば定義域外として止める）
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">pass</span>
+</span></span><span class="line"><span class="cl">    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">what</span><span class="si">}</span><span class="s2"> must be strictly positive (interval must not include 0). got </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">DualArb</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Dual number over Arb:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        x + eps * dx  (eps^2 = 0)
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    val: arb  — 実数部 x
+</span></span></span><span class="line"><span class="cl"><span class="s2">    der: arb  — 微分値 dx
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&#34;val&#34;</span><span class="p">,</span> <span class="s2">&#34;der&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">der</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">arb</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">der</span> <span class="o">=</span> <span class="n">arb</span><span class="p">(</span><span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># --- ユーティリティ ---</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@staticmethod</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">lift</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;スカラー or DualArb を DualArb に持ち上げる。&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">DualArb</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="sa">f</span><span class="s2">&#34;DualArb(val=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="si">}</span><span class="s2">, der=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="si">}</span><span class="s2">)&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># --- 四則演算 ---</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">other</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="fm">__radd__</span> <span class="o">=</span> <span class="fm">__add__</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">other</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__rsub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">other</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">val</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">der</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">other</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># (x + eps dx)(y + eps dy) = xy + eps (x dy + y dx)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">val</span>
+</span></span><span class="line"><span class="cl">        <span class="n">der</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">der</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">val</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="fm">__rmul__</span> <span class="o">=</span> <span class="fm">__mul__</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">other</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># (x + eps dx) / (y + eps dy)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># = (x / y) + eps * ( (dx*y - x*dy) / y^2 )</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inv</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">other</span><span class="o">.</span><span class="n">val</span>
+</span></span><span class="line"><span class="cl">        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">*</span> <span class="n">inv</span>
+</span></span><span class="line"><span class="cl">        <span class="n">der</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">der</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">val</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">inv</span> <span class="o">*</span> <span class="n">inv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__rtruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># (a) / (x + eps dx)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">other</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inv</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span>
+</span></span><span class="line"><span class="cl">        <span class="n">val</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">val</span> <span class="o">*</span> <span class="n">inv</span>
+</span></span><span class="line"><span class="cl">        <span class="n">der</span> <span class="o">=</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">der</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">val</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">inv</span> <span class="o">*</span> <span class="n">inv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># --- 累乗 ---</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">        (x + eps dx)^n
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - n が int（整数）なら、通常の整数乗として扱う
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - それ以外（実数指数）は x&gt;0 を要求（実数の log が必要）
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">DualArb</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&#34;DualArb ** DualArb は未実装（スカラー指数だけ対応）。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># --- 1) 整数指数（Python int） ---</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># (x + eps dx)^0 = 1, 微分は 0</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 0 の負整数乗は不可</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># arb の「0と等しい」判定は曖昧になり得るので安全側に倒す</span>
+</span></span><span class="line"><span class="cl">                <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="s2">&#34;0 の負整数乗は定義できません。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 0 を含む可能性がある区間ならアウト</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="s2">&#34;0 を含む区間の負整数乗は定義できません。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">**</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">            <span class="n">der</span> <span class="o">=</span> <span class="n">arb</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># --- 2) 非整数指数（実数指数） ---</span>
+</span></span><span class="line"><span class="cl">        <span class="n">n_arb</span> <span class="o">=</span> <span class="n">arb</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 実数としての x^n を exp(n log x) で定義するので x&gt;0 が必要</span>
+</span></span><span class="line"><span class="cl">        <span class="n">require_pos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s2">&#34;pow real-part (non-integer exponent)&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">**</span> <span class="n">n_arb</span>
+</span></span><span class="line"><span class="cl">        <span class="n">der</span> <span class="o">=</span> <span class="n">n_arb</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">**</span> <span class="p">(</span><span class="n">n_arb</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__rpow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">        base ** (x + eps dx)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        = exp((x + eps dx) * log(base))
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">base_arb</span> <span class="o">=</span> <span class="n">arb</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">base_arb</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&#34;base は正の実数にしてね（log が必要になるので）。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># f(x) = base^x, f&#39;(x) = base^x * log(base)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">val</span> <span class="o">=</span> <span class="n">base_arb</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span>
+</span></span><span class="line"><span class="cl">        <span class="n">der</span> <span class="o">=</span> <span class="n">val</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span> <span class="o">*</span> <span class="n">base_arb</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># --- elementary functions on DualArb ---</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">dual_exp</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    exp(x + eps dx) = exp(x) + eps * dx * exp(x)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">v</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">der</span> <span class="o">*</span> <span class="n">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">dual_log</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    log(x + eps dx) = log(x) + eps * dx / x
+</span></span></span><span class="line"><span class="cl"><span class="s2">    定義域（実数）：実部が strictly positive
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">require_pos</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s2">&#34;log real-part&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">log</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">der</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">dual_sin</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    sin(x + eps dx) = sin(x) + eps * dx * cos(x)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">sin</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">der</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">cos</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">dual_cos</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    cos(x + eps dx) = cos(x) - eps * dx * sin(x)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">cos</span><span class="p">(),</span> <span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="n">der</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">sin</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">dual_tan</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    tan = sin / cos で実装（安直版）
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">dual_sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">dual_cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">dual_sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    sqrt(x + eps dx) = sqrt(x) + eps * dx / (2 * sqrt(x))
+</span></span></span><span class="line"><span class="cl"><span class="s2">    定義域（実数）：実部が strictly positive
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">require_pos</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s2">&#34;sqrt real-part&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">v</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">sqrt</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">der</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">v</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">differentiate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">dps</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ctx</span><span class="o">.</span><span class="n">dps</span> <span class="o">=</span> <span class="n">dps</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">DualArb</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">DualArb</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y</span> <span class="o">=</span> <span class="n">DualArb</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">y</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">der</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">from</span> <span class="nn">flint</span> <span class="kn">import</span> <span class="n">arb</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># f(x) を DualArb で書く</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">DualArb</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DualArb</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># f(x) = x^3 + 2 * sin(x) * exp(x)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dual_sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">dual_exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># xの値と精度を入力</span>
+</span></span><span class="line"><span class="cl">    <span class="n">val</span><span class="p">,</span> <span class="n">der</span> <span class="o">=</span> <span class="n">differentiate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dps</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 結果出力</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;-------------- 自動微分の結果出力 -------------------&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;f(x)  =&#34;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;f&#39;(x) =&#34;</span><span class="p">,</span> <span class="n">der</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># ここからは検算用（普通のarbで計算）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 検算用の x の 値をarbで入力</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">arb</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f_exact</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># f&#39;(x) = 3x^2 + 2[cos x * e^x + sin x * e^x]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fprime_exact</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">cos</span><span class="p">()</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">exp</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 検算出力</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;-------------- 検算用の結果出力 ---------------------&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;f(x) (exact-like)  =&#34;</span><span class="p">,</span> <span class="n">f_exact</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;f&#39;(x) (exact-like) =&#34;</span><span class="p">,</span> <span class="n">fprime_exact</span><span class="p">)</span>
+</span></span></code></pre></div><p>実行結果</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-------------- 自動微分の結果出力 -------------------
+</span></span><span class="line"><span class="cl">f<span class="o">(</span>x<span class="o">)</span>  <span class="o">=</span> <span class="o">[</span>21.437699394856499942536605542730404247329089189979126594003547131771280961691209 +/- 4.59e-79<span class="o">]</span>
+</span></span><span class="line"><span class="cl">f<span class="s1">&#39;(x) = [19.287834753577782208311647433138084351108611465818774471674468084248344679936378 +/- 5.27e-79]
+</span></span></span><span class="line"><span class="cl"><span class="s1">-------------- 検算用の結果出力 ---------------------
+</span></span></span><span class="line"><span class="cl"><span class="s1">f(x) (exact-like)  = [21.437699394856499942536605542730404247329089189979126594003547131771280961691209 +/- 4.59e-79]
+</span></span></span><span class="line"><span class="cl"><span class="s1">f&#39;</span><span class="o">(</span>x<span class="o">)</span> <span class="o">(</span>exact-like<span class="o">)</span> <span class="o">=</span> <span class="o">[</span>19.287834753577782208311647433138084351108611465818774471674468084248344679936378 +/- 5.27e-79<span class="o">]</span>
+</span></span></code></pre></div><h2 id="arbライブラリcを使った精度保証付き自動微分">Arbライブラリ(C++)を使った精度保証付き自動微分<a hidden class="anchor" aria-hidden="true" href="#arbライブラリcを使った精度保証付き自動微分">#</a></h2>
+<p>双対数による微分は、$\varepsilon^2 = 0$ を満たす元 $\varepsilon$ を用いて</p>
+<p>$$
 \begin{aligned}
 f(x + \varepsilon) = f(x) + \varepsilon f^{\prime}(x)
 \end{aligned}
-$$</p><p>と表されます。</p><p>これを</p><p>$$
+$$</p>
+<p>と表されます。</p>
+<p>これを</p>
+<p>$$
 \begin{aligned}
 x + \varepsilon =
 \begin{pmatrix}
-x & 1 \\
-0 & x
+x &amp; 1 \\
+0 &amp; x
 \end{pmatrix}
 \end{aligned}
-$$</p><p>という $2 \times 2$ 上三角行列として表現し，
+$$</p>
+<p>という $2 \times 2$ 上三角行列として表現し，
 Arb ライブラリの区間演算を用いて 1 階の自動微分を
-精度保証付きで実装した例は，次のリポジトリにまとめています。</p><p><a href=https://github.com/ungeho/arb-diff>📦<strong>双対数を使った精度保証付き自動微分</strong></a></p><h2 id=python版ではなぜ行列表現を採用しなかったか>Python版ではなぜ行列表現を採用しなかったか<a hidden class=anchor aria-hidden=true href=#python版ではなぜ行列表現を採用しなかったか>#</a></h2><p>C++版では双対数$x+\varepsilon$を</p><p>$$
+精度保証付きで実装した例は，次のリポジトリにまとめています。</p>
+<p><a href="https://github.com/ungeho/arb-diff">📦<strong>双対数を使った精度保証付き自動微分</strong></a></p>
+<h2 id="python版ではなぜ行列表現を採用しなかったか">Python版ではなぜ行列表現を採用しなかったか<a hidden class="anchor" aria-hidden="true" href="#python版ではなぜ行列表現を採用しなかったか">#</a></h2>
+<p>C++版では双対数$x+\varepsilon$を</p>
+<p>$$
 \begin{aligned}
 \begin{pmatrix}
-x & \varepsilon \\
-0 & x
+x &amp; \varepsilon \\
+0 &amp; x
 \end{pmatrix}
 \end{aligned}
-$$</p><p>という $2\times2$ 上三角行列で表現し、行列積によって微分を自動的に伝播させている。</p><p>一方、Python 版ではこの行列表現を採用せず、<code>(値, 微分値)</code> を明示的に保持する自動微分の実装を選択した。<br>その理由は主に次の点にある。</p><hr><h3 id=1pythonでは行列演算のオーバーヘッドが大きい>1.Pythonでは行列演算のオーバーヘッドが大きい<a hidden class=anchor aria-hidden=true href=#1pythonでは行列演算のオーバーヘッドが大きい>#</a></h3><p><code>arb_mat</code>を用いた行列演算は、スカラー<code>arb</code>の演算と比べてオーバーヘッドが大きい。</p><p>双対数による1階微分では本質的に</p><ul><li>値　　：$x$</li><li>微分値：$dx$</li></ul><p>の2つのスカラーだけを扱えば十分であり、常に$2 \times 2$ 行列を構成・演算する必要がない。</p><p>Pythonではこの差が特に顕著になるため、スカラー2個を直接伝播させる方が実用的。</p><hr><h3 id=2行列関数は必要以上に一般的>2.行列関数は「必要以上に一般的」<a hidden class=anchor aria-hidden=true href=#2行列関数は必要以上に一般的>#</a></h3><p><code>arb_mat_exp</code>や<code>arb_mat_log</code>などの行列関数は、<strong>一般行列</strong>を対象としたアルゴリズムとして実装されています。</p><p>しかし双対数に対応する行列は常に</p><ul><li><strong>上三角行列</strong></li><li><strong>特殊な冪零構造$(\varepsilon^{2} = 0)$</strong></li></ul><p>を持ちます。</p><p>この特殊構造を生かすなら</p><p>$$
+$$</p>
+<p>という $2\times2$ 上三角行列で表現し、行列積によって微分を自動的に伝播させている。</p>
+<p>一方、Python 版ではこの行列表現を採用せず、<code>(値, 微分値)</code> を明示的に保持する自動微分の実装を選択した。<br>
+その理由は主に次の点にある。</p>
+<hr>
+<h3 id="1pythonでは行列演算のオーバーヘッドが大きい">1.Pythonでは行列演算のオーバーヘッドが大きい<a hidden class="anchor" aria-hidden="true" href="#1pythonでは行列演算のオーバーヘッドが大きい">#</a></h3>
+<p><code>arb_mat</code>を用いた行列演算は、スカラー<code>arb</code>の演算と比べてオーバーヘッドが大きい。</p>
+<p>双対数による1階微分では本質的に</p>
+<ul>
+<li>値　　：$x$</li>
+<li>微分値：$dx$</li>
+</ul>
+<p>の2つのスカラーだけを扱えば十分であり、常に$2 \times 2$ 行列を構成・演算する必要がない。</p>
+<p>Pythonではこの差が特に顕著になるため、スカラー2個を直接伝播させる方が実用的。</p>
+<hr>
+<h3 id="2行列関数は必要以上に一般的">2.行列関数は「必要以上に一般的」<a hidden class="anchor" aria-hidden="true" href="#2行列関数は必要以上に一般的">#</a></h3>
+<p><code>arb_mat_exp</code>や<code>arb_mat_log</code>などの行列関数は、<strong>一般行列</strong>を対象としたアルゴリズムとして実装されています。</p>
+<p>しかし双対数に対応する行列は常に</p>
+<ul>
+<li><strong>上三角行列</strong></li>
+<li><strong>特殊な冪零構造$(\varepsilon^{2} = 0)$</strong></li>
+</ul>
+<p>を持ちます。</p>
+<p>この特殊構造を生かすなら</p>
+<p>$$
 \begin{aligned}
 \exp(x + \epsilon) = \exp(x) + \varepsilon \exp(x)
 \end{aligned}
-$$</p><p>のような簡潔な式で十分で、一般行列の初等関数を計算するのは過剰です。</p><p>Python版では、双対数として必要な微分則のみを明示的に実装することで、計算と実装の両面で簡潔さを保っています。</p><hr><h3 id=3拡張性高階微分との相性>3.拡張性(高階微分)との相性<a hidden class=anchor aria-hidden=true href=#3拡張性高階微分との相性>#</a></h3><p>1階のスカラー微分に限れば、$2 \times 2$の表現は非常に有効です。</p><p>しかし<strong>高階微分</strong>へ拡張する場合、行列サイズや構造は急速に複雑になります。</p><p>たとえば、$(n \ge 2)$として <strong>$n$階微分(高階微分)への拡張</strong> を行う場合、 <strong>超双対数(Hyper Dual Numbers)</strong> を用いる方法が考えられます。<br>しかし、$n$階微分を超双対数を行列で表現する場合</p><ul><li><strong>行列サイズ：$2^{n} \times 2^{n}$</strong></li><li><strong>行列の数　：$2^{n-1}$個</strong></li></ul><p>のように、急速にサイズや数が増えていき、構造も複雑になります。</p><p>Python版の<code>(val, der)</code>形式は</p><ul><li><strong><code>der</code>をさらにdualにすれば高階に対応</strong></li></ul><p>といったような拡張が自然であり、自動微分の一般的な設計と親和性が高いと思います。</p><hr><h3 id=4表現の違いであって本質は同じ>4.表現の違いであって、本質は同じ<a hidden class=anchor aria-hidden=true href=#4表現の違いであって本質は同じ>#</a></h3><p>なお、Python版が行列表現を用いないからといって、双対数そのものを使っていないわけではありません。</p><p><code>(値, 微分値)</code>を演算ごとに伝播させる方法は</p><p>$$
+$$</p>
+<p>のような簡潔な式で十分で、一般行列の初等関数を計算するのは過剰です。</p>
+<p>Python版では、双対数として必要な微分則のみを明示的に実装することで、計算と実装の両面で簡潔さを保っています。</p>
+<hr>
+<h3 id="3拡張性高階微分との相性">3.拡張性(高階微分)との相性<a hidden class="anchor" aria-hidden="true" href="#3拡張性高階微分との相性">#</a></h3>
+<p>1階のスカラー微分に限れば、$2 \times 2$の表現は非常に有効です。</p>
+<p>しかし<strong>高階微分</strong>へ拡張する場合、行列サイズや構造は急速に複雑になります。</p>
+<p>たとえば、$(n \ge 2)$として <strong>$n$階微分(高階微分)への拡張</strong> を行う場合、 <strong>超双対数(Hyper Dual Numbers)</strong> を用いる方法が考えられます。<br>
+しかし、$n$階微分を超双対数を行列で表現する場合</p>
+<ul>
+<li><strong>行列サイズ：$2^{n} \times 2^{n}$</strong></li>
+<li><strong>行列の数　：$2^{n-1}$個</strong></li>
+</ul>
+<p>のように、急速にサイズや数が増えていき、構造も複雑になります。</p>
+<p>Python版の<code>(val, der)</code>形式は</p>
+<ul>
+<li><strong><code>der</code>をさらにdualにすれば高階に対応</strong></li>
+</ul>
+<p>といったような拡張が自然であり、自動微分の一般的な設計と親和性が高いと思います。</p>
+<hr>
+<h3 id="4表現の違いであって本質は同じ">4.表現の違いであって、本質は同じ<a hidden class="anchor" aria-hidden="true" href="#4表現の違いであって本質は同じ">#</a></h3>
+<p>なお、Python版が行列表現を用いないからといって、双対数そのものを使っていないわけではありません。</p>
+<p><code>(値, 微分値)</code>を演算ごとに伝播させる方法は</p>
+<p>$$
 \begin{aligned}
 f(x + \varepsilon) = f(x) + \varepsilon f^{\prime}(x)
 \end{aligned}
-$$</p><p>を内部的に扱っているのと等価です。</p><p>これは実装上の表現の違いであり、数学的な意味での自動微分の本質はC++版と変わりません。</p><hr><p>まとめると</p><ul><li><strong>Python版</strong><br><code>(値, 微分値)</code>を明示的に伝播し、軽量で拡張しやすい実装を採用</li><li><strong>C++版</strong><br>行列表現による双対数を活かし、Arbの行列演算で自動微分を実装</li></ul><p>両者は異なる実装戦略を取っていますが、いずれも双対数に基づく自動微分という点で本質的に同じです。</p><h2 id=まとめ>まとめ<a hidden class=anchor aria-hidden=true href=#まとめ>#</a></h2><p>本記事では、<strong>双対数（Dual numbers）</strong> を用いた自動微分の仕組みについて</p><ul><li><strong>双対数の定義とテイラー展開から見た原理</strong></li><li><strong>双対数を 2×2 上三角行列表現に落とし込む方法</strong></li><li><strong>四則演算（加算・減算・乗算・除算）の具体的な式</strong></li><li><strong>exp, log, sin, cos, tan, 累乗，平方根といった初等関数の拡張方法</strong></li><li><strong>それらを土台にした実装アルゴリズム</strong></li></ul><p>といった流れで整理しました。</p><hr><p>双対数を使うことで</p><ul><li>関数値 $f(x)$ と導関数 $f^{\prime}(x)$ を <strong>1 回の評価で同時に得られる</strong></li><li>差分幅 $h$ の調整が不要で，<strong>数値微分のようなステップサイズ起因の誤差がない</strong></li><li>実装は「いつもの実数演算」をそのまま双対数（行列）に拡張するだけ</li></ul><p>といった利点があることがわかります。</p><hr><p>さらに，Python-FLINT の <code>arb</code> 型と組み合わせることで，</p><ul><li>実数部・微分値のどちらも <strong>「真値を含む区間」</strong> として表現できる</li><li>丸め誤差を含めた <strong>精度保証付き自動微分</strong> が実現できる</li></ul><p>というところまで到達しました。</p><hr><p>数値微分・自動微分を並べて見たとき</p><ul><li><strong>数値微分：実装は簡単だが，誤差と $h$ の選び方に悩まされる</strong></li><li><strong>自動微分：精度保証には区間演算を用いるのみで良い</strong></li></ul><p>という性質の違いがあり、とても気持ちのよい手法だと感じてもらえたら嬉しいです。<br>特に、<strong>区間演算を用いるのみで精度が保証される(数式上の誤差がない)</strong> は双対数を用いた自動微分の大きな利点です。</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://ungeho.netlify.app/tags/float/>Float</a></li><li><a href=https://ungeho.netlify.app/tags/ieee754/>IEEE754</a></li><li><a href=https://ungeho.netlify.app/tags/%E6%95%B0%E5%80%A4%E8%A8%88%E7%AE%97/>数値計算</a></li><li><a href=https://ungeho.netlify.app/tags/%E8%AA%A4%E5%B7%AE/>誤差</a></li><li><a href=https://ungeho.netlify.app/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/>プログラミング</a></li><li><a href=https://ungeho.netlify.app/tags/%E8%87%AA%E5%8B%95%E5%BE%AE%E5%88%86/>自動微分</a></li><li><a href=https://ungeho.netlify.app/tags/%E5%8F%8C%E5%AF%BE%E6%95%B0/>双対数</a></li></ul><nav class=paginav><a class=prev href=https://ungeho.netlify.app/posts/regularstarpolygon/><span class=title>« 前へ</span><br><span>星形正多角形</span>
-</a><a class=next href=https://ungeho.netlify.app/posts/numericaldifferentiation/><span class=title>次へ »</span><br><span>数値微分</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 自動微分 on x" href="https://x.com/intent/tweet/?text=%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86&amp;url=https%3a%2f%2fungeho.netlify.app%2fposts%2fautodiff%2f&amp;hashtags=Float%2cIEEE754%2c%e6%95%b0%e5%80%a4%e8%a8%88%e7%ae%97%2c%e8%aa%a4%e5%b7%ae%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0%2c%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86%2c%e5%8f%8c%e5%af%be%e6%95%b0"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2025 <a href=https://ungeho.netlify.app/>ungehoBlog</a></span>
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
-</a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+$$</p>
+<p>を内部的に扱っているのと等価です。</p>
+<p>これは実装上の表現の違いであり、数学的な意味での自動微分の本質はC++版と変わりません。</p>
+<hr>
+<p>まとめると</p>
+<ul>
+<li><strong>Python版</strong><br>
+<code>(値, 微分値)</code>を明示的に伝播し、軽量で拡張しやすい実装を採用</li>
+<li><strong>C++版</strong><br>
+行列表現による双対数を活かし、Arbの行列演算で自動微分を実装</li>
+</ul>
+<p>両者は異なる実装戦略を取っていますが、いずれも双対数に基づく自動微分という点で本質的に同じです。</p>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<p>本記事では、<strong>双対数（Dual numbers）</strong> を用いた自動微分の仕組みについて</p>
+<ul>
+<li><strong>双対数の定義とテイラー展開から見た原理</strong></li>
+<li><strong>双対数を 2×2 上三角行列表現に落とし込む方法</strong></li>
+<li><strong>四則演算（加算・減算・乗算・除算）の具体的な式</strong></li>
+<li><strong>exp, log, sin, cos, tan, 累乗，平方根といった初等関数の拡張方法</strong></li>
+<li><strong>それらを土台にした実装アルゴリズム</strong></li>
+</ul>
+<p>といった流れで整理しました。</p>
+<hr>
+<p>双対数を使うことで</p>
+<ul>
+<li>関数値 $f(x)$ と導関数 $f^{\prime}(x)$ を <strong>1 回の評価で同時に得られる</strong></li>
+<li>差分幅 $h$ の調整が不要で，<strong>数値微分のようなステップサイズ起因の誤差がない</strong></li>
+<li>実装は「いつもの実数演算」をそのまま双対数（行列）に拡張するだけ</li>
+</ul>
+<p>といった利点があることがわかります。</p>
+<hr>
+<p>さらに，Python-FLINT の <code>arb</code> 型と組み合わせることで，</p>
+<ul>
+<li>実数部・微分値のどちらも <strong>「真値を含む区間」</strong> として表現できる</li>
+<li>丸め誤差を含めた <strong>精度保証付き自動微分</strong> が実現できる</li>
+</ul>
+<p>というところまで到達しました。</p>
+<hr>
+<p>数値微分・自動微分を並べて見たとき</p>
+<ul>
+<li><strong>数値微分：実装は簡単だが，誤差と $h$ の選び方に悩まされる</strong></li>
+<li><strong>自動微分：精度保証には区間演算を用いるのみで良い</strong></li>
+</ul>
+<p>という性質の違いがあり、とても気持ちのよい手法だと感じてもらえたら嬉しいです。<br>
+特に、<strong>区間演算を用いるのみで精度が保証される(数式上の誤差がない)</strong> は双対数を用いた自動微分の大きな利点です。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/float/">Float</a></li>
+      <li><a href="http://localhost:1313/tags/ieee754/">IEEE754</a></li>
+      <li><a href="http://localhost:1313/tags/%E6%95%B0%E5%80%A4%E8%A8%88%E7%AE%97/">数値計算</a></li>
+      <li><a href="http://localhost:1313/tags/%E8%AA%A4%E5%B7%AE/">誤差</a></li>
+      <li><a href="http://localhost:1313/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">プログラミング</a></li>
+      <li><a href="http://localhost:1313/tags/%E8%87%AA%E5%8B%95%E5%BE%AE%E5%88%86/">自動微分</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%8F%8C%E5%AF%BE%E6%95%B0/">双対数</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/regularstarpolygon/">
+    <span class="title">« 前へ</span>
+    <br>
+    <span>星形正多角形</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/numericaldifferentiation/">
+    <span class="title">次へ »</span>
+    <br>
+    <span>数値微分</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 自動微分 on x"
+            href="https://x.com/intent/tweet/?text=%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fautodiff%2f&amp;hashtags=Float%2cIEEE754%2c%e6%95%b0%e5%80%a4%e8%a8%88%e7%ae%97%2c%e8%aa%a4%e5%b7%ae%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0%2c%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86%2c%e5%8f%8c%e5%af%be%e6%95%b0">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="http://localhost:1313/">ungehoBlog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script></body>
+
+</html>
