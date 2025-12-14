@@ -1,0 +1,22 @@
+Start building sites … 
+hugo v0.152.2-6abdacad3f3fe944ea42177844469139e81feda6+extended windows/amd64 BuildDate=2025-10-24T15:31:49Z VendorInfo=gohugoio
+
+ERROR deprecated: .Site.Social was deprecated in Hugo v0.124.0 and subsequently removed. Implement taxonomy 'social' or use .Site.Params.Social instead.
+WARN  Template /_default/archives.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\_default\\archives.html"
+WARN  Template /_default/search.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\_default\\search.html"
+WARN  Template /_default/terms.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\_default\\terms.html"
+WARN  Template /_partials/comments.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\partials\\comments.html"
+WARN  Template /_partials/home_info.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\partials\\home_info.html"
+WARN  Template /_partials/templates/_funcs/get-page-images.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\themes\\PaperMod\\layouts\\partials\\templates\\_funcs\\get-page-images.html"
+WARN  Template /_partials/templates/opengraph.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\partials\\templates\\opengraph.html"
+WARN  Template /_partials/templates/schema_json.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\partials\\templates\\schema_json.html"
+WARN  Template /_partials/templates/twitter_cards.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\partials\\templates\\twitter_cards.html"
+WARN  Template /_shortcodes/collapse.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\shortcodes\\collapse.html"
+WARN  Template /_shortcodes/figure.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\shortcodes\\figure.html"
+WARN  Template /_shortcodes/intextimg.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\shortcodes\\inTextImg.html"
+WARN  Template /_shortcodes/ltr.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\shortcodes\\ltr.html"
+WARN  Template /_shortcodes/rawhtml.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\shortcodes\\rawhtml.html"
+WARN  Template /_shortcodes/rtl.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\shortcodes\\rtl.html"
+WARN  Template /terms.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\_default\\terms.html"
+Total in 135 ms
+Error: error building site: logged 1 error(s)

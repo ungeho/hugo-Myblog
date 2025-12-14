@@ -1,0 +1,42 @@
+Start building sites … 
+hugo v0.152.2-6abdacad3f3fe944ea42177844469139e81feda6+extended windows/amd64 BuildDate=2025-10-24T15:31:49Z VendorInfo=gohugoio
+
+ERROR deprecated: .Site.Social was deprecated in Hugo v0.124.0 and subsequently removed. Implement taxonomy 'social' or use .Site.Params.Social instead.
+WARN  Template /_default/archives.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\_default\\archives.html"
+panic: Template /_default/archives.html is unused, source "C:\\Users\\kudry\\Github\\hugo-Myblog\\layouts\\_default\\archives.html"
+
+goroutine 14 [running]:
+github.com/gohugoio/hugo/common/loggers.init.func1(0x0?)
+	/root/project/hugo/common/loggers/handlersmisc.go:32 +0x3e
+github.com/gohugoio/hugo/common/loggers.New.func2(0xc0017cd880?)
+	/root/project/hugo/common/loggers/logger.go:92 +0x17
+github.com/bep/logg.HandlerFunc.HandleLog(0xc0005095c0?, 0xc001056ae0?)
+	/root/project/gomodcache/github.com/bep/logg@v0.4.0/handler.go:26 +0x19
+github.com/bep/logg/handlers/multi.(*Handler).HandleLog(0xc00060b3c8?, 0xc001056ae0)
+	/root/project/gomodcache/github.com/bep/logg@v0.4.0/handlers/multi/multi.go:26 +0x4e
+github.com/gohugoio/hugo/common/loggers.(*stopHandler).HandleLog(0xc000513a40?, 0xc001056ae0)
+	/root/project/hugo/common/loggers/handlersmisc.go:109 +0x54
+github.com/bep/logg.(*logger).log(0xc0006fe690, 0xc000513a40, {0x142740c00, 0xc0008783c0})
+	/root/project/gomodcache/github.com/bep/logg@v0.4.0/logger.go:154 +0x105
+github.com/bep/logg.(*Entry).Logf(0xc000513a40, {0x14221f83b, 0x20}, {0xc0004aa060, 0x2, 0x2})
+	/root/project/gomodcache/github.com/bep/logg@v0.4.0/entry.go:113 +0xae
+github.com/gohugoio/hugo/common/loggers.(*logAdapter).Warnf(0xc0006ec780?, {0x14221f83b?, 0xc0005139e0?}, {0xc0004aa060?, 0xc0003a5940?, 0x14365ddc0?})
+	/root/project/hugo/common/loggers/logger.go:302 +0x2c
+github.com/gohugoio/hugo/hugolib.(*HugoSites).printUnusedTemplatesOnce.func1()
+	/root/project/hugo/hugolib/hugo_sites_build.go:614 +0x198
+sync.(*Once).doSlow(0xffffffffffffffff?, 0x0?)
+	/usr/local/go/src/sync/once.go:78 +0xac
+sync.(*Once).Do(...)
+	/usr/local/go/src/sync/once.go:69
+github.com/gohugoio/hugo/hugolib.(*HugoSites).printUnusedTemplatesOnce(0xc0005e9a20?)
+	/root/project/hugo/hugolib/hugo_sites_build.go:608 +0x3b
+github.com/gohugoio/hugo/hugolib.(*HugoSites).Build(0xc0005e9a20, {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, {0x0, ...})
+	/root/project/hugo/hugolib/hugo_sites_build.go:212 +0xaa6
+github.com/gohugoio/hugo/commands.(*hugoBuilder).buildSites(0x1418faf28?, 0x0)
+	/root/project/hugo/commands/hugobuilder.go:426 +0x10d
+github.com/gohugoio/hugo/commands.(*hugoBuilder).fullBuild.func3()
+	/root/project/hugo/commands/hugobuilder.go:551 +0x1b
+golang.org/x/sync/errgroup.(*Group).Go.func1()
+	/root/project/gomodcache/golang.org/x/sync@v0.17.0/errgroup/errgroup.go:93 +0x50
+created by golang.org/x/sync/errgroup.(*Group).Go in goroutine 1
+	/root/project/gomodcache/golang.org/x/sync@v0.17.0/errgroup/errgroup.go:78 +0x95
