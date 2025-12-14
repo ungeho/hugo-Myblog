@@ -108,7 +108,7 @@ $$
 
 $$
 \begin{aligned}
-\theta_{i} = \bigl( (i \times n) \bmod m\bigr) \frac{360}{m}
+\theta_{i} = \bigl( (i n) \bmod m\bigr) \frac{360}{m}
 \end{aligned}
 $$
 
