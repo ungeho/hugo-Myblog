@@ -235,8 +235,7 @@
                 <li>
                     <a href="#python-flint%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%9f%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e4%bb%98%e3%81%8d%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86" aria-label="Python-FLINTを使った精度保証付き自動微分">Python-FLINTを使った精度保証付き自動微分</a></li>
                 <li>
-                    <a href="#arb%e3%83%a9%e3%82%a4%e3%83%96%e3%83%a9%e3%83%aac%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%9f%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e4%bb%98%e3%81%8d%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86" aria-label="Arbライブラリ(C&#43;&#43;)を使った精度保証付き自動微分">Arbライブラリ(C++)を使った精度保証付き自動微分</a><ul>
-                        
+                    <a href="#arb%e3%83%a9%e3%82%a4%e3%83%96%e3%83%a9%e3%83%aac%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%9f%e7%b2%be%e5%ba%a6%e4%bf%9d%e8%a8%bc%e4%bb%98%e3%81%8d%e8%87%aa%e5%8b%95%e5%be%ae%e5%88%86" aria-label="Arbライブラリ(C&#43;&#43;)を使った精度保証付き自動微分">Arbライブラリ(C++)を使った精度保証付き自動微分</a></li>
                 <li>
                     <a href="#python%e7%89%88%e3%81%a7%e3%81%af%e3%81%aa%e3%81%9c%e8%a1%8c%e5%88%97%e8%a1%a8%e7%8f%be%e3%82%92%e6%8e%a1%e7%94%a8%e3%81%97%e3%81%aa%e3%81%8b%e3%81%a3%e3%81%9f%e3%81%8b" aria-label="Python版ではなぜ行列表現を採用しなかったか">Python版ではなぜ行列表現を採用しなかったか</a><ul>
                         
@@ -248,7 +247,6 @@
                     <a href="#3%e6%8b%a1%e5%bc%b5%e6%80%a7%e9%ab%98%e9%9a%8e%e5%be%ae%e5%88%86%e3%81%a8%e3%81%ae%e7%9b%b8%e6%80%a7" aria-label="3.拡張性(高階微分)との相性">3.拡張性(高階微分)との相性</a></li>
                 <li>
                     <a href="#4%e8%a1%a8%e7%8f%be%e3%81%ae%e9%81%95%e3%81%84%e3%81%a7%e3%81%82%e3%81%a3%e3%81%a6%e6%9c%ac%e8%b3%aa%e3%81%af%e5%90%8c%e3%81%98" aria-label="4.表現の違いであって、本質は同じ">4.表現の違いであって、本質は同じ</a></li></ul>
-                </li></ul>
                 </li>
                 <li>
                     <a href="#%e3%81%be%e3%81%a8%e3%82%81" aria-label="まとめ">まとめ</a>
@@ -1303,7 +1301,7 @@ $$</p>
 Arb ライブラリの区間演算を用いて 1 階の自動微分を
 精度保証付きで実装した例は，次のリポジトリにまとめています。</p>
 <p><a href="https://github.com/ungeho/arb-diff">📦<strong>双対数を使った精度保証付き自動微分</strong></a></p>
-<h3 id="python版ではなぜ行列表現を採用しなかったか">Python版ではなぜ行列表現を採用しなかったか<a hidden class="anchor" aria-hidden="true" href="#python版ではなぜ行列表現を採用しなかったか">#</a></h3>
+<h2 id="python版ではなぜ行列表現を採用しなかったか">Python版ではなぜ行列表現を採用しなかったか<a hidden class="anchor" aria-hidden="true" href="#python版ではなぜ行列表現を採用しなかったか">#</a></h2>
 <p>C++版では双対数$x+\varepsilon$を</p>
 <p>$$
 \begin{aligned}
@@ -1317,36 +1315,34 @@ $$</p>
 <p>一方、Python 版ではこの行列表現を採用せず、<code>(値, 微分値)</code> を明示的に保持する自動微分の実装を選択した。<br>
 その理由は主に次の点にある。</p>
 <hr>
-<h4 id="1pythonでは行列演算のオーバーヘッドが大きい">1.Pythonでは行列演算のオーバーヘッドが大きい<a hidden class="anchor" aria-hidden="true" href="#1pythonでは行列演算のオーバーヘッドが大きい">#</a></h4>
+<h3 id="1pythonでは行列演算のオーバーヘッドが大きい">1.Pythonでは行列演算のオーバーヘッドが大きい<a hidden class="anchor" aria-hidden="true" href="#1pythonでは行列演算のオーバーヘッドが大きい">#</a></h3>
 <p><code>arb_mat</code>を用いた行列演算は、スカラー<code>arb</code>の演算と比べてオーバーヘッドが大きい。</p>
 <p>双対数による1階微分では本質的に</p>
 <ul>
-<li>値<strong>x</strong></li>
-<li>微分値<strong>dx</strong></li>
+<li>値　　：$x$</li>
+<li>微分値：$dx$</li>
 </ul>
 <p>の2つのスカラーだけを扱えば十分であり、常に$2 \times 2$ 行列を構成・演算する必要がない。</p>
 <p>Pythonではこの差が特に顕著になるため、スカラー2個を直接伝播させる方が実用的。</p>
 <hr>
-<h4 id="2行列関数は必要以上に一般的">2.行列関数は「必要以上に一般的」<a hidden class="anchor" aria-hidden="true" href="#2行列関数は必要以上に一般的">#</a></h4>
+<h3 id="2行列関数は必要以上に一般的">2.行列関数は「必要以上に一般的」<a hidden class="anchor" aria-hidden="true" href="#2行列関数は必要以上に一般的">#</a></h3>
 <p><code>arb_mat_exp</code>や<code>arb_mat_log</code>などの行列関数は、<strong>一般行列</strong>を対象としたアルゴリズムとして実装されています。</p>
 <p>しかし双対数に対応する行列は常に</p>
 <ul>
-<li>上三角行列</li>
-<li>特殊な冪零構造$(\varepsilon^{2} = 0)$</li>
+<li><strong>上三角行列</strong></li>
+<li><strong>特殊な冪零構造$(\varepsilon^{2} = 0)$</strong></li>
 </ul>
 <p>を持ちます。</p>
 <p>この特殊構造を生かすなら</p>
 <p>$$
 \begin{aligned}
-\begin{pmatrix}
 \exp(x + \epsilon) = \exp(x) + \varepsilon \exp(x)
-\end{pmatrix}
 \end{aligned}
 $$</p>
 <p>のような簡潔な式で十分で、一般行列の初等関数を計算するのは過剰です。</p>
 <p>Python版では、双対数として必要な微分則のみを明示的に実装することで、計算と実装の両面で簡潔さを保っています。</p>
 <hr>
-<h4 id="3拡張性高階微分との相性">3.拡張性(高階微分)との相性<a hidden class="anchor" aria-hidden="true" href="#3拡張性高階微分との相性">#</a></h4>
+<h3 id="3拡張性高階微分との相性">3.拡張性(高階微分)との相性<a hidden class="anchor" aria-hidden="true" href="#3拡張性高階微分との相性">#</a></h3>
 <p>1階のスカラー微分に限れば、$2 \times 2$の表現は非常に有効です。</p>
 <p>しかし<strong>高階微分</strong>へ拡張する場合、行列サイズや構造は急速に複雑になります。</p>
 <p>たとえば、$(n \ge 2)$として <strong>$n$階微分(高階微分)への拡張</strong> を行う場合、 <strong>超双対数(Hyper Dual Numbers)</strong> を用いる方法が考えられます。<br>
@@ -1362,7 +1358,7 @@ $$</p>
 </ul>
 <p>といったような拡張が自然であり、自動微分の一般的な設計と親和性が高いと思います。</p>
 <hr>
-<h4 id="4表現の違いであって本質は同じ">4.表現の違いであって、本質は同じ<a hidden class="anchor" aria-hidden="true" href="#4表現の違いであって本質は同じ">#</a></h4>
+<h3 id="4表現の違いであって本質は同じ">4.表現の違いであって、本質は同じ<a hidden class="anchor" aria-hidden="true" href="#4表現の違いであって本質は同じ">#</a></h3>
 <p>なお、Python版が行列表現を用いないからといって、双対数そのものを使っていないわけではありません。</p>
 <p><code>(値, 微分値)</code>を演算ごとに伝播させる方法は</p>
 <p>$$
@@ -1429,6 +1425,11 @@ $$</p>
       <li><a href="http://localhost:1313/tags/%E5%8F%8C%E5%AF%BE%E6%95%B0/">双対数</a></li>
     </ul>
 <nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/regularstarpolygon/">
+    <span class="title">« 前へ</span>
+    <br>
+    <span>RegularStarPolygon</span>
+  </a>
   <a class="next" href="http://localhost:1313/posts/numericaldifferentiation/">
     <span class="title">次へ »</span>
     <br>

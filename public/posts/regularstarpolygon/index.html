@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ja" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>星形正多角形 | ungehoBlog</title>
+<meta name="keywords" content="星形正多角形, regular star polygon, 平面幾何学図形, プログラミング">
+<meta name="description" content="私が小学生の頃、『鋼の錬金術師』というアニメを観て、
+「オリジナルの錬成陣を描いてみたい」と本気で思っていた時期がありました。
+描き方を調べようと図書館に行ったものの、そもそも 何と調べればいいのか が分かりません。
+円と線と星のような、あの独特な図形に、名前があるとは想像もしていなかったのです。">
+<meta name="author" content="ungeho">
+<link rel="canonical" href="http://localhost:1313/posts/regularstarpolygon/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/regularstarpolygon/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ]
+        });
+    });
+</script>
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.mermaid) {
+            mermaid.initialize({
+                startOnLoad: true,
+            });
+        }
+    });
+</script>
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/about" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      星形正多角形
+    </h1>
+    <div class="post-meta"><span title='2025-12-14 12:13:06 +0900 JST'>2025/12/14</span>&nbsp;·&nbsp;6 分&nbsp;·&nbsp;ungeho
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目次</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e6%98%9f%e5%bd%a2%e6%ad%a3%e5%a4%9a%e8%a7%92%e5%bd%a2regular-star-polygon" aria-label="星形正多角形(regular star polygon)">星形正多角形(regular star polygon)</a><ul>
+                        
+                <li>
+                    <a href="#%e6%98%9f%e5%bd%a2%e6%ad%a3%e5%a4%9a%e8%a7%92%e5%bd%a2%e3%81%a8%e3%81%af" aria-label="星形正多角形とは？">星形正多角形とは？</a></li>
+                <li>
+                    <a href="#%e6%98%9f%e5%bd%a2%e6%ad%a3%e5%a4%9a%e8%a7%92%e5%bd%a2%e3%82%92%e6%8f%8f%e7%94%bb%e3%81%99%e3%82%8b%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%a0%e3%81%ae%e5%ae%9f%e8%a3%85" aria-label="星形正多角形を描画するプログラムの実装">星形正多角形を描画するプログラムの実装</a><ul>
+                        
+                <li>
+                    <a href="#python%e3%81%a7%e3%81%ae%e5%ae%9f%e8%a3%85" aria-label="Pythonでの実装">Pythonでの実装</a></li>
+                <li>
+                    <a href="#%e5%ae%9f%e8%a1%8c%e7%b5%90%e6%9e%9c15225%e8%a7%92%e5%bd%a2" aria-label="実行結果1：5/2(2.5)角形">実行結果1：5/2(2.5)角形</a></li>
+                <li>
+                    <a href="#%e5%ae%9f%e8%a1%8c%e7%b5%90%e6%9e%9c29245%e8%a7%92%e5%bd%a2" aria-label="実行結果2：9/2(4.5)角形">実行結果2：9/2(4.5)角形</a></li>
+                <li>
+                    <a href="#%e5%ae%9f%e8%a1%8c%e7%b5%90%e6%9e%9c315750314%e8%a7%92%e5%bd%a2" aria-label="実行結果3：157/50(3.14)角形">実行結果3：157/50(3.14)角形</a></li>
+                <li>
+                    <a href="#%e5%ae%9f%e8%a1%8c%e7%b5%90%e6%9e%9c4212110%e8%a7%92%e5%bd%a2" aria-label="実行結果4：2.1(21/10)角形">実行結果4：2.1(21/10)角形</a></li>
+                <li>
+                    <a href="#%e8%a3%9c%e8%b6%b3" aria-label="補足">補足</a></li></ul>
+                </li></ul>
+                </li>
+                <li>
+                    <a href="#%e3%81%be%e3%81%a8%e3%82%81" aria-label="まとめ">まとめ</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>私が小学生の頃、『鋼の錬金術師』というアニメを観て、
+「オリジナルの錬成陣を描いてみたい」と本気で思っていた時期がありました。</p>
+<p>描き方を調べようと図書館に行ったものの、そもそも <strong>何と調べればいいのか</strong> が分かりません。
+円と線と星のような、あの独特な図形に、名前があるとは想像もしていなかったのです。</p>
+<p>今思えば、あれらはきっと理屈のある図形だったのでしょう。今の私なら、もしかすると描けるかもわかりません。</p>
+<p>もっとも、あの頃その描き方を知っていたとしたら、人生に数多ある黒歴史を、いくつか余計に増やしていた可能性は高いのですが。</p>
+<h2 id="星形正多角形regular-star-polygon">星形正多角形(regular star polygon)<a hidden class="anchor" aria-hidden="true" href="#星形正多角形regular-star-polygon">#</a></h2>
+<p>私が <strong>星形正多角形(regular star polygon)</strong> という言葉を知ったのは次の動画のおかげです。</p>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/hvS1OUmKifI?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"></iframe>
+    </div>
+
+<p>星形正多角形について非常に分かりやすく整理されており、その生成アルゴリズムについても、動画内で丁寧に解説されています。</p>
+<p>正直なところ、この動画を紹介するだけで話は完結してしまいそうです。
+しかしそれでは少し味気ないので、
+本記事では 星形正多角形のアルゴリズムを整理し、実装の観点からまとめてみたいと思います。</p>
+<h3 id="星形正多角形とは">星形正多角形とは？<a hidden class="anchor" aria-hidden="true" href="#星形正多角形とは">#</a></h3>
+<p>正$d$角形としたとき、$d$は2より大きい有理数です。</p>
+<p>$$
+\begin{aligned}
+d &gt; 2,\quad d \in \mathbb{Q}
+\end{aligned}
+$$</p>
+<p>このとき$d$は、正の整数$m$,$n$を用いて次のように表せます。</p>
+<p>$$
+\begin{aligned}
+d = \frac{m}{n}
+\end{aligned}
+$$</p>
+<p>ただし</p>
+<p>$$
+\begin{aligned}
+\frac{m}{n} &gt; 2,\quad m,n \in \mathbb{Z}_{&gt;0}
+\end{aligned}
+$$</p>
+<p>ここで導入した$d = \frac{m}{n}$という表現は、単に「正$d$角形」を一般化するだけのものではありません。<br>
+実はこの分数表現は、そのまま<strong>星形正多角形を表すための記法</strong>へとつながっています。</p>
+<p><strong>円周上に等間隔で$m$個の点を配置</strong>し、そこから <strong>$n$個先の点を順に結んでいく</strong> と考えます。<br>
+このとき得られる図形を</p>
+<p>$$
+\begin{aligned}
+\{m/n\}
+\end{aligned}
+$$</p>
+<p>と表し、これを<strong>星形正多角形</strong>とよびます。</p>
+<ul>
+<li>$n = 1$ の場合は通常の正$m$角形</li>
+<li>$n &gt; 1$ の場合は星形の図形が現れる</li>
+</ul>
+<p>という点で、先ほどの$d = \frac{m}{n}$は「正多角形」から「星形正多角形」への自然な拡張になっています。</p>
+<p>つまり、<strong>分数で表された角形は、線の結び方そのものを意味している</strong>ということです。</p>
+<p>円の中心座標を $ (x_{\text{center}}, y_{\text{center}}) $、半径を$r$、角度を$ \theta$（度）とすると、円周上の点$ (x, y)$は次のように表せます。</p>
+<p>$$
+\begin{aligned}
+x &amp;= x_{\text{center}} + r \cos\left(\frac{\theta \pi}{180}\right) \\
+y &amp;= y_{\text{center}} + r \sin\left(\frac{\theta \pi}{180}\right)
+\end{aligned}
+$$</p>
+<p>のように表せます。</p>
+<p>ここで、円周上の等間隔の$m$個の点を基準に、そこから$n$個先の点を順に結んでいきます。</p>
+<p>線を引く回数を$i = 0,1,2,\dots$とすると、実際に参照する点の番号は</p>
+<p>$$
+\begin{aligned}
+(i n) \bmod m
+\end{aligned}
+$$</p>
+<p>で与えられます。</p>
+<p>円周上の座標は$m$等分されているため、このときの角度$\theta$は</p>
+<p>$$
+\begin{aligned}
+\theta_{i} = \bigl( (i \times n) \bmod m\bigr) \frac{360}{m}
+\end{aligned}
+$$</p>
+<p>と表せます。</p>
+<h3 id="星形正多角形を描画するプログラムの実装">星形正多角形を描画するプログラムの実装<a hidden class="anchor" aria-hidden="true" href="#星形正多角形を描画するプログラムの実装">#</a></h3>
+<p>実装にあたって、最も悩ましいと感じていたのが、<code>2.5</code> のように<strong>分数ではない形式で値が入力された場合、それをどのように分数として扱うか</strong> という点でした。</p>
+<p>しかし、<code>Python</code> には <code>fractions</code> という標準ライブラリが用意されています。<br>
+これを利用することで、有理数を分数の形に変換することができます。</p>
+<p><code>Fraction</code>オブジェクトに変換すると</p>
+<ul>
+<li>分子：<code>frac.numerator</code></li>
+<li>分母：<code>frac.denominator</code></li>
+</ul>
+<p>のように、それぞれ整数として取得できます。</p>
+<p>この仕組みを使えば、入力形式に依存せず$\{m/n\}$ の形で星形正多角形を統一的に扱うことが可能になります。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">frac</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">m</span> <span class="o">=</span> <span class="n">frac</span><span class="o">.</span><span class="n">numerator</span>
+</span></span><span class="line"><span class="cl"><span class="n">n</span> <span class="o">=</span> <span class="n">frac</span><span class="o">.</span><span class="n">denominator</span>
+</span></span></code></pre></div><hr>
+<h4 id="pythonでの実装">Pythonでの実装<a hidden class="anchor" aria-hidden="true" href="#pythonでの実装">#</a></h4>
+<p>pythonを使って実装すると</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageDraw</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">math</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">re</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">gcd</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">is_num</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">input_m_n</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;cls&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">s</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&#34;2より大きい有理数(d&gt;2) または m/n (m/n&gt;2, m&gt;=3, m/2&gt;n&gt;=1) を入力してください: &#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># まず Fraction にできる形かどうかを判定</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_num</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="k">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;^\d+/\d+$&#34;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;cls&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;※数字 もしくは 整数/整数 の形で入力してください。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">frac</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>  <span class="c1"># &#34;3.5&#34; も &#34;7/2&#34; もOK</span>
+</span></span><span class="line"><span class="cl">        <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;cls&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;※分母は0より大きい値を入力してください。(n&gt;0)&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;cls&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;※数値として解釈できませんでした。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">frac</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;cls&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;※ 2より大きい値を入力してください。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># ここから m/n に合わせる（m=分子, n=分母）</span>
+</span></span><span class="line"><span class="cl">        <span class="n">m</span> <span class="o">=</span> <span class="n">frac</span><span class="o">.</span><span class="n">numerator</span>     <span class="c1"># 頂点数側にしたい</span>
+</span></span><span class="line"><span class="cl">        <span class="n">n</span> <span class="o">=</span> <span class="n">frac</span><span class="o">.</span><span class="n">denominator</span>   <span class="c1"># ステップ側にしたい</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;cls&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;m &gt;= 3 を満たしてください。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;cls&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;m/2 &gt; n &gt;= 1 を満たしてください。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span>  <span class="c1"># (頂点数 m, ステップ n)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">poly_info</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">d</span> <span class="o">=</span> <span class="n">m</span> <span class="o">/</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;正</span><span class="se">\t</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">)</span><span class="se">\t</span><span class="s2">角形&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;頂点</span><span class="se">\t</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="se">\t\t</span><span class="s2">個&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;内角約</span><span class="se">\t</span><span class="s2">&#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">180</span> <span class="o">*</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&#34;</span><span class="se">\t\t</span><span class="s2">度&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">point_on_circle</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">deg</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rad</span> <span class="o">=</span> <span class="n">deg</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">cx</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rad</span><span class="p">),</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">rad</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">poly_draw</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1024</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&#34;RGB&#34;</span><span class="p">,</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">),</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">draw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">cx</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cy</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="mf">0.5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.375</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 見た目の向き（上向きスタート）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">first_ang</span> <span class="o">=</span> <span class="o">-</span><span class="mi">90</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 1) m 個の頂点を用意</span>
+</span></span><span class="line"><span class="cl">    <span class="n">theta</span> <span class="o">=</span> <span class="mf">360.0</span> <span class="o">/</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vertices</span> <span class="o">=</span> <span class="p">[</span><span class="n">point_on_circle</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">first_ang</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="n">theta</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 2) gcd(m, n) に応じて複数成分を描く</span>
+</span></span><span class="line"><span class="cl">    <span class="n">g</span> <span class="o">=</span> <span class="n">gcd</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">j</span> <span class="o">=</span> <span class="n">start</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pts</span> <span class="o">=</span> <span class="p">[</span><span class="n">vertices</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span> <span class="o">%</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">start</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span>
+</span></span><span class="line"><span class="cl">        <span class="n">draw</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">joint</span><span class="o">=</span><span class="s2">&#34;curve&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&#34;img/png&#34;</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;img/png/regularStarPolygon_</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">.png&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">img</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">input_m_n</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">poly_info</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">poly_draw</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></div><hr>
+<h4 id="実行結果15225角形">実行結果1：5/2(2.5)角形<a hidden class="anchor" aria-hidden="true" href="#実行結果15225角形">#</a></h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">2より大きい有理数<span class="o">(</span>d&gt;2<span class="o">)</span> または m/n <span class="o">(</span>m/n&gt;2, m&gt;<span class="o">=</span>3, m/2&gt;n&gt;<span class="o">=</span>1<span class="o">)</span> を入力してください: 5/2
+</span></span><span class="line"><span class="cl">正      2.5<span class="o">(</span>5/2<span class="o">)</span>        角形
+</span></span><span class="line"><span class="cl">頂点    <span class="m">5</span>               個
+</span></span><span class="line"><span class="cl">内角約  36.0            度
+</span></span></code></pre></div><p><img loading="lazy" src="/img/png/regularStarPolygon01.png" alt="regular star polygon1"  />
+</p>
+<hr>
+<h4 id="実行結果29245角形">実行結果2：9/2(4.5)角形<a hidden class="anchor" aria-hidden="true" href="#実行結果29245角形">#</a></h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">2より大きい有理数<span class="o">(</span>d&gt;2<span class="o">)</span> または m/n <span class="o">(</span>m/n&gt;2, m&gt;<span class="o">=</span>3, m/2&gt;n&gt;<span class="o">=</span>1<span class="o">)</span> を入力してください: 4.5
+</span></span><span class="line"><span class="cl">正      4.5<span class="o">(</span>9/2<span class="o">)</span>        角形
+</span></span><span class="line"><span class="cl">頂点    <span class="m">9</span>               個
+</span></span><span class="line"><span class="cl">内角約  100.0           度
+</span></span></code></pre></div><p><img loading="lazy" src="/img/png/regularStarPolygon02.png" alt="regular star polygon2"  />
+</p>
+<h4 id="実行結果315750314角形">実行結果3：157/50(3.14)角形<a hidden class="anchor" aria-hidden="true" href="#実行結果315750314角形">#</a></h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">2より大きい有理数<span class="o">(</span>d&gt;2<span class="o">)</span> または m/n <span class="o">(</span>m/n&gt;2, m&gt;<span class="o">=</span>3, m/2&gt;n&gt;<span class="o">=</span>1<span class="o">)</span> を入力してください: 3.14
+</span></span><span class="line"><span class="cl">正      3.14<span class="o">(</span>157/50<span class="o">)</span>                    角形
+</span></span><span class="line"><span class="cl">頂点    <span class="m">157</span>                             個
+</span></span><span class="line"><span class="cl">内角約  65.35031847133759               度
+</span></span></code></pre></div><p><img loading="lazy" src="/img/png/regularStarPolygon03.png" alt="regular star polygon3"  />
+</p>
+<h4 id="実行結果4212110角形">実行結果4：2.1(21/10)角形<a hidden class="anchor" aria-hidden="true" href="#実行結果4212110角形">#</a></h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">2より大きい有理数<span class="o">(</span>d&gt;2<span class="o">)</span> または m/n <span class="o">(</span>m/n&gt;2, m&gt;<span class="o">=</span>3, m/2&gt;n&gt;<span class="o">=</span>1<span class="o">)</span> を入力してください: 2.1
+</span></span><span class="line"><span class="cl">正      2.1<span class="o">(</span>21/10<span class="o">)</span>                      角形
+</span></span><span class="line"><span class="cl">頂点    <span class="m">21</span>                              個
+</span></span><span class="line"><span class="cl">内角約  8.571428571428578               度
+</span></span></code></pre></div><p><img loading="lazy" src="/img/png/regularStarPolygon04.png" alt="regular star polygon3"  />
+</p>
+<h4 id="補足">補足<a hidden class="anchor" aria-hidden="true" href="#補足">#</a></h4>
+<p><code>3.14</code>のような有限小数は必ず有理数であり、<code>Fraction(&quot;3.14&quot;)=157/50</code>のように厳密な分数へ変換できます。(また、<code>Fraction(3.14)</code>のように浮動小数点数を直接渡すと丸め誤差が入るため、文字列で渡すのが安全です。)<br>
+本稿に載せたプログラムの場合は、分数の形の入力がより安全になります。</p>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<p>本記事では、<strong>星形正多角形(regular star polygon)</strong> を題材に</p>
+<ul>
+<li><strong>円周上の$m$等分された点を「$n$個先へ結ぶ」という単純なルール</strong></li>
+<li><strong>そのルールがどのように星形の図形として現れるか</strong></li>
+<li><strong>星形の図形をPythonでどのように実装できるか</strong></li>
+</ul>
+<p>について整理しました。</p>
+<p>子供の頃に「なんとなく不思議でかっこいい」と感じていた図形は、実際には<strong>明確な数学的構造とシンプルなアルゴリズム</strong> によって成り立っていることがあります。<br>
+一見複雑に見える星形の模様も、「円を$m$等分し、$n$ずつ進む」という規則を繰り返しているだけです。</p>
+<p>また、<code>fractions.Fraction</code>を用いることで、<code>2.5</code>や<code>3.14</code>のような入力も安全に分数へ変換でき、$\{m/n\}$の形で統一的に扱えることを確認しました。</p>
+<p>かつては名前すらわからなかった「錬成陣のような図形」が今では数式とコードで再現できるようになりました。<br>
+もしこの記事が、「昔ちょっと憧れた図形」や「数学とプログラミングのつながり」を改めて楽しむきっかけになれば幸いです。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/%E6%98%9F%E5%BD%A2%E6%AD%A3%E5%A4%9A%E8%A7%92%E5%BD%A2/">星形正多角形</a></li>
+      <li><a href="http://localhost:1313/tags/regular-star-polygon/">Regular Star Polygon</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%B9%B3%E9%9D%A2%E5%B9%BE%E4%BD%95%E5%AD%A6%E5%9B%B3%E5%BD%A2/">平面幾何学図形</a></li>
+      <li><a href="http://localhost:1313/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">プログラミング</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="http://localhost:1313/posts/autodiff/">
+    <span class="title">次へ »</span>
+    <br>
+    <span>自動微分</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 星形正多角形 on x"
+            href="https://x.com/intent/tweet/?text=%e6%98%9f%e5%bd%a2%e6%ad%a3%e5%a4%9a%e8%a7%92%e5%bd%a2&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fregularstarpolygon%2f&amp;hashtags=%e6%98%9f%e5%bd%a2%e6%ad%a3%e5%a4%9a%e8%a7%92%e5%bd%a2%2cregularstarpolygon%2c%e5%b9%b3%e9%9d%a2%e5%b9%be%e4%bd%95%e5%ad%a6%e5%9b%b3%e5%bd%a2%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="http://localhost:1313/">ungehoBlog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script></body>
+
+</html>

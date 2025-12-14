@@ -6,8 +6,18 @@
     <description>Recent content on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Fri, 12 Dec 2025 16:30:33 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 14 Dec 2025 12:13:06 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>星形正多角形</title>
+      <link>http://localhost:1313/posts/regularstarpolygon/</link>
+      <pubDate>Sun, 14 Dec 2025 12:13:06 +0900</pubDate>
+      <guid>http://localhost:1313/posts/regularstarpolygon/</guid>
+      <description>&lt;p&gt;私が小学生の頃、『鋼の錬金術師』というアニメを観て、
+「オリジナルの錬成陣を描いてみたい」と本気で思っていた時期がありました。&lt;/p&gt;
+&lt;p&gt;描き方を調べようと図書館に行ったものの、そもそも &lt;strong&gt;何と調べればいいのか&lt;/strong&gt; が分かりません。
+円と線と星のような、あの独特な図形に、名前があるとは想像もしていなかったのです。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>自動微分</title>
       <link>http://localhost:1313/posts/autodiff/</link>

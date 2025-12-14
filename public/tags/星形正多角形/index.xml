@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>星形正多角形 on ungehoBlog</title>
+    <link>http://localhost:1313/tags/%E6%98%9F%E5%BD%A2%E6%AD%A3%E5%A4%9A%E8%A7%92%E5%BD%A2/</link>
+    <description>Recent content in 星形正多角形 on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 14 Dec 2025 12:13:06 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E6%98%9F%E5%BD%A2%E6%AD%A3%E5%A4%9A%E8%A7%92%E5%BD%A2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RegularStarPolygon</title>
+      <link>http://localhost:1313/posts/regularstarpolygon/</link>
+      <pubDate>Sun, 14 Dec 2025 12:13:06 +0900</pubDate>
+      <guid>http://localhost:1313/posts/regularstarpolygon/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
