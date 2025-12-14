@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>浮動小数点数 | ungehoBlog</title>
-<meta name="keywords" content="Float, IEEE754, 数値計算, 誤差, プログラミング">
-<meta name="description" content="
+<!doctype html><html lang=ja dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>浮動小数点数 | ungehoBlog</title><meta name=keywords content="Float,IEEE754,数値計算,誤差,プログラミング"><meta name=description content="
 
 💡 この記事は「コンピューターで計算する」シリーズの一部です。
 1. 浮動小数点数👈 今ここ
@@ -17,801 +8,157 @@
 5. 自動微分
 
 
-プログラミング中に 「0.1 &#43; 0.2 が 0.3 にならない」 といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。
-これは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。">
-<meta name="author" content="ungeho">
-<link rel="canonical" href="http://localhost:1313/posts/float/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css" integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/favicon/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/float/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
+プログラミング中に 「0.1 + 0.2 が 0.3 にならない」 といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。
+これは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。"><meta name=author content="ungeho"><link rel=canonical href=https://ungeho.netlify.app/posts/float/><link crossorigin=anonymous href=/assets/css/stylesheet.4599eadb9eb2ad3d0a8d6827b41a8fda8f2f4af226b63466c09c5fddbc8706b7.css integrity="sha256-RZnq256yrT0KjWgntBqP2o8vSvImtjRmwJxf3byHBrc=" rel="preload stylesheet" as=style><link rel=icon href=https://ungeho.netlify.app/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://ungeho.netlify.app/favicon/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://ungeho.netlify.app/favicon/favicon-32x32.png><link rel=apple-touch-icon href=https://ungeho.netlify.app/favicon/apple-touch-icon.png><link rel=mask-icon href=https://ungeho.netlify.app/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=ja href=https://ungeho.netlify.app/posts/float/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script><script defer src=https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js></script><script>document.addEventListener("DOMContentLoaded",function(){window.mermaid&&mermaid.initialize({startOnLoad:!0})})</script><meta property="og:title" content="浮動小数点数"><meta property="og:description" content="
 
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
-    crossorigin="anonymous"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        renderMathInElement(document.body, {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "\\[", right: "\\]", display: true },
-            ]
-        });
-    });
-</script>
+💡 この記事は「コンピューターで計算する」シリーズの一部です。
+1. 浮動小数点数👈 今ここ
+2. 区間演算
+3. 数値積分
+4. 数値微分
+5. 自動微分
 
 
+プログラミング中に 「0.1 + 0.2 が 0.3 にならない」 といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。
+これは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。"><meta property="og:type" content="article"><meta property="og:url" content="https://ungeho.netlify.app/posts/float/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-12-07T19:03:04+09:00"><meta property="article:modified_time" content="2025-12-07T19:03:04+09:00"><meta property="og:site_name" content="ungehoBlog"><meta name=twitter:card content="summary"><meta name=twitter:title content="浮動小数点数"><meta name=twitter:description content="
 
-<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        if (window.mermaid) {
-            mermaid.initialize({
-                startOnLoad: true,
-            });
-        }
-    });
-</script>
+💡 この記事は「コンピューターで計算する」シリーズの一部です。
+1. 浮動小数点数👈 今ここ
+2. 区間演算
+3. 数値積分
+4. 数値微分
+5. 自動微分
 
 
-</head>
-
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-                <ul class="lang-switch"><li>|</li>
-                </ul>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="http://localhost:1313/about" title="About">
-                    <span>About</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/posts" title="Posts">
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/archives/" title="Archive">
-                    <span>Archive</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/search" title="Search (Alt &#43; /)" accesskey=/>
-                    <span>Search</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/categories/" title="Categories">
-                    <span>Categories</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/tags/" title="Tags">
-                    <span>Tags</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main">
-
-<article class="post-single">
-  <header class="post-header">
-    <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
-    <h1 class="post-title entry-hint-parent">
-      浮動小数点数
-    </h1>
-    <div class="post-meta"><span title='2025-12-07 19:03:04 +0900 JST'>2025/12/07</span>&nbsp;·&nbsp;11 分&nbsp;·&nbsp;ungeho
-
-</div>
-  </header> <div class="toc">
-    <details >
-        <summary accesskey="c" title="(Alt + C)">
-            <span class="details">目次</span>
-        </summary>
-
-        <div class="inner"><ul>
-                <li>
-                    <a href="#x---a--a--x-" aria-label="(x - a) &#43; a = x ?">(x - a) + a = x ?</a><ul>
-                        
-                <li>
-                    <a href="#%e6%83%85%e5%a0%b1%e8%90%bd%e3%81%a1" aria-label="情報落ち">情報落ち</a></li>
-                <li>
-                    <a href="#%e6%a1%81%e8%90%bd%e3%81%a1" aria-label="桁落ち">桁落ち</a></li>
-                <li>
-                    <a href="#%e6%83%85%e5%a0%b1%e8%90%bd%e3%81%a1%e6%a1%81%e8%90%bd%e3%81%a1%e3%81%ae%e5%af%be%e7%ad%96" aria-label="情報落ち・桁落ちの対策">情報落ち・桁落ちの対策</a></li></ul>
-                </li>
-                <li>
-                    <a href="#%e8%a8%88%e7%ae%97%e6%a9%9f%e3%82%b3%e3%83%b3%e3%83%94%e3%83%a5%e3%83%bc%e3%82%bf%e3%83%bc%e3%81%ae%e6%95%b0%e5%80%a4%e8%a1%a8%e7%8f%be" aria-label="計算機（コンピューター）の数値表現">計算機（コンピューター）の数値表現</a><ul>
-                        
-                <li>
-                    <a href="#%e5%85%a8%e3%81%a6%e3%81%ae%e5%ae%9f%e6%95%b0%e3%82%92%e6%ad%a3%e7%a2%ba%e3%81%ab%e8%a1%a8%e7%8f%be%e3%81%99%e3%82%8b%e3%81%93%e3%81%a8%e3%81%af%e3%81%a7%e3%81%8d%e3%81%aa%e3%81%84" aria-label="全ての実数を正確に表現することはできない">全ての実数を正確に表現することはできない</a></li></ul>
-                </li>
-                <li>
-                    <a href="#ieee-%e6%a8%99%e6%ba%96%e8%a6%8f%e6%a0%bc%e3%81%ae%e6%b5%ae%e5%8b%95%e5%b0%8f%e6%95%b0%e7%82%b9%e6%95%b0" aria-label="IEEE 標準規格の浮動小数点数">IEEE 標準規格の浮動小数点数</a><ul>
-                        
-                <li>
-                    <a href="#%e7%ac%a6%e5%8f%b7%e9%83%a8sign-bit" aria-label="符号部（Sign bit）">符号部（Sign bit）</a></li>
-                <li>
-                    <a href="#%e4%bb%ae%e6%95%b0%e9%83%a8mantissa--significand" aria-label="仮数部（Mantissa / Significand）">仮数部（Mantissa / Significand）</a></li>
-                <li>
-                    <a href="#%e6%8c%87%e6%95%b0%e9%83%a8exponent" aria-label="指数部（Exponent）">指数部（Exponent）</a></li>
-                <li>
-                    <a href="#%e7%89%b9%e5%88%a5%e3%81%aa%e6%8c%87%e6%95%b0%e3%83%93%e3%83%83%e3%83%88%e5%88%97" aria-label="特別な指数ビット列">特別な指数ビット列</a></li>
-                <li>
-                    <a href="#%e7%b2%be%e5%ba%a6%e3%81%ab%e3%82%88%e3%82%8b%e9%81%95%e3%81%84" aria-label="精度による違い">精度による違い</a></li>
-                <li>
-                    <a href="#%e3%81%aa%e3%81%9c%e3%81%99%e3%81%b9%e3%81%a6%e3%81%ae%e5%ae%9f%e6%95%b0%e3%82%92%e6%ad%a3%e7%a2%ba%e3%81%ab%e8%a1%a8%e7%8f%be%e3%81%a7%e3%81%8d%e3%81%aa%e3%81%84%e3%81%ae%e3%81%8b" aria-label="なぜすべての実数を正確に表現できないのか">なぜすべての実数を正確に表現できないのか</a></li>
-                <li>
-                    <a href="#%e6%b5%ae%e5%8b%95%e5%b0%8f%e6%95%b0%e7%82%b9%e6%95%b0%e3%81%a7%e6%ad%a3%e7%a2%ba%e3%81%ab%e8%a1%a8%e7%8f%be%e5%8f%af%e8%83%bd%e3%81%aa%e4%be%8b" aria-label="浮動小数点数で正確に表現可能な例">浮動小数点数で正確に表現可能な例</a></li></ul>
-                </li>
-                <li>
-                    <a href="#10%e9%80%b2%e6%95%b0%e3%81%ae%e6%b5%ae%e5%8b%95%e5%b0%8f%e6%95%b0%e7%82%b9%e6%95%b0%e3%81%aa%e3%82%89%e8%aa%a4%e5%b7%ae%e3%81%af%e7%99%ba%e7%94%9f%e3%81%97%e3%81%aa%e3%81%84" aria-label="10進数の浮動小数点数なら誤差は発生しない？">10進数の浮動小数点数なら誤差は発生しない？</a></li>
-                <li>
-                    <a href="#%e5%9b%ba%e5%ae%9a%e5%b0%8f%e6%95%b0%e7%82%b9%e6%95%b0%e3%81%af" aria-label="固定小数点数は？">固定小数点数は？</a></li>
-                <li>
-                    <a href="#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e5%8e%b3%e5%af%86%e3%81%ab%e6%ad%a3%e3%81%97%e3%81%84%e5%80%a4%e3%82%92%e4%bf%9d%e6%8c%81%e3%81%97%e3%81%9f%e3%81%84" aria-label="それでも厳密に正しい値を保持したい">それでも厳密に正しい値を保持したい</a></li>
-                <li>
-                    <a href="#%e3%81%be%e3%81%a8%e3%82%81" aria-label="まとめ">まとめ</a>
-                </li>
-            </ul>
-        </div>
-    </details>
-</div>
-
-  <div class="post-content"><hr>
-<blockquote>
-<p>💡 <strong>この記事は「コンピューターで計算する」シリーズの一部です。</strong><br>
-<a href="../float"><strong>1. 浮動小数点数</strong></a><strong>👈 今ここ</strong><br>
-<a href="../interval"><strong>2. 区間演算</strong></a><br>
-<a href="../numericalIntegration"><strong>3. 数値積分</strong></a><br>
-<a href="../numericalDifferentiation"><strong>4. 数値微分</strong></a><br>
-<a href="../autoDiff"><strong>5. 自動微分</strong></a></p>
-</blockquote>
-<hr>
-<p>プログラミング中に <strong>「0.1 + 0.2 が 0.3 にならない」</strong> といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。<br>
-これは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。</p>
-<p>本題に入る前に、もうひとつ直感に反する例を見てみましょう。</p>
-<h2 id="x---a--a--x-">(x - a) + a = x ?<a hidden class="anchor" aria-hidden="true" href="#x---a--a--x-">#</a></h2>
-<p>数学的には、次の等式は常に成り立ちます。</p>
-<p>$$
+プログラミング中に 「0.1 + 0.2 が 0.3 にならない」 といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。
+これは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://ungeho.netlify.app/posts/"},{"@type":"ListItem","position":2,"name":"浮動小数点数","item":"https://ungeho.netlify.app/posts/float/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"浮動小数点数","name":"浮動小数点数","description":" 💡 この記事は「コンピューターで計算する」シリーズの一部です。\n1. 浮動小数点数👈 今ここ\n2. 区間演算\n3. 数値積分\n4. 数値微分\n5. 自動微分\nプログラミング中に 「0.1 + 0.2 が 0.3 にならない」 といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。\nこれは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。\n","keywords":["Float","IEEE754","数値計算","誤差","プログラミング"],"articleBody":" 💡 この記事は「コンピューターで計算する」シリーズの一部です。\n1. 浮動小数点数👈 今ここ\n2. 区間演算\n3. 数値積分\n4. 数値微分\n5. 自動微分\nプログラミング中に 「0.1 + 0.2 が 0.3 にならない」 といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。\nこれは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。\n本題に入る前に、もうひとつ直感に反する例を見てみましょう。\n(x - a) + a = x ? 数学的には、次の等式は常に成り立ちます。\n$$ \\begin{aligned} (x - a) + a = x \\end{aligned} $$\nところが、これをコンピューターで計算すると、この等式が成り立たない場合があります。\n以下の Python プログラムを実行すると、その様子を実際に確認できます。\n（ C など他の言語でも再現できますが、最適化により挙動が変わる場合があります。）\nimport math def calc_a(x): n = math.log2(abs(x)) return 2 ** (n + 53) for x in range(1, 21): a = calc_a(x) # x - a temp = x - a # (x - a) + a result = temp + a # (x - a) + a の結果を表示 print(f\"({x:2d} - a) + a = {result:5.1f}\",end=\"\") # result != x なら Not Equal! を表示 print(\"\\n\" if result == x else \" Not Equal!\\n\", end=\"\") 実行結果：\n\u003e py calc.py ( 1 - a) + a = 1.0 ( 2 - a) + a = 2.0 ( 3 - a) + a = 4.0 Not Equal! ( 4 - a) + a = 4.0 ( 5 - a) + a = 8.0 Not Equal! ( 6 - a) + a = 8.0 Not Equal! ( 7 - a) + a = 8.0 Not Equal! ( 8 - a) + a = 8.0 ( 9 - a) + a = 16.0 Not Equal! (10 - a) + a = 16.0 Not Equal! (11 - a) + a = 16.0 Not Equal! (12 - a) + a = 16.0 Not Equal! (13 - a) + a = 16.0 Not Equal! (14 - a) + a = 16.0 Not Equal! (15 - a) + a = 16.0 Not Equal! (16 - a) + a = 16.0 (17 - a) + a = 32.0 Not Equal! (18 - a) + a = 32.0 Not Equal! (19 - a) + a = 32.0 Not Equal! (20 - a) + a = 32.0 Not Equal! 多くのケースで$(x - a) + a \\neq x$となっています。\n情報落ち 演算は正確に行われているが、変数 $x$ の情報が消えてしまう\nこの現象は、倍精度浮動小数点数が保持できる精度に限界があるために起こります。\n$(x - a)$の引き算を行う瞬間、有限の桁に巨大な数$a$とそれに対して小さな数$x$を同時に収めようとしています。\nしかし、枠の桁数が足りず、$x$の情報は欠落してしまいます。\nここで重要なのは、これは\n「計算がバグっている」 「演算途中でおかしな丸めが起きた」 といった種類の問題ではない、ということです。\n演算そのものは IEEE 754 の規定どおり正しく行われています。\nただし、倍精度浮動小数点数の 有効桁数は 53 ビットしかない ため、\n巨大な数 $a$ それに比べて十分小さい数 $x$ $(x - a)$ の引き算を行う瞬間、有限の桁数しかない器の中に、巨大な数 $a$ と、それに比べて十分小さい数 $x$ の両方を同時に収めよう としています。\nこのように、\n演算は仕様どおりに正しく行われている しかし「表現できる桁数が足りないせいで小さい項の情報が消える」 という現象を、ここでは 情報落ち と呼んでいます。\n桁落ち 似た現象として 桁落ち があります。\n情報落ち\n巨大な数 $\\pm$ 小さな数\n→ 大きな数と小さな数の両方を同じ枠（有効桁数）に収めることができず、\n小さいほうの項の情報が失われてしまう現象。\n桁落ち\n左辺 $a$ と右辺 $b$ がほぼ等しい（$a \\approx b$）とき、\n$a - b$ の引き算をすると有効桁数が極端に少なくなってしまう現象。\n桁落ちの場合は\n$$ \\begin{aligned} (a - b) \\times c \\end{aligned} $$\nのように後続の計算で誤差が大きく増幅されることがあります。\n特に、変数$c$が巨大な値だったとき、誤差が大きく増幅します。\n情報落ち・桁落ちの対策 情報落ちや桁落ちは 「演算そのもののミス」ではなく、演算を行う前の数値表現（ビットの限界）によって問題が生じる現象です。\nしかし、数学的に等価な別の計算方法を選ぶことで回避できる場合があります。\n情報落ちの対策\n計算順序を工夫する。\n情報落ちが起きやすいパターンとして、(「大きな値」+「中くらいの値」) + 「小さな値」のような計算順序になっていることがあります。\n「小さな値」＋「大きな値」という計算を避けるために、（「小さな値」＋「中くらいの値」）＋「大きな値」の順で計算することで、小さな値の情報が失われにくくなります。\n特に、加算をたくさん繰り返す処理では「これまでの合計」＋「次の項」という形になりがちで、「大きな値」＋「小さな値」の状態を作りやすいため注意が必要です。 桁落ちの対策\n数式を変形する。\nほぼ等しい値同士の引き算によって有効桁数が失われることが問題なので、差を直接計算することを避けるために式変形を行うことで対策することが可能です。 この記事ではこのような現象の正体を理解するために\nコンピューターが実数を正確に扱えない理由 IEEE754 に基づく浮動小数点数の仕組み どのような数が誤差なく表現できるのか decimal 型や固定小数点数ではどうなるのか 精度を保証する計算方法の一例としての「区間演算」 について順に解説していきます。\n計算機（コンピューター）の数値表現 全ての実数を正確に表現することはできない 数学における実数は、数直線上に存在するすべての数を指し、無限に長い桁を持つものや、極端に大きい値・小さい値も含まれています。\nしかし、コンピューターが演算や記憶に使える桁数には限りがあり、表現できる値の大きさにも制約があります。\n多くのプログラミング言語やアプリケーションでは、数値を表現する方法として IEEE 754 規格の 2 進数の倍精度浮動小数点数（double precision） が採用されています。\n数学の世界では無限のリソースを仮定できますが、現実のコンピューターが使えるリソースは有限です。倍精度浮動小数点数は、実数を 正確に表す値ではなく、あくまで近似的に表すための値 として使用されます。\nIEEE 標準規格の浮動小数点数 IEEE 754 標準規格で定められている浮動小数点数（正規化数）は、次のように表されます。\n$$ \\begin{aligned} a \u0026= (-1)^{s} \\times \\left( 1 + \\frac{d_{1}}{2^{1}} + \\frac{d_{2}}{2^{2}} + \\dots + \\frac{d_{N-1}}{2^{N-1}} \\right) \\times 2^{e} \\\\ s \u0026\\in {0,1},\\quad s\\ \\text{is a bit} \\\\ d_{i} \u0026\\in {0,1},\\quad d_{i}\\ \\text{is a bit} \\end{aligned} $$\n符号部（Sign bit） 浮動小数点数で 正負の符号を表す 1 ビット分の領域 を 符号部 と呼びます。\n符号 $s$ が $0$ なら正（$+$）、$1$ なら負（$-$）を表します。\n$$ (-1)^{s} $$\n仮数部（Mantissa / Significand） 浮動小数点数で 有効桁（精度）を担う部分 を 仮数部 と呼びます。\n仮数部は単精度では 23 ビット、倍精度では 52 ビットです。\nIEEE 754 では、正規化数については先頭ビットが必ず $1$ になることを利用して、その $1$ を格納しない ケチ表現（hidden bit） を用います。\nこのため、正規化数であれば単精度は 24 ビット分、倍精度は 53 ビット分の精度を持ちます。\n$$ \\begin{aligned} m \u0026= \\left( 1 + \\frac{d_{1}}{2^{1}} + \\frac{d_{2}}{2^{2}} + \\dots + \\frac{d_{N-1}}{2^{N-1}} \\right) \\\\ d_{i} \u0026\\in {0,1},\\quad d_{i}\\ \\text{is a bit} \\end{aligned} $$\n十進数で見ると、単精度は約 7 桁程度、倍精度はおよそ 15～16 桁程度の精度があります。\n$$ \\begin{aligned} 24\\log_{10}(2) \u0026\\approx 7.22 \\\\ 53\\log_{10}(2) \u0026\\approx 15.95 \\end{aligned} $$\n指数部（Exponent） 小数点の位置（2 進数での桁のシフト量）や数の大きさを表す部分を 指数部 と呼びます。\n指数部は一定のバイアス値を加えることで、負の数を含む指数を符号なし整数で表現する バイアス付き整数 として格納されます。\n$$ 2^{e} $$\n指数部のビット列を $E$ としてバイアス値を $b$ とすると、実際の指数 $e$ は\n$$ e = E - b $$\nで表されます。\n単精度および倍精度の指数部のビット数やバイアス値は次のようになります。\n精度 指数部 $E$ $b$ $e = E - b$ 単精度 (32bit) 8bit $1 \\le E \\le 254$ $b=127$ $-126 \\le e \\le 127$ 倍精度 (64bit) 11bit $1 \\le E \\le 2046$ $b=1023$ $-1022 \\le e \\le 1023$ 特別な指数ビット列 また、特別な指数ビット列は次の用途に予約されています。\n指数部 仮数部 値の種類 説明 $E = 0$ $m = 0$ $\\pm 0$ 正負のゼロ $E = 0$ $m \\neq 0$ 非正規化数 絶対値が極端に小さい、0に非常に近い数を表す方法 $E_{max}$ $m = 0$ $\\pm \\infty$ 計算結果が表現可能な範囲を超えたときなどに現れる。この現象を オーバーフロー と呼ぶ $E_{max}$ $m \\neq 0$ NaN（非数） 0 で割るなど、数として解釈できない結果を表す 指数部$E=0$は指数ビット列がすべて0のときを指します。 指数部$E_{max}$は指数ビット列がすべて1のときを指します。\n単精度：$E = 255$\n倍精度：$E = 2047$ 精度による違い 浮動小数点数の精度には単精度（32 ビット）、倍精度（64 ビット）、任意精度など様々なものがあります。\n精度が高くなると仮数部のビット数が増えることで 扱える桁数（有効桁数） が増え、指数部のビット数が増えることで 表現できる値の範囲 も広くなります。\n正規化数に対する仮数ビット $N$ と指数 $e$ の範囲は次のようになります。\n$$ \\begin{aligned} \\text{単精度}\\quad N \u0026= 24,\\quad -126 \\le e \\le 127 \\\\ \\text{倍精度}\\quad N \u0026= 53,\\quad -1022 \\le e \\le 1023 \\end{aligned} $$\n図にすると次のような感じになります。\n単精度(32bit) flowchart LR\rS[Sign1 bit]:::small\rE[Exponent8 bits]:::mid\rM[Mantissa23 bits]:::large\rS --- E --- M\rclassDef small fill:#fee,border:#f66;\rclassDef mid fill:#eef,border:#66f;\rclassDef large fill:#efe,border:#6f6;\r倍精度(64bit) flowchart LR\rS[Sign1 bit]:::small\rE[Exponent11 bits]:::mid\rM[Mantissa52 bits]:::large\rS --- E --- M\rclassDef small fill:#fee,border:#f66;\rclassDef mid fill:#eef,border:#66f;\rclassDef large fill:#efe,border:#6f6;\rなぜすべての実数を正確に表現できないのか 浮動小数点数を用いてすべての実数を正確に表現できない理由は、次の 3 点にまとめられます。\n2 進数で小数を表現していること\n10 進数では有限桁で書ける数でも、2 進数にすると無限に続く小数になる場合が多くあります。\n有名な例として循環小数になる 0.1 が挙げられます。\n有効桁数（仮数部のビット数）が有限であること\n2 進小数が無限に続く場合でも、途中でどこかの桁で丸める必要があります。\nこの過程で丸め誤差（rounding error） が発生します。\n扱える指数の範囲が有限であること\n指数部のビット数には限りがあるため、極端に大きい値・小さい値は表現できません。\n浮動小数点数で正確に表現可能な例 仮数部の構造に注目すると、浮動小数点数で正確に表せる値は、実は非常に限られていることがわかります。\n次の数のうち、倍精度浮動小数点数で 誤差なく正確に表現できる数 はどれでしょうか？\n$$ \\begin{aligned} 0.1,\\ 0.2,\\ 0.3,\\ 0.4,\\ 0.5,\\ 0.6,\\ 0.7,\\ 0.8,\\ 0.9 \\end{aligned} $$\n答えは 0.5 のみ です。\n$$ \\begin{aligned} 0.5 = \\frac{1}{2^1} \\end{aligned} $$\n理由は次の通りです。\n浮動小数点数で正確に表現できる実数は、\n$$ \\begin{aligned} \u0026\\frac{\\mu}{2^\\nu}\\\\ \\mu, \\nu \u0026\\in \\mathbb{Z} \\end{aligned} $$\nの形で書けて、かつ 指数が指数部の範囲内に収まる必要があります。\nつまり、次の 3 つすべてを満たす場合にのみ 正確に表現できます。\n2 進表現が有限で終わること（$2^{\\nu}$ で割った形に書けること） 分子$\\mu$が仮数部のビット数で表せる範囲の整数であること 浮動小数点数の形に直した時に、指数が指数部の範囲内に収まること この条件を満たすのは、上の例では 0.5（1/2） のみです。\n他にも、次のような値は2進小数が有限で終わり、仮数部と指数部の範囲に収まるため正確に表現できます。\n$$ \\begin{aligned} \\qquad \\qquad 3.625 \u0026= 2^1 + 2^0 + \\frac{1}{2^1} + \\frac{1}{2^3} \\\\ \u0026= \\frac{29}{2^3} \\end{aligned} $$\n$$ \\begin{aligned} 0.75 \u0026= \\frac{1}{2^1} + \\frac{1}{2^2} \\\\ \u0026= \\frac{3}{2^2} \\end{aligned} $$\n$$ \\begin{aligned} 0.000000954606549 \u0026= \\frac{1}{2^{20}} + \\frac{1}{2^{30}} + \\frac{1}{2^{40}} + \\frac{1}{2^{50}}\\\\ \u0026= \\frac{1,074,791,425}{2^{50}} \\end{aligned} $$\n10進数の浮動小数点数なら誤差は発生しない？ 10 進数の浮動小数点数（decimal 型）は、2 進数の倍精度浮動小数点数（double 型）と比べて「10 進で有限桁の小数を正確に表せる」という利点があります。\nたとえば 0.1 や 0.01 などは decimal 型では誤差なく表現できます。\nしかし、次の問題は依然として残ります。\n有効桁数（仮数部の桁数）が有限であること 扱える指数の範囲が有限であること そのため decimal 型でも、例えば\n$$ \\frac{1}{3} = 0.333333\\dots $$\nのように 10 進でも無限に続く小数を厳密に保持することはできません。\nまた、decimal 型は double 型に比べて 指数部の範囲が狭いため、\n表現できる値の最大値・最小値が小さくなり、\n「非常に大きな数値」「非常に小さな数値」を扱う用途には向きません。\nつまり、decimal 型は\n10進基準の計算を正確に行いたい ただし扱える数値レンジは狭くなる という特徴を持った形式です。\n固定小数点数は？ 固定小数点数（fixed-point）も、decimal 型と同様に 有効桁数が有限である という問題を避けることはできません。\nそのため、表現できる値は刻み幅に依存しており、次の制約が存在します。\n表せる小数の刻みが固定されている（例：0.01 刻みなど） その刻みで表せない値は丸めが発生する 扱える範囲も有限である（オーバーフローの可能性） たとえば小数第2位までしか保持しない固定小数点形式では、\n$$ 0.123 \\rightarrow 0.12 $$\nのように必ず丸めが発生します。\n固定小数点数は、演算が高速で予測可能という利点がある一方で、\n浮動小数点数のように 広い範囲の数を柔軟に扱うことはできません。\nそれでも厳密に正しい値を保持したい 浮動小数点数では誤差を完全に避けることはできませんが\n計算結果が必ず真の値を含む範囲（区間）として得られる方法 があります。\nその一つが 区間演算（Interval Arithmetic） です。\n区間演算を用いることで、丸め誤差を含む計算でも、「真の値が必ずこの範囲にある」という 精度保証付きの計算(Verified numerics) が可能になります。\nまとめ コンピューターは有限のビット数しか持たないため、実数をそのまま格納することはできない IEEE 754 浮動小数点数は「近似計算のための仕組み」であり、誤差は避けられない 正確に表せる値はごく限られた「2進で有限に表せる数」のみ decimal 型や固定小数点数にも、精度や範囲の制限がある 「誤差を含んだまま安全に計算したい」という目的には区間演算が有効 次の記事では、区間演算ライブラリを紹介します。\n","wordCount":"5161","inLanguage":"ja","datePublished":"2025-12-07T19:03:04+09:00","dateModified":"2025-12-07T19:03:04+09:00","author":{"@type":"Person","name":"ungeho"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ungeho.netlify.app/posts/float/"},"publisher":{"@type":"Organization","name":"ungehoBlog","logo":{"@type":"ImageObject","url":"https://ungeho.netlify.app/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://ungeho.netlify.app/ accesskey=h title="ungehoBlog (Alt + H)">ungehoBlog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button><ul class=lang-switch><li>|</li></ul></div></div><ul id=menu><li><a href=https://ungeho.netlify.app/about title=About><span>About</span></a></li><li><a href=https://ungeho.netlify.app/posts title=Posts><span>Posts</span></a></li><li><a href=https://ungeho.netlify.app/archives/ title=Archive><span>Archive</span></a></li><li><a href=https://ungeho.netlify.app/search title="Search (Alt + /)" accesskey=/><span>Search</span></a></li><li><a href=https://ungeho.netlify.app/categories/ title=Categories><span>Categories</span></a></li><li><a href=https://ungeho.netlify.app/tags/ title=Tags><span>Tags</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://ungeho.netlify.app/>ホーム</a>&nbsp;»&nbsp;<a href=https://ungeho.netlify.app/posts/>Posts</a></div><h1 class="post-title entry-hint-parent">浮動小数点数</h1><div class=post-meta><span title='2025-12-07 19:03:04 +0900 JST'>2025/12/07</span>&nbsp;·&nbsp;11 分&nbsp;·&nbsp;ungeho</div></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>目次</span></summary><div class=inner><ul><li><a href=#x---a--a--x- aria-label="(x - a) + a = x ?">(x - a) + a = x ?</a><ul><li><a href=#%e6%83%85%e5%a0%b1%e8%90%bd%e3%81%a1 aria-label=情報落ち>情報落ち</a></li><li><a href=#%e6%a1%81%e8%90%bd%e3%81%a1 aria-label=桁落ち>桁落ち</a></li><li><a href=#%e6%83%85%e5%a0%b1%e8%90%bd%e3%81%a1%e6%a1%81%e8%90%bd%e3%81%a1%e3%81%ae%e5%af%be%e7%ad%96 aria-label=情報落ち・桁落ちの対策>情報落ち・桁落ちの対策</a></li></ul></li><li><a href=#%e8%a8%88%e7%ae%97%e6%a9%9f%e3%82%b3%e3%83%b3%e3%83%94%e3%83%a5%e3%83%bc%e3%82%bf%e3%83%bc%e3%81%ae%e6%95%b0%e5%80%a4%e8%a1%a8%e7%8f%be aria-label=計算機（コンピューター）の数値表現>計算機（コンピューター）の数値表現</a><ul><li><a href=#%e5%85%a8%e3%81%a6%e3%81%ae%e5%ae%9f%e6%95%b0%e3%82%92%e6%ad%a3%e7%a2%ba%e3%81%ab%e8%a1%a8%e7%8f%be%e3%81%99%e3%82%8b%e3%81%93%e3%81%a8%e3%81%af%e3%81%a7%e3%81%8d%e3%81%aa%e3%81%84 aria-label=全ての実数を正確に表現することはできない>全ての実数を正確に表現することはできない</a></li></ul></li><li><a href=#ieee-%e6%a8%99%e6%ba%96%e8%a6%8f%e6%a0%bc%e3%81%ae%e6%b5%ae%e5%8b%95%e5%b0%8f%e6%95%b0%e7%82%b9%e6%95%b0 aria-label="IEEE 標準規格の浮動小数点数">IEEE 標準規格の浮動小数点数</a><ul><li><a href=#%e7%ac%a6%e5%8f%b7%e9%83%a8sign-bit aria-label="符号部（Sign bit）">符号部（Sign bit）</a></li><li><a href=#%e4%bb%ae%e6%95%b0%e9%83%a8mantissa--significand aria-label="仮数部（Mantissa / Significand）">仮数部（Mantissa / Significand）</a></li><li><a href=#%e6%8c%87%e6%95%b0%e9%83%a8exponent aria-label=指数部（Exponent）>指数部（Exponent）</a></li><li><a href=#%e7%89%b9%e5%88%a5%e3%81%aa%e6%8c%87%e6%95%b0%e3%83%93%e3%83%83%e3%83%88%e5%88%97 aria-label=特別な指数ビット列>特別な指数ビット列</a></li><li><a href=#%e7%b2%be%e5%ba%a6%e3%81%ab%e3%82%88%e3%82%8b%e9%81%95%e3%81%84 aria-label=精度による違い>精度による違い</a></li><li><a href=#%e3%81%aa%e3%81%9c%e3%81%99%e3%81%b9%e3%81%a6%e3%81%ae%e5%ae%9f%e6%95%b0%e3%82%92%e6%ad%a3%e7%a2%ba%e3%81%ab%e8%a1%a8%e7%8f%be%e3%81%a7%e3%81%8d%e3%81%aa%e3%81%84%e3%81%ae%e3%81%8b aria-label=なぜすべての実数を正確に表現できないのか>なぜすべての実数を正確に表現できないのか</a></li><li><a href=#%e6%b5%ae%e5%8b%95%e5%b0%8f%e6%95%b0%e7%82%b9%e6%95%b0%e3%81%a7%e6%ad%a3%e7%a2%ba%e3%81%ab%e8%a1%a8%e7%8f%be%e5%8f%af%e8%83%bd%e3%81%aa%e4%be%8b aria-label=浮動小数点数で正確に表現可能な例>浮動小数点数で正確に表現可能な例</a></li></ul></li><li><a href=#10%e9%80%b2%e6%95%b0%e3%81%ae%e6%b5%ae%e5%8b%95%e5%b0%8f%e6%95%b0%e7%82%b9%e6%95%b0%e3%81%aa%e3%82%89%e8%aa%a4%e5%b7%ae%e3%81%af%e7%99%ba%e7%94%9f%e3%81%97%e3%81%aa%e3%81%84 aria-label=10進数の浮動小数点数なら誤差は発生しない？>10進数の浮動小数点数なら誤差は発生しない？</a></li><li><a href=#%e5%9b%ba%e5%ae%9a%e5%b0%8f%e6%95%b0%e7%82%b9%e6%95%b0%e3%81%af aria-label=固定小数点数は？>固定小数点数は？</a></li><li><a href=#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e5%8e%b3%e5%af%86%e3%81%ab%e6%ad%a3%e3%81%97%e3%81%84%e5%80%a4%e3%82%92%e4%bf%9d%e6%8c%81%e3%81%97%e3%81%9f%e3%81%84 aria-label=それでも厳密に正しい値を保持したい>それでも厳密に正しい値を保持したい</a></li><li><a href=#%e3%81%be%e3%81%a8%e3%82%81 aria-label=まとめ>まとめ</a></li></ul></div></details></div><div class=post-content><hr><blockquote><p>💡 <strong>この記事は「コンピューターで計算する」シリーズの一部です。</strong><br><a href=../float><strong>1. 浮動小数点数</strong></a><strong>👈 今ここ</strong><br><a href=../interval><strong>2. 区間演算</strong></a><br><a href=../numericalIntegration><strong>3. 数値積分</strong></a><br><a href=../numericalDifferentiation><strong>4. 数値微分</strong></a><br><a href=../autoDiff><strong>5. 自動微分</strong></a></p></blockquote><hr><p>プログラミング中に <strong>「0.1 + 0.2 が 0.3 にならない」</strong> といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。<br>これは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。</p><p>本題に入る前に、もうひとつ直感に反する例を見てみましょう。</p><h2 id=x---a--a--x->(x - a) + a = x ?<a hidden class=anchor aria-hidden=true href=#x---a--a--x->#</a></h2><p>数学的には、次の等式は常に成り立ちます。</p><p>$$
 \begin{aligned}
 (x - a) + a = x
 \end{aligned}
-$$</p>
-<p>ところが、これをコンピューターで計算すると、この等式が<strong>成り立たない場合</strong>があります。<br>
-以下の Python プログラムを実行すると、その様子を実際に確認できます。<br>
-（ C など他の言語でも再現できますが、最適化により挙動が変わる場合があります。）</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">math</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">calc_a</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="n">n</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">53</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="n">calc_a</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># x - a</span>
-</span></span><span class="line"><span class="cl">    <span class="n">temp</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">a</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># (x - a) + a</span>
-</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="n">temp</span> <span class="o">+</span> <span class="n">a</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># (x - a) + a の結果を表示</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;(</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> - a) + a = </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&#34;&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># result != x なら  Not Equal! を表示</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span> <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="n">x</span> <span class="k">else</span> <span class="s2">&#34;   Not Equal!</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&#34;&#34;</span><span class="p">)</span>
-</span></span></code></pre></div><p>実行結果：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">&gt; py calc.py
-</span></span><span class="line"><span class="cl"><span class="o">(</span> <span class="m">1</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>   1.0
-</span></span><span class="line"><span class="cl"><span class="o">(</span> <span class="m">2</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>   2.0
-</span></span><span class="line"><span class="cl"><span class="o">(</span> <span class="m">3</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>   4.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span> <span class="m">4</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>   4.0
-</span></span><span class="line"><span class="cl"><span class="o">(</span> <span class="m">5</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>   8.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span> <span class="m">6</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>   8.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span> <span class="m">7</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>   8.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span> <span class="m">8</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>   8.0
-</span></span><span class="line"><span class="cl"><span class="o">(</span> <span class="m">9</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  16.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">10</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  16.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">11</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  16.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">12</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  16.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">13</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  16.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">14</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  16.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">15</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  16.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">16</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  16.0
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">17</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  32.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">18</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  32.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">19</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  32.0   Not Equal!
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="m">20</span> - a<span class="o">)</span> + <span class="nv">a</span> <span class="o">=</span>  32.0   Not Equal!
-</span></span></code></pre></div><p>多くのケースで$(x - a) + a \neq x$となっています。</p>
-<hr>
-<h3 id="情報落ち">情報落ち<a hidden class="anchor" aria-hidden="true" href="#情報落ち">#</a></h3>
-<p><strong>演算は正確に行われているが、変数 $x$ の情報が消えてしまう</strong><br>
-この現象は、<strong>倍精度浮動小数点数が保持できる精度に限界があるため</strong>に起こります。</p>
-<p>$(x - a)$の引き算を行う瞬間、<strong>有限の桁</strong>に<strong>巨大な数$a$とそれに対して小さな数$x$を同時に収めよう</strong>としています。<br>
-しかし、<strong>枠の桁数が足りず、$x$の情報は欠落</strong>してしまいます。</p>
-<p>ここで重要なのは、これは</p>
-<ul>
-<li>「計算がバグっている」</li>
-<li>「演算途中でおかしな丸めが起きた」</li>
-</ul>
-<p>といった種類の問題ではない、ということです。</p>
-<p>演算そのものは IEEE 754 の規定どおり<strong>正しく</strong>行われています。<br>
-ただし、倍精度浮動小数点数の <strong>有効桁数は 53 ビットしかない</strong> ため、</p>
-<ul>
-<li>巨大な数 $a$</li>
-<li>それに比べて十分小さい数 $x$</li>
-</ul>
-<p>$(x - a)$ の引き算を行う瞬間、<strong>有限の桁数しかない器の中に、巨大な数 $a$ と、それに比べて十分小さい数 $x$ の両方を同時に収めよう</strong> としています。</p>
-<p>このように、</p>
-<ul>
-<li>演算は仕様どおりに正しく行われている</li>
-<li>しかし「表現できる桁数が足りないせいで小さい項の情報が消える」</li>
-</ul>
-<p>という現象を、ここでは <strong>情報落ち</strong> と呼んでいます。</p>
-<h3 id="桁落ち">桁落ち<a hidden class="anchor" aria-hidden="true" href="#桁落ち">#</a></h3>
-<p>似た現象として <strong>桁落ち</strong> があります。</p>
-<ul>
-<li>
-<p><strong>情報落ち</strong><br>
-巨大な数 $\pm$ 小さな数<br>
-→ 大きな数と小さな数の両方を同じ枠（有効桁数）に収めることができず、<br>
-小さいほうの項の情報が失われてしまう現象。</p>
-</li>
-<li>
-<p><strong>桁落ち</strong><br>
-左辺 $a$ と右辺 $b$ がほぼ等しい（$a \approx b$）とき、<br>
-$a - b$ の引き算をすると<strong>有効桁数が極端に少なくなってしまう</strong>現象。</p>
-</li>
-</ul>
-<p>桁落ちの場合は</p>
-<p>$$
+$$</p><p>ところが、これをコンピューターで計算すると、この等式が<strong>成り立たない場合</strong>があります。<br>以下の Python プログラムを実行すると、その様子を実際に確認できます。<br>（ C など他の言語でも再現できますが、最適化により挙動が変わる場合があります。）</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>math</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>calc_a</span><span class=p>(</span><span class=n>x</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>n</span> <span class=o>=</span> <span class=n>math</span><span class=o>.</span><span class=n>log2</span><span class=p>(</span><span class=nb>abs</span><span class=p>(</span><span class=n>x</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>2</span> <span class=o>**</span> <span class=p>(</span><span class=n>n</span> <span class=o>+</span> <span class=mi>53</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>21</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>a</span> <span class=o>=</span> <span class=n>calc_a</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c1># x - a</span>
+</span></span><span class=line><span class=cl>    <span class=n>temp</span> <span class=o>=</span> <span class=n>x</span> <span class=o>-</span> <span class=n>a</span>
+</span></span><span class=line><span class=cl>    <span class=c1># (x - a) + a</span>
+</span></span><span class=line><span class=cl>    <span class=n>result</span> <span class=o>=</span> <span class=n>temp</span> <span class=o>+</span> <span class=n>a</span>
+</span></span><span class=line><span class=cl>    <span class=c1># (x - a) + a の結果を表示</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;(</span><span class=si>{</span><span class=n>x</span><span class=si>:</span><span class=s2>2d</span><span class=si>}</span><span class=s2> - a) + a = </span><span class=si>{</span><span class=n>result</span><span class=si>:</span><span class=s2>5.1f</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>,</span><span class=n>end</span><span class=o>=</span><span class=s2>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c1># result != x なら  Not Equal! を表示</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span> <span class=k>if</span> <span class=n>result</span> <span class=o>==</span> <span class=n>x</span> <span class=k>else</span> <span class=s2>&#34;   Not Equal!</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span> <span class=n>end</span><span class=o>=</span><span class=s2>&#34;&#34;</span><span class=p>)</span>
+</span></span></code></pre></div><p>実行結果：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; py calc.py
+</span></span><span class=line><span class=cl><span class=o>(</span> <span class=m>1</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>   1.0
+</span></span><span class=line><span class=cl><span class=o>(</span> <span class=m>2</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>   2.0
+</span></span><span class=line><span class=cl><span class=o>(</span> <span class=m>3</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>   4.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span> <span class=m>4</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>   4.0
+</span></span><span class=line><span class=cl><span class=o>(</span> <span class=m>5</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>   8.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span> <span class=m>6</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>   8.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span> <span class=m>7</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>   8.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span> <span class=m>8</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>   8.0
+</span></span><span class=line><span class=cl><span class=o>(</span> <span class=m>9</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>  16.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span><span class=m>10</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>  16.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span><span class=m>11</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>  16.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span><span class=m>12</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>  16.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span><span class=m>13</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>  16.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span><span class=m>14</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>  16.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span><span class=m>15</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>  16.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span><span class=m>16</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>  16.0
+</span></span><span class=line><span class=cl><span class=o>(</span><span class=m>17</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>  32.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span><span class=m>18</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>  32.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span><span class=m>19</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>  32.0   Not Equal!
+</span></span><span class=line><span class=cl><span class=o>(</span><span class=m>20</span> - a<span class=o>)</span> + <span class=nv>a</span> <span class=o>=</span>  32.0   Not Equal!
+</span></span></code></pre></div><p>多くのケースで$(x - a) + a \neq x$となっています。</p><hr><h3 id=情報落ち>情報落ち<a hidden class=anchor aria-hidden=true href=#情報落ち>#</a></h3><p><strong>演算は正確に行われているが、変数 $x$ の情報が消えてしまう</strong><br>この現象は、<strong>倍精度浮動小数点数が保持できる精度に限界があるため</strong>に起こります。</p><p>$(x - a)$の引き算を行う瞬間、<strong>有限の桁</strong>に<strong>巨大な数$a$とそれに対して小さな数$x$を同時に収めよう</strong>としています。<br>しかし、<strong>枠の桁数が足りず、$x$の情報は欠落</strong>してしまいます。</p><p>ここで重要なのは、これは</p><ul><li>「計算がバグっている」</li><li>「演算途中でおかしな丸めが起きた」</li></ul><p>といった種類の問題ではない、ということです。</p><p>演算そのものは IEEE 754 の規定どおり<strong>正しく</strong>行われています。<br>ただし、倍精度浮動小数点数の <strong>有効桁数は 53 ビットしかない</strong> ため、</p><ul><li>巨大な数 $a$</li><li>それに比べて十分小さい数 $x$</li></ul><p>$(x - a)$ の引き算を行う瞬間、<strong>有限の桁数しかない器の中に、巨大な数 $a$ と、それに比べて十分小さい数 $x$ の両方を同時に収めよう</strong> としています。</p><p>このように、</p><ul><li>演算は仕様どおりに正しく行われている</li><li>しかし「表現できる桁数が足りないせいで小さい項の情報が消える」</li></ul><p>という現象を、ここでは <strong>情報落ち</strong> と呼んでいます。</p><h3 id=桁落ち>桁落ち<a hidden class=anchor aria-hidden=true href=#桁落ち>#</a></h3><p>似た現象として <strong>桁落ち</strong> があります。</p><ul><li><p><strong>情報落ち</strong><br>巨大な数 $\pm$ 小さな数<br>→ 大きな数と小さな数の両方を同じ枠（有効桁数）に収めることができず、<br>小さいほうの項の情報が失われてしまう現象。</p></li><li><p><strong>桁落ち</strong><br>左辺 $a$ と右辺 $b$ がほぼ等しい（$a \approx b$）とき、<br>$a - b$ の引き算をすると<strong>有効桁数が極端に少なくなってしまう</strong>現象。</p></li></ul><p>桁落ちの場合は</p><p>$$
 \begin{aligned}
 (a - b) \times c
 \end{aligned}
-$$</p>
-<p>のように後続の計算で誤差が大きく増幅されることがあります。<br>
-特に、変数$c$が巨大な値だったとき、誤差が大きく増幅します。</p>
-<h3 id="情報落ち桁落ちの対策">情報落ち・桁落ちの対策<a hidden class="anchor" aria-hidden="true" href="#情報落ち桁落ちの対策">#</a></h3>
-<p>情報落ちや桁落ちは <strong>「演算そのもののミス」ではなく、演算を行う前の数値表現（ビットの限界）によって問題が生じる現象</strong>です。<br>
-しかし、<strong>数学的に等価な別の計算方法</strong>を選ぶことで回避できる場合があります。</p>
-<ul>
-<li><strong>情報落ちの対策</strong><br>
-<strong>計算順序を工夫する。</strong><br>
-情報落ちが起きやすいパターンとして、(「大きな値」+「中くらいの値」) + 「小さな値」のような計算順序になっていることがあります。<br>
-「小さな値」＋「大きな値」という計算を避けるために、（「小さな値」＋「中くらいの値」）＋「大きな値」の順で計算することで、小さな値の情報が失われにくくなります。<br>
-特に、加算をたくさん繰り返す処理では「これまでの合計」＋「次の項」という形になりがちで、<strong>「大きな値」＋「小さな値」の状態を作りやすいため注意が必要です。</strong></li>
-<li><strong>桁落ちの対策</strong><br>
-<strong>数式を変形する。</strong><br>
-<strong>ほぼ等しい値同士の引き算</strong>によって有効桁数が失われることが問題なので、差を直接計算することを避けるために式変形を行うことで対策することが可能です。</li>
-</ul>
-<hr>
-<p>この記事ではこのような現象の正体を理解するために</p>
-<ul>
-<li><strong>コンピューターが実数を正確に扱えない理由</strong></li>
-<li><strong>IEEE754 に基づく浮動小数点数の仕組み</strong></li>
-<li><strong>どのような数が誤差なく表現できるのか</strong></li>
-<li><strong>decimal 型や固定小数点数ではどうなるのか</strong></li>
-<li><strong>精度を保証する計算方法の一例としての「区間演算」</strong></li>
-</ul>
-<p>について順に解説していきます。</p>
-<h2 id="計算機コンピューターの数値表現">計算機（コンピューター）の数値表現<a hidden class="anchor" aria-hidden="true" href="#計算機コンピューターの数値表現">#</a></h2>
-<h3 id="全ての実数を正確に表現することはできない">全ての実数を正確に表現することはできない<a hidden class="anchor" aria-hidden="true" href="#全ての実数を正確に表現することはできない">#</a></h3>
-<p>数学における実数は、数直線上に存在するすべての数を指し、無限に長い桁を持つものや、極端に大きい値・小さい値も含まれています。<br>
-しかし、コンピューターが演算や記憶に使える桁数には限りがあり、表現できる値の大きさにも制約があります。</p>
-<p>多くのプログラミング言語やアプリケーションでは、数値を表現する方法として IEEE 754 規格の <strong>2 進数の倍精度浮動小数点数（double precision）</strong> が採用されています。</p>
-<p>数学の世界では無限のリソースを仮定できますが、現実のコンピューターが使えるリソースは有限です。倍精度浮動小数点数は、実数を <strong>正確に表す値ではなく、あくまで近似的に表すための値</strong> として使用されます。</p>
-<h2 id="ieee-標準規格の浮動小数点数">IEEE 標準規格の浮動小数点数<a hidden class="anchor" aria-hidden="true" href="#ieee-標準規格の浮動小数点数">#</a></h2>
-<p>IEEE 754 標準規格で定められている浮動小数点数（正規化数）は、次のように表されます。</p>
-<p>$$
+$$</p><p>のように後続の計算で誤差が大きく増幅されることがあります。<br>特に、変数$c$が巨大な値だったとき、誤差が大きく増幅します。</p><h3 id=情報落ち桁落ちの対策>情報落ち・桁落ちの対策<a hidden class=anchor aria-hidden=true href=#情報落ち桁落ちの対策>#</a></h3><p>情報落ちや桁落ちは <strong>「演算そのもののミス」ではなく、演算を行う前の数値表現（ビットの限界）によって問題が生じる現象</strong>です。<br>しかし、<strong>数学的に等価な別の計算方法</strong>を選ぶことで回避できる場合があります。</p><ul><li><strong>情報落ちの対策</strong><br><strong>計算順序を工夫する。</strong><br>情報落ちが起きやすいパターンとして、(「大きな値」+「中くらいの値」) + 「小さな値」のような計算順序になっていることがあります。<br>「小さな値」＋「大きな値」という計算を避けるために、（「小さな値」＋「中くらいの値」）＋「大きな値」の順で計算することで、小さな値の情報が失われにくくなります。<br>特に、加算をたくさん繰り返す処理では「これまでの合計」＋「次の項」という形になりがちで、<strong>「大きな値」＋「小さな値」の状態を作りやすいため注意が必要です。</strong></li><li><strong>桁落ちの対策</strong><br><strong>数式を変形する。</strong><br><strong>ほぼ等しい値同士の引き算</strong>によって有効桁数が失われることが問題なので、差を直接計算することを避けるために式変形を行うことで対策することが可能です。</li></ul><hr><p>この記事ではこのような現象の正体を理解するために</p><ul><li><strong>コンピューターが実数を正確に扱えない理由</strong></li><li><strong>IEEE754 に基づく浮動小数点数の仕組み</strong></li><li><strong>どのような数が誤差なく表現できるのか</strong></li><li><strong>decimal 型や固定小数点数ではどうなるのか</strong></li><li><strong>精度を保証する計算方法の一例としての「区間演算」</strong></li></ul><p>について順に解説していきます。</p><h2 id=計算機コンピューターの数値表現>計算機（コンピューター）の数値表現<a hidden class=anchor aria-hidden=true href=#計算機コンピューターの数値表現>#</a></h2><h3 id=全ての実数を正確に表現することはできない>全ての実数を正確に表現することはできない<a hidden class=anchor aria-hidden=true href=#全ての実数を正確に表現することはできない>#</a></h3><p>数学における実数は、数直線上に存在するすべての数を指し、無限に長い桁を持つものや、極端に大きい値・小さい値も含まれています。<br>しかし、コンピューターが演算や記憶に使える桁数には限りがあり、表現できる値の大きさにも制約があります。</p><p>多くのプログラミング言語やアプリケーションでは、数値を表現する方法として IEEE 754 規格の <strong>2 進数の倍精度浮動小数点数（double precision）</strong> が採用されています。</p><p>数学の世界では無限のリソースを仮定できますが、現実のコンピューターが使えるリソースは有限です。倍精度浮動小数点数は、実数を <strong>正確に表す値ではなく、あくまで近似的に表すための値</strong> として使用されます。</p><h2 id=ieee-標準規格の浮動小数点数>IEEE 標準規格の浮動小数点数<a hidden class=anchor aria-hidden=true href=#ieee-標準規格の浮動小数点数>#</a></h2><p>IEEE 754 標準規格で定められている浮動小数点数（正規化数）は、次のように表されます。</p><p>$$
 \begin{aligned}
-a &amp;= (-1)^{s} \times \left( 1 + \frac{d_{1}}{2^{1}} + \frac{d_{2}}{2^{2}} + \dots + \frac{d_{N-1}}{2^{N-1}} \right) \times 2^{e} \\
-s &amp;\in {0,1},\quad s\ \text{is a bit} \\
-d_{i} &amp;\in {0,1},\quad d_{i}\ \text{is a bit}
+a &= (-1)^{s} \times \left( 1 + \frac{d_{1}}{2^{1}} + \frac{d_{2}}{2^{2}} + \dots + \frac{d_{N-1}}{2^{N-1}} \right) \times 2^{e} \\
+s &\in {0,1},\quad s\ \text{is a bit} \\
+d_{i} &\in {0,1},\quad d_{i}\ \text{is a bit}
 \end{aligned}
-$$</p>
-<h3 id="符号部sign-bit">符号部（Sign bit）<a hidden class="anchor" aria-hidden="true" href="#符号部sign-bit">#</a></h3>
-<p>浮動小数点数で <strong>正負の符号を表す 1 ビット分の領域</strong> を <strong>符号部</strong> と呼びます。<br>
-符号 $s$ が $0$ なら正（$+$）、$1$ なら負（$-$）を表します。</p>
-<p>$$
+$$</p><h3 id=符号部sign-bit>符号部（Sign bit）<a hidden class=anchor aria-hidden=true href=#符号部sign-bit>#</a></h3><p>浮動小数点数で <strong>正負の符号を表す 1 ビット分の領域</strong> を <strong>符号部</strong> と呼びます。<br>符号 $s$ が $0$ なら正（$+$）、$1$ なら負（$-$）を表します。</p><p>$$
 (-1)^{s}
-$$</p>
-<hr>
-<h3 id="仮数部mantissa--significand">仮数部（Mantissa / Significand）<a hidden class="anchor" aria-hidden="true" href="#仮数部mantissa--significand">#</a></h3>
-<p>浮動小数点数で <strong>有効桁（精度）を担う部分</strong> を <strong>仮数部</strong> と呼びます。<br>
-仮数部は単精度では 23 ビット、倍精度では 52 ビットです。</p>
-<p>IEEE 754 では、正規化数については先頭ビットが必ず $1$ になることを利用して、その $1$ を格納しない <strong>ケチ表現（hidden bit）</strong> を用います。<br>
-このため、正規化数であれば単精度は 24 ビット分、倍精度は 53 ビット分の精度を持ちます。</p>
-<p>$$
+$$</p><hr><h3 id=仮数部mantissa--significand>仮数部（Mantissa / Significand）<a hidden class=anchor aria-hidden=true href=#仮数部mantissa--significand>#</a></h3><p>浮動小数点数で <strong>有効桁（精度）を担う部分</strong> を <strong>仮数部</strong> と呼びます。<br>仮数部は単精度では 23 ビット、倍精度では 52 ビットです。</p><p>IEEE 754 では、正規化数については先頭ビットが必ず $1$ になることを利用して、その $1$ を格納しない <strong>ケチ表現（hidden bit）</strong> を用います。<br>このため、正規化数であれば単精度は 24 ビット分、倍精度は 53 ビット分の精度を持ちます。</p><p>$$
 \begin{aligned}
-m &amp;= \left( 1 + \frac{d_{1}}{2^{1}} + \frac{d_{2}}{2^{2}} + \dots + \frac{d_{N-1}}{2^{N-1}} \right) \\
-d_{i} &amp;\in {0,1},\quad d_{i}\ \text{is a bit}
+m &= \left( 1 + \frac{d_{1}}{2^{1}} + \frac{d_{2}}{2^{2}} + \dots + \frac{d_{N-1}}{2^{N-1}} \right) \\
+d_{i} &\in {0,1},\quad d_{i}\ \text{is a bit}
 \end{aligned}
-$$</p>
-<p>十進数で見ると、単精度は約 7 桁程度、倍精度はおよそ 15～16 桁程度の精度があります。</p>
-<p>$$
+$$</p><p>十進数で見ると、単精度は約 7 桁程度、倍精度はおよそ 15～16 桁程度の精度があります。</p><p>$$
 \begin{aligned}
-24\log_{10}(2) &amp;\approx 7.22 \\
-53\log_{10}(2) &amp;\approx 15.95
+24\log_{10}(2) &\approx 7.22 \\
+53\log_{10}(2) &\approx 15.95
 \end{aligned}
-$$</p>
-<hr>
-<h3 id="指数部exponent">指数部（Exponent）<a hidden class="anchor" aria-hidden="true" href="#指数部exponent">#</a></h3>
-<p>小数点の位置（2 進数での桁のシフト量）や数の大きさを表す部分を <strong>指数部</strong> と呼びます。<br>
-指数部は一定のバイアス値を加えることで、負の数を含む指数を符号なし整数で表現する <strong>バイアス付き整数</strong> として格納されます。</p>
-<p>$$
+$$</p><hr><h3 id=指数部exponent>指数部（Exponent）<a hidden class=anchor aria-hidden=true href=#指数部exponent>#</a></h3><p>小数点の位置（2 進数での桁のシフト量）や数の大きさを表す部分を <strong>指数部</strong> と呼びます。<br>指数部は一定のバイアス値を加えることで、負の数を含む指数を符号なし整数で表現する <strong>バイアス付き整数</strong> として格納されます。</p><p>$$
 2^{e}
-$$</p>
-<p>指数部のビット列を $E$ としてバイアス値を $b$ とすると、実際の指数 $e$ は</p>
-<p>$$
+$$</p><p>指数部のビット列を $E$ としてバイアス値を $b$ とすると、実際の指数 $e$ は</p><p>$$
 e = E - b
-$$</p>
-<p>で表されます。</p>
-<p>単精度および倍精度の指数部のビット数やバイアス値は次のようになります。</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: center">精度</th>
-          <th style="text-align: center">指数部</th>
-          <th style="text-align: center">$E$</th>
-          <th style="text-align: center">$b$</th>
-          <th style="text-align: center">$e = E - b$</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: center"><strong>単精度 (32bit)</strong></td>
-          <td style="text-align: center"><strong>8bit</strong></td>
-          <td style="text-align: center">$1 \le E \le 254$</td>
-          <td style="text-align: center">$b=127$</td>
-          <td style="text-align: center">$-126 \le e \le 127$</td>
-      </tr>
-      <tr>
-          <td style="text-align: center"><strong>倍精度 (64bit)</strong></td>
-          <td style="text-align: center"><strong>11bit</strong></td>
-          <td style="text-align: center">$1 \le E \le 2046$</td>
-          <td style="text-align: center">$b=1023$</td>
-          <td style="text-align: center">$-1022 \le e \le 1023$</td>
-      </tr>
-  </tbody>
-</table>
-<hr>
-<h3 id="特別な指数ビット列">特別な指数ビット列<a hidden class="anchor" aria-hidden="true" href="#特別な指数ビット列">#</a></h3>
-<p>また、特別な指数ビット列は次の用途に予約されています。</p>
-<table>
-  <thead>
-      <tr>
-          <th>指数部</th>
-          <th>仮数部</th>
-          <th>値の種類</th>
-          <th>説明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>$E = 0$</td>
-          <td>$m = 0$</td>
-          <td>$\pm 0$</td>
-          <td>正負のゼロ</td>
-      </tr>
-      <tr>
-          <td>$E = 0$</td>
-          <td>$m \neq 0$</td>
-          <td>非正規化数</td>
-          <td>絶対値が極端に小さい、0に非常に近い数を表す方法</td>
-      </tr>
-      <tr>
-          <td>$E_{max}$</td>
-          <td>$m = 0$</td>
-          <td>$\pm \infty$</td>
-          <td>計算結果が表現可能な範囲を超えたときなどに現れる。この現象を <strong>オーバーフロー</strong> と呼ぶ</td>
-      </tr>
-      <tr>
-          <td>$E_{max}$</td>
-          <td>$m \neq 0$</td>
-          <td>NaN（非数）</td>
-          <td>0 で割るなど、数として解釈できない結果を表す</td>
-      </tr>
-  </tbody>
-</table>
-<ul>
-<li><strong>指数部$E=0$は指数ビット列がすべて0のときを指します。</strong></li>
-<li><strong>指数部$E_{max}$は指数ビット列がすべて1のときを指します。</strong><br>
-単精度：$E = 255$<br>
-倍精度：$E = 2047$</li>
-</ul>
-<hr>
-<h3 id="精度による違い">精度による違い<a hidden class="anchor" aria-hidden="true" href="#精度による違い">#</a></h3>
-<p>浮動小数点数の精度には単精度（32 ビット）、倍精度（64 ビット）、任意精度など様々なものがあります。<br>
-精度が高くなると仮数部のビット数が増えることで <strong>扱える桁数（有効桁数）</strong> が増え、指数部のビット数が増えることで <strong>表現できる値の範囲</strong> も広くなります。</p>
-<p>正規化数に対する仮数ビット $N$ と指数 $e$ の範囲は次のようになります。</p>
-<p>$$
+$$</p><p>で表されます。</p><p>単精度および倍精度の指数部のビット数やバイアス値は次のようになります。</p><table><thead><tr><th style=text-align:center>精度</th><th style=text-align:center>指数部</th><th style=text-align:center>$E$</th><th style=text-align:center>$b$</th><th style=text-align:center>$e = E - b$</th></tr></thead><tbody><tr><td style=text-align:center><strong>単精度 (32bit)</strong></td><td style=text-align:center><strong>8bit</strong></td><td style=text-align:center>$1 \le E \le 254$</td><td style=text-align:center>$b=127$</td><td style=text-align:center>$-126 \le e \le 127$</td></tr><tr><td style=text-align:center><strong>倍精度 (64bit)</strong></td><td style=text-align:center><strong>11bit</strong></td><td style=text-align:center>$1 \le E \le 2046$</td><td style=text-align:center>$b=1023$</td><td style=text-align:center>$-1022 \le e \le 1023$</td></tr></tbody></table><hr><h3 id=特別な指数ビット列>特別な指数ビット列<a hidden class=anchor aria-hidden=true href=#特別な指数ビット列>#</a></h3><p>また、特別な指数ビット列は次の用途に予約されています。</p><table><thead><tr><th>指数部</th><th>仮数部</th><th>値の種類</th><th>説明</th></tr></thead><tbody><tr><td>$E = 0$</td><td>$m = 0$</td><td>$\pm 0$</td><td>正負のゼロ</td></tr><tr><td>$E = 0$</td><td>$m \neq 0$</td><td>非正規化数</td><td>絶対値が極端に小さい、0に非常に近い数を表す方法</td></tr><tr><td>$E_{max}$</td><td>$m = 0$</td><td>$\pm \infty$</td><td>計算結果が表現可能な範囲を超えたときなどに現れる。この現象を <strong>オーバーフロー</strong> と呼ぶ</td></tr><tr><td>$E_{max}$</td><td>$m \neq 0$</td><td>NaN（非数）</td><td>0 で割るなど、数として解釈できない結果を表す</td></tr></tbody></table><ul><li><strong>指数部$E=0$は指数ビット列がすべて0のときを指します。</strong></li><li><strong>指数部$E_{max}$は指数ビット列がすべて1のときを指します。</strong><br>単精度：$E = 255$<br>倍精度：$E = 2047$</li></ul><hr><h3 id=精度による違い>精度による違い<a hidden class=anchor aria-hidden=true href=#精度による違い>#</a></h3><p>浮動小数点数の精度には単精度（32 ビット）、倍精度（64 ビット）、任意精度など様々なものがあります。<br>精度が高くなると仮数部のビット数が増えることで <strong>扱える桁数（有効桁数）</strong> が増え、指数部のビット数が増えることで <strong>表現できる値の範囲</strong> も広くなります。</p><p>正規化数に対する仮数ビット $N$ と指数 $e$ の範囲は次のようになります。</p><p>$$
 \begin{aligned}
-\text{単精度}\quad N &amp;= 24,\quad  -126 \le e \le 127 \\
-\text{倍精度}\quad N &amp;= 53,\quad  -1022 \le e \le 1023
+\text{単精度}\quad N &= 24,\quad -126 \le e \le 127 \\
+\text{倍精度}\quad N &= 53,\quad -1022 \le e \le 1023
 \end{aligned}
-$$</p>
-<p>図にすると次のような感じになります。</p>
-<ul>
-<li><strong>単精度(32bit)</strong></li>
-</ul>
-<pre class="mermaid">flowchart LR
-    S[Sign<br/>1 bit]:::small
-    E[Exponent<br/>8 bits]:::mid
-    M[Mantissa<br/>23 bits]:::large
+$$</p><p>図にすると次のような感じになります。</p><ul><li><strong>単精度(32bit)</strong></li></ul><pre class=mermaid>flowchart LR
+    S[Sign<br>1 bit]:::small
+    E[Exponent<br>8 bits]:::mid
+    M[Mantissa<br>23 bits]:::large
 
     S --- E --- M
 
     classDef small fill:#fee,border:#f66;
     classDef mid fill:#eef,border:#66f;
     classDef large fill:#efe,border:#6f6;
-</pre>
-<ul>
-<li><strong>倍精度(64bit)</strong></li>
-</ul>
-<pre class="mermaid">flowchart LR
-    S[Sign<br/>1 bit]:::small
-    E[Exponent<br/>11 bits]:::mid
-    M[Mantissa<br/>52 bits]:::large
+</pre><ul><li><strong>倍精度(64bit)</strong></li></ul><pre class=mermaid>flowchart LR
+    S[Sign<br>1 bit]:::small
+    E[Exponent<br>11 bits]:::mid
+    M[Mantissa<br>52 bits]:::large
 
     S --- E --- M
 
     classDef small fill:#fee,border:#f66;
     classDef mid fill:#eef,border:#66f;
     classDef large fill:#efe,border:#6f6;
-</pre>
-<hr>
-<h3 id="なぜすべての実数を正確に表現できないのか">なぜすべての実数を正確に表現できないのか<a hidden class="anchor" aria-hidden="true" href="#なぜすべての実数を正確に表現できないのか">#</a></h3>
-<p>浮動小数点数を用いてすべての実数を正確に表現できない理由は、次の 3 点にまとめられます。</p>
-<ul>
-<li>
-<p><strong>2 進数で小数を表現していること</strong><br>
-10 進数では有限桁で書ける数でも、2 進数にすると無限に続く小数になる場合が多くあります。<br>
-有名な例として<strong>循環小数</strong>になる <strong>0.1</strong> が挙げられます。</p>
-</li>
-<li>
-<p><strong>有効桁数（仮数部のビット数）が有限であること</strong><br>
-2 進小数が無限に続く場合でも、途中でどこかの桁で丸める必要があります。<br>
-この過程で<strong>丸め誤差（rounding error）</strong> が発生します。</p>
-</li>
-<li>
-<p><strong>扱える指数の範囲が有限であること</strong><br>
-指数部のビット数には限りがあるため、極端に大きい値・小さい値は表現できません。</p>
-</li>
-</ul>
-<hr>
-<h3 id="浮動小数点数で正確に表現可能な例">浮動小数点数で正確に表現可能な例<a hidden class="anchor" aria-hidden="true" href="#浮動小数点数で正確に表現可能な例">#</a></h3>
-<p>仮数部の構造に注目すると、<strong>浮動小数点数で正確に表せる値は、実は非常に限られている</strong>ことがわかります。<br>
-次の数のうち、倍精度浮動小数点数で <strong>誤差なく正確に表現できる数</strong> はどれでしょうか？</p>
-<p>$$
+</pre><hr><h3 id=なぜすべての実数を正確に表現できないのか>なぜすべての実数を正確に表現できないのか<a hidden class=anchor aria-hidden=true href=#なぜすべての実数を正確に表現できないのか>#</a></h3><p>浮動小数点数を用いてすべての実数を正確に表現できない理由は、次の 3 点にまとめられます。</p><ul><li><p><strong>2 進数で小数を表現していること</strong><br>10 進数では有限桁で書ける数でも、2 進数にすると無限に続く小数になる場合が多くあります。<br>有名な例として<strong>循環小数</strong>になる <strong>0.1</strong> が挙げられます。</p></li><li><p><strong>有効桁数（仮数部のビット数）が有限であること</strong><br>2 進小数が無限に続く場合でも、途中でどこかの桁で丸める必要があります。<br>この過程で<strong>丸め誤差（rounding error）</strong> が発生します。</p></li><li><p><strong>扱える指数の範囲が有限であること</strong><br>指数部のビット数には限りがあるため、極端に大きい値・小さい値は表現できません。</p></li></ul><hr><h3 id=浮動小数点数で正確に表現可能な例>浮動小数点数で正確に表現可能な例<a hidden class=anchor aria-hidden=true href=#浮動小数点数で正確に表現可能な例>#</a></h3><p>仮数部の構造に注目すると、<strong>浮動小数点数で正確に表せる値は、実は非常に限られている</strong>ことがわかります。<br>次の数のうち、倍精度浮動小数点数で <strong>誤差なく正確に表現できる数</strong> はどれでしょうか？</p><p>$$
 \begin{aligned}
 0.1,\ 0.2,\ 0.3,\ 0.4,\ 0.5,\ 0.6,\ 0.7,\ 0.8,\ 0.9
 \end{aligned}
-$$</p>
-<p>答えは <strong>0.5 のみ</strong> です。</p>
-<p>$$
+$$</p><p>答えは <strong>0.5 のみ</strong> です。</p><p>$$
 \begin{aligned}
 0.5 = \frac{1}{2^1}
 \end{aligned}
-$$</p>
-<p>理由は次の通りです。</p>
-<p>浮動小数点数で正確に表現できる実数は、</p>
-<p>$$
+$$</p><p>理由は次の通りです。</p><p>浮動小数点数で正確に表現できる実数は、</p><p>$$
 \begin{aligned}
-&amp;\frac{\mu}{2^\nu}\\
-\mu, \nu &amp;\in \mathbb{Z}
+&\frac{\mu}{2^\nu}\\
+\mu, \nu &\in \mathbb{Z}
 \end{aligned}
-$$</p>
-<p>の形で書けて、かつ <strong>指数が指数部の範囲内に収まる必要があります</strong>。</p>
-<p>つまり、次の <strong>3 つすべてを満たす場合にのみ</strong> 正確に表現できます。</p>
-<ul>
-<li><strong>2 進表現が有限で終わること（$2^{\nu}$ で割った形に書けること）</strong></li>
-<li><strong>分子$\mu$が仮数部のビット数で表せる範囲の整数であること</strong></li>
-<li><strong>浮動小数点数の形に直した時に、指数が指数部の範囲内に収まること</strong></li>
-</ul>
-<p>この条件を満たすのは、上の例では <strong>0.5（1/2）</strong> のみです。</p>
-<p>他にも、次のような値は2進小数が有限で終わり、仮数部と指数部の範囲に収まるため正確に表現できます。</p>
-<p>$$
+$$</p><p>の形で書けて、かつ <strong>指数が指数部の範囲内に収まる必要があります</strong>。</p><p>つまり、次の <strong>3 つすべてを満たす場合にのみ</strong> 正確に表現できます。</p><ul><li><strong>2 進表現が有限で終わること（$2^{\nu}$ で割った形に書けること）</strong></li><li><strong>分子$\mu$が仮数部のビット数で表せる範囲の整数であること</strong></li><li><strong>浮動小数点数の形に直した時に、指数が指数部の範囲内に収まること</strong></li></ul><p>この条件を満たすのは、上の例では <strong>0.5（1/2）</strong> のみです。</p><p>他にも、次のような値は2進小数が有限で終わり、仮数部と指数部の範囲に収まるため正確に表現できます。</p><p>$$
 \begin{aligned}
-\qquad \qquad 3.625 &amp;= 2^1 + 2^0 + \frac{1}{2^1} + \frac{1}{2^3} \\
-&amp;= \frac{29}{2^3}
+\qquad \qquad 3.625 &= 2^1 + 2^0 + \frac{1}{2^1} + \frac{1}{2^3} \\
+&= \frac{29}{2^3}
 \end{aligned}
-$$</p>
-<p>$$
+$$</p><p>$$
 \begin{aligned}
-0.75  &amp;= \frac{1}{2^1} + \frac{1}{2^2} \\
-&amp;= \frac{3}{2^2}
+0.75 &= \frac{1}{2^1} + \frac{1}{2^2} \\
+&= \frac{3}{2^2}
 \end{aligned}
-$$</p>
-<p>$$
+$$</p><p>$$
 \begin{aligned}
-0.000000954606549 &amp;= \frac{1}{2^{20}} + \frac{1}{2^{30}} + \frac{1}{2^{40}} + \frac{1}{2^{50}}\\
-&amp;= \frac{1,074,791,425}{2^{50}}
+0.000000954606549 &= \frac{1}{2^{20}} + \frac{1}{2^{30}} + \frac{1}{2^{40}} + \frac{1}{2^{50}}\\
+&= \frac{1,074,791,425}{2^{50}}
 \end{aligned}
-$$</p>
-<h2 id="10進数の浮動小数点数なら誤差は発生しない">10進数の浮動小数点数なら誤差は発生しない？<a hidden class="anchor" aria-hidden="true" href="#10進数の浮動小数点数なら誤差は発生しない">#</a></h2>
-<p>10 進数の浮動小数点数（decimal 型）は、2 進数の倍精度浮動小数点数（double 型）と比べて「10 進で有限桁の小数を正確に表せる」という利点があります。<br>
-たとえば <strong>0.1</strong> や <strong>0.01</strong> などは decimal 型では誤差なく表現できます。</p>
-<p>しかし、次の問題は依然として残ります。</p>
-<ul>
-<li><strong>有効桁数（仮数部の桁数）が有限であること</strong></li>
-<li><strong>扱える指数の範囲が有限であること</strong></li>
-</ul>
-<p>そのため decimal 型でも、例えば</p>
-<p>$$
+$$</p><h2 id=10進数の浮動小数点数なら誤差は発生しない>10進数の浮動小数点数なら誤差は発生しない？<a hidden class=anchor aria-hidden=true href=#10進数の浮動小数点数なら誤差は発生しない>#</a></h2><p>10 進数の浮動小数点数（decimal 型）は、2 進数の倍精度浮動小数点数（double 型）と比べて「10 進で有限桁の小数を正確に表せる」という利点があります。<br>たとえば <strong>0.1</strong> や <strong>0.01</strong> などは decimal 型では誤差なく表現できます。</p><p>しかし、次の問題は依然として残ります。</p><ul><li><strong>有効桁数（仮数部の桁数）が有限であること</strong></li><li><strong>扱える指数の範囲が有限であること</strong></li></ul><p>そのため decimal 型でも、例えば</p><p>$$
 \frac{1}{3} = 0.333333\dots
-$$</p>
-<p>のように <strong>10 進でも無限に続く小数</strong>を厳密に保持することはできません。</p>
-<p>また、decimal 型は double 型に比べて <strong>指数部の範囲が狭い</strong>ため、<br>
-表現できる値の最大値・最小値が小さくなり、<br>
-「非常に大きな数値」「非常に小さな数値」を扱う用途には向きません。</p>
-<p>つまり、decimal 型は</p>
-<ul>
-<li><strong>10進基準の計算を正確に行いたい</strong></li>
-<li><strong>ただし扱える数値レンジは狭くなる</strong></li>
-</ul>
-<p>という特徴を持った形式です。</p>
-<h2 id="固定小数点数は">固定小数点数は？<a hidden class="anchor" aria-hidden="true" href="#固定小数点数は">#</a></h2>
-<p>固定小数点数（fixed-point）も、decimal 型と同様に <strong>有効桁数が有限である</strong> という問題を避けることはできません。<br>
-そのため、表現できる値は刻み幅に依存しており、次の制約が存在します。</p>
-<ul>
-<li><strong>表せる小数の刻みが固定されている（例：0.01 刻みなど）</strong></li>
-<li><strong>その刻みで表せない値は丸めが発生する</strong></li>
-<li><strong>扱える範囲も有限である（オーバーフローの可能性）</strong></li>
-</ul>
-<p>たとえば小数第2位までしか保持しない固定小数点形式では、</p>
-<p>$$
+$$</p><p>のように <strong>10 進でも無限に続く小数</strong>を厳密に保持することはできません。</p><p>また、decimal 型は double 型に比べて <strong>指数部の範囲が狭い</strong>ため、<br>表現できる値の最大値・最小値が小さくなり、<br>「非常に大きな数値」「非常に小さな数値」を扱う用途には向きません。</p><p>つまり、decimal 型は</p><ul><li><strong>10進基準の計算を正確に行いたい</strong></li><li><strong>ただし扱える数値レンジは狭くなる</strong></li></ul><p>という特徴を持った形式です。</p><h2 id=固定小数点数は>固定小数点数は？<a hidden class=anchor aria-hidden=true href=#固定小数点数は>#</a></h2><p>固定小数点数（fixed-point）も、decimal 型と同様に <strong>有効桁数が有限である</strong> という問題を避けることはできません。<br>そのため、表現できる値は刻み幅に依存しており、次の制約が存在します。</p><ul><li><strong>表せる小数の刻みが固定されている（例：0.01 刻みなど）</strong></li><li><strong>その刻みで表せない値は丸めが発生する</strong></li><li><strong>扱える範囲も有限である（オーバーフローの可能性）</strong></li></ul><p>たとえば小数第2位までしか保持しない固定小数点形式では、</p><p>$$
 0.123 \rightarrow 0.12
-$$</p>
-<p>のように必ず丸めが発生します。</p>
-<p>固定小数点数は、演算が高速で予測可能という利点がある一方で、<br>
-浮動小数点数のように <strong>広い範囲の数を柔軟に扱うことはできません</strong>。</p>
-<h2 id="それでも厳密に正しい値を保持したい">それでも厳密に正しい値を保持したい<a hidden class="anchor" aria-hidden="true" href="#それでも厳密に正しい値を保持したい">#</a></h2>
-<p>浮動小数点数では誤差を完全に避けることはできませんが<br>
-<strong>計算結果が必ず真の値を含む範囲（区間）として得られる方法</strong> があります。<br>
-その一つが <strong>区間演算（Interval Arithmetic）</strong> です。</p>
-<p>区間演算を用いることで、丸め誤差を含む計算でも、「真の値が必ずこの範囲にある」という <strong>精度保証付きの計算(Verified numerics)</strong> が可能になります。</p>
-<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
-<ul>
-<li><strong>コンピューターは有限のビット数しか持たないため、実数をそのまま格納することはできない</strong></li>
-<li><strong>IEEE 754 浮動小数点数は「近似計算のための仕組み」であり、誤差は避けられない</strong></li>
-<li><strong>正確に表せる値はごく限られた「2進で有限に表せる数」のみ</strong></li>
-<li><strong>decimal 型や固定小数点数にも、精度や範囲の制限がある</strong></li>
-<li><strong>「誤差を含んだまま安全に計算したい」という目的には区間演算が有効</strong></li>
-</ul>
-<p>次の記事では、区間演算ライブラリを紹介します。</p>
-
-
-  </div>
-
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/float/">Float</a></li>
-      <li><a href="http://localhost:1313/tags/ieee754/">IEEE754</a></li>
-      <li><a href="http://localhost:1313/tags/%E6%95%B0%E5%80%A4%E8%A8%88%E7%AE%97/">数値計算</a></li>
-      <li><a href="http://localhost:1313/tags/%E8%AA%A4%E5%B7%AE/">誤差</a></li>
-      <li><a href="http://localhost:1313/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">プログラミング</a></li>
-    </ul>
-<nav class="paginav">
-  <a class="prev" href="http://localhost:1313/posts/interval/">
-    <span class="title">« 前へ</span>
-    <br>
-    <span>区間演算</span>
-  </a>
-</nav>
-
-
-<ul class="share-buttons">
-    <li>
-        <a target="_blank" rel="noopener noreferrer" aria-label="share 浮動小数点数 on x"
-            href="https://x.com/intent/tweet/?text=%e6%b5%ae%e5%8b%95%e5%b0%8f%e6%95%b0%e7%82%b9%e6%95%b0&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2ffloat%2f&amp;hashtags=Float%2cIEEE754%2c%e6%95%b0%e5%80%a4%e8%a8%88%e7%ae%97%2c%e8%aa%a4%e5%b7%ae%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0">
-            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
-                <path
-                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
-            </svg>
-        </a>
-    </li>
-</ul>
-
-  </footer>
-</article>
-    </main>
-    
-<footer class="footer">
-    <span>&copy; 2025 <a href="http://localhost:1313/">ungehoBlog</a></span>
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
-
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'コピー';
-
-        function copyingDone() {
-            copybutton.innerHTML = 'コピーされました!';
-            setTimeout(() => {
-                copybutton.innerHTML = 'コピー';
-            }, 2000);
-        }
-
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
-
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
-
-        if (container.classList.contains("highlight")) {
-            container.appendChild(copybutton);
-        } else if (container.parentNode.firstChild == container) {
-            
-        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
-            
-            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
-        } else {
-            
-            codeblock.parentNode.appendChild(copybutton);
-        }
-    });
-</script></body>
-
-</html>
+$$</p><p>のように必ず丸めが発生します。</p><p>固定小数点数は、演算が高速で予測可能という利点がある一方で、<br>浮動小数点数のように <strong>広い範囲の数を柔軟に扱うことはできません</strong>。</p><h2 id=それでも厳密に正しい値を保持したい>それでも厳密に正しい値を保持したい<a hidden class=anchor aria-hidden=true href=#それでも厳密に正しい値を保持したい>#</a></h2><p>浮動小数点数では誤差を完全に避けることはできませんが<br><strong>計算結果が必ず真の値を含む範囲（区間）として得られる方法</strong> があります。<br>その一つが <strong>区間演算（Interval Arithmetic）</strong> です。</p><p>区間演算を用いることで、丸め誤差を含む計算でも、「真の値が必ずこの範囲にある」という <strong>精度保証付きの計算(Verified numerics)</strong> が可能になります。</p><h2 id=まとめ>まとめ<a hidden class=anchor aria-hidden=true href=#まとめ>#</a></h2><ul><li><strong>コンピューターは有限のビット数しか持たないため、実数をそのまま格納することはできない</strong></li><li><strong>IEEE 754 浮動小数点数は「近似計算のための仕組み」であり、誤差は避けられない</strong></li><li><strong>正確に表せる値はごく限られた「2進で有限に表せる数」のみ</strong></li><li><strong>decimal 型や固定小数点数にも、精度や範囲の制限がある</strong></li><li><strong>「誤差を含んだまま安全に計算したい」という目的には区間演算が有効</strong></li></ul><p>次の記事では、区間演算ライブラリを紹介します。</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://ungeho.netlify.app/tags/float/>Float</a></li><li><a href=https://ungeho.netlify.app/tags/ieee754/>IEEE754</a></li><li><a href=https://ungeho.netlify.app/tags/%E6%95%B0%E5%80%A4%E8%A8%88%E7%AE%97/>数値計算</a></li><li><a href=https://ungeho.netlify.app/tags/%E8%AA%A4%E5%B7%AE/>誤差</a></li><li><a href=https://ungeho.netlify.app/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/>プログラミング</a></li></ul><nav class=paginav><a class=prev href=https://ungeho.netlify.app/posts/interval/><span class=title>« 前へ</span><br><span>区間演算</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 浮動小数点数 on x" href="https://x.com/intent/tweet/?text=%e6%b5%ae%e5%8b%95%e5%b0%8f%e6%95%b0%e7%82%b9%e6%95%b0&amp;url=https%3a%2f%2fungeho.netlify.app%2fposts%2ffloat%2f&amp;hashtags=Float%2cIEEE754%2c%e6%95%b0%e5%80%a4%e8%a8%88%e7%ae%97%2c%e8%aa%a4%e5%b7%ae%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2025 <a href=https://ungeho.netlify.app/>ungehoBlog</a></span>
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

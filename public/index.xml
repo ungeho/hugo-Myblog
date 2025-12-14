@@ -1,119 +1,62 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>ungehoBlog</title>
-    <link>http://localhost:1313/</link>
-    <description>Recent content on ungehoBlog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>ja</language>
-    <lastBuildDate>Sun, 14 Dec 2025 12:13:06 +0900</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>星形正多角形</title>
-      <link>http://localhost:1313/posts/regularstarpolygon/</link>
-      <pubDate>Sun, 14 Dec 2025 12:13:06 +0900</pubDate>
-      <guid>http://localhost:1313/posts/regularstarpolygon/</guid>
-      <description>&lt;p&gt;私が小学生の頃、『鋼の錬金術師』というアニメを観て、
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ungehoBlog</title><link>https://ungeho.netlify.app/</link><description>Recent content on ungehoBlog</description><generator>Hugo -- gohugo.io</generator><language>ja</language><lastBuildDate>Sun, 14 Dec 2025 12:13:06 +0900</lastBuildDate><atom:link href="https://ungeho.netlify.app/index.xml" rel="self" type="application/rss+xml"/><item><title>星形正多角形</title><link>https://ungeho.netlify.app/posts/regularstarpolygon/</link><pubDate>Sun, 14 Dec 2025 12:13:06 +0900</pubDate><guid>https://ungeho.netlify.app/posts/regularstarpolygon/</guid><description>&lt;p&gt;私が小学生の頃、『鋼の錬金術師』というアニメを観て、
 「オリジナルの錬成陣を描いてみたい」と本気で思っていた時期がありました。&lt;/p&gt;
 &lt;p&gt;描き方を調べようと図書館に行ったものの、そもそも &lt;strong&gt;何と調べればいいのか&lt;/strong&gt; が分かりません。
-円と線と星のような、あの独特な図形に、名前があるとは想像もしていなかったのです。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>自動微分</title>
-      <link>http://localhost:1313/posts/autodiff/</link>
-      <pubDate>Fri, 12 Dec 2025 16:30:33 +0900</pubDate>
-      <guid>http://localhost:1313/posts/autodiff/</guid>
-      <description>&lt;hr&gt;
+円と線と星のような、あの独特な図形に、名前があるとは想像もしていなかったのです。&lt;/p&gt;</description></item><item><title>自動微分</title><link>https://ungeho.netlify.app/posts/autodiff/</link><pubDate>Fri, 12 Dec 2025 16:30:33 +0900</pubDate><guid>https://ungeho.netlify.app/posts/autodiff/</guid><description>&lt;hr&gt;
 &lt;blockquote&gt;
 &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
-&lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;/p&gt;
+&lt;a href="../float"&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../interval"&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../numericalIntegration"&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../numericalDifferentiation"&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../autoDiff"&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;strong&gt;自動微分(Automatic Differentiation,AD)&lt;/strong&gt; は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>数値微分</title>
-      <link>http://localhost:1313/posts/numericaldifferentiation/</link>
-      <pubDate>Fri, 12 Dec 2025 13:50:42 +0900</pubDate>
-      <guid>http://localhost:1313/posts/numericaldifferentiation/</guid>
-      <description>&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;自動微分(Automatic Differentiation,AD)&lt;/strong&gt; は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。&lt;/p&gt;</description></item><item><title>数値微分</title><link>https://ungeho.netlify.app/posts/numericaldifferentiation/</link><pubDate>Fri, 12 Dec 2025 13:50:42 +0900</pubDate><guid>https://ungeho.netlify.app/posts/numericaldifferentiation/</guid><description>&lt;hr&gt;
 &lt;blockquote&gt;
 &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
-&lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
-&lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href="../float"&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../interval"&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../numericalIntegration"&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../numericalDifferentiation"&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
+&lt;a href="../autoDiff"&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;p&gt;コンピューターを用いた具体的な計算によって関数の傾きを求める手法を&lt;strong&gt;数値微分(numerical differentiation)&lt;/strong&gt; と呼びます。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>数値積分</title>
-      <link>http://localhost:1313/posts/numericalintegration/</link>
-      <pubDate>Wed, 10 Dec 2025 20:28:15 +0900</pubDate>
-      <guid>http://localhost:1313/posts/numericalintegration/</guid>
-      <description>&lt;hr&gt;
+&lt;p&gt;コンピューターを用いた具体的な計算によって関数の傾きを求める手法を&lt;strong&gt;数値微分(numerical differentiation)&lt;/strong&gt; と呼びます。&lt;/p&gt;</description></item><item><title>数値積分</title><link>https://ungeho.netlify.app/posts/numericalintegration/</link><pubDate>Wed, 10 Dec 2025 20:28:15 +0900</pubDate><guid>https://ungeho.netlify.app/posts/numericalintegration/</guid><description>&lt;hr&gt;
 &lt;blockquote&gt;
 &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
-&lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
-&lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href="../float"&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../interval"&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../numericalIntegration"&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
+&lt;a href="../numericalDifferentiation"&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../autoDiff"&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;p&gt;多くの積分は「紙とペン」で簡単に計算できるとは限りません。&lt;br&gt;
-実際、積分の中には&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>区間演算</title>
-      <link>http://localhost:1313/posts/interval/</link>
-      <pubDate>Tue, 09 Dec 2025 14:46:40 +0900</pubDate>
-      <guid>http://localhost:1313/posts/interval/</guid>
-      <description>&lt;hr&gt;
+実際、積分の中には&lt;/p&gt;</description></item><item><title>区間演算</title><link>https://ungeho.netlify.app/posts/interval/</link><pubDate>Tue, 09 Dec 2025 14:46:40 +0900</pubDate><guid>https://ungeho.netlify.app/posts/interval/</guid><description>&lt;hr&gt;
 &lt;blockquote&gt;
 &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
-&lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
-&lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href="../float"&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../interval"&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
+&lt;a href="../numericalIntegration"&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../numericalDifferentiation"&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../autoDiff"&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;p&gt;浮動小数点数で計算をしていると、&lt;strong&gt;「どこまでが正しい値なのか？」&lt;/strong&gt; という不安が常につきまといます。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>浮動小数点数</title>
-      <link>http://localhost:1313/posts/float/</link>
-      <pubDate>Sun, 07 Dec 2025 19:03:04 +0900</pubDate>
-      <guid>http://localhost:1313/posts/float/</guid>
-      <description>&lt;hr&gt;
+&lt;p&gt;浮動小数点数で計算をしていると、&lt;strong&gt;「どこまでが正しい値なのか？」&lt;/strong&gt; という不安が常につきまといます。&lt;/p&gt;</description></item><item><title>浮動小数点数</title><link>https://ungeho.netlify.app/posts/float/</link><pubDate>Sun, 07 Dec 2025 19:03:04 +0900</pubDate><guid>https://ungeho.netlify.app/posts/float/</guid><description>&lt;hr&gt;
 &lt;blockquote&gt;
 &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
-&lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
-&lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
-&lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href="../float"&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
+&lt;a href="../interval"&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../numericalIntegration"&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../numericalDifferentiation"&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href="../autoDiff"&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;p&gt;プログラミング中に &lt;strong&gt;「0.1 + 0.2 が 0.3 にならない」&lt;/strong&gt; といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。&lt;br&gt;
-これは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>自己紹介</title>
-      <link>http://localhost:1313/about/</link>
-      <pubDate>Sun, 28 Jan 2024 04:55:26 +0900</pubDate>
-      <guid>http://localhost:1313/about/</guid>
-      <description>&lt;p&gt;はじめまして。&lt;br&gt;
+これは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。&lt;/p&gt;</description></item><item><title>自己紹介</title><link>https://ungeho.netlify.app/about/</link><pubDate>Sun, 28 Jan 2024 04:55:26 +0900</pubDate><guid>https://ungeho.netlify.app/about/</guid><description>&lt;p&gt;はじめまして。&lt;br&gt;
 ここはネトゲが大好きなおたくのブログです。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h3 id=&#34;-趣味興味&#34;&gt;🔧 趣味・興味&lt;/h3&gt;
+&lt;h3 id="-趣味興味"&gt;🔧 趣味・興味&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;ネトゲ / オンラインゲーム&lt;/li&gt;
 &lt;li&gt;自作PC&lt;/li&gt;
@@ -121,8 +64,5 @@
 &lt;li&gt;プログラミング&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
-&lt;h3 id=&#34;-目標&#34;&gt;🎯 目標&lt;/h3&gt;
-&lt;p&gt;自分のペースで楽しく生きること。&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+&lt;h3 id="-目標"&gt;🎯 目標&lt;/h3&gt;
+&lt;p&gt;自分のペースで楽しく生きること。&lt;/p&gt;</description></item></channel></rss>
