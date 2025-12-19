@@ -192,6 +192,8 @@
                 <li>
                     <a href="#%e6%98%9f%e5%bd%a2%e6%ad%a3%e5%a4%9a%e8%a7%92%e5%bd%a2%e3%81%a8%e3%81%af" aria-label="星形正多角形とは？">星形正多角形とは？</a></li>
                 <li>
+                    <a href="#%e6%98%9f%e5%bd%a2%e6%ad%a3%e5%a4%9a%e8%a7%92%e5%bd%a2%e3%81%ae%e3%82%a2%e3%83%ab%e3%82%b4%e3%83%aa%e3%82%ba%e3%83%a0" aria-label="星形正多角形のアルゴリズム">星形正多角形のアルゴリズム</a></li>
+                <li>
                     <a href="#%e6%98%9f%e5%bd%a2%e6%ad%a3%e5%a4%9a%e8%a7%92%e5%bd%a2%e3%82%92%e6%8f%8f%e7%94%bb%e3%81%99%e3%82%8b%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%a0%e3%81%ae%e5%ae%9f%e8%a3%85" aria-label="星形正多角形を描画するプログラムの実装">星形正多角形を描画するプログラムの実装</a><ul>
                         
                 <li>
@@ -233,7 +235,20 @@
 本記事では 星形正多角形のアルゴリズムを整理し、実装の観点からまとめてみたいと思います。</p>
 <hr>
 <h3 id="星形正多角形とは">星形正多角形とは？<a hidden class="anchor" aria-hidden="true" href="#星形正多角形とは">#</a></h3>
-<p>正$d$角形としたとき、$d$は2より大きい有理数です。</p>
+<p><strong>星形正多角形(regular star polygon)</strong> とは、<strong>正多角形の頂点を結ぶ規則を一般化した図形</strong>です。</p>
+<p>通常の正多角形は、円周上に等間隔に並んだ点を<strong>隣り合う点同士で</strong>結ぶことで得られます。<br>
+例えば正$p$角形は自然数$p$を用いて</p>
+<p>$$
+\begin{aligned}
+p &gt; 2,\quad p \in \mathbb{N}
+\end{aligned}
+$$</p>
+<p>で表され、各頂点を1つ先の頂点と結ぶことで構成されます。</p>
+<p>一方、星形正多角形はこの考え方を拡張子、円周上に等間隔に配置された点に対して<strong>一定個数だけ先の点を順に結ぶ</strong>という規則を用います。</p>
+<p>この結び方によって、線分が互いに交差し、通常の正多角形とは異なる <strong>星形の対照的な図形</strong> が現れます。</p>
+<hr>
+<h3 id="星形正多角形のアルゴリズム">星形正多角形のアルゴリズム<a hidden class="anchor" aria-hidden="true" href="#星形正多角形のアルゴリズム">#</a></h3>
+<p>星形正$d$角形としたとき、$d$は2より大きい有理数です。</p>
 <p>$$
 \begin{aligned}
 d &gt; 2,\quad d \in \mathbb{Q}
@@ -320,12 +335,12 @@ $$</p>
 <p>と表せます。</p>
 <hr>
 <p>まとめると、正星形多角形を描画するとき<br>
-直線の始点の座標を$L_{s}=(x_{s},y_{s})$、直線の終点の座標を$L_{e}=(x_{e},y_{e})$<br>
+直線の始点の座標を$L_{\text{s}}=(x_{\text{s}},y_{\text{s}})$、直線の終点の座標を$L_{\text{e}}=(x_{\text{e}},y_{\text{e}})$<br>
 とすると</p>
 <p>$$
 \begin{aligned}
-L_s &amp;= (x_i, y_i) \\
-L_e &amp;= (x_{i+1}, y_{i+1}) \\
+L_{\text{s}} &amp;= (x_{i}, y_{i}) \\
+L_{\text{e}} &amp;= (x_{i+1}, y_{i+1}) \\
 x_i &amp;= x_{\text{center}} + r \cos\left(\frac{\theta_i \pi}{180}\right) \\
 y_i &amp;= y_{\text{center}} + r \sin\left(\frac{\theta_i \pi}{180}\right) \\
 \theta_i &amp;= \bigl((i n)\bmod m\bigr)\frac{360}{m} \\
