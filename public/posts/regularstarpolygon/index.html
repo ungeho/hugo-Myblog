@@ -319,12 +319,16 @@ $$</p>
 $$</p>
 <p>と表せます。</p>
 <hr>
-<p>まとめると、正星形多角形を描画する線を引くために必要な座標は</p>
+<p>まとめると、正星形多角形を描画するとき<br>
+直線の始点の座標を$L_{s}=(x_{s},y_{s})$、直線の終点の座標を$L_{e}=(x_{e},y_{e})$<br>
+とすると</p>
 <p>$$
 \begin{aligned}
-x_{i} &amp;= x_{\text{center}} + r \cos\left(\frac{\theta_{i} \pi}{180}\right) \\
-y_{i} &amp;= y_{\text{center}} + r \sin\left(\frac{\theta_{i} \pi}{180}\right) \\
-\theta_{i} &amp;= \bigl( (i n) \bmod m\bigr) \frac{360}{m}\\
+L_s &amp;= (x_i, y_i) \\
+L_e &amp;= (x_{i+1}, y_{i+1}) \\
+x_i &amp;= x_{\text{center}} + r \cos\left(\frac{\theta_i \pi}{180}\right) \\
+y_i &amp;= y_{\text{center}} + r \sin\left(\frac{\theta_i \pi}{180}\right) \\
+\theta_i &amp;= \bigl((i n)\bmod m\bigr)\frac{360}{m} \\
 i &amp;= 0,1,2,\dots,m-1
 \end{aligned}
 $$</p>
