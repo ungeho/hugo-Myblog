@@ -128,13 +128,13 @@ $$
 ---
 
 まとめると、正星形多角形を描画するとき  
-直線の始点の座標を$L_{s}=(x_{s},y_{s})$、直線の終点の座標を$L_{e}=(x_{e},y_{e})$  
+直線の始点の座標を$L_{\text{s}}=(x_{\text{s}},y_{\text{s}})$、直線の終点の座標を$L_{\text{e}}=(x_{\text{e}},y_{\text{e}})$  
 とすると
 
 $$
 \begin{aligned}
-L_s &= (x_i, y_i) \\\\
-L_e &= (x_{i+1}, y_{i+1}) \\\\
+L_{\text{s}} &= (x_{i}, y_{i}) \\\\
+L_{\text{e}} &= (x_{i+1}, y_{i+1}) \\\\
 x_i &= x_{\text{center}} + r \cos\left(\frac{\theta_i \pi}{180}\right) \\\\
 y_i &= y_{\text{center}} + r \sin\left(\frac{\theta_i \pi}{180}\right) \\\\
 \theta_i &= \bigl((i n)\bmod m\bigr)\frac{360}{m} \\\\
