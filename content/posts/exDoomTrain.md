@@ -19,10 +19,10 @@ math = false
 導入後に`Configurations`タブで下記の項目を各自設定してください。
 
 - `エーテルブラスター`  
-    ヒラorDPSは`HorD`を選択  
+    ヒラorDPSは`H or D`を選択  
     それ以外は`Default Configuration`
 - `エーテルバレット`  
-    ヒラorDPSは`HorD`を選択  
+    ヒラorDPSは`H or D`を選択  
     それ以外は`Default Configuration`
 - `暴走_散開_頭割り_位置目安`  
     `H1`,`H2`,`D1`,`D2`,`D3`,`D4`のいずれかのロールの人は該当するロールを選択  
