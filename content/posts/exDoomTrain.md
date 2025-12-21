@@ -1,5 +1,5 @@
 +++
-title = 'ExDoomTrain'
+title = '7.4極 Splatoon Layout'
 date = 2025-12-21T16:08:27+09:00
 draft = false
 categories = ["FFXIV"]
