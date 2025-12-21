@@ -16,7 +16,7 @@ math = false
 
 ### Config
 
-導入後に`Configurations`タブで下記の項目を各自設定してください。
+ゲーム内で導入後に`/splatoon`->`Configurationsタブ`で下記の項目を各自設定してください。
 
 - `エーテルブラスター`  
     ヒラorDPSは`H or D`を選択  
