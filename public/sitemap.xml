@@ -2,22 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2025-12-14T12:13:06+09:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2025-12-14T12:13:06+09:00</lastmod>
+    <lastmod>2026-01-02T18:06:28+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/realanalog/</loc>
+    <lastmod>2026-01-02T18:06:28+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2026-01-02T18:06:28+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/exdoomtrain/</loc>
+    <lastmod>2025-12-21T16:08:27+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/</loc>
+    <lastmod>2025-12-21T16:08:27+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/ffxiv/</loc>
+    <lastmod>2025-12-21T16:08:27+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/ffxiv/</loc>
+    <lastmod>2025-12-21T16:08:27+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/splatoon/</loc>
+    <lastmod>2025-12-21T16:08:27+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-12-21T16:08:27+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/programming/</loc>
     <lastmod>2025-12-14T12:13:06+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/regular-star-polygon/</loc>
-    <lastmod>2025-12-14T12:13:06+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2025-12-14T12:13:06+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/</loc>
     <lastmod>2025-12-14T12:13:06+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/</loc>

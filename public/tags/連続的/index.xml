@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>連続的 on ungehoBlog</title>
+    <link>http://localhost:1313/tags/%E9%80%A3%E7%B6%9A%E7%9A%84/</link>
+    <description>Recent content in 連続的 on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Fri, 02 Jan 2026 18:06:28 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E9%80%A3%E7%B6%9A%E7%9A%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>現実世界のアナログは存在する？</title>
+      <link>http://localhost:1313/posts/realanalog/</link>
+      <pubDate>Fri, 02 Jan 2026 18:06:28 +0900</pubDate>
+      <guid>http://localhost:1313/posts/realanalog/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

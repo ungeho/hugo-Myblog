@@ -176,7 +176,7 @@
     <h1 class="post-title entry-hint-parent">
       星形正多角形
     </h1>
-    <div class="post-meta"><span title='2025-12-14 12:13:06 +0900 JST'>2025/12/14</span>&nbsp;·&nbsp;7 分&nbsp;·&nbsp;ungeho
+    <div class="post-meta"><span title='2025-12-14 12:13:06 +0900 JST'>2025/12/14</span>&nbsp;·&nbsp;8 分&nbsp;·&nbsp;ungeho
 
 </div>
   </header> <div class="toc">
@@ -237,7 +237,7 @@
 <h3 id="星形正多角形とは">星形正多角形とは？<a hidden class="anchor" aria-hidden="true" href="#星形正多角形とは">#</a></h3>
 <p><strong>星形正多角形(regular star polygon)</strong> とは、<strong>正多角形の頂点を結ぶ規則を一般化した図形</strong>です。</p>
 <p>通常の正多角形は、円周上に等間隔に並んだ点を<strong>隣り合う点同士で</strong>結ぶことで得られます。<br>
-例えば正$p$角形は自然数$p$を用いて</p>
+例えば正$p$角形は2より大きい自然数$p$を用いて</p>
 <p>$$
 \begin{aligned}
 p &gt; 2,\quad p \in \mathbb{N}
@@ -245,7 +245,19 @@ p &gt; 2,\quad p \in \mathbb{N}
 $$</p>
 <p>で表され、各頂点を1つ先の頂点と結ぶことで構成されます。</p>
 <p>一方、星形正多角形はこの考え方を拡張子、円周上に等間隔に配置された点に対して<strong>一定個数だけ先の点を順に結ぶ</strong>という規則を用います。</p>
-<p>この結び方によって、線分が互いに交差し、通常の正多角形とは異なる <strong>星形の対照的な図形</strong> が現れます。</p>
+<p>この結び方によって、線分が互いに交差し、通常の正多角形とは異なる <strong>星形の対称的な図形</strong> が現れます。</p>
+<hr>
+<p>次に説明する<strong>星形正多角形のアルゴリズム</strong> を要約すると、次のようになります。</p>
+<p>通常の正多角形のアルゴリズムでは</p>
+<ul>
+<li><strong>円周上に等間隔に$m$個の点を配置し、隣り合う点同士を直線で順に結ぶ</strong></li>
+</ul>
+<p>のに対し、正星形多角形のアルゴリズムでは</p>
+<ul>
+<li><strong>円周上に等間隔に$m$個の点を配置し、$n$個先の点同士を直線で順に結ぶ</strong></li>
+</ul>
+<p>という規則を用います。</p>
+<p>このように、星形正多角形は <strong>「隣り合う点を結ぶ」という規則を「$n$個先の点を結ぶ」という規則へ拡張したもの</strong> と捉えることができます。</p>
 <hr>
 <h3 id="星形正多角形のアルゴリズム">星形正多角形のアルゴリズム<a hidden class="anchor" aria-hidden="true" href="#星形正多角形のアルゴリズム">#</a></h3>
 <p>星形正$d$角形としたとき、$d$は2より大きい有理数です。</p>
@@ -540,6 +552,11 @@ $$</p>
       <li><a href="http://localhost:1313/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">プログラミング</a></li>
     </ul>
 <nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/exdoomtrain/">
+    <span class="title">« 前へ</span>
+    <br>
+    <span>7.4極 Splatoon Layout</span>
+  </a>
   <a class="next" href="http://localhost:1313/posts/autodiff/">
     <span class="title">次へ »</span>
     <br>
@@ -565,7 +582,7 @@ $$</p>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2025 <a href="http://localhost:1313/">ungehoBlog</a></span>
+    <span>&copy; 2026 <a href="http://localhost:1313/">ungehoBlog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
