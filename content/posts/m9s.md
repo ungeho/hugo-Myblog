@@ -14,6 +14,8 @@ math = false
 
 ## ヘビー級零式1層 Splatoon
 
+`Layout`と`Vamp Stomp script`の導入で全て動作します。
+
 ## Script
 
 公式のスクリプトを使用しています。
