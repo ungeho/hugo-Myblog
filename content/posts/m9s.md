@@ -5,9 +5,9 @@ draft = false
 categories = ["FFXIV"]
 tags = ["FFXIV","Splatoon"]
 # 目次を付与するオプション <!-- omit in toc -->
-showtoc = false
+showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->
-tocopen = false
+tocopen = true
 # 数式を使いたい場合はtrueに設定する。 <!-- omit in toc -->
 math = false
 +++
