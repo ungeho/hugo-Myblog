@@ -84,13 +84,13 @@ weight = 30
         imageWidth = 256
         imageHeight = 256
 
-    [[params.profileMode.buttons]]
-        name = "Posts"
-        url = "/posts"
+    # [[params.profileMode.buttons]]
+    #     name = "Posts"
+    #     url = "/posts"
 
-    [[params.profileMode.buttons]]
-        name = "Github"
-        url = "https://github.com/ungeho"
+    # [[params.profileMode.buttons]]
+    #     name = "Github"
+    #     url = "https://github.com/ungeho"
 
     [[params.socialIcons]]
         name = "x"
