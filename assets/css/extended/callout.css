@@ -14,14 +14,14 @@
 
     margin: 0 0 -1px 0.2rem;
 
-    padding: 0.68rem 1.1rem 0.64rem;
+    padding: 0.55rem 1rem;
 
     border-radius: 10px 10px 0 0;
 
     background: var(--callout-label-bg);
     color: var(--callout-label-color);
 
-    font-size: 0.96rem;
+    font-size: 0.92rem;
     font-weight: 700;
 }
 
