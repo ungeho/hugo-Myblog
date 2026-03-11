@@ -1,32 +1,172 @@
+/* =========================
+   Admonition / Alert base
+   ========================= */
+
 .alert {
+    --alert-accent: #2563eb;
+    --alert-bg: rgba(37, 99, 235, 0.08);
+    --alert-border: rgba(37, 99, 235, 0.22);
+    --alert-title: #1e3a8a;
+
     margin: 1.25rem 0;
-    padding: 1rem 1rem 0.9rem;
-    border-left: 0.35rem solid;
-    border-radius: 0.5rem;
-    background: var(--code-bg);
+    padding: 0;
+    border: 1px solid var(--alert-border);
+    border-left: 4px solid var(--alert-accent);
+    border-radius: 14px;
+    background: var(--alert-bg);
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
 }
 
 .alert-heading {
-    margin: 0 0 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0.85rem 1rem 0.7rem;
+    font-size: 0.95rem;
     font-weight: 700;
+    line-height: 1.4;
+    color: var(--alert-title);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.35);
 }
 
+.alert-heading::before {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.alert> :not(.alert-heading) {
+    margin: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.alert>p:not(.alert-heading):first-of-type {
+    padding-top: 0.9rem;
+}
+
+.alert>p:last-child,
+.alert>ul:last-child,
+.alert>ol:last-child {
+    padding-bottom: 1rem;
+}
+
+.alert p {
+    line-height: 1.8;
+}
+
+.alert p+p,
+.alert ul,
+.alert ol,
+.alert pre {
+    margin-top: 0.75rem;
+}
+
+.alert code {
+    border-radius: 6px;
+}
+
+/* =========================
+   Variants
+   ========================= */
+
 .alert-note {
-    border-left-color: #3b82f6;
+    --alert-accent: #2563eb;
+    --alert-bg: rgba(37, 99, 235, 0.08);
+    --alert-border: rgba(37, 99, 235, 0.18);
+    --alert-title: #1d4ed8;
+}
+
+.alert-note .alert-heading::before {
+    content: "📝";
 }
 
 .alert-tip {
-    border-left-color: #10b981;
+    --alert-accent: #059669;
+    --alert-bg: rgba(5, 150, 105, 0.08);
+    --alert-border: rgba(5, 150, 105, 0.18);
+    --alert-title: #047857;
+}
+
+.alert-tip .alert-heading::before {
+    content: "💡";
 }
 
 .alert-important {
-    border-left-color: #8b5cf6;
+    --alert-accent: #7c3aed;
+    --alert-bg: rgba(124, 58, 237, 0.09);
+    --alert-border: rgba(124, 58, 237, 0.2);
+    --alert-title: #6d28d9;
+}
+
+.alert-important .alert-heading::before {
+    content: "❗";
 }
 
 .alert-warning {
-    border-left-color: #f59e0b;
+    --alert-accent: #d97706;
+    --alert-bg: rgba(217, 119, 6, 0.09);
+    --alert-border: rgba(217, 119, 6, 0.2);
+    --alert-title: #b45309;
+}
+
+.alert-warning .alert-heading::before {
+    content: "⚠️";
 }
 
 .alert-caution {
-    border-left-color: #ef4444;
+    --alert-accent: #dc2626;
+    --alert-bg: rgba(220, 38, 38, 0.08);
+    --alert-border: rgba(220, 38, 38, 0.2);
+    --alert-title: #b91c1c;
+}
+
+.alert-caution .alert-heading::before {
+    content: "🚨";
+}
+
+/* =========================
+   Dark mode
+   PaperMod usually adds .dark on html/body
+   ========================= */
+
+.dark .alert {
+    box-shadow: none;
+}
+
+.dark .alert-heading {
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+.dark .alert-note {
+    --alert-bg: rgba(37, 99, 235, 0.14);
+    --alert-border: rgba(96, 165, 250, 0.28);
+    --alert-title: #93c5fd;
+}
+
+.dark .alert-tip {
+    --alert-bg: rgba(5, 150, 105, 0.14);
+    --alert-border: rgba(52, 211, 153, 0.28);
+    --alert-title: #6ee7b7;
+}
+
+.dark .alert-important {
+    --alert-bg: rgba(124, 58, 237, 0.16);
+    --alert-border: rgba(167, 139, 250, 0.3);
+    --alert-title: #c4b5fd;
+}
+
+.dark .alert-warning {
+    --alert-bg: rgba(217, 119, 6, 0.14);
+    --alert-border: rgba(251, 191, 36, 0.28);
+    --alert-title: #fcd34d;
+}
+
+.dark .alert-caution {
+    --alert-bg: rgba(220, 38, 38, 0.14);
+    --alert-border: rgba(248, 113, 113, 0.3);
+    --alert-title: #fca5a5;
 }
