@@ -1,0 +1,32 @@
+.alert {
+    margin: 1.25rem 0;
+    padding: 1rem 1rem 0.9rem;
+    border-left: 0.35rem solid;
+    border-radius: 0.5rem;
+    background: var(--code-bg);
+}
+
+.alert-heading {
+    margin: 0 0 0.5rem;
+    font-weight: 700;
+}
+
+.alert-note {
+    border-left-color: #3b82f6;
+}
+
+.alert-tip {
+    border-left-color: #10b981;
+}
+
+.alert-important {
+    border-left-color: #8b5cf6;
+}
+
+.alert-warning {
+    border-left-color: #f59e0b;
+}
+
+.alert-caution {
+    border-left-color: #ef4444;
+}
