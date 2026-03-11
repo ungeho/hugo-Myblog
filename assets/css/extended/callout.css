@@ -1,30 +1,33 @@
 .callout {
+    --callout-accent: #8250df;
+    --callout-bg: rgba(130, 80, 223, 0.08);
+    --callout-label-bg: #8250df;
+    --callout-label-color: #fff;
+    --callout-border: rgba(130, 80, 223, 0.28);
+
     margin: 1.5rem 0;
 }
 
 .callout-label {
-    display: inline-block;
-
-    padding: 0.6rem 1.1rem;
-    margin-left: 0.2rem;
-
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0 0.2rem;
+    padding: 0.68rem 1.1rem 0.64rem;
     border-radius: 10px 10px 0 0;
-
     background: var(--callout-label-bg);
-    color: white;
-
-    font-size: 0.95rem;
+    color: var(--callout-label-color);
+    font-size: 0.96rem;
     font-weight: 700;
+    line-height: 1.1;
 }
 
 .callout-body {
     background: var(--callout-bg);
-
-    border: 1px solid color-mix(in srgb, var(--callout-accent) 40%, transparent);
-
+    border: 1px solid var(--callout-border);
+    border-top: none;
     border-radius: 0 10px 10px 10px;
-
-    padding: 1.2rem 1.4rem;
+    padding: 1.15rem 1.35rem;
 }
 
 .callout-body>*:first-child {
@@ -40,6 +43,11 @@
     line-height: 1.85;
 }
 
+.callout-body ul,
+.callout-body ol {
+    padding-left: 1.25rem;
+}
+
 .callout-body pre {
     overflow-x: auto;
     border-radius: 8px;
@@ -49,40 +57,44 @@
     border-radius: 6px;
 }
 
-/* variants */
-/* NOTE - blue */
+/* note = blue */
 .callout-note {
     --callout-accent: #0969da;
     --callout-bg: rgba(9, 105, 218, 0.08);
     --callout-label-bg: #0969da;
+    --callout-border: rgba(9, 105, 218, 0.28);
 }
 
-/* TIP - green */
+/* tip = green */
 .callout-tip {
     --callout-accent: #1a7f37;
     --callout-bg: rgba(26, 127, 55, 0.08);
     --callout-label-bg: #1a7f37;
+    --callout-border: rgba(26, 127, 55, 0.28);
 }
 
-/* IMPORTANT - purple */
+/* important = purple */
 .callout-important {
     --callout-accent: #8250df;
     --callout-bg: rgba(130, 80, 223, 0.08);
     --callout-label-bg: #8250df;
+    --callout-border: rgba(130, 80, 223, 0.28);
 }
 
-/* WARNING - red */
+/* warning = red */
 .callout-warning {
     --callout-accent: #cf222e;
     --callout-bg: rgba(207, 34, 46, 0.09);
     --callout-label-bg: #cf222e;
+    --callout-border: rgba(207, 34, 46, 0.3);
 }
 
-/* CAUTION - yellow */
+/* caution = yellow */
 .callout-caution {
     --callout-accent: #d29922;
     --callout-bg: rgba(210, 153, 34, 0.12);
     --callout-label-bg: #d29922;
+    --callout-border: rgba(210, 153, 34, 0.34);
 }
 
 /* PaperMod dark mode */
@@ -90,28 +102,33 @@
     --callout-accent: #2f81f7;
     --callout-bg: rgba(47, 129, 247, 0.15);
     --callout-label-bg: #1f6feb;
+    --callout-border: rgba(47, 129, 247, 0.34);
 }
 
 .dark .callout-tip {
     --callout-accent: #3fb950;
     --callout-bg: rgba(63, 185, 80, 0.15);
     --callout-label-bg: #238636;
+    --callout-border: rgba(63, 185, 80, 0.34);
 }
 
 .dark .callout-important {
     --callout-accent: #a371f7;
-    --callout-bg: rgba(163, 113, 247, 0.15);
+    --callout-bg: rgba(163, 113, 247, 0.16);
     --callout-label-bg: #8957e5;
+    --callout-border: rgba(163, 113, 247, 0.34);
 }
 
 .dark .callout-warning {
     --callout-accent: #ff6b6b;
     --callout-bg: rgba(255, 107, 107, 0.15);
     --callout-label-bg: #da3633;
+    --callout-border: rgba(255, 107, 107, 0.34);
 }
 
 .dark .callout-caution {
     --callout-accent: #d29922;
     --callout-bg: rgba(210, 153, 34, 0.15);
     --callout-label-bg: #9e6a03;
+    --callout-border: rgba(210, 153, 34, 0.34);
 }

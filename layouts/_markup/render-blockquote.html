@@ -1,0 +1,31 @@
+{{- if eq .Type "alert" -}}
+{{- $type := .AlertType -}}
+{{- $title := .AlertTitle -}}
+
+{{- if not $title -}}
+    {{- if eq $type "note" -}}
+        {{- $title = "Note" -}}
+    {{- else if eq $type "tip" -}}
+        {{- $title = "Tip" -}}
+    {{- else if eq $type "important" -}}
+        {{- $title = "Important" -}}
+    {{- else if eq $type "warning" -}}
+        {{- $title = "Warning" -}}
+    {{- else if eq $type "caution" -}}
+        {{- $title = "Caution" -}}
+    {{- else -}}
+        {{- $title = title $type -}}
+    {{- end -}}
+{{- end -}}
+
+<div class="callout callout-{{ $type }}">
+    <div class="callout-label">{{ $title }}</div>
+    <div class="callout-body">
+        {{ .Text }}
+    </div>
+</div>
+{{- else -}}
+<blockquote>
+    {{ .Text }}
+</blockquote>
+{{- end -}}
