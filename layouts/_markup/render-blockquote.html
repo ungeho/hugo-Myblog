@@ -1,29 +1,45 @@
 {{- if eq .Type "alert" -}}
-{{- $type := .AlertType -}}
-{{- $title := .AlertTitle -}}
+    {{- $type := .AlertType -}}
+    {{- $title := .AlertTitle -}}
+    {{- $sign := .AlertSign -}}
 
-{{- if not $title -}}
-    {{- if eq $type "note" -}}
-        {{- $title = "Note" -}}
-    {{- else if eq $type "tip" -}}
-        {{- $title = "Tip" -}}
-    {{- else if eq $type "important" -}}
-        {{- $title = "Important" -}}
-    {{- else if eq $type "warning" -}}
-        {{- $title = "Warning" -}}
-    {{- else if eq $type "caution" -}}
-        {{- $title = "Caution" -}}
-    {{- else -}}
-        {{- $title = title $type -}}
+    {{- if not $title -}}
+        {{- if eq $type "note" -}}
+            {{- $title = "Note" -}}
+        {{- else if eq $type "tip" -}}
+            {{- $title = "Tip" -}}
+        {{- else if eq $type "important" -}}
+            {{- $title = "Important" -}}
+        {{- else if eq $type "warning" -}}
+            {{- $title = "Warning" -}}
+        {{- else if eq $type "caution" -}}
+            {{- $title = "Caution" -}}
+        {{- else -}}
+            {{- $title = title $type -}}
+        {{- end -}}
     {{- end -}}
 {{- end -}}
 
+{{- if or (eq $sign "+") (eq $sign "-") -}}
+<details class="callout callout-{{ $type }}" {{ if eq $sign "+" }}open{{ end }}>
+    <summary class="callout-label">
+        <span class="callout-label-text">{{ $title }}</span>
+        <span class="callout-chevron" aria-hidden="true"></span>
+    </summary>
+    <div class="callout-body">
+        {{ .Text }}
+    </div>
+</details>
+{{- else -}}
 <div class="callout callout-{{ $type }}">
-    <div class="callout-label">{{ $title }}</div>
+    <div class="callout-label">
+        <span class="callout-label-text">{{ $title }}</span>
+    </div>
     <div class="callout-body">
         {{ .Text }}
     </div>
 </div>
+{{- end -}}
 {{- else -}}
 <blockquote>
     {{ .Text }}

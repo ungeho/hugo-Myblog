@@ -1,18 +1,39 @@
 .callout {
-    margin: 1.25rem 0;
+    --callout-accent: #8250df;
+    --callout-bg: rgba(130, 80, 223, 0.08);
+    --callout-label-bg: #8250df;
+    --callout-label-color: #fff;
+    --callout-border: rgba(130, 80, 223, 0.28);
+
+    margin: 1.5rem 0;
 }
 
 .callout-label {
     display: inline-flex;
     align-items: center;
+    gap: 0.6rem;
     margin: 0 0 -1px 0.2rem;
-    padding: 0.62rem 1rem 0.58rem;
+    padding: 0.68rem 1.1rem 0.64rem;
     border-radius: 10px 10px 0 0;
     background: var(--callout-label-bg);
     color: var(--callout-label-color);
-    font-size: 0.93rem;
+    font-size: 0.96rem;
     font-weight: 700;
     line-height: 1.1;
+}
+
+/* details/summary のデフォルトマーカーを消す */
+summary.callout-label {
+    cursor: pointer;
+    list-style: none;
+}
+
+summary.callout-label::-webkit-details-marker {
+    display: none;
+}
+
+.callout-label-text {
+    color: #fff;
 }
 
 .callout-body {
@@ -20,8 +41,7 @@
     border: 1px solid var(--callout-border);
     border-top: none;
     border-radius: 0 10px 10px 10px;
-    padding: 1rem 1.2rem;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    padding: 1.15rem 1.35rem;
 }
 
 .callout-body>*:first-child {
@@ -49,6 +69,28 @@
 
 .callout-body code {
     border-radius: 6px;
+}
+
+/* 折りたたみ矢印 */
+.callout-chevron {
+    width: 0.7rem;
+    height: 0.7rem;
+    margin-left: 0.15rem;
+    border-right: 2px solid rgba(255, 255, 255, 0.92);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.92);
+    transform: rotate(45deg);
+    transform-origin: center;
+    transition: transform 0.18s ease;
+}
+
+/* open のとき下向き */
+details[open]>summary .callout-chevron {
+    transform: rotate(225deg);
+}
+
+/* 閉じているときは本文を少しだけ自然に切る */
+details.callout>.callout-body {
+    margin-top: 0;
 }
 
 /* note = blue */
@@ -80,7 +122,7 @@
     --callout-accent: #cf222e;
     --callout-bg: rgba(207, 34, 46, 0.09);
     --callout-label-bg: #cf222e;
-    --callout-border: rgba(207, 34, 46, 0.3);
+    --callout-border: rgba(207, 34, 46, 0.30);
 }
 
 /* caution = yellow */
@@ -91,7 +133,7 @@
     --callout-border: rgba(210, 153, 34, 0.34);
 }
 
-/* PaperMod dark mode */
+/* ダークモード */
 .dark .callout-note {
     --callout-accent: #2f81f7;
     --callout-bg: rgba(47, 129, 247, 0.15);
