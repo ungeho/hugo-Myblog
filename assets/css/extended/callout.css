@@ -1,0 +1,116 @@
+.callout {
+    --callout-accent: #8250df;
+    --callout-bg: rgba(130, 80, 223, 0.08);
+    --callout-label-bg: #8250df;
+    --callout-label-color: #fff;
+
+    margin: 1.5rem 0;
+}
+
+.callout-label {
+    display: inline-block;
+    margin: 0 0 0 0.2rem;
+    padding: 0.7rem 1.2rem 0.65rem;
+    border-radius: 10px 10px 0 0;
+    background: var(--callout-label-bg);
+    color: var(--callout-label-color);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.callout-body {
+    background: var(--callout-bg);
+    border-left: 4px solid var(--callout-accent);
+    border-radius: 0 10px 10px 10px;
+    padding: 1.2rem 1.4rem;
+}
+
+.callout-body>*:first-child {
+    margin-top: 0;
+}
+
+.callout-body>*:last-child {
+    margin-bottom: 0;
+}
+
+.callout-body p,
+.callout-body li {
+    line-height: 1.85;
+}
+
+.callout-body pre {
+    overflow-x: auto;
+    border-radius: 8px;
+}
+
+.callout-body code {
+    border-radius: 6px;
+}
+
+/* variants */
+/* NOTE - blue */
+.callout-note {
+    --callout-accent: #0969da;
+    --callout-bg: rgba(9, 105, 218, 0.08);
+    --callout-label-bg: #0969da;
+}
+
+/* TIP - green */
+.callout-tip {
+    --callout-accent: #1a7f37;
+    --callout-bg: rgba(26, 127, 55, 0.08);
+    --callout-label-bg: #1a7f37;
+}
+
+/* IMPORTANT - purple */
+.callout-important {
+    --callout-accent: #8250df;
+    --callout-bg: rgba(130, 80, 223, 0.08);
+    --callout-label-bg: #8250df;
+}
+
+/* WARNING - red */
+.callout-warning {
+    --callout-accent: #cf222e;
+    --callout-bg: rgba(207, 34, 46, 0.09);
+    --callout-label-bg: #cf222e;
+}
+
+/* CAUTION - yellow */
+.callout-caution {
+    --callout-accent: #d29922;
+    --callout-bg: rgba(210, 153, 34, 0.12);
+    --callout-label-bg: #d29922;
+}
+
+/* PaperMod dark mode */
+.dark .callout-note {
+    --callout-accent: #2f81f7;
+    --callout-bg: rgba(47, 129, 247, 0.15);
+    --callout-label-bg: #1f6feb;
+}
+
+.dark .callout-tip {
+    --callout-accent: #3fb950;
+    --callout-bg: rgba(63, 185, 80, 0.15);
+    --callout-label-bg: #238636;
+}
+
+.dark .callout-important {
+    --callout-accent: #a371f7;
+    --callout-bg: rgba(163, 113, 247, 0.15);
+    --callout-label-bg: #8957e5;
+}
+
+.dark .callout-warning {
+    --callout-accent: #ff6b6b;
+    --callout-bg: rgba(255, 107, 107, 0.15);
+    --callout-label-bg: #da3633;
+}
+
+.dark .callout-caution {
+    --callout-accent: #d29922;
+    --callout-bg: rgba(210, 153, 34, 0.15);
+    --callout-label-bg: #9e6a03;
+}
