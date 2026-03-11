@@ -20,8 +20,7 @@
 .callout-body {
     background: var(--callout-bg);
 
-    border: 1px solid var(--callout-accent);
-    border-top: none;
+    border: 1px solid color-mix(in srgb, var(--callout-accent) 40%, transparent);
 
     border-radius: 0 10px 10px 10px;
 
