@@ -21,6 +21,7 @@
 {{- if or (eq .AlertSign "+") (eq .AlertSign "-") -}}
 <details class="callout callout-{{ $type }}" {{ if eq .AlertSign "+" }}open{{ end }}>
     <summary class="callout-label">
+        <span class="callout-label-icon" aria-hidden="true"></span>
         <span class="callout-label-text">{{ $title }}</span>
         <span class="callout-chevron" aria-hidden="true"></span>
     </summary>
@@ -31,6 +32,7 @@
 {{- else -}}
 <div class="callout callout-{{ $type }}">
     <div class="callout-label">
+        <span class="callout-label-icon" aria-hidden="true"></span>
         <span class="callout-label-text">{{ $title }}</span>
     </div>
     <div class="callout-body">
