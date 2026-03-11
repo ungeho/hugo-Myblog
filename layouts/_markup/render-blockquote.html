@@ -1,27 +1,25 @@
 {{- if eq .Type "alert" -}}
-    {{- $type := .AlertType -}}
-    {{- $title := .AlertTitle -}}
-    {{- $sign := .AlertSign -}}
+{{- $type := .AlertType -}}
+{{- $title := .AlertTitle -}}
 
-    {{- if not $title -}}
-        {{- if eq $type "note" -}}
-            {{- $title = "Note" -}}
-        {{- else if eq $type "tip" -}}
-            {{- $title = "Tip" -}}
-        {{- else if eq $type "important" -}}
-            {{- $title = "Important" -}}
-        {{- else if eq $type "warning" -}}
-            {{- $title = "Warning" -}}
-        {{- else if eq $type "caution" -}}
-            {{- $title = "Caution" -}}
-        {{- else -}}
-            {{- $title = title $type -}}
-        {{- end -}}
-    {{- end -}}
+{{- if not $title -}}
+{{- if eq $type "note" -}}
+{{- $title = "Note" -}}
+{{- else if eq $type "tip" -}}
+{{- $title = "Tip" -}}
+{{- else if eq $type "important" -}}
+{{- $title = "Important" -}}
+{{- else if eq $type "warning" -}}
+{{- $title = "Warning" -}}
+{{- else if eq $type "caution" -}}
+{{- $title = "Caution" -}}
+{{- else -}}
+{{- $title = title $type -}}
+{{- end -}}
 {{- end -}}
 
-{{- if or (eq $sign "+") (eq $sign "-") -}}
-<details class="callout callout-{{ $type }}" {{ if eq $sign "+" }}open{{ end }}>
+{{- if or (eq .AlertSign "+") (eq .AlertSign "-") -}}
+<details class="callout callout-{{ $type }}" {{ if eq .AlertSign "+" }}open{{ end }}>
     <summary class="callout-label">
         <span class="callout-label-text">{{ $title }}</span>
         <span class="callout-chevron" aria-hidden="true"></span>

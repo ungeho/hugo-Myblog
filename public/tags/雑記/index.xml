@@ -9,11 +9,15 @@
     <lastBuildDate>Fri, 02 Jan 2026 18:06:28 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/%E9%9B%91%E8%A8%98/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>現実世界のアナログは存在する？</title>
-      <link>http://localhost:1313/posts/realanalog/</link>
+      <title>現実世界は本当に「アナログ」なのか？</title>
+      <link>http://localhost:1313/posts/analog/</link>
       <pubDate>Fri, 02 Jan 2026 18:06:28 +0900</pubDate>
-      <guid>http://localhost:1313/posts/realanalog/</guid>
-      <description></description>
+      <guid>http://localhost:1313/posts/analog/</guid>
+      <description>&lt;h3 id=&#34;現実世界のアナログってなに&#34;&gt;現実世界のアナログってなに？&lt;/h3&gt;
+&lt;p&gt;便宜上「&lt;strong&gt;アナログ（連続的）&lt;/strong&gt;」という言葉はよく使われる。&lt;br&gt;
+しかし、&lt;strong&gt;現実世界に真にアナログなものは本当に存在するのだろうか&lt;/strong&gt;、という疑問がある。&lt;/p&gt;
+&lt;p&gt;私は物理も数学も化学もほとんど勉強しておらず、この問いに対して確かな答えを持っているわけではない。
+それでも、「&lt;strong&gt;連続&lt;/strong&gt;」と「&lt;strong&gt;離散&lt;/strong&gt;」という対立する概念を考えていくと、どうしても引っかかる点がある。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

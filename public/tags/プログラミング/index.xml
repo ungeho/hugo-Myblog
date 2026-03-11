@@ -24,14 +24,14 @@
       <guid>http://localhost:1313/posts/autodiff/</guid>
       <description>&lt;hr&gt;
 &lt;blockquote&gt;
-&lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
+    &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
 &lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;hr&gt;
+
+&lt;/blockquote&gt;&lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;自動微分(Automatic Differentiation,AD)&lt;/strong&gt; は、関数を構成する演算をそのまま微分へ拡張することで、プログラム実行と同時に微分値を求める手法です。&lt;/p&gt;</description>
     </item>
     <item>
@@ -41,14 +41,14 @@
       <guid>http://localhost:1313/posts/numericaldifferentiation/</guid>
       <description>&lt;hr&gt;
 &lt;blockquote&gt;
-&lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
+    &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
 &lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
 &lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;hr&gt;
+
+&lt;/blockquote&gt;&lt;hr&gt;
 &lt;p&gt;コンピューターを用いた具体的な計算によって関数の傾きを求める手法を&lt;strong&gt;数値微分(numerical differentiation)&lt;/strong&gt; と呼びます。&lt;/p&gt;</description>
     </item>
     <item>
@@ -58,14 +58,14 @@
       <guid>http://localhost:1313/posts/numericalintegration/</guid>
       <description>&lt;hr&gt;
 &lt;blockquote&gt;
-&lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
+    &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
 &lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;hr&gt;
+
+&lt;/blockquote&gt;&lt;hr&gt;
 &lt;p&gt;多くの積分は「紙とペン」で簡単に計算できるとは限りません。&lt;br&gt;
 実際、積分の中には&lt;/p&gt;</description>
     </item>
@@ -76,14 +76,14 @@
       <guid>http://localhost:1313/posts/interval/</guid>
       <description>&lt;hr&gt;
 &lt;blockquote&gt;
-&lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
+    &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
 &lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;hr&gt;
+
+&lt;/blockquote&gt;&lt;hr&gt;
 &lt;p&gt;浮動小数点数で計算をしていると、&lt;strong&gt;「どこまでが正しい値なのか？」&lt;/strong&gt; という不安が常につきまといます。&lt;/p&gt;</description>
     </item>
     <item>
@@ -93,14 +93,14 @@
       <guid>http://localhost:1313/posts/float/</guid>
       <description>&lt;hr&gt;
 &lt;blockquote&gt;
-&lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
+    &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
 &lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
 &lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;hr&gt;
+
+&lt;/blockquote&gt;&lt;hr&gt;
 &lt;p&gt;プログラミング中に &lt;strong&gt;「0.1 + 0.2 が 0.3 にならない」&lt;/strong&gt; といった、浮動小数点数特有の挙動に戸惑った経験はないでしょうか。&lt;br&gt;
 これは、コンピューターが数を扱うときに広く使われている浮動小数点数が実数をそのまま正確に扱えないことに起因しています。&lt;/p&gt;</description>
     </item>

@@ -6,8 +6,92 @@
     <description>Recent content in FFXIV on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 21 Dec 2025 16:08:27 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 10 Mar 2026 00:46:35 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/ffxiv/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ヘビー級零式4層のSplatoonLayout</title>
+      <link>http://localhost:1313/posts/m12s/</link>
+      <pubDate>Tue, 10 Mar 2026 00:46:35 +0900</pubDate>
+      <guid>http://localhost:1313/posts/m12s/</guid>
+      <description>&lt;h2 id=&#34;ヘビー級零式4層-splatoon&#34;&gt;ヘビー級零式4層 Splatoon&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Layout&lt;/strong&gt; と &lt;strong&gt;Script&lt;/strong&gt; の導入で全て動作します。&lt;/p&gt;
+&lt;h2 id=&#34;script&#34;&gt;Script&lt;/h2&gt;
+&lt;div class=&#34;callout callout-important&#34;&gt;
+    &lt;div class=&#34;callout-label&#34;&gt;
+        &lt;span class=&#34;callout-label-text&#34;&gt;模倣細胞のスクリプトは使用しない&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;callout-body&#34;&gt;
+        &lt;p&gt;Replication 2(模倣細胞)のスクリプトは使用しないことを前提にレイアウトを作成しています。&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;&lt;details class=&#34;callout callout-tip&#34; open&gt;
+    &lt;summary class=&#34;callout-label&#34;&gt;
+        &lt;span class=&#34;callout-label-text&#34;&gt;展開するヒント&lt;/span&gt;
+        &lt;span class=&#34;callout-chevron&#34; aria-hidden=&#34;true&#34;&gt;&lt;/span&gt;
+    &lt;/summary&gt;
+    &lt;div class=&#34;callout-body&#34;&gt;
+        &lt;p&gt;内容&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/details&gt;&lt;details class=&#34;callout callout-tip&#34; &gt;
+    &lt;summary class=&#34;callout-label&#34;&gt;
+        &lt;span class=&#34;callout-label-text&#34;&gt;ヒント&lt;/span&gt;
+        &lt;span class=&#34;callout-chevron&#34; aria-hidden=&#34;true&#34;&gt;&lt;/span&gt;
+    &lt;/summary&gt;
+    &lt;div class=&#34;callout-body&#34;&gt;
+        &lt;p&gt;内容&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/details&gt;&lt;h3 id=&#34;snake&#34;&gt;Snake&lt;/h3&gt;
+&lt;p&gt;前半フェーズ&lt;br&gt;
+細胞付着・中期&lt;br&gt;
+設定不要&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ヘビー級零式3層SplatoonLayout</title>
+      <link>http://localhost:1313/posts/m11s/</link>
+      <pubDate>Tue, 20 Jan 2026 19:02:11 +0900</pubDate>
+      <guid>http://localhost:1313/posts/m11s/</guid>
+      <description>&lt;h2 id=&#34;ヘビー級零式3層-splatoon&#34;&gt;ヘビー級零式3層 Splatoon&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Layout&lt;/code&gt;と&lt;code&gt;Script&lt;/code&gt;の導入で全て動作します。&lt;/p&gt;
+&lt;h2 id=&#34;script&#34;&gt;Script&lt;/h2&gt;
+&lt;h3 id=&#34;weapons&#34;&gt;Weapons&lt;/h3&gt;
+&lt;p&gt;散開、頭割り、竜巻の誘導位置の設定が必要&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-url&#34; data-lang=&#34;url&#34;&gt;https://github.com/PunishXIV/Splatoon/raw/refs/heads/main/SplatoonScripts/Duties/Dawntrail/M11S%20Weapons.cs
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;meteorain&#34;&gt;Meteorain&lt;/h3&gt;
+&lt;p&gt;メテオレインフェーズでの自分の担当の役割と配置の設定&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ヘビー級零式2層SplatoonLayout</title>
+      <link>http://localhost:1313/posts/m10s/</link>
+      <pubDate>Sat, 10 Jan 2026 10:07:25 +0900</pubDate>
+      <guid>http://localhost:1313/posts/m10s/</guid>
+      <description>&lt;h2 id=&#34;ヘビー級零式2層-splatoon&#34;&gt;ヘビー級零式2層 Splatoon&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Layout&lt;/code&gt;と&lt;code&gt;Script&lt;/code&gt;の導入で全て動作します。&lt;/p&gt;
+&lt;h2 id=&#34;script&#34;&gt;Script&lt;/h2&gt;
+&lt;p&gt;公式のスクリプトを使用しています。&lt;/p&gt;
+&lt;h3 id=&#34;script-beta-insane-air&#34;&gt;[Script] [Beta] Insane Air&lt;/h3&gt;
+&lt;p&gt;公式から、インセイエアーのスクリプト&lt;br&gt;
+設定不要&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-url&#34; data-lang=&#34;url&#34;&gt;https://github.com/PunishXIV/Splatoon/raw/refs/heads/main/SplatoonScripts/Duties/Dawntrail/M10S%20Insane%20Air.cs
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;script-alleyoop&#34;&gt;[Script] Alleyoop&lt;/h3&gt;
+&lt;p&gt;公式から、アリウープのスクリプト&lt;br&gt;
+設定不要&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ヘビー級零式1層SplatoonLayout</title>
+      <link>http://localhost:1313/posts/m9s/</link>
+      <pubDate>Wed, 07 Jan 2026 23:07:30 +0900</pubDate>
+      <guid>http://localhost:1313/posts/m9s/</guid>
+      <description>&lt;h2 id=&#34;ヘビー級零式1層-splatoon&#34;&gt;ヘビー級零式1層 Splatoon&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Layout&lt;/code&gt;と&lt;code&gt;Vamp Stomp script&lt;/code&gt;の導入で全て動作します。&lt;/p&gt;
+&lt;h2 id=&#34;script&#34;&gt;Script&lt;/h2&gt;
+&lt;p&gt;公式のスクリプトを使用しています。&lt;/p&gt;
+&lt;h3 id=&#34;beta-vamp-stomp-script&#34;&gt;[Beta] Vamp Stomp script&lt;/h3&gt;
+&lt;p&gt;スクリプト&lt;code&gt;M9S bat&lt;/code&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-url&#34; data-lang=&#34;url&#34;&gt;https://github.com/PunishXIV/Splatoon/raw/refs/heads/main/SplatoonScripts/Duties/Dawntrail/M9S%20Vamp%20Stomp.cs
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;registerd-elements&#34;&gt;Registerd elements&lt;/h4&gt;
+&lt;p&gt;スクリプト&lt;code&gt;M9S bat&lt;/code&gt;の描画設定です。お好みで。&lt;br&gt;
+円範囲の色を緑色に変更しています。&lt;br&gt;
+また、座標がほんの少しズレている場合でも実際の円範囲が描画された円の中に収まるように、描画する円のサイズを少し大きくしています。(8-&amp;gt;8.15)&lt;/p&gt;</description>
+    </item>
     <item>
       <title>7.4極 Splatoon Layout</title>
       <link>http://localhost:1313/posts/exdoomtrain/</link>
@@ -139,6 +223,86 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;~Lv&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;サンダーブレス2_CD0.2&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Group&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;7.4 EX&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;ZoneLockH&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1308&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;DCond&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;UseTriggers&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Triggers&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:[{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Duration&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Match&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;(14284&amp;gt;45687)&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;MatchDelay&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;8.8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}],&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;ElementsL&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:[{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;0.2&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;radius&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Filled&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;fillIntensity&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;overlayBGColor&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3355443200&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;overlayTextColor&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3355443400&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;overlayVOffset&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;1.3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;overlayFScale&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;3.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;thicc&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;overlayText&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;0.2&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;refActorType&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}]}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;~Lv&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;サンダーブレス2_CD0.1&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Group&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;7.4 EX&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;ZoneLockH&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1308&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;DCond&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;UseTriggers&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Triggers&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:[{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Duration&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Match&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;(14284&amp;gt;45687)&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;MatchDelay&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;8.9&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}],&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;ElementsL&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:[{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;0.1&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;radius&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;Filled&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;fillIntensity&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;overlayBGColor&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3355443200&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;overlayTextColor&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3355443400&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;overlayVOffset&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;1.3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;overlayFScale&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;3.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;thicc&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;0.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;overlayText&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;0.1&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;refActorType&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}]}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>異聞アロアロ島 Splatoon Layout</title>
+      <link>http://localhost:1313/posts/aloalo_island-splatoonpresets/</link>
+      <pubDate>Fri, 22 Mar 2024 20:21:08 +0900</pubDate>
+      <guid>http://localhost:1313/posts/aloalo_island-splatoonpresets/</guid>
+      <description>&lt;p&gt;ご利用は自己責任で&lt;/p&gt;
+&lt;p&gt;必要なものをオンにしてお使いください。&lt;/p&gt;
+&lt;p&gt;※コードブロックの右上にカーソルを合わせると全文コピー出来ます。&lt;/p&gt;
+&lt;p&gt;その後、ゲーム内で&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;layout&lt;/code&gt;タブ-&amp;gt;&lt;code&gt;importfromclipboard&lt;/code&gt;で利用出来るようになります。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>異聞六根山 Splatoon Layout</title>
+      <link>http://localhost:1313/posts/mount_rokkkon-splatoonpresets/</link>
+      <pubDate>Mon, 04 Mar 2024 18:25:44 +0900</pubDate>
+      <guid>http://localhost:1313/posts/mount_rokkkon-splatoonpresets/</guid>
+      <description>&lt;p&gt;ご利用は自己責任で&lt;/p&gt;
+&lt;p&gt;必要なものをオンにしてお使いください。&lt;/p&gt;
+&lt;p&gt;※コードブロックの右上にカーソルを合わせると全文コピー出来ます。&lt;/p&gt;
+&lt;p&gt;その後、ゲーム内で&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;layout&lt;/code&gt;タブ-&amp;gt;&lt;code&gt;importfromclipboard&lt;/code&gt;で利用出来るようになります。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>異聞シラディハ Splatoon Layout</title>
+      <link>http://localhost:1313/posts/sildihn-splatoonpresets/</link>
+      <pubDate>Sat, 24 Feb 2024 04:44:03 +0900</pubDate>
+      <guid>http://localhost:1313/posts/sildihn-splatoonpresets/</guid>
+      <description>&lt;p&gt;ご利用は自己責任で&lt;/p&gt;
+&lt;p&gt;必要なものをオンにしてお使いください。&lt;/p&gt;
+&lt;p&gt;※コードブロックの右上にカーソルを合わせると全文コピー出来ます。&lt;/p&gt;
+&lt;p&gt;その後、ゲーム内で&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;layout&lt;/code&gt;タブ-&amp;gt;&lt;code&gt;importfromclipboard&lt;/code&gt;で利用出来るようになります。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>絶竜詩戦争 Splatoon Layout</title>
+      <link>http://localhost:1313/posts/dsr-splatoonpresets/</link>
+      <pubDate>Wed, 07 Feb 2024 03:59:51 +0900</pubDate>
+      <guid>http://localhost:1313/posts/dsr-splatoonpresets/</guid>
+      <description>&lt;p&gt;ご利用は自己責任で&lt;/p&gt;
+&lt;p&gt;必要なものをオンにしてお使いください。&lt;/p&gt;
+&lt;p&gt;※コードブロックの右上にカーソルを合わせると全文コピー出来ます。&lt;/p&gt;
+&lt;p&gt;その後、ゲーム内で&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;layout&lt;/code&gt;タブ-&amp;gt;&lt;code&gt;importfromclipboard&lt;/code&gt;で利用出来るようになります。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>YesAlreadyPreset</title>
+      <link>http://localhost:1313/posts/yesalreadypreset/</link>
+      <pubDate>Sun, 28 Jan 2024 18:09:26 +0900</pubDate>
+      <guid>http://localhost:1313/posts/yesalreadypreset/</guid>
+      <description>&lt;p&gt;ご利用は自己責任で&lt;/p&gt;
+&lt;p&gt;必要なものをコピーしてお使いください。&lt;/p&gt;
+&lt;p&gt;※コードブロックの右上にカーソルを合わせると全文コピー出来ます。&lt;/p&gt;
+&lt;p&gt;コードブロックでない場合は、普通に選択してください。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>絶アルテマ Splatoon Layout</title>
+      <link>http://localhost:1313/posts/umu-splatoonpresets/</link>
+      <pubDate>Sat, 27 Jan 2024 04:20:49 +0900</pubDate>
+      <guid>http://localhost:1313/posts/umu-splatoonpresets/</guid>
+      <description>&lt;p&gt;ご利用は自己責任で&lt;/p&gt;
+&lt;p&gt;必要なものをオンにしてお使いください。&lt;/p&gt;
+&lt;p&gt;※コードブロックの右上にカーソルを合わせると全文コピー出来ます。&lt;/p&gt;
+&lt;p&gt;その後、ゲーム内で&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;layout&lt;/code&gt;タブ-&amp;gt;&lt;code&gt;importfromclipboard&lt;/code&gt;で利用出来るようになります。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>FF14の座標の計算方法と豆知識</title>
+      <link>http://localhost:1313/posts/splatooncoord/</link>
+      <pubDate>Sat, 27 Jan 2024 03:15:32 +0900</pubDate>
+      <guid>http://localhost:1313/posts/splatooncoord/</guid>
+      <description>&lt;p&gt;&lt;code&gt;splatoon&lt;/code&gt;や&lt;code&gt;waymarkPreset&lt;/code&gt;プラグインのlayout作成に便利な式と豆知識&lt;/p&gt;
+&lt;h3 id=&#34;splatoonのlayout作成のtips&#34;&gt;splatoonのlayout作成のTips&lt;/h3&gt;
+&lt;p&gt;設定を行う場合は&lt;code&gt;A realm Recorded&lt;/code&gt;を使うと楽&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;ツール&lt;/code&gt;-&amp;gt;&lt;code&gt;ロガー&lt;/code&gt;から、&lt;code&gt;ロガーを有効にする&lt;/code&gt;と&lt;code&gt;viewer mode&lt;/code&gt;にチェックを入れるとオブジェクトを確認出来る。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>絶バハムート Splatoon Layout</title>
+      <link>http://localhost:1313/posts/ucob-splatoonpresets/</link>
+      <pubDate>Sat, 27 Jan 2024 02:39:08 +0900</pubDate>
+      <guid>http://localhost:1313/posts/ucob-splatoonpresets/</guid>
+      <description>&lt;p&gt;ご利用は自己責任で&lt;/p&gt;
+&lt;p&gt;必要なものをオンにしてお使いください。&lt;/p&gt;
+&lt;p&gt;※コードブロックの右上にカーソルを合わせると全文コピー出来ます。&lt;/p&gt;
+&lt;p&gt;その後、ゲーム内で&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;layout&lt;/code&gt;タブ-&amp;gt;&lt;code&gt;importfromclipboard&lt;/code&gt;で利用出来るようになります。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

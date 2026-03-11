@@ -15,14 +15,14 @@
       <guid>http://localhost:1313/posts/numericalintegration/</guid>
       <description>&lt;hr&gt;
 &lt;blockquote&gt;
-&lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
+    &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
 &lt;a href=&#34;../float&#34;&gt;&lt;strong&gt;1. 浮動小数点数&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../interval&#34;&gt;&lt;strong&gt;2. 区間演算&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalIntegration&#34;&gt;&lt;strong&gt;3. 数値積分&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;👈 今ここ&lt;/strong&gt;&lt;br&gt;
 &lt;a href=&#34;../numericalDifferentiation&#34;&gt;&lt;strong&gt;4. 数値微分&lt;/strong&gt;&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;../autoDiff&#34;&gt;&lt;strong&gt;5. 自動微分&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;hr&gt;
+
+&lt;/blockquote&gt;&lt;hr&gt;
 &lt;p&gt;多くの積分は「紙とペン」で簡単に計算できるとは限りません。&lt;br&gt;
 実際、積分の中には&lt;/p&gt;</description>
     </item>
