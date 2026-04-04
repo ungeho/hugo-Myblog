@@ -339,13 +339,13 @@ f(x) = x^2 + 1
 
 `math = true` を付けたうえで、コードフェンスに `mermaid` を指定する。
 
-```md
+~~~md
 ```mermaid
 flowchart TD
     A[Start] --> B[Process]
     B --> C[End]
 ```
-```
+~~~
 
 Mermaid は専用カード風の見た目になる。
 
@@ -353,11 +353,11 @@ Mermaid は専用カード風の見た目になる。
 
 普通の fenced code block を使えばよい。
 
-```md
+~~~md
 ```python
 print("hello")
 ```
-```
+~~~
 
 補足:
 
@@ -366,6 +366,8 @@ print("hello")
 - コピーボタンも付く
 
 ## 画像
+
+### Markdown 画像
 
 通常の Markdown 画像でよい。
 
@@ -376,12 +378,16 @@ print("hello")
 画像はライトボックス対応。  
 キャプションを強めたい場合は figure shortcode も使える。
 
+### Figure shortcode
+
 ```md
 {{< figure
   src="/images/example.png"
   caption="図1. この図の説明"
 >}}
 ```
+
+### 2枚比較
 
 2枚比較:
 
@@ -394,6 +400,8 @@ print("hello")
 >}}
 ```
 
+### ギャラリー
+
 ギャラリー:
 
 ```md
@@ -402,6 +410,8 @@ print("hello")
   {{< gallery_item src="/images/b.png" caption="画像B" >}}
 {{< /gallery >}}
 ```
+
+### 横並び2枚＋全体キャプション
 
 横並び2枚＋全体キャプション:
 
@@ -414,6 +424,8 @@ print("hello")
   caption="同じテーマの2枚を並べて見せたいとき"
 >}}
 ```
+
+### 縦長画像
 
 縦長画像をすっきり置く:
 
