@@ -349,6 +349,21 @@ flowchart TD
 
 Mermaid は専用カード風の見た目になる。
 
+## YouTube
+
+YouTube の埋め込みは Hugo の `youtube` shortcode を使える。
+
+```md
+{{< youtube id="hvS1OUmKifI" >}}
+```
+
+補足:
+
+- `id` には動画URLそのものではなく、YouTube の動画IDを入れる
+- `https://www.youtube.com/watch?v=hvS1OUmKifI` なら `hvS1OUmKifI`
+- 記事内で動画を補足資料として置くときに便利
+- 読みやすさを優先するなら、動画の前後に一言説明を入れると流れが自然になる
+
 ## コードブロック
 
 普通の fenced code block を使えばよい。
