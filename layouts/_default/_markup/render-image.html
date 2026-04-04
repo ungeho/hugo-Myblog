@@ -1,6 +1,34 @@
+{{- $src := .Destination | safeURL -}}
+{{- $alt := .Text | default "" -}}
+{{- $title := .Title -}}
+{{- $width := "" -}}
+{{- $height := "" -}}
+{{- $resource := "" -}}
+{{- with .Page.Resources.GetMatch .Destination -}}
+  {{- $resource = . -}}
+{{- end -}}
+{{- if and (not $resource) (hasPrefix .Destination "/") -}}
+  {{- with resources.Get (strings.TrimPrefix "/" .Destination) -}}
+    {{- $resource = . -}}
+  {{- end -}}
+{{- end -}}
+{{- with $resource -}}
+  {{- $width = .Width -}}
+  {{- $height = .Height -}}
+{{- else -}}
+  {{- if hasPrefix .Destination "/" -}}
+  {{- $staticPath := printf "static%s" .Destination -}}
+  {{- if fileExists $staticPath -}}
+    {{- with imageConfig $staticPath -}}
+      {{- $width = .Width -}}
+      {{- $height = .Height -}}
+    {{- end -}}
+  {{- end -}}
+  {{- end -}}
+{{- end -}}
 <figure class="article-media">
-  <a class="article-media-link" href="{{ .Destination | safeURL }}" data-lightbox-trigger>
-    <img loading="lazy" src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title}} title="{{ . }}" {{ end }} />
+  <a class="article-media-link" href="{{ $src }}" data-lightbox-trigger>
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="{{ $src }}" alt="{{ $alt }}" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)"{{ with $title }} title="{{ . }}"{{ end }}{{ with $width }} width="{{ . }}"{{ end }}{{ with $height }} height="{{ . }}"{{ end }} />
   </a>
   {{- if .Title }}
   <figcaption>{{ .Title | markdownify }}</figcaption>

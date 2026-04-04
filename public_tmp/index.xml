@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ungehoBlog</title>
+    <link>https://ungeho.netlify.app/</link>
+    <description>Recent content on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sat, 04 Apr 2026 10:00:00 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Shortcode Showcase</title>
+      <link>https://ungeho.netlify.app/posts/shortcode-showcase/</link>
+      <pubDate>Sat, 04 Apr 2026 10:00:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/shortcode-showcase/</guid>
+      <description>記事装飾 shortcode の見た目確認用ドラフト</description>
+    </item>
+    <item>
+      <title>ゲーム記事サンプル</title>
+      <link>https://ungeho.netlify.app/posts/sample-game-article/</link>
+      <pubDate>Sat, 04 Apr 2026 09:25:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/sample-game-article/</guid>
+      <description>ゲーム記事テンプレートの実戦寄りサンプル。update note、steps、FAQ、linkcard の使い方をまとめています。</description>
+    </item>
+    <item>
+      <title>技術記事サンプル</title>
+      <link>https://ungeho.netlify.app/posts/sample-tech-article/</link>
+      <pubDate>Sat, 04 Apr 2026 09:20:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/sample-tech-article/</guid>
+      <description>技術記事テンプレートの実戦寄りサンプル。summary、steps、compare、code、table の使い方をまとめています。</description>
+    </item>
+    <item>
+      <title>ヘビー級零式4層SplatoonLayout</title>
+      <link>https://ungeho.netlify.app/posts/m12s/</link>
+      <pubDate>Tue, 10 Mar 2026 00:46:35 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/m12s/</guid>
+      <description>至天の座アルカディア零式ライトヘビー級4層向けの Splatoon Layout と各スクリプトの使い方を整理しています。</description>
+    </item>
+    <item>
+      <title>ヘビー級零式3層SplatoonLayout</title>
+      <link>https://ungeho.netlify.app/posts/m11s/</link>
+      <pubDate>Tue, 20 Jan 2026 19:02:11 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/m11s/</guid>
+      <description>至天の座アルカディア零式ライトヘビー級3層向けの Splatoon Layout と設定ポイントをまとめています。</description>
+    </item>
+    <item>
+      <title>ヘビー級零式2層SplatoonLayout</title>
+      <link>https://ungeho.netlify.app/posts/m10s/</link>
+      <pubDate>Sat, 10 Jan 2026 10:07:25 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/m10s/</guid>
+      <description>至天の座アルカディア零式ライトヘビー級2層向けの Splatoon Layout とスクリプト導入メモです。</description>
+    </item>
+    <item>
+      <title>ヘビー級零式1層SplatoonLayout</title>
+      <link>https://ungeho.netlify.app/posts/m9s/</link>
+      <pubDate>Wed, 07 Jan 2026 23:07:30 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/m9s/</guid>
+      <description>至天の座アルカディア零式ライトヘビー級1層向けの Splatoon Layout とスクリプト導入メモです。</description>
+    </item>
+    <item>
+      <title>現実世界は本当に「アナログ」なのか？</title>
+      <link>https://ungeho.netlify.app/posts/analog/</link>
+      <pubDate>Fri, 02 Jan 2026 18:06:28 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/analog/</guid>
+      <description>現実世界をアナログと呼べるのか、連続と離散の考え方を手がかりに雑記として考えてみた記事です。</description>
+    </item>
+    <item>
+      <title>7.4極 Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/exdoomtrain/</link>
+      <pubDate>Sun, 21 Dec 2025 16:08:27 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/exdoomtrain/</guid>
+      <description>7.4 極向けの Splatoon Layout と使用メモです。</description>
+    </item>
+    <item>
+      <title>星形正多角形</title>
+      <link>https://ungeho.netlify.app/posts/regularstarpolygon/</link>
+      <pubDate>Sun, 14 Dec 2025 12:13:06 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/regularstarpolygon/</guid>
+      <description>星形正多角形の名前、性質、描き方を数式と図を交えて整理した記事です。</description>
+    </item>
+    <item>
+      <title>自動微分</title>
+      <link>https://ungeho.netlify.app/posts/autodiff/</link>
+      <pubDate>Fri, 12 Dec 2025 16:30:33 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/autodiff/</guid>
+      <description>双対数を使う自動微分の考え方を通して、数値微分とは違う精度と実装上の利点を見ていきます。</description>
+    </item>
+    <item>
+      <title>数値微分</title>
+      <link>https://ungeho.netlify.app/posts/numericaldifferentiation/</link>
+      <pubDate>Fri, 12 Dec 2025 13:50:42 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/numericaldifferentiation/</guid>
+      <description>有限差分を使った数値微分の基本と、丸め誤差や刻み幅の選び方による影響を整理します。</description>
+    </item>
+    <item>
+      <title>数値積分</title>
+      <link>https://ungeho.netlify.app/posts/numericalintegration/</link>
+      <pubDate>Wed, 10 Dec 2025 20:28:15 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/numericalintegration/</guid>
+      <description>解析的に解きにくい積分を、コンピューターでどのように近似して求めるかを数値積分の視点から解説します。</description>
+    </item>
+    <item>
+      <title>区間演算</title>
+      <link>https://ungeho.netlify.app/posts/interval/</link>
+      <pubDate>Tue, 09 Dec 2025 14:46:40 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/interval/</guid>
+      <description>区間演算の考え方と、丸め誤差を含んだままでも真値を含む範囲を保つ方法を紹介します。</description>
+    </item>
+    <item>
+      <title>浮動小数点数</title>
+      <link>https://ungeho.netlify.app/posts/float/</link>
+      <pubDate>Sun, 07 Dec 2025 19:03:04 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/float/</guid>
+      <description>浮動小数点数が実数を正確に表せない理由と、計算でどのような誤差が起きるのかを整理します。</description>
+    </item>
+    <item>
+      <title>モブハント用</title>
+      <link>https://ungeho.netlify.app/posts/hunts/</link>
+      <pubDate>Fri, 13 Sep 2024 03:13:38 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/hunts/</guid>
+      <description>モブハントで使う補助情報や Sonar / Faloop の設定メモをまとめた記事です。</description>
+    </item>
+    <item>
+      <title>The Arcadion Savage Preset</title>
+      <link>https://ungeho.netlify.app/posts/the_arcadion_savage/</link>
+      <pubDate>Thu, 01 Aug 2024 07:27:05 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/the_arcadion_savage/</guid>
+      <description>アルカディア零式の Splatoon Preset をまとめた下書き用メモです。</description>
+    </item>
+    <item>
+      <title>Lux</title>
+      <link>https://ungeho.netlify.app/posts/lol-lux/</link>
+      <pubDate>Sun, 26 May 2024 17:00:04 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/lol-lux/</guid>
+      <description>League of Legends の Lux に関する個人用メモです。</description>
+    </item>
+    <item>
+      <title>異聞アロアロ島 Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/aloalo_island-splatoonpresets/</link>
+      <pubDate>Fri, 22 Mar 2024 20:21:08 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/aloalo_island-splatoonpresets/</guid>
+      <description>異聞アロアロ島向けの Splatoon Layout と利用メモです。</description>
+    </item>
+    <item>
+      <title>異聞六根山 Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/mount_rokkkon-splatoonpresets/</link>
+      <pubDate>Mon, 04 Mar 2024 18:25:44 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/mount_rokkkon-splatoonpresets/</guid>
+      <description>異聞六根山向けの Splatoon Layout と導入メモです。</description>
+    </item>
+    <item>
+      <title>異聞シラディハ Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/sildihn-splatoonpresets/</link>
+      <pubDate>Sat, 24 Feb 2024 04:44:03 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/sildihn-splatoonpresets/</guid>
+      <description>異聞シラディハ水道向けの Splatoon Layout と導入メモです。</description>
+    </item>
+    <item>
+      <title>絶竜詩戦争 Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/dsr-splatoonpresets/</link>
+      <pubDate>Wed, 07 Feb 2024 03:59:51 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/dsr-splatoonpresets/</guid>
+      <description>絶竜詩戦争向けの Splatoon Layout と導入用メモです。</description>
+    </item>
+    <item>
+      <title>絶竜詩、教皇庁フェーズ予習</title>
+      <link>https://ungeho.netlify.app/posts/dsr_pre_p1_vault/</link>
+      <pubDate>Thu, 01 Feb 2024 05:09:18 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/dsr_pre_p1_vault/</guid>
+      <description>絶竜詩戦争の教皇庁フェーズに入る前に確認したい要点をまとめた予習メモです。</description>
+    </item>
+    <item>
+      <title>YesAlreadyPreset</title>
+      <link>https://ungeho.netlify.app/posts/yesalreadypreset/</link>
+      <pubDate>Sun, 28 Jan 2024 18:09:26 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/yesalreadypreset/</guid>
+      <description>YesAlreadyPreset の設定メモと利用例をまとめた記事です。</description>
+    </item>
+    <item>
+      <title>自己紹介</title>
+      <link>https://ungeho.netlify.app/about/</link>
+      <pubDate>Sun, 28 Jan 2024 04:55:26 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/about/</guid>
+      <description>&lt;p&gt;はじめまして。&lt;br&gt;
+ここはネトゲが大好きなおたくのブログです。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;-趣味興味&#34;&gt;🔧 趣味・興味&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;ネトゲ / オンラインゲーム&lt;/li&gt;
+&lt;li&gt;自作PC&lt;/li&gt;
+&lt;li&gt;生活を快適にする機器&lt;/li&gt;
+&lt;li&gt;プログラミング&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;-目標&#34;&gt;🎯 目標&lt;/h3&gt;
+&lt;p&gt;自分のペースで楽しく生きること。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>絶アルテマ Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/umu-splatoonpresets/</link>
+      <pubDate>Sat, 27 Jan 2024 04:20:49 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/umu-splatoonpresets/</guid>
+      <description>絶アルテマウェポン破壊作戦向けの Splatoon Layout と導入メモです。</description>
+    </item>
+    <item>
+      <title>FF14の座標の計算方法と豆知識</title>
+      <link>https://ungeho.netlify.app/posts/splatooncoord/</link>
+      <pubDate>Sat, 27 Jan 2024 03:15:32 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/splatooncoord/</guid>
+      <description>FF14 の座標計算や Splatoon / Waymark 用の layout 作成に役立つ豆知識をまとめています。</description>
+    </item>
+    <item>
+      <title>絶バハムート Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/ucob-splatoonpresets/</link>
+      <pubDate>Sat, 27 Jan 2024 02:39:08 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/ucob-splatoonpresets/</guid>
+      <description>絶バハムート討滅戦向けの Splatoon Layout と導入メモです。</description>
+    </item>
+    <item>
+      <title>My First Post</title>
+      <link>https://ungeho.netlify.app/posts/my-first-post/</link>
+      <pubDate>Mon, 22 Jan 2024 19:01:13 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/my-first-post/</guid>
+      <description>Hugo の投稿確認用に作成した最初の記事です。</description>
+    </item>
+  </channel>
+</rss>

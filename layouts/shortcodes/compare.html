@@ -1,0 +1,22 @@
+{{- $leftTitle := .Get "left" | default "Left" -}}
+{{- $rightTitle := .Get "right" | default "Right" -}}
+{{- $parts := split .Inner "<!--split-->" -}}
+{{- $left := index $parts 0 | default "" -}}
+{{- $right := "" -}}
+{{- if ge (len $parts) 2 -}}
+  {{- $right = index $parts 1 -}}
+{{- end -}}
+<div class="compare-grid">
+  <section class="compare-card">
+    <div class="compare-card-label">{{ $leftTitle }}</div>
+    <div class="compare-card-body">
+      {{ $left | markdownify }}
+    </div>
+  </section>
+  <section class="compare-card">
+    <div class="compare-card-label">{{ $rightTitle }}</div>
+    <div class="compare-card-body">
+      {{ $right | markdownify }}
+    </div>
+  </section>
+</div>

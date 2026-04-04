@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://ungeho.netlify.app/sitemap.xml

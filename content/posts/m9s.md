@@ -2,8 +2,10 @@
 title = 'ヘビー級零式1層SplatoonLayout'
 date = 2026-01-07T23:07:30+09:00
 draft = false
+description = "至天の座アルカディア零式ライトヘビー級1層向けの Splatoon Layout とスクリプト導入メモです。"
 categories = ["FFXIV"]
 tags = ["FFXIV","Splatoon"]
+series = ["アルカディア零式 Splatoon"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->

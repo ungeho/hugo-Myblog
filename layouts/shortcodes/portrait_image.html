@@ -1,0 +1,10 @@
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $caption := .Get "caption" | default "" -}}
+{{- $width := .Get "width" | default "420" -}}
+<figure class="article-portrait-image" style="--portrait-width: {{ $width }}px;">
+  <img src="{{ $src | absURL }}" alt="{{ $alt }}" loading="lazy" decoding="async" fetchpriority="low">
+  {{- with $caption }}
+  <figcaption>{{ . }}</figcaption>
+  {{- end }}
+</figure>

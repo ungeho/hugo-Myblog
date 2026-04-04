@@ -1,0 +1,12 @@
+{{- $url := .Get "url" | default "#" -}}
+{{- $title := .Get "title" | default $url -}}
+{{- $desc := .Get "desc" | default (.Inner | plainify) -}}
+{{- $meta := .Get "meta" | default "Reference" -}}
+<a class="link-card" href="{{ $url }}"{{ if strings.HasPrefix $url "http" }} target="_blank" rel="noopener noreferrer"{{ end }}>
+  <span class="link-card-meta">{{ $meta }}</span>
+  <span class="link-card-title">{{ $title }}</span>
+  {{- if $desc -}}
+  <span class="link-card-desc">{{ $desc }}</span>
+  {{- end -}}
+  <span class="link-card-arrow" aria-hidden="true">→</span>
+</a>

@@ -1,0 +1,22 @@
+{{- $left := .Get "left" -}}
+{{- $right := .Get "right" -}}
+{{- $leftAlt := .Get "leftAlt" | default "" -}}
+{{- $rightAlt := .Get "rightAlt" | default "" -}}
+{{- $leftCaption := .Get "leftCaption" | default "" -}}
+{{- $rightCaption := .Get "rightCaption" | default "" -}}
+{{- $caption := .Get "caption" | default "" -}}
+<figure class="article-image-row">
+  <div class="article-image-row-grid">
+    <figure class="article-image-row-item">
+      <img src="{{ $left | absURL }}" alt="{{ $leftAlt }}" loading="lazy" decoding="async" fetchpriority="low">
+      {{- with $leftCaption }}<figcaption>{{ . }}</figcaption>{{- end }}
+    </figure>
+    <figure class="article-image-row-item">
+      <img src="{{ $right | absURL }}" alt="{{ $rightAlt }}" loading="lazy" decoding="async" fetchpriority="low">
+      {{- with $rightCaption }}<figcaption>{{ . }}</figcaption>{{- end }}
+    </figure>
+  </div>
+  {{- with $caption }}
+  <figcaption class="article-image-row-caption">{{ . }}</figcaption>
+  {{- end }}
+</figure>

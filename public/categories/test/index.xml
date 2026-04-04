@@ -13,11 +13,7 @@
       <link>http://localhost:1313/posts/my-first-post/</link>
       <pubDate>Mon, 22 Jan 2024 19:01:13 +0900</pubDate>
       <guid>http://localhost:1313/posts/my-first-post/</guid>
-      <description>&lt;p&gt;&lt;code&gt;draft = true&lt;/code&gt;にした場合&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;hugo server&lt;/code&gt; で &lt;code&gt;-D&lt;/code&gt; オプションを付与しないと表示されない。&lt;/p&gt;
-&lt;p&gt;現在は、デフォルトで&lt;code&gt;draft = false&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;これは、マークダウンのテストです。&lt;/p&gt;
-&lt;p&gt;tagsは&amp;quot;test&amp;quot;&lt;/p&gt;</description>
+      <description>Hugo の投稿確認用に作成した最初の記事です。</description>
     </item>
   </channel>
 </rss>

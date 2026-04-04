@@ -1,0 +1,7 @@
+{{- $title := cond .IsHome site.Title (printf "%s | %s" .Title site.Title) -}}
+{{- $description := .Description | default (.Summary | plainify | htmlUnescape) | default site.Params.description -}}
+{{- $image := partial "templates/og_image.html" . -}}
+<meta name="twitter:card" content="{{ if $image }}summary_large_image{{ else }}summary{{ end }}">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $description }}">
+{{- with $image }}<meta name="twitter:image" content="{{ . }}">{{- end }}

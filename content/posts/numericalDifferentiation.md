@@ -2,8 +2,10 @@
 title = '数値微分'
 date = 2025-12-12T13:50:42+09:00
 draft = false
+description = "有限差分を使った数値微分の基本と、丸め誤差や刻み幅の選び方による影響を整理します。"
 categories = ["Programming"]
 tags = ["Float", "IEEE754", "数値計算", "誤差", "プログラミング", "数値微分"]
+series = ["コンピューターで計算する"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->

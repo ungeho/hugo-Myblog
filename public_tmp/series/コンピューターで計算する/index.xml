@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>コンピューターで計算する on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/series/%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%83%BC%E3%81%A7%E8%A8%88%E7%AE%97%E3%81%99%E3%82%8B/</link>
+    <description>Recent content in コンピューターで計算する on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Fri, 12 Dec 2025 16:30:33 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/series/%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%83%BC%E3%81%A7%E8%A8%88%E7%AE%97%E3%81%99%E3%82%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>自動微分</title>
+      <link>https://ungeho.netlify.app/posts/autodiff/</link>
+      <pubDate>Fri, 12 Dec 2025 16:30:33 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/autodiff/</guid>
+      <description>双対数を使う自動微分の考え方を通して、数値微分とは違う精度と実装上の利点を見ていきます。</description>
+    </item>
+    <item>
+      <title>数値微分</title>
+      <link>https://ungeho.netlify.app/posts/numericaldifferentiation/</link>
+      <pubDate>Fri, 12 Dec 2025 13:50:42 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/numericaldifferentiation/</guid>
+      <description>有限差分を使った数値微分の基本と、丸め誤差や刻み幅の選び方による影響を整理します。</description>
+    </item>
+    <item>
+      <title>数値積分</title>
+      <link>https://ungeho.netlify.app/posts/numericalintegration/</link>
+      <pubDate>Wed, 10 Dec 2025 20:28:15 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/numericalintegration/</guid>
+      <description>解析的に解きにくい積分を、コンピューターでどのように近似して求めるかを数値積分の視点から解説します。</description>
+    </item>
+    <item>
+      <title>区間演算</title>
+      <link>https://ungeho.netlify.app/posts/interval/</link>
+      <pubDate>Tue, 09 Dec 2025 14:46:40 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/interval/</guid>
+      <description>区間演算の考え方と、丸め誤差を含んだままでも真値を含む範囲を保つ方法を紹介します。</description>
+    </item>
+    <item>
+      <title>浮動小数点数</title>
+      <link>https://ungeho.netlify.app/posts/float/</link>
+      <pubDate>Sun, 07 Dec 2025 19:03:04 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/float/</guid>
+      <description>浮動小数点数が実数を正確に表せない理由と、計算でどのような誤差が起きるのかを整理します。</description>
+    </item>
+  </channel>
+</rss>

@@ -2,8 +2,10 @@
 title = "絶アルテマ Splatoon Layout"
 date = 2024-01-27T04:20:49+09:00
 draft = true
+description = "絶アルテマウェポン破壊作戦向けの Splatoon Layout と導入メモです。"
 categories = ["FFXIV"]
 tags = ["FFXIV","Splatoon"]
+series = ["FFXIV Splatoon Presets"]
 +++
 
 ご利用は自己責任で

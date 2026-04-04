@@ -13,10 +13,7 @@
       <link>http://localhost:1313/posts/splatooncoord/</link>
       <pubDate>Sat, 27 Jan 2024 03:15:32 +0900</pubDate>
       <guid>http://localhost:1313/posts/splatooncoord/</guid>
-      <description>&lt;p&gt;&lt;code&gt;splatoon&lt;/code&gt;や&lt;code&gt;waymarkPreset&lt;/code&gt;プラグインのlayout作成に便利な式と豆知識&lt;/p&gt;
-&lt;h3 id=&#34;splatoonのlayout作成のtips&#34;&gt;splatoonのlayout作成のTips&lt;/h3&gt;
-&lt;p&gt;設定を行う場合は&lt;code&gt;A realm Recorded&lt;/code&gt;を使うと楽&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;/splatoon&lt;/code&gt;-&amp;gt;&lt;code&gt;ツール&lt;/code&gt;-&amp;gt;&lt;code&gt;ロガー&lt;/code&gt;から、&lt;code&gt;ロガーを有効にする&lt;/code&gt;と&lt;code&gt;viewer mode&lt;/code&gt;にチェックを入れるとオブジェクトを確認出来る。&lt;/p&gt;</description>
+      <description>FF14 の座標計算や Splatoon / Waymark 用の layout 作成に役立つ豆知識をまとめています。</description>
     </item>
   </channel>
 </rss>

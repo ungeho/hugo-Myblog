@@ -1,0 +1,12 @@
+{{- $term := .Get "term" | default (.Get "title") | default "Term" -}}
+{{- $tone := lower (.Get "tone" | default "soft") -}}
+{{- $allowed := slice "soft" "pink" "mint" "blue" "yellow" "lavender" "dark" -}}
+{{- if not (in $allowed $tone) -}}
+  {{- $tone = "soft" -}}
+{{- end -}}
+<div class="term-card term-card-{{ $tone }}">
+  <div class="term-card-label">{{ $term }}</div>
+  <div class="term-card-body">
+    {{ .Inner | markdownify }}
+  </div>
+</div>

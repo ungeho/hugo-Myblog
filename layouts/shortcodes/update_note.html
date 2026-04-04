@@ -1,0 +1,10 @@
+{{- $date := .Get "date" | default "Update" -}}
+{{- $tone := lower (.Get "tone" | default "soft") -}}
+{{- $allowed := slice "soft" "pink" "mint" "blue" "yellow" "lavender" "dark" -}}
+{{- if not (in $allowed $tone) -}}
+  {{- $tone = "soft" -}}
+{{- end -}}
+<div class="update-note update-note-{{ $tone }}">
+  <div class="update-note-label">{{ $date }}</div>
+  <div class="update-note-body">{{ .Inner | markdownify }}</div>
+</div>

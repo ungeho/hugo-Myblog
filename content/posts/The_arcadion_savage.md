@@ -2,8 +2,10 @@
 title = 'The Arcadion Savage Preset'
 date = 2024-08-01T07:27:05+09:00
 draft = true
+description = "アルカディア零式の Splatoon Preset をまとめた下書き用メモです。"
 categories = ["FFXIV"]
-tags = ["FFXIV,Splatoon"]
+tags = ["FFXIV", "Splatoon"]
+series = ["アルカディア零式 Splatoon"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->

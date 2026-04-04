@@ -2,22 +2,27 @@
 title = 'FF14の座標の計算方法と豆知識'
 date = 2024-01-27T03:15:32+09:00
 draft = true
+description = "FF14 の座標計算や Splatoon / Waymark 用の layout 作成に役立つ豆知識をまとめています。"
 categories = ["FFXIV"]
 tags = ["FFXIV","Splatoon","WaymarkPlugin"]
+series = ["FFXIV Raid Notes"]
 math = true
 +++
 
-`splatoon`や`waymarkPreset`プラグインのlayout作成に便利な式と豆知識
+`splatoon` や `waymarkPreset` プラグインで layout を作るときに、毎回見返したくなる式や豆知識をまとめたメモです。
+
+座標の計算式そのものに加えて、ログの取り方や確認しやすいツールにも触れています。  
+「とりあえず必要な式をすぐ取りたい」というときにも使えるよう、なるべく実用寄りに整理しています。
 
 ### splatoonのlayout作成のTips
 
-設定を行う場合は`A realm Recorded`を使うと楽
+設定を行う場合は `A realm Recorded` を使うと楽です。
 
-`/splatoon`->`ツール`->`ロガー`から、`ロガーを有効にする`と`viewer mode`にチェックを入れるとオブジェクトを確認出来る。
+`/splatoon` -> `ツール` -> `ロガー` から、`ロガーを有効にする` と `viewer mode` にチェックを入れるとオブジェクトを確認できます。
 
-`/splatoon`->`ツール`->`エクスプローラー`から`VFX Path`等を確認出来る。
+`/splatoon` -> `ツール` -> `エクスプローラー` から `VFX Path` などを確認できます。
 
-`/splatoon`->`ツール`->`ログ`から`cast id`等を確認出来る。
+`/splatoon` -> `ツール` -> `ログ` から `cast id` などを確認できます。
 
 ### FF14の座標の計算
 

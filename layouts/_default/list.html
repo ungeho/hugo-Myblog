@@ -30,6 +30,10 @@
 </header>
 {{- end }}
 
+{{- if or (eq .Kind "term") (eq .Kind "taxonomy") }}
+{{- partial "taxonomy/intro.html" . }}
+{{- end }}
+
 {{- if .Content }}
 <div class="post-content">
   {{- if not (.Param "disableAnchoredHeadings") }}
@@ -66,6 +70,9 @@
 <article class="{{ $class }}">
   {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
   {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
+  {{- with .Params.series }}
+  <div class="entry-series">{{ if reflect.IsSlice . }}{{ index . 0 }}{{ else }}{{ . }}{{ end }}</div>
+  {{- end }}
   <header class="entry-header">
     <h2 class="entry-hint-parent">
       {{- .Title }}
@@ -82,6 +89,16 @@
   {{- if (ne (.Param "hideSummary") true) }}
   <div class="entry-content">
     <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+  </div>
+  {{- end }}
+  {{- if or .Params.categories .Params.tags }}
+  <div class="entry-meta-row">
+    {{- with .Params.categories }}
+    <span class="entry-meta-chip">{{ index . 0 }}</span>
+    {{- end }}
+    {{- with .Params.tags }}
+    <span class="entry-meta-chip entry-meta-chip-muted">{{ index . 0 }}</span>
+    {{- end }}
   </div>
   {{- end }}
   {{- if not (.Param "hideMeta") }}

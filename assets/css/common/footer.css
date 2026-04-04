@@ -33,6 +33,15 @@
         var(--surface-muted);
 }
 
+.dark .footer,
+.dark .top-link {
+    color: color-mix(in srgb, var(--secondary) 78%, white);
+}
+
+.dark .footer a {
+    border-bottom-color: color-mix(in srgb, var(--secondary) 40%, transparent);
+}
+
 .footer span {
     margin-inline-start: 1px;
     margin-inline-end: 1px;

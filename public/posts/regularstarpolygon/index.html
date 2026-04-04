@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>星形正多角形 | ungehoBlog</title>
 <meta name="keywords" content="星形正多角形, regular star polygon, 平面幾何学図形, プログラミング">
-<meta name="description" content="私が小学生の頃、『鋼の錬金術師』というアニメを観て、「オリジナルの錬成陣を描いてみたい」と本気で思っていた事がありました。
-描き方を調べようと図書館に行ったものの、そもそも 何と調べればいいのか が分かりません。
-円と線と星のような、あの独特な図形に、名前があるとは想像もしていなかったのです。">
+<meta name="description" content="星形正多角形の名前、性質、描き方を数式と図を交えて整理した記事です。">
 <meta name="author" content="ungeho">
-<link rel="canonical" href="https://ungeho.netlify.app/posts/regularstarpolygon/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.c227a7ee27057560fcf8b5d8dd4980d09fb111bdf429005e7c74dcd4a0b8e183.css" integrity="sha256-wien7icFdWD8&#43;LXY3UmA0J&#43;xEb30KQBefHTc1KC44YM=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://ungeho.netlify.app/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://ungeho.netlify.app/favicon/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://ungeho.netlify.app/favicon/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://ungeho.netlify.app/favicon/apple-touch-icon.png">
-<link rel="mask-icon" href="https://ungeho.netlify.app/safari-pinned-tab.svg">
+<link rel="canonical" href="http://localhost:1313/posts/regularstarpolygon/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.214a6d0a43d0ca2b39d0fca0440e9c19f89f6db4f880cbd11494e74aba504ed8.css" integrity="sha256-IUptCkPQyis50PygRA6cGfifbbT4gMvRFJTnSrpQTtg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="ja" href="https://ungeho.netlify.app/posts/regularstarpolygon/">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/regularstarpolygon/">
 <noscript>
     <style>
         #theme-toggle,
@@ -95,80 +93,7 @@
     });
 </script>
 
-<meta property="og:url" content="https://ungeho.netlify.app/posts/regularstarpolygon/">
-  <meta property="og:site_name" content="ungehoBlog">
-  <meta property="og:title" content="星形正多角形">
-  <meta property="og:description" content="私が小学生の頃、『鋼の錬金術師』というアニメを観て、「オリジナルの錬成陣を描いてみたい」と本気で思っていた事がありました。
-描き方を調べようと図書館に行ったものの、そもそも 何と調べればいいのか が分かりません。 円と線と星のような、あの独特な図形に、名前があるとは想像もしていなかったのです。">
-  <meta property="og:locale" content="ja">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2025-12-14T12:13:06+09:00">
-    <meta property="article:modified_time" content="2025-12-14T12:13:06+09:00">
-    <meta property="article:tag" content="星形正多角形">
-    <meta property="article:tag" content="Regular Star Polygon">
-    <meta property="article:tag" content="平面幾何学図形">
-    <meta property="article:tag" content="プログラミング">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="星形正多角形">
-<meta name="twitter:description" content="私が小学生の頃、『鋼の錬金術師』というアニメを観て、「オリジナルの錬成陣を描いてみたい」と本気で思っていた事がありました。
-描き方を調べようと図書館に行ったものの、そもそも 何と調べればいいのか が分かりません。
-円と線と星のような、あの独特な図形に、名前があるとは想像もしていなかったのです。">
 
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://ungeho.netlify.app/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "星形正多角形",
-      "item": "https://ungeho.netlify.app/posts/regularstarpolygon/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "星形正多角形",
-  "name": "星形正多角形",
-  "description": "私が小学生の頃、『鋼の錬金術師』というアニメを観て、「オリジナルの錬成陣を描いてみたい」と本気で思っていた事がありました。\n描き方を調べようと図書館に行ったものの、そもそも 何と調べればいいのか が分かりません。 円と線と星のような、あの独特な図形に、名前があるとは想像もしていなかったのです。\n",
-  "keywords": [
-    "星形正多角形", "regular star polygon", "平面幾何学図形", "プログラミング"
-  ],
-  "articleBody": "私が小学生の頃、『鋼の錬金術師』というアニメを観て、「オリジナルの錬成陣を描いてみたい」と本気で思っていた事がありました。\n描き方を調べようと図書館に行ったものの、そもそも 何と調べればいいのか が分かりません。 円と線と星のような、あの独特な図形に、名前があるとは想像もしていなかったのです。\n今思えば、あれらはきっと理屈のある図形だったのでしょう。今の私なら、もしかすると描けるかもわかりません。\nもっとも、あの頃に描き方を知っていたとしたら、人生に数多ある黒歴史を、いくつか余計に増やしていた可能性は高いのですが。\n星形正多角形(regular star polygon) 私が 星形正多角形(regular star polygon) という言葉を知ったのは次の動画のおかげです。\n星形正多角形について非常に分かりやすく整理されており、その生成アルゴリズムについても、動画内で丁寧に解説されています。\n正直なところ、この動画を紹介するだけで話は完結してしまいそうです。 しかしそれでは少し味気ないので、 本記事では 星形正多角形のアルゴリズムを整理し、実装の観点からまとめてみたいと思います。\n星形正多角形とは？ 星形正多角形(regular star polygon) とは、正多角形の頂点を結ぶ規則を一般化した図形です。\n通常の正多角形は、円周上に等間隔に並んだ点を隣り合う点同士で結ぶことで得られます。\n例えば正$p$角形は2より大きい自然数$p$を用いて\n$$ \\begin{aligned} p \u003e 2,\\quad p \\in \\mathbb{N} \\end{aligned} $$\nで表され、各頂点を1つ先の頂点と結ぶことで構成されます。\n一方、星形正多角形はこの考え方を拡張子、円周上に等間隔に配置された点に対して一定個数だけ先の点を順に結ぶという規則を用います。\nこの結び方によって、線分が互いに交差し、通常の正多角形とは異なる 星形の対称的な図形 が現れます。\n次に説明する星形正多角形のアルゴリズム を要約すると、次のようになります。\n通常の正多角形のアルゴリズムでは\n円周上に等間隔に$m$個の点を配置し、隣り合う点同士を直線で順に結ぶ のに対し、正星形多角形のアルゴリズムでは\n円周上に等間隔に$m$個の点を配置し、$n$個先の点同士を直線で順に結ぶ という規則を用います。\nこのように、星形正多角形は 「隣り合う点を結ぶ」という規則を「$n$個先の点を結ぶ」という規則へ拡張したもの と捉えることができます。\n星形正多角形のアルゴリズム 星形正$d$角形としたとき、$d$は2より大きい有理数です。\n$$ \\begin{aligned} d \u003e 2,\\quad d \\in \\mathbb{Q} \\end{aligned} $$\nこのとき$d$は、正の整数$m$,$n$を用いて次のように表せます。\n$$ \\begin{aligned} d = \\frac{m}{n} \\end{aligned} $$\nただし\n$$ \\begin{aligned} \\frac{m}{n} \u003e 2,\\quad m,n \\in \\mathbb{Z}_{\u003e0} \\end{aligned} $$\nここで導入した$d = \\frac{m}{n}$という表現は、単に「正$d$角形」を一般化するだけのものではありません。\n実はこの分数表現は、そのまま星形正多角形を表すための記法へとつながっています。\n円周上に等間隔で$m$個の点を配置し、そこから $n$個先の点を順に結んでいく と考えます。\nこのとき得られる図形を\n$$ \\begin{aligned} \\{m/n\\} \\end{aligned} $$\nと表し、これを星形正多角形とよびます。\n$n = 1$ の場合は通常の正$m$角形 $n \u003e 1$ の場合は星形の図形が現れる という点で、先ほどの$d = \\frac{m}{n}$は「正多角形」から「星形正多角形」への自然な拡張になっています。\nつまり、分数で表された角形は、線の結び方そのものを意味しているということです。\n円の中心座標を $ (x_{\\text{center}}, y_{\\text{center}}) $、半径を$r$、角度を$ \\theta$（度）とすると、円周上の点$ (x, y)$は次のように表せます。\n$$ \\begin{aligned} x \u0026= x_{\\text{center}} + r \\cos\\left(\\frac{\\theta \\pi}{180}\\right) \\\\ y \u0026= y_{\\text{center}} + r \\sin\\left(\\frac{\\theta \\pi}{180}\\right) \\end{aligned} $$\n線を描画する為に、円周上の座標の位置を示す為のインデックス番号を\n$i = 0,1,2,\\dots,m-1$としたとき、線の座標は次のように指定します。\n$i$ $i \\to \\left((i+1)\\bmod m\\right)$ $0$ $0 \\to 1$ $1$ $1 \\to 2$ $\\vdots$ $\\vdots$ $(m-1)$ $(m-1) \\to 0$ ここで、円周上の等間隔の$m$個の点を基準に、$n$個先の点を順に結ぶために、実際に参照する点の番号は\n$$ \\begin{aligned} (i n) \\bmod m \\end{aligned} $$\nで与えられます。\n円周上の座標は$m$等分されているため、このときの角度$\\theta$は\n$$ \\begin{aligned} \\theta_{i} = \\bigl( (i n) \\bmod m\\bigr) \\frac{360}{m} \\end{aligned} $$\nと表せます。\nまとめると、正星形多角形を描画するとき\n直線の始点の座標を$L_{\\text{s}}=(x_{\\text{s}},y_{\\text{s}})$、直線の終点の座標を$L_{\\text{e}}=(x_{\\text{e}},y_{\\text{e}})$\nとすると\n$$ \\begin{aligned} L_{\\text{s}} \u0026= (x_{i}, y_{i}) \\\\ L_{\\text{e}} \u0026= (x_{i+1}, y_{i+1}) \\\\ x_i \u0026= x_{\\text{center}} + r \\cos\\left(\\frac{\\theta_i \\pi}{180}\\right) \\\\ y_i \u0026= y_{\\text{center}} + r \\sin\\left(\\frac{\\theta_i \\pi}{180}\\right) \\\\ \\theta_i \u0026= \\bigl((i n)\\bmod m\\bigr)\\frac{360}{m} \\\\ i \u0026= 0,1,2,\\dots,m-1 \\end{aligned} $$\nです。\n星形正多角形を描画するプログラムの実装 実装にあたって、最も悩ましいと感じていたのが、2.5 のように分数ではない形式で値が入力された場合、それをどのように分数として扱うか という点でした。\nしかし、Python には fractions という標準ライブラリが用意されています。\nこれを利用することで、有理数を分数の形に変換することができます。\nFractionオブジェクトに変換すると\n分子：frac.numerator 分母：frac.denominator のように、それぞれ整数として取得できます。\nこの仕組みを使えば、入力形式に依存せず$\\{m/n\\}$ の形で星形正多角形を統一的に扱うことが可能になります。\nPythonfrac = Fraction(s) m = frac.numerator n = frac.denominator Pythonでの実装 pythonを使って実装すると\nPythonimport os from fractions import Fraction from PIL import Image, ImageDraw import math import re from math import gcd def is_num(s: str) -\u003e bool: try: float(s) return True except ValueError: return False def input_m_n(): os.system('cls') while True: s = input(\"2より大きい有理数(d\u003e2) または m/n (m/n\u003e2, m\u003e=3, m/2\u003en\u003e=1) を入力してください: \") # まず Fraction にできる形かどうかを判定 if not is_num(s): if re.match(r\"^\\d+/\\d+$\", s) is None: os.system('cls') print(\"※数字 もしくは 整数/整数 の形で入力してください。\") continue try: frac = Fraction(s) # \"3.5\" も \"7/2\" もOK except ZeroDivisionError: os.system('cls') print(\"※分母は0より大きい値を入力してください。(n\u003e0)\") continue except ValueError: os.system('cls') print(\"※数値として解釈できませんでした。\") continue if frac \u003c= 2: os.system('cls') print(\"※ 2より大きい値を入力してください。\") continue # ここから m/n に合わせる（m=分子, n=分母） m = frac.numerator # 頂点数側にしたい n = frac.denominator # ステップ側にしたい if m \u003c 3: os.system('cls') print(\"m \u003e= 3 を満たしてください。\") continue if n \u003c 1 or (m * 0.5) \u003c= n : os.system('cls') print(\"m/2 \u003e n \u003e= 1 を満たしてください。\") continue return m, n # (頂点数 m, ステップ n) def poly_info(m, n): d = m / n print(f\"正\\t{d}({m}/{n})\\t角形\") print(f\"頂点\\t{m}\\t\\t個\") print(\"内角約\\t\" + str(180 * (float(d) - 2.0) / float(d)) + \"\\t\\t度\") def point_on_circle(cx, cy, r, deg): rad = deg * math.pi / 180.0 return (cx + r * math.cos(rad), cy + r * math.sin(rad)) def poly_draw(m, n, size=1024): img = Image.new(\"RGB\", (size, size), (255, 255, 255)) draw = ImageDraw.Draw(img) cx = img.width * 0.5 cy = img.height * 0.5 r = min(img.width, img.height) * 0.375 # 見た目の向き（上向きスタート） first_ang = -90 # 1) m 個の頂点を用意 theta = 360.0 / m vertices = [point_on_circle(cx, cy, r, first_ang + j * theta) for j in range(m)] # 2) gcd(m, n) に応じて複数成分を描く g = gcd(m, n) for start in range(g): j = start pts = [vertices[j]] while True: j = (j + n) % m pts.append(vertices[j]) if j == start: break draw.line(pts, fill=(0, 0, 255), width=1, joint=\"curve\") os.makedirs(\"img/png\", exist_ok=True) path = f\"img/png/regularStarPolygon_{m}_{n}.png\" img.save(path) img.show() def main(): m, n = input_m_n() poly_info(m, n) poly_draw(m, n) if __name__ == \"__main__\": main()113 lines続きを見る 実行結果1：5/2(2.5)角形 Bash2より大きい有理数(d\u003e2) または m/n (m/n\u003e2, m\u003e=3, m/2\u003en\u003e=1) を入力してください: 5/2 正 2.5(5/2) 角形 頂点 5 個 内角約 36.0 度 実行結果2：9/2(4.5)角形 Bash2より大きい有理数(d\u003e2) または m/n (m/n\u003e2, m\u003e=3, m/2\u003en\u003e=1) を入力してください: 4.5 正 4.5(9/2) 角形 頂点 9 個 内角約 100.0 度 実行結果3：157/50(3.14)角形 Bash2より大きい有理数(d\u003e2) または m/n (m/n\u003e2, m\u003e=3, m/2\u003en\u003e=1) を入力してください: 3.14 正 3.14(157/50) 角形 頂点 157 個 内角約 65.35031847133759 度 実行結果4：2.1(21/10)角形 Bash2より大きい有理数(d\u003e2) または m/n (m/n\u003e2, m\u003e=3, m/2\u003en\u003e=1) を入力してください: 2.1 正 2.1(21/10) 角形 頂点 21 個 内角約 8.571428571428578 度 補足 3.14のような有限小数は必ず有理数であり、Fraction(\"3.14\")=157/50のように厳密な分数へ変換できます。(また、Fraction(3.14)のように浮動小数点数を直接渡すと丸め誤差が入るため、文字列で渡すのが安全です。)\n本稿に載せたプログラムの場合は、分数の形の入力がより安全になります。\nまとめ 本記事では、星形正多角形(regular star polygon) を題材に\n円周上の$m$等分された点を「$n$個先へ結ぶ」という単純なルール そのルールがどのように星形の図形として現れるか 星形の図形をPythonでどのように実装できるか について整理しました。\n子供の頃に「なんとなく不思議でかっこいい」と感じていた図形は、実際には明確な数学的構造とシンプルなアルゴリズム によって成り立っていることがあります。\n一見複雑に見える星形の模様も、「円を$m$等分し、$n$ずつ進む」という規則を繰り返しているだけです。\nまた、fractions.Fractionを用いることで、2.5や3.14のような入力も安全に分数へ変換でき、$\\{m/n\\}$の形で統一的に扱えることを確認しました。\nかつては名前すらわからなかった「錬成陣のような図形」が今では数式とコードで再現できるようになりました。\nもしこの記事が、「昔ちょっと憧れた図形」や「数学とプログラミングのつながり」を改めて楽しむきっかけになれば幸いです。\n",
-  "wordCount" : "3736",
-  "inLanguage": "ja",
-  "datePublished": "2025-12-14T12:13:06+09:00",
-  "dateModified": "2025-12-14T12:13:06+09:00",
-  "author":{
-    "@type": "Person",
-    "name": "ungeho"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://ungeho.netlify.app/posts/regularstarpolygon/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "ungehoBlog",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://ungeho.netlify.app/favicon.ico"
-    }
-  }
-}
-</script>
 </head>
 
 <body class="" id="top">
@@ -186,7 +111,7 @@
 <header class="header site-header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://ungeho.netlify.app/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
+            <a href="http://localhost:1313/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -214,32 +139,32 @@
         </div>
         <ul id="menu" class="menu">
             <li>
-                <a href="https://ungeho.netlify.app/about" title="About">
+                <a href="http://localhost:1313/about" title="About">
                     <span>About</span>
                 </a>
             </li>
             <li>
-                <a href="https://ungeho.netlify.app/posts" title="Posts">
+                <a href="http://localhost:1313/posts" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="https://ungeho.netlify.app/archives/" title="Archive">
+                <a href="http://localhost:1313/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
             <li>
-                <a href="https://ungeho.netlify.app/search" title="Search (Alt &#43; /)" accesskey=/>
+                <a href="http://localhost:1313/search" title="Search (Alt &#43; /)" accesskey=/>
                     <span>Search</span>
                 </a>
             </li>
             <li>
-                <a href="https://ungeho.netlify.app/categories/" title="Categories">
+                <a href="http://localhost:1313/categories/" title="Categories">
                     <span>Categories</span>
                 </a>
             </li>
             <li>
-                <a href="https://ungeho.netlify.app/tags/" title="Tags">
+                <a href="http://localhost:1313/tags/" title="Tags">
                     <span>Tags</span>
                 </a>
             </li>
@@ -247,17 +172,21 @@
     </nav>
 </header>
 <main class="main"><article class="post-single article-single"><header class="post-header article-hero">
-  <div class="breadcrumbs"><a href="https://ungeho.netlify.app/">ホーム</a>&nbsp;»&nbsp;<a href="https://ungeho.netlify.app/posts/">Posts</a></div>
+  <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
 
   <div class="article-hero-inner">
     <div class="article-hero-copy">
       <div class="article-taxonomy-row">
+        <a class="article-chip article-chip-series" href="http://localhost:1313/series/%E6%95%B0%E5%AD%A6%E3%81%A8%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">数学とプログラミング</a>
         <span class="article-chip">Programming</span>
       </div>
 
       <h1 class="post-title entry-hint-parent">
         星形正多角形
       </h1>
+      <div class="post-description article-lead">
+        星形正多角形の名前、性質、描き方を数式と図を交えて整理した記事です。
+      </div>
       <div class="post-meta article-meta"><span title='2025-12-14 12:13:06 +0900 JST'>2025/12/14</span>&nbsp;·&nbsp;8 分&nbsp;·&nbsp;ungeho
 
 </div>
@@ -269,10 +198,11 @@
   <div class="article-layout">
     <div class="article-main">
       <div class="post-content"><p>私が小学生の頃、『鋼の錬金術師』というアニメを観て、「オリジナルの錬成陣を描いてみたい」と本気で思っていた事がありました。</p>
-<p>描き方を調べようと図書館に行ったものの、そもそも <strong>何と調べればいいのか</strong> が分かりません。
-円と線と星のような、あの独特な図形に、名前があるとは想像もしていなかったのです。</p>
-<p>今思えば、あれらはきっと理屈のある図形だったのでしょう。今の私なら、もしかすると描けるかもわかりません。</p>
-<p>もっとも、あの頃に描き方を知っていたとしたら、人生に数多ある黒歴史を、いくつか余計に増やしていた可能性は高いのですが。</p>
+<p>図書館で描き方を調べようとしたものの、そもそも <strong>何と調べればいいのか</strong> が分かりません。<br>
+円と線と星のような、あの独特な図形にちゃんとした名前があるとは想像もしていなかったのです。</p>
+<p>今思えば、あれらはきっと理屈のある図形だったのでしょう。<br>
+そして今の私なら、当時よりはもう少し落ち着いて、その仕組みを追いかけられそうです。</p>
+<p>この記事では、<strong>星形正多角形とは何か</strong>、<strong>どういう規則で描けるのか</strong>、<strong>実装ではどう考えると整理しやすいか</strong> を順にまとめていきます。</p>
 <h2 id="星形正多角形regular-star-polygon">星形正多角形(regular star polygon)<a hidden class="anchor" aria-hidden="true" href="#星形正多角形regular-star-polygon">#</a></h2>
 <p>私が <strong>星形正多角形(regular star polygon)</strong> という言葉を知ったのは次の動画のおかげです。</p>
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
@@ -280,9 +210,8 @@
     </div>
 
 <p>星形正多角形について非常に分かりやすく整理されており、その生成アルゴリズムについても、動画内で丁寧に解説されています。</p>
-<p>正直なところ、この動画を紹介するだけで話は完結してしまいそうです。
-しかしそれでは少し味気ないので、
-本記事では 星形正多角形のアルゴリズムを整理し、実装の観点からまとめてみたいと思います。</p>
+<p>正直なところ、この動画を紹介するだけで話はかなり完結しています。<br>
+それでも少し自分なりに整理し直しておきたかったので、本記事では <strong>星形正多角形のアルゴリズムを実装寄りの視点でまとめる</strong> ことにします。</p>
 <hr>
 <h3 id="星形正多角形とは">星形正多角形とは？<a hidden class="anchor" aria-hidden="true" href="#星形正多角形とは">#</a></h3>
 <p><strong>星形正多角形(regular star polygon)</strong> とは、<strong>正多角形の頂点を結ぶ規則を一般化した図形</strong>です。</p>
@@ -546,7 +475,7 @@ $$</p>
 </span></span><span class="line"><span class="cl">頂点    <span class="m">5</span>               個
 </span></span><span class="line"><span class="cl">内角約  36.0            度</span></span></code></pre></div><p><figure class="article-media">
   <a class="article-media-link" href="/img/png/regularStarPolygon01.png" data-lightbox-trigger>
-    <img loading="lazy" src="/img/png/regularStarPolygon01.png" alt="regular star polygon1"  />
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/img/png/regularStarPolygon01.png" alt="regular star polygon1" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="1024" height="1024" />
   </a>
 </figure>
 </p>
@@ -557,7 +486,7 @@ $$</p>
 </span></span><span class="line"><span class="cl">頂点    <span class="m">9</span>               個
 </span></span><span class="line"><span class="cl">内角約  100.0           度</span></span></code></pre></div><p><figure class="article-media">
   <a class="article-media-link" href="/img/png/regularStarPolygon02.png" data-lightbox-trigger>
-    <img loading="lazy" src="/img/png/regularStarPolygon02.png" alt="regular star polygon2"  />
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/img/png/regularStarPolygon02.png" alt="regular star polygon2" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="1024" height="1024" />
   </a>
 </figure>
 </p>
@@ -568,7 +497,7 @@ $$</p>
 </span></span><span class="line"><span class="cl">頂点    <span class="m">157</span>                             個
 </span></span><span class="line"><span class="cl">内角約  65.35031847133759               度</span></span></code></pre></div><p><figure class="article-media">
   <a class="article-media-link" href="/img/png/regularStarPolygon03.png" data-lightbox-trigger>
-    <img loading="lazy" src="/img/png/regularStarPolygon03.png" alt="regular star polygon3"  />
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/img/png/regularStarPolygon03.png" alt="regular star polygon3" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="1024" height="1024" />
   </a>
 </figure>
 </p>
@@ -579,7 +508,7 @@ $$</p>
 </span></span><span class="line"><span class="cl">頂点    <span class="m">21</span>                              個
 </span></span><span class="line"><span class="cl">内角約  8.571428571428578               度</span></span></code></pre></div><p><figure class="article-media">
   <a class="article-media-link" href="/img/png/regularStarPolygon04.png" data-lightbox-trigger>
-    <img loading="lazy" src="/img/png/regularStarPolygon04.png" alt="regular star polygon3"  />
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/img/png/regularStarPolygon04.png" alt="regular star polygon3" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="1024" height="1024" />
   </a>
 </figure>
 </p>
@@ -602,24 +531,57 @@ $$</p>
 もしこの記事が、「昔ちょっと憧れた図形」や「数学とプログラミングのつながり」を改めて楽しむきっかけになれば幸いです。</p>
 
 
-      </div><footer class="post-footer article-footer">
+      </div><footer class="post-footer article-footer"><section class="article-footer-section article-series-nav-section">
+    <h2 class="article-footer-heading">Series Navigation</h2>
+    <nav class="series-nav"><span class="series-nav-placeholder"></span><a class="series-nav-center" href="http://localhost:1313/series/%E6%95%B0%E5%AD%A6%E3%81%A8%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">
+        <span class="series-nav-label">Series</span>
+        <span class="series-nav-title">数学とプログラミング</span>
+      </a><span class="series-nav-placeholder"></span></nav>
+  </section>
   <section class="article-footer-section">
-    <h2 class="article-footer-heading">Tags</h2>
+    <h2 class="article-footer-heading">Series</h2>
     <ul class="post-tags">
-      <li><a href="https://ungeho.netlify.app/tags/%E6%98%9F%E5%BD%A2%E6%AD%A3%E5%A4%9A%E8%A7%92%E5%BD%A2/">星形正多角形</a></li>
-      <li><a href="https://ungeho.netlify.app/tags/regular-star-polygon/">Regular Star Polygon</a></li>
-      <li><a href="https://ungeho.netlify.app/tags/%E5%B9%B3%E9%9D%A2%E5%B9%BE%E4%BD%95%E5%AD%A6%E5%9B%B3%E5%BD%A2/">平面幾何学図形</a></li>
-      <li><a href="https://ungeho.netlify.app/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">プログラミング</a></li>
+      <li><a href="http://localhost:1313/series/%E6%95%B0%E5%AD%A6%E3%81%A8%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">数学とプログラミング</a></li>
     </ul>
   </section>
   <section class="article-footer-section">
+    <h2 class="article-footer-heading">Tags</h2>
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/%E6%98%9F%E5%BD%A2%E6%AD%A3%E5%A4%9A%E8%A7%92%E5%BD%A2/">星形正多角形</a></li>
+      <li><a href="http://localhost:1313/tags/regular-star-polygon/">Regular Star Polygon</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%B9%B3%E9%9D%A2%E5%B9%BE%E4%BD%95%E5%AD%A6%E5%9B%B3%E5%BD%A2/">平面幾何学図形</a></li>
+      <li><a href="http://localhost:1313/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">プログラミング</a></li>
+    </ul>
+  </section>
+<section class="article-footer-section article-related-section">
+  <h2 class="article-footer-heading">Related Posts</h2>
+  <div class="article-related-grid">
+    <a class="article-related-card" href="/posts/autodiff/">
+      <span class="article-related-series">コンピューターで計算する</span>
+      <span class="article-related-title">自動微分</span>
+      <span class="article-related-meta">Float</span>
+    </a>
+    <a class="article-related-card" href="/posts/numericaldifferentiation/">
+      <span class="article-related-series">コンピューターで計算する</span>
+      <span class="article-related-title">数値微分</span>
+      <span class="article-related-meta">Float</span>
+    </a>
+    <a class="article-related-card" href="/posts/numericalintegration/">
+      <span class="article-related-series">コンピューターで計算する</span>
+      <span class="article-related-title">数値積分</span>
+      <span class="article-related-meta">Float</span>
+    </a>
+  </div>
+</section>
+
+  <section class="article-footer-section">
 <nav class="paginav">
-  <a class="prev" href="https://ungeho.netlify.app/posts/exdoomtrain/">
+  <a class="prev" href="http://localhost:1313/posts/exdoomtrain/">
     <span class="title">« 前へ</span>
     <br>
     <span>7.4極 Splatoon Layout</span>
   </a>
-  <a class="next" href="https://ungeho.netlify.app/posts/autodiff/">
+  <a class="next" href="http://localhost:1313/posts/autodiff/">
     <span class="title">次へ »</span>
     <br>
     <span>自動微分</span>
@@ -632,7 +594,7 @@ $$</p>
 <ul class="share-buttons">
     <li>
         <a target="_blank" rel="noopener noreferrer" aria-label="share 星形正多角形 on x"
-            href="https://x.com/intent/tweet/?text=%e6%98%9f%e5%bd%a2%e6%ad%a3%e5%a4%9a%e8%a7%92%e5%bd%a2&amp;url=https%3a%2f%2fungeho.netlify.app%2fposts%2fregularstarpolygon%2f&amp;hashtags=%e6%98%9f%e5%bd%a2%e6%ad%a3%e5%a4%9a%e8%a7%92%e5%bd%a2%2cregularstarpolygon%2c%e5%b9%b3%e9%9d%a2%e5%b9%be%e4%bd%95%e5%ad%a6%e5%9b%b3%e5%bd%a2%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0">
+            href="https://x.com/intent/tweet/?text=%e6%98%9f%e5%bd%a2%e6%ad%a3%e5%a4%9a%e8%a7%92%e5%bd%a2&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fregularstarpolygon%2f&amp;hashtags=%e6%98%9f%e5%bd%a2%e6%ad%a3%e5%a4%9a%e8%a7%92%e5%bd%a2%2cregularstarpolygon%2c%e5%b9%b3%e9%9d%a2%e5%b9%be%e4%bd%95%e5%ad%a6%e5%9b%b3%e5%bd%a2%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0">
             <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
                 <path
                     d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
@@ -685,7 +647,7 @@ $$</p>
 <footer class="footer">
     <div class="footer-inner">
         <div class="footer-brand">
-            <span>&copy; 2026 <a href="https://ungeho.netlify.app/">ungehoBlog</a></span>
+            <span>&copy; 2026 <a href="http://localhost:1313/">ungehoBlog</a></span>
         </div>
         <div class="footer-meta">
             <span>ネトゲが趣味の人の個人ブログ</span>

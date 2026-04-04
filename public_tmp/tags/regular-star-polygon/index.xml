@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Regular Star Polygon on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/tags/regular-star-polygon/</link>
+    <description>Recent content in Regular Star Polygon on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 14 Dec 2025 12:13:06 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/tags/regular-star-polygon/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>星形正多角形</title>
+      <link>https://ungeho.netlify.app/posts/regularstarpolygon/</link>
+      <pubDate>Sun, 14 Dec 2025 12:13:06 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/regularstarpolygon/</guid>
+      <description>星形正多角形の名前、性質、描き方を数式と図を交えて整理した記事です。</description>
+    </item>
+  </channel>
+</rss>

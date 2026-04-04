@@ -2,8 +2,10 @@
 title = '自動微分'
 date = 2025-12-12T16:30:33+09:00
 draft = false
+description = "双対数を使う自動微分の考え方を通して、数値微分とは違う精度と実装上の利点を見ていきます。"
 categories = ["Programming"]
 tags = ["Float", "IEEE754", "数値計算", "誤差", "プログラミング", "自動微分", "双対数"]
+series = ["コンピューターで計算する"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->

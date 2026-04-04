@@ -1,0 +1,46 @@
+[series.overview]
+eyebrow = "Series Index"
+description = "連続して読めるテーマごとのまとまりです。技術メモ、ゲーム設定、ブログ改善ログをシリーズ単位で追いやすくしています。"
+
+[series."コンピューターで計算する"]
+description = "数値計算や誤差、微分積分の近似など、コンピューター上で数を扱うときの考え方を整理したシリーズです。"
+
+[series."アルカディア零式 Splatoon"]
+description = "アルカディア零式向けの Splatoon メモと補助情報をまとめたシリーズです。準備や確認に使いやすい形で整理しています。"
+
+[series."FFXIV Splatoon Presets"]
+description = "FFXIV の各コンテンツ向け Splatoon preset を、導入時に見返しやすい個人メモとしてまとめています。"
+
+[series."FFXIV Raid Notes"]
+description = "攻略時の補助メモ、座標、設定、ツール運用などを静かに蓄積していくシリーズです。"
+
+[series."数学とプログラミング"]
+description = "図形や数式の面白さを、コードとしてどう扱うかまで含めて整理するシリーズです。"
+
+[series."League of Legends Notes"]
+description = "League of Legends のチャンピオン理解や個人用メモを、あとから見返しやすい形で残すシリーズです。"
+
+[series."思考メモ"]
+description = "雑記や考えごとを、少しだけ論点が追いやすい形で残しておくシリーズです。"
+
+[series."Blog Customization"]
+description = "このブログで試した装飾、shortcode、デザイン改善を確認するためのシリーズです。"
+
+[categories.overview]
+eyebrow = "Categories"
+description = "記事の大まかな話題ごとの入口です。技術寄りか、ゲーム寄りか、雑記寄りかをざっくり辿れます。"
+
+[categories.Programming]
+description = "コード、数式、アルゴリズム、実装メモなど、技術寄りの記事をまとめたカテゴリです。"
+
+[categories.Blog]
+description = "ブログの装飾や構成、shortcode など、サイト改善に関する記事をまとめています。"
+
+[categories."雑記"]
+description = "考えごとや軽い雑記を、あとから読み返しやすい形で残しているカテゴリです。"
+
+[categories."League of Legends"]
+description = "League of Legends に関する個人メモやチャンピオン整理を扱うカテゴリです。"
+
+[categories.test]
+description = "表示確認や markdown テスト用の記事をまとめたカテゴリです。"

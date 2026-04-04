@@ -1,0 +1,56 @@
+{{- $type := .Type -}}
+{{- $data := index site.Data.taxonomy_notes $type -}}
+{{- $overview := dict -}}
+{{- with $data -}}
+  {{- with index . "overview" -}}
+    {{- $overview = . -}}
+  {{- end -}}
+{{- end -}}
+{{- $termName := .Data.Term | default "" -}}
+{{- $termNote := dict -}}
+{{- if and $termName $data -}}
+  {{- with index $data $termName -}}
+    {{- $termNote = . -}}
+  {{- end -}}
+{{- end -}}
+{{- $isTermPage := ne $termName "" -}}
+{{- $description := "" -}}
+{{- $eyebrow := "" -}}
+{{- if $isTermPage -}}
+  {{- $description = index $termNote "description" | default .Description -}}
+  {{- $eyebrow = index $termNote "eyebrow" | default (cond (eq $type "series") "Series" "Category") -}}
+{{- else -}}
+  {{- $description = index $overview "description" | default .Description -}}
+  {{- $eyebrow = index $overview "eyebrow" | default .Title -}}
+{{- end -}}
+{{- $count := 0 -}}
+{{- $countLabel := "posts" -}}
+{{- $latest := "" -}}
+{{- if $isTermPage -}}
+  {{- $count = len .Pages -}}
+  {{- $countLabel = cond (eq $count 1) "article" "articles" -}}
+  {{- with .Pages.ByDate.Reverse -}}
+    {{- with index . 0 -}}
+      {{- $latest = .Date.Format "2006.01.02" -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- $count = len .Data.Terms -}}
+  {{- $countLabel = cond (eq $count 1) "group" "groups" -}}
+{{- end -}}
+
+{{- if or $description $isTermPage $overview -}}
+<section class="taxonomy-intro">
+  <span class="taxonomy-intro-label">{{ $eyebrow }}</span>
+  {{- if $description }}
+  <p class="taxonomy-intro-copy">{{ $description }}</p>
+  {{- end }}
+  <div class="taxonomy-stats" aria-label="taxonomy stats">
+    <span class="taxonomy-stat"><strong>{{ $count }}</strong> {{ $countLabel }}</span>
+    {{- if $latest }}
+    <span class="taxonomy-stat"><strong>Latest</strong> {{ $latest }}</span>
+    {{- end }}
+    <span class="taxonomy-stat"><strong>View</strong> {{ cond (eq $type "series") "reading order" "topic grouping" }}</span>
+  </div>
+</section>
+{{- end -}}

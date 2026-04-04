@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Splatoon on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/tags/splatoon/</link>
+    <description>Recent content in Splatoon on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Tue, 10 Mar 2026 00:46:35 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/tags/splatoon/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ヘビー級零式4層SplatoonLayout</title>
+      <link>https://ungeho.netlify.app/posts/m12s/</link>
+      <pubDate>Tue, 10 Mar 2026 00:46:35 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/m12s/</guid>
+      <description>至天の座アルカディア零式ライトヘビー級4層向けの Splatoon Layout と各スクリプトの使い方を整理しています。</description>
+    </item>
+    <item>
+      <title>ヘビー級零式3層SplatoonLayout</title>
+      <link>https://ungeho.netlify.app/posts/m11s/</link>
+      <pubDate>Tue, 20 Jan 2026 19:02:11 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/m11s/</guid>
+      <description>至天の座アルカディア零式ライトヘビー級3層向けの Splatoon Layout と設定ポイントをまとめています。</description>
+    </item>
+    <item>
+      <title>ヘビー級零式2層SplatoonLayout</title>
+      <link>https://ungeho.netlify.app/posts/m10s/</link>
+      <pubDate>Sat, 10 Jan 2026 10:07:25 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/m10s/</guid>
+      <description>至天の座アルカディア零式ライトヘビー級2層向けの Splatoon Layout とスクリプト導入メモです。</description>
+    </item>
+    <item>
+      <title>ヘビー級零式1層SplatoonLayout</title>
+      <link>https://ungeho.netlify.app/posts/m9s/</link>
+      <pubDate>Wed, 07 Jan 2026 23:07:30 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/m9s/</guid>
+      <description>至天の座アルカディア零式ライトヘビー級1層向けの Splatoon Layout とスクリプト導入メモです。</description>
+    </item>
+    <item>
+      <title>7.4極 Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/exdoomtrain/</link>
+      <pubDate>Sun, 21 Dec 2025 16:08:27 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/exdoomtrain/</guid>
+      <description>7.4 極向けの Splatoon Layout と使用メモです。</description>
+    </item>
+    <item>
+      <title>The Arcadion Savage Preset</title>
+      <link>https://ungeho.netlify.app/posts/the_arcadion_savage/</link>
+      <pubDate>Thu, 01 Aug 2024 07:27:05 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/the_arcadion_savage/</guid>
+      <description>アルカディア零式の Splatoon Preset をまとめた下書き用メモです。</description>
+    </item>
+    <item>
+      <title>異聞アロアロ島 Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/aloalo_island-splatoonpresets/</link>
+      <pubDate>Fri, 22 Mar 2024 20:21:08 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/aloalo_island-splatoonpresets/</guid>
+      <description>異聞アロアロ島向けの Splatoon Layout と利用メモです。</description>
+    </item>
+    <item>
+      <title>異聞六根山 Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/mount_rokkkon-splatoonpresets/</link>
+      <pubDate>Mon, 04 Mar 2024 18:25:44 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/mount_rokkkon-splatoonpresets/</guid>
+      <description>異聞六根山向けの Splatoon Layout と導入メモです。</description>
+    </item>
+    <item>
+      <title>異聞シラディハ Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/sildihn-splatoonpresets/</link>
+      <pubDate>Sat, 24 Feb 2024 04:44:03 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/sildihn-splatoonpresets/</guid>
+      <description>異聞シラディハ水道向けの Splatoon Layout と導入メモです。</description>
+    </item>
+    <item>
+      <title>絶竜詩戦争 Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/dsr-splatoonpresets/</link>
+      <pubDate>Wed, 07 Feb 2024 03:59:51 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/dsr-splatoonpresets/</guid>
+      <description>絶竜詩戦争向けの Splatoon Layout と導入用メモです。</description>
+    </item>
+    <item>
+      <title>絶アルテマ Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/umu-splatoonpresets/</link>
+      <pubDate>Sat, 27 Jan 2024 04:20:49 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/umu-splatoonpresets/</guid>
+      <description>絶アルテマウェポン破壊作戦向けの Splatoon Layout と導入メモです。</description>
+    </item>
+    <item>
+      <title>FF14の座標の計算方法と豆知識</title>
+      <link>https://ungeho.netlify.app/posts/splatooncoord/</link>
+      <pubDate>Sat, 27 Jan 2024 03:15:32 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/splatooncoord/</guid>
+      <description>FF14 の座標計算や Splatoon / Waymark 用の layout 作成に役立つ豆知識をまとめています。</description>
+    </item>
+    <item>
+      <title>絶バハムート Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/posts/ucob-splatoonpresets/</link>
+      <pubDate>Sat, 27 Jan 2024 02:39:08 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/ucob-splatoonpresets/</guid>
+      <description>絶バハムート討滅戦向けの Splatoon Layout と導入メモです。</description>
+    </item>
+  </channel>
+</rss>

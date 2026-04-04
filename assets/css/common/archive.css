@@ -11,14 +11,25 @@
     border-bottom: 2px solid var(--border);
 }
 
+.archive-year h2 {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.2rem;
+    padding: 0 0.9rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent-soft) 62%, white);
+    color: var(--primary);
+}
+
 .archive-month {
     display: flex;
     align-items: flex-start;
-    padding: 10px 0;
+    gap: 20px;
+    padding: 14px 0;
 }
 
 .archive-month-header {
-    margin: 25px 0;
+    margin: 18px 0 0;
     width: 200px;
 }
 
@@ -28,17 +39,47 @@
 
 .archive-entry {
     position: relative;
-    padding: 5px;
-    margin: 10px 0;
+    padding: 12px 14px;
+    margin: 8px 0;
+    border: 1px solid color-mix(in srgb, var(--accent) 10%, var(--border));
+    border-radius: var(--radius-sm);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 248, 252, 0.88)),
+        var(--surface-strong);
 }
 
 .archive-entry-title {
     margin: 5px 0;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 .archive-count,
 .archive-meta {
     color: var(--secondary);
     font-size: 14px;
+}
+
+.dark .archive-year h2 {
+    background: rgba(39, 49, 66, 0.96);
+}
+
+.dark .archive-entry {
+    background:
+        linear-gradient(180deg, rgba(20, 27, 39, 0.98), rgba(13, 18, 27, 0.98)),
+        var(--surface-strong);
+}
+
+@media screen and (max-width: 768px) {
+    .archive-month {
+        display: block;
+    }
+
+    .archive-month-header {
+        width: auto;
+        margin: 0 0 10px;
+    }
+
+    .archive-entry {
+        padding: 10px 12px;
+    }
 }

@@ -2,8 +2,10 @@
 title = '絶竜詩、教皇庁フェーズ予習'
 date = 2024-02-01T05:09:18+09:00
 draft = true
+description = "絶竜詩戦争の教皇庁フェーズに入る前に確認したい要点をまとめた予習メモです。"
 categories = ["FFXIV"]
 tags = ["DSR","preparation"]
+series = ["FFXIV Raid Notes"]
 # 目次を付与するオプション<!-- omit in toc -->
 showtoc = false
 # 目次を開いた状態にする<!-- omit in toc -->

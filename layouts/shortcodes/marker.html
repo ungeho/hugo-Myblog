@@ -1,0 +1,6 @@
+{{- $color := lower (.Get "color" | default (.Get 0) | default "pink") -}}
+{{- $allowed := slice "pink" "sakura" "yellow" "mint" "blue" "lavender" -}}
+{{- if not (in $allowed $color) -}}
+  {{- $color = "pink" -}}
+{{- end -}}
+<span class="marker marker-{{ $color }}">{{ .Inner | markdownify }}</span>

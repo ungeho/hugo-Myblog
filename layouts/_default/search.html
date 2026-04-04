@@ -23,6 +23,29 @@
 <div id="searchbox">
     <input id="searchInput" autofocus placeholder="{{ .Params.placeholder | default (printf "%s ↵" .Title) }}"
         aria-label="search" type="search" autocomplete="off" maxlength="64">
+    <p class="search-hint">タイトル、本文、タグ、カテゴリ、シリーズ名から探せます。</p>
+    <div class="search-filters" aria-label="search filters">
+        <label class="search-filter">
+            <span>Sort</span>
+            <select id="searchSort">
+                <option value="relevance">Relevance</option>
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+            </select>
+        </label>
+        <label class="search-filter">
+            <span>Category</span>
+            <select id="searchCategory">
+                <option value="">All</option>
+            </select>
+        </label>
+        <label class="search-filter">
+            <span>Series</span>
+            <select id="searchSeries">
+                <option value="">All</option>
+            </select>
+        </label>
+    </div>
     <ul id="searchResults" aria-label="search results"></ul>
 </div>
 

@@ -1,0 +1,6 @@
+{{- $tone := lower (.Get "tone" | default (.Get 0) | default "soft") -}}
+{{- $allowed := slice "soft" "pink" "mint" "blue" "yellow" "lavender" "dark" -}}
+{{- if not (in $allowed $tone) -}}
+  {{- $tone = "soft" -}}
+{{- end -}}
+<div class="section-label section-label-{{ $tone }}">{{ .Inner | markdownify }}</div>

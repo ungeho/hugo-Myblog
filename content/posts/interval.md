@@ -2,8 +2,10 @@
 title = '区間演算'
 date = 2025-12-09T14:46:40+09:00
 draft = false
+description = "区間演算の考え方と、丸め誤差を含んだままでも真値を含む範囲を保つ方法を紹介します。"
 categories = ["Programming"]
 tags = ["Float", "IEEE754", "数値計算", "誤差", "プログラミング", "区間演算"]
+series = ["コンピューターで計算する"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->

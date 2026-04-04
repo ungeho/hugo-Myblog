@@ -11,14 +11,33 @@
 </header>
 {{- end }}
 
+{{- partial "taxonomy/intro.html" . }}
+
 <ul class="terms-tags">
     {{- $type := .Type }}
-    {{- range $key, $value := .Data.Terms.Alphabetical }}
+    {{- $notes := index site.Data.taxonomy_notes $type }}
+    {{- $terms := .Data.Terms.Alphabetical }}
+    {{- if eq $type "series" }}
+      {{- $terms = .Data.Terms.ByCount }}
+    {{- end }}
+    {{- range $key, $value := $terms }}
     {{- $name := .Name }}
     {{- $count := .Count }}
     {{- with site.GetPage (printf "/%s/%s" $type $name) }}
+    {{- $termDesc := .Description }}
+    {{- if and (not $termDesc) $notes }}
+      {{- with index $notes $name }}
+        {{- $termDesc = index . "description" }}
+      {{- end }}
+    {{- end }}
     <li>
-        <a href="{{ .Permalink }}">{{ .Name }} <sup><strong><sup>{{ $count }}</sup></strong></sup> </a>
+        <a href="{{ .Permalink }}">
+            <span class="terms-name">{{ .Name }}</span>
+            <span class="terms-count">{{ $count }} posts</span>
+            {{- with $termDesc }}
+            <span class="terms-description">{{ . }}</span>
+            {{- end }}
+        </a>
     </li>
     {{- end }}
     {{- end }}

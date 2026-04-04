@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>YesAlready on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/tags/yesalready/</link>
+    <description>Recent content in YesAlready on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 28 Jan 2024 18:09:26 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/tags/yesalready/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>YesAlreadyPreset</title>
+      <link>https://ungeho.netlify.app/posts/yesalreadypreset/</link>
+      <pubDate>Sun, 28 Jan 2024 18:09:26 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/yesalreadypreset/</guid>
+      <description>YesAlreadyPreset の設定メモと利用例をまとめた記事です。</description>
+    </item>
+  </channel>
+</rss>

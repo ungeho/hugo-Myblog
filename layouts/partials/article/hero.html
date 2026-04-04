@@ -3,10 +3,16 @@
 
   <div class="article-hero-inner">
     <div class="article-hero-copy">
-      {{- with .Params.categories }}
+      {{- $series := .GetTerms "series" -}}
+      {{- if or $series .Params.categories }}
       <div class="article-taxonomy-row">
+        {{- range $series }}
+        <a class="article-chip article-chip-series" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+        {{- end }}
+        {{- with .Params.categories }}
         {{- range first 3 . }}
         <span class="article-chip">{{ . }}</span>
+        {{- end }}
         {{- end }}
       </div>
       {{- end }}

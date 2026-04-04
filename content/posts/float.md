@@ -2,8 +2,10 @@
 title = '浮動小数点数'
 date = 2025-12-07T19:03:04+09:00
 draft = false
+description = "浮動小数点数が実数を正確に表せない理由と、計算でどのような誤差が起きるのかを整理します。"
 categories = ["Programming"]
 tags = ["Float", "IEEE754", "数値計算", "誤差", "プログラミング"]
+series = ["コンピューターで計算する"]
 showtoc = true
 tocopen = false
 math = true

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>FFXIV Raid Notes on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/series/ffxiv-raid-notes/</link>
+    <description>Recent content in FFXIV Raid Notes on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Fri, 13 Sep 2024 03:13:38 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/series/ffxiv-raid-notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>モブハント用</title>
+      <link>https://ungeho.netlify.app/posts/hunts/</link>
+      <pubDate>Fri, 13 Sep 2024 03:13:38 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/hunts/</guid>
+      <description>モブハントで使う補助情報や Sonar / Faloop の設定メモをまとめた記事です。</description>
+    </item>
+    <item>
+      <title>絶竜詩、教皇庁フェーズ予習</title>
+      <link>https://ungeho.netlify.app/posts/dsr_pre_p1_vault/</link>
+      <pubDate>Thu, 01 Feb 2024 05:09:18 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/dsr_pre_p1_vault/</guid>
+      <description>絶竜詩戦争の教皇庁フェーズに入る前に確認したい要点をまとめた予習メモです。</description>
+    </item>
+    <item>
+      <title>YesAlreadyPreset</title>
+      <link>https://ungeho.netlify.app/posts/yesalreadypreset/</link>
+      <pubDate>Sun, 28 Jan 2024 18:09:26 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/yesalreadypreset/</guid>
+      <description>YesAlreadyPreset の設定メモと利用例をまとめた記事です。</description>
+    </item>
+    <item>
+      <title>FF14の座標の計算方法と豆知識</title>
+      <link>https://ungeho.netlify.app/posts/splatooncoord/</link>
+      <pubDate>Sat, 27 Jan 2024 03:15:32 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/splatooncoord/</guid>
+      <description>FF14 の座標計算や Splatoon / Waymark 用の layout 作成に役立つ豆知識をまとめています。</description>
+    </item>
+  </channel>
+</rss>

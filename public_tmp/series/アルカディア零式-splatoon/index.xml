@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>アルカディア零式 Splatoon on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/series/%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8F-splatoon/</link>
+    <description>Recent content in アルカディア零式 Splatoon on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Tue, 10 Mar 2026 00:46:35 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/series/%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8F-splatoon/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ヘビー級零式4層SplatoonLayout</title>
+      <link>https://ungeho.netlify.app/posts/m12s/</link>
+      <pubDate>Tue, 10 Mar 2026 00:46:35 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/m12s/</guid>
+      <description>至天の座アルカディア零式ライトヘビー級4層向けの Splatoon Layout と各スクリプトの使い方を整理しています。</description>
+    </item>
+    <item>
+      <title>ヘビー級零式3層SplatoonLayout</title>
+      <link>https://ungeho.netlify.app/posts/m11s/</link>
+      <pubDate>Tue, 20 Jan 2026 19:02:11 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/m11s/</guid>
+      <description>至天の座アルカディア零式ライトヘビー級3層向けの Splatoon Layout と設定ポイントをまとめています。</description>
+    </item>
+    <item>
+      <title>ヘビー級零式2層SplatoonLayout</title>
+      <link>https://ungeho.netlify.app/posts/m10s/</link>
+      <pubDate>Sat, 10 Jan 2026 10:07:25 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/m10s/</guid>
+      <description>至天の座アルカディア零式ライトヘビー級2層向けの Splatoon Layout とスクリプト導入メモです。</description>
+    </item>
+    <item>
+      <title>ヘビー級零式1層SplatoonLayout</title>
+      <link>https://ungeho.netlify.app/posts/m9s/</link>
+      <pubDate>Wed, 07 Jan 2026 23:07:30 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/m9s/</guid>
+      <description>至天の座アルカディア零式ライトヘビー級1層向けの Splatoon Layout とスクリプト導入メモです。</description>
+    </item>
+    <item>
+      <title>The Arcadion Savage Preset</title>
+      <link>https://ungeho.netlify.app/posts/the_arcadion_savage/</link>
+      <pubDate>Thu, 01 Aug 2024 07:27:05 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/the_arcadion_savage/</guid>
+      <description>アルカディア零式の Splatoon Preset をまとめた下書き用メモです。</description>
+    </item>
+  </channel>
+</rss>

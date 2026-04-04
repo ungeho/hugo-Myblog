@@ -5,6 +5,11 @@ hasCJKLanguage = true
 title = 'ungehoBlog'
 theme = 'PaperMod'
 
+[taxonomies]
+tag = "tags"
+category = "categories"
+series = "series"
+
 enableRobotsTXT = true
 buildDrafts = false
 buildFuture = false
@@ -106,3 +111,20 @@ weight = 30
 
 [outputs]
 home = ["HTML", "RSS", "JSON"]
+
+[related]
+    includeNewer = true
+    threshold = 20
+    toLower = true
+
+    [[related.indices]]
+        name = "series"
+        weight = 120
+
+    [[related.indices]]
+        name = "tags"
+        weight = 100
+
+    [[related.indices]]
+        name = "categories"
+        weight = 80

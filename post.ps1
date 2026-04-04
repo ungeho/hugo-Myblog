@@ -1,7 +1,18 @@
 param(
     [Parameter(Mandatory=$true)]
-    [string]$name
+    [string]$name,
+
+    [ValidateSet("default", "tech", "game", "memo")]
+    [string]$type = "default"
 )
 
-hugo new "posts/$name.md"
-# Write-Host "New post created: posts/$name.md"
+$target = "posts/$name.md"
+$repoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+Push-Location $repoRoot
+try {
+    hugo new --kind $type $target
+}
+finally {
+    Pop-Location
+}

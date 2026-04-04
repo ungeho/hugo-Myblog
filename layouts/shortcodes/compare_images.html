@@ -1,0 +1,16 @@
+{{- $left := .Get "left" -}}
+{{- $right := .Get "right" -}}
+{{- $leftAlt := .Get "leftAlt" | default "" -}}
+{{- $rightAlt := .Get "rightAlt" | default "" -}}
+{{- $leftCaption := .Get "leftCaption" | default "" -}}
+{{- $rightCaption := .Get "rightCaption" | default "" -}}
+<div class="article-image-compare">
+  <figure class="article-image-compare-item">
+    <img src="{{ $left | absURL }}" alt="{{ $leftAlt }}" loading="lazy" decoding="async" fetchpriority="low">
+    {{- with $leftCaption }}<figcaption>{{ . }}</figcaption>{{- end }}
+  </figure>
+  <figure class="article-image-compare-item">
+    <img src="{{ $right | absURL }}" alt="{{ $rightAlt }}" loading="lazy" decoding="async" fetchpriority="low">
+    {{- with $rightCaption }}<figcaption>{{ . }}</figcaption>{{- end }}
+  </figure>
+</div>

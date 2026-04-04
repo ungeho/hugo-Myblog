@@ -2,8 +2,10 @@
 title = "異聞シラディハ Splatoon Layout"
 date = 2024-02-24T04:44:03+09:00
 draft = true
+description = "異聞シラディハ水道向けの Splatoon Layout と導入メモです。"
 categories = ["FFXIV"]
 tags = ["FFXIV","Splatoon"]
+series = ["FFXIV Splatoon Presets"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = false
 # 目次を開いた状態にする <!-- omit in toc -->

@@ -2,8 +2,10 @@
 title = 'YesAlreadyPreset'
 date = 2024-01-28T18:09:26+09:00
 draft = true
+description = "YesAlreadyPreset の設定メモと利用例をまとめた記事です。"
 categories = ["FFXIV"]
 tags = ["FFXIV","YesAlready"]
+series = ["FFXIV Raid Notes"]
 # 目次を付与するオプション
 showtoc = true
 # 目次を開いた状態にする

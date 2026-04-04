@@ -11,7 +11,11 @@
         "title"     .Title
         "content"   .Plain
         "permalink" .Permalink
-        "summary"   .Summary
+        "summary"   (.Summary | plainify | htmlUnescape)
+        "date"      (.Date.Format "2006/01/02")
+        "tags"      (.Params.tags | default (slice))
+        "categories" (.Params.categories | default (slice))
+        "series"    (.Params.series | default (slice))
       ) -}}
       {{- $.Scratch.SetInMap "seen" $permalink true -}}
     {{- end }}

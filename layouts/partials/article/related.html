@@ -1,0 +1,38 @@
+{{- $limit := 3 -}}
+{{- $seriesTerms := .GetTerms "series" -}}
+{{- $seriesPages := slice -}}
+{{- if gt (len $seriesTerms) 0 -}}
+  {{- $seriesPages = where (index $seriesTerms 0).Pages "Permalink" "ne" .Permalink -}}
+{{- end -}}
+{{- $fallbackRelated := where (.Site.RegularPages.Related .) "Permalink" "ne" .Permalink -}}
+{{- $related := first $limit $seriesPages -}}
+{{- $seen := slice -}}
+{{- range $related }}{{- $seen = $seen | append .Permalink -}}{{- end -}}
+{{- if lt (len $related) $limit -}}
+  {{- range $fallbackRelated -}}
+    {{- if and (lt (len $related) $limit) (not (in $seen .Permalink)) -}}
+      {{- $related = $related | append . -}}
+      {{- $seen = $seen | append .Permalink -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if gt (len $related) 0 }}
+<section class="article-footer-section article-related-section">
+  <h2 class="article-footer-heading">Related Posts</h2>
+  <div class="article-related-grid">
+    {{- range $related }}
+    <a class="article-related-card" href="{{ .RelPermalink }}">
+      {{- with .Params.series }}
+      <span class="article-related-series">{{ if reflect.IsSlice . }}{{ index . 0 }}{{ else }}{{ . }}{{ end }}</span>
+      {{- end }}
+      <span class="article-related-title">{{ .Title }}</span>
+      {{- with .Params.tags }}
+      <span class="article-related-meta">{{ index . 0 }}</span>
+      {{- else }}
+      <span class="article-related-meta">{{ .Date.Format "2006/01/02" }}</span>
+      {{- end }}
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}

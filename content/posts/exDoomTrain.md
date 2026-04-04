@@ -2,8 +2,10 @@
 title = '7.4極 Splatoon Layout'
 date = 2025-12-21T16:08:27+09:00
 draft = false
+description = "7.4 極向けの Splatoon Layout と使用メモです。"
 categories = ["FFXIV"]
 tags = ["FFXIV","Splatoon"]
+series = ["FFXIV Splatoon Presets"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->

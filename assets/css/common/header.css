@@ -139,6 +139,10 @@ body:not(.dark) #sun {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.26);
 }
 
+.dark #menu a {
+    color: color-mix(in srgb, var(--secondary) 78%, white);
+}
+
 .dark #menu a .active {
     background: linear-gradient(180deg, rgba(29, 37, 50, 0.98), rgba(22, 29, 40, 0.98));
     box-shadow:

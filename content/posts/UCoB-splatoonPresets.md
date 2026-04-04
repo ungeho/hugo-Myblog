@@ -2,8 +2,10 @@
 title = "絶バハムート Splatoon Layout"
 date = 2024-01-27T02:39:08+09:00
 draft = true
+description = "絶バハムート討滅戦向けの Splatoon Layout と導入メモです。"
 categories = ["FFXIV"]
 tags = ["FFXIV","Splatoon"]
+series = ["FFXIV Splatoon Presets"]
 # 目次を付与するオプション
 showtoc = true
 # 目次を開いた状態にする

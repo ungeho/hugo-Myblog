@@ -1,4 +1,18 @@
 <footer class="post-footer article-footer">
+  {{- partial "article/series_nav.html" . }}
+
+  {{- $seriesTerms := $.GetTerms "series" }}
+  {{- if gt (len $seriesTerms) 0 }}
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Series</h2>
+    <ul class="post-tags">
+      {{- range $seriesTerms }}
+      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+
   {{- $tags := .Language.Params.Taxonomies.tag | default "tags" }}
   {{- $tagTerms := $.GetTerms $tags }}
   {{- if gt (len $tagTerms) 0 }}
@@ -11,6 +25,8 @@
     </ul>
   </section>
   {{- end }}
+
+  {{- partial "article/related.html" . }}
 
   {{- if (.Param "ShowPostNavLinks") }}
   <section class="article-footer-section">

@@ -1,18 +1,170 @@
+.taxonomy-intro {
+    display: grid;
+    gap: 0.8rem;
+    margin: 0 0 calc(var(--content-gap) * 0.9);
+    padding: 1rem 1.1rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 12%, var(--border));
+    border-radius: var(--radius);
+    background:
+        radial-gradient(circle at top right, rgba(216, 130, 159, 0.12), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 247, 251, 0.92)),
+        var(--surface-strong);
+    box-shadow: var(--shadow-sm);
+}
+
+.taxonomy-intro-label {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    min-height: 28px;
+    padding: 0 0.8rem;
+    border-radius: 999px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.taxonomy-intro-copy {
+    margin: 0;
+    color: var(--content);
+    line-height: 1.9;
+}
+
+.taxonomy-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.taxonomy-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 32px;
+    padding: 0 0.85rem;
+    border-radius: 999px;
+    color: var(--secondary);
+    background: color-mix(in srgb, var(--surface-muted) 88%, white);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.taxonomy-stat strong {
+    color: var(--primary);
+}
+
+.terms-tags {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    padding: 0;
+    list-style: none;
+}
+
 .terms-tags li {
-    display: inline-block;
-    margin: 10px;
+    margin: 0;
     font-weight: 500;
 }
 
 .terms-tags a {
-    display: block;
-    padding: 3px 10px;
-    background: var(--tertiary);
-    border-radius: 6px;
-    transition: transform 0.1s;
+    display: grid;
+    gap: 0.4rem;
+    min-height: 100%;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 247, 251, 0.9)),
+        var(--surface-strong);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
+}
+
+.terms-name {
+    color: var(--primary);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.terms-count {
+    color: var(--secondary);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.terms-description {
+    color: var(--secondary);
+    font-size: 0.88rem;
+    line-height: 1.7;
 }
 
 .terms-tags a:active {
-    background: var(--tertiary);
     transform: scale(0.96);
+}
+
+.terms-tags a:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent) 22%, var(--border));
+    background: color-mix(in srgb, var(--accent-soft) 18%, var(--surface-strong));
+}
+
+.dark .terms-tags a {
+    background:
+        linear-gradient(180deg, rgba(20, 27, 39, 0.98), rgba(13, 18, 27, 0.98)),
+        var(--surface-strong);
+    border-color: color-mix(in srgb, var(--accent) 10%, var(--border));
+}
+
+.dark .taxonomy-intro {
+    background:
+        radial-gradient(circle at top right, rgba(255, 156, 122, 0.09), transparent 30%),
+        radial-gradient(circle at 15% 18%, rgba(94, 134, 214, 0.1), transparent 16%),
+        linear-gradient(180deg, rgba(20, 27, 39, 0.98), rgba(13, 18, 27, 0.99)),
+        var(--surface-strong);
+    border-color: color-mix(in srgb, var(--accent) 10%, var(--border));
+}
+
+.dark .taxonomy-intro-label {
+    color: #ffe7ef;
+    background: rgba(122, 74, 95, 0.88);
+}
+
+.dark .taxonomy-stat {
+    color: color-mix(in srgb, var(--secondary) 82%, white);
+    background: rgba(28, 36, 48, 0.96);
+}
+
+.dark .taxonomy-stat strong {
+    color: color-mix(in srgb, var(--primary) 92%, white);
+}
+
+.dark .terms-tags a:hover {
+    background: color-mix(in srgb, var(--accent-soft) 22%, rgba(38, 46, 60, 0.98));
+}
+
+.dark .terms-count {
+    color: color-mix(in srgb, var(--secondary) 80%, white);
+}
+
+.dark .terms-description {
+    color: color-mix(in srgb, var(--secondary) 82%, white);
+}
+
+@media screen and (max-width: 768px) {
+    .taxonomy-intro {
+        padding: 0.92rem 0.94rem;
+    }
+
+    .taxonomy-stats {
+        gap: 0.5rem;
+    }
+
+    .taxonomy-stat {
+        font-size: 0.77rem;
+    }
 }

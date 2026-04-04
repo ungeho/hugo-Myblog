@@ -6,15 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
 <title>My First Post | ungehoBlog</title>
-<meta name="keywords" content="">
-<meta name="description" content="draft = trueにした場合
-hugo server で -D オプションを付与しないと表示されない。
-現在は、デフォルトでdraft = false
-これは、マークダウンのテストです。
-tagsは&quot;test&quot;">
+<meta name="keywords" content="test">
+<meta name="description" content="Hugo の投稿確認用に作成した最初の記事です。">
 <meta name="author" content="ungeho">
 <link rel="canonical" href="http://localhost:1313/posts/my-first-post/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.28289c153933821c463025d3ffad0a7a4ec04b67cf75e836c000bf83d364a546.css" integrity="sha256-KCicFTkzghxGMCXT/60Kek7AS2fPdeg2wAC/g9NkpUY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.214a6d0a43d0ca2b39d0fca0440e9c19f89f6db4f880cbd11494e74aba504ed8.css" integrity="sha256-IUptCkPQyis50PygRA6cGfifbbT4gMvRFJTnSrpQTtg=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
@@ -181,6 +177,7 @@ tagsは&quot;test&quot;">
   <div class="article-hero-inner">
     <div class="article-hero-copy">
       <div class="article-taxonomy-row">
+        <a class="article-chip article-chip-series" href="http://localhost:1313/series/blog-customization/">Blog Customization</a>
         <span class="article-chip">test</span>
       </div>
 
@@ -192,6 +189,9 @@ tagsは&quot;test&quot;">
           </svg>
         </span>
       </h1>
+      <div class="post-description article-lead">
+        Hugo の投稿確認用に作成した最初の記事です。
+      </div>
       <div class="post-meta article-meta"><span title='2024-01-22 19:01:13 +0900 JST'>2024/01/22</span>&nbsp;·&nbsp;2 分&nbsp;·&nbsp;ungeho
 
 </div>
@@ -202,7 +202,13 @@ tagsは&quot;test&quot;">
 
   <div class="article-layout">
     <div class="article-main">
-      <div class="post-content"><p><code>draft = true</code>にした場合</p>
+      <div class="post-content"><p><span class="marker marker-pink">ここを強調</span>
+
+<span class="marker marker-yellow">黄色マーカー</span>
+
+<span class="marker marker-mint">ミント系</span>
+</p>
+<p><code>draft = true</code>にした場合</p>
 <p><code>hugo server</code> で <code>-D</code> オプションを付与しないと表示されない。</p>
 <p>現在は、デフォルトで<code>draft = false</code></p>
 <p>これは、マークダウンのテストです。</p>
@@ -295,7 +301,49 @@ $$</p>
 </div>
 
 
-      </div><footer class="post-footer article-footer">
+      </div><footer class="post-footer article-footer"><section class="article-footer-section article-series-nav-section">
+    <h2 class="article-footer-heading">Series Navigation</h2>
+    <nav class="series-nav"><span class="series-nav-placeholder"></span><a class="series-nav-center" href="http://localhost:1313/series/blog-customization/">
+        <span class="series-nav-label">Series</span>
+        <span class="series-nav-title">Blog Customization</span>
+      </a><a class="series-nav-link series-nav-next" href="/posts/sample-tech-article/">
+        <span class="series-nav-label">Next in Series</span>
+        <span class="series-nav-title">技術記事サンプル</span>
+      </a></nav>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Series</h2>
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/series/blog-customization/">Blog Customization</a></li>
+    </ul>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Tags</h2>
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/test/">Test</a></li>
+    </ul>
+  </section>
+<section class="article-footer-section article-related-section">
+  <h2 class="article-footer-heading">Related Posts</h2>
+  <div class="article-related-grid">
+    <a class="article-related-card" href="/posts/shortcode-showcase/">
+      <span class="article-related-series">Blog Customization</span>
+      <span class="article-related-title">Shortcode Showcase</span>
+      <span class="article-related-meta">shortcode</span>
+    </a>
+    <a class="article-related-card" href="/posts/sample-game-article/">
+      <span class="article-related-series">Blog Customization</span>
+      <span class="article-related-title">ゲーム記事サンプル</span>
+      <span class="article-related-meta">sample</span>
+    </a>
+    <a class="article-related-card" href="/posts/sample-tech-article/">
+      <span class="article-related-series">Blog Customization</span>
+      <span class="article-related-title">技術記事サンプル</span>
+      <span class="article-related-meta">sample</span>
+    </a>
+  </div>
+</section>
+
   <section class="article-footer-section">
 <nav class="paginav">
   <a class="prev" href="http://localhost:1313/posts/ucob-splatoonpresets/">
@@ -311,7 +359,7 @@ $$</p>
 <ul class="share-buttons">
     <li>
         <a target="_blank" rel="noopener noreferrer" aria-label="share My First Post on x"
-            href="https://x.com/intent/tweet/?text=My%20First%20Post&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fmy-first-post%2f&amp;hashtags=">
+            href="https://x.com/intent/tweet/?text=My%20First%20Post&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fmy-first-post%2f&amp;hashtags=test">
             <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
                 <path
                     d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />

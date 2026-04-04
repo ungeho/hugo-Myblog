@@ -2,8 +2,10 @@
 title = 'モブハント用'
 date = 2024-09-13T03:13:38+09:00
 draft = true
+description = "モブハントで使う補助情報や Sonar / Faloop の設定メモをまとめた記事です。"
 categories = ["FFXIV"]
-tags = ["FFXIV,Sonar,Faloop"]
+tags = ["FFXIV", "Sonar", "Faloop"]
+series = ["FFXIV Raid Notes"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->

@@ -2,8 +2,10 @@
 title = '絶竜詩戦争 Splatoon Layout'
 date = 2024-02-07T03:59:51+09:00
 draft = true
+description = "絶竜詩戦争向けの Splatoon Layout と導入用メモです。"
 categories = ["FFXIV"]
 tags = ["FFXIV","Splatoon"]
+series = ["FFXIV Splatoon Presets"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->

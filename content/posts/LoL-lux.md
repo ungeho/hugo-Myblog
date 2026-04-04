@@ -2,8 +2,10 @@
 title = 'Lux'
 date = 2024-05-26T17:00:04+09:00
 draft = true
+description = "League of Legends の Lux に関する個人用メモです。"
 categories = ["League of Legends"]
 tags = ["League of Legends"]
+series = ["League of Legends Notes"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->

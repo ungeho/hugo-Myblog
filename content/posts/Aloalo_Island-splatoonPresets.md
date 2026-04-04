@@ -2,8 +2,10 @@
 title = '異聞アロアロ島 Splatoon Layout'
 date = 2024-03-22T20:21:08+09:00
 draft = true
+description = "異聞アロアロ島向けの Splatoon Layout と利用メモです。"
 categories = ["FFXIV"]
 tags = ["Splatoon","FFXIV"]
+series = ["FFXIV Splatoon Presets"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->

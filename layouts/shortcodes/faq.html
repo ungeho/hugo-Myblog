@@ -1,0 +1,8 @@
+{{- $question := .Get "q" | default (.Get "question") | default "Question" -}}
+{{- $open := .Get "open" | default "false" -}}
+<details class="faq-item" {{ if eq (lower $open) "true" }}open{{ end }}>
+  <summary class="faq-question">{{ $question }}</summary>
+  <div class="faq-answer">
+    {{ .Inner | markdownify }}
+  </div>
+</details>

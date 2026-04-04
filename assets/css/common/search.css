@@ -1,28 +1,147 @@
 #searchbox input {
-    padding: 4px 10px;
+    padding: 10px 14px;
     width: 100%;
     color: var(--primary);
     font-weight: bold;
-    border: 2px solid var(--tertiary);
+    border: 1px solid color-mix(in srgb, var(--accent) 10%, var(--border));
     border-radius: var(--radius);
+    background: var(--surface-strong);
 }
 
 #searchbox input:focus {
-    border-color: var(--secondary);
+    border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+    outline: none;
+}
+
+.search-hint {
+    margin: 0.7rem 0 0.2rem;
+    color: var(--secondary);
+    font-size: 0.9rem;
+}
+
+.search-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0.8rem 0 0.4rem;
+}
+
+.search-filter {
+    display: grid;
+    gap: 0.38rem;
+}
+
+.search-filter span {
+    color: var(--secondary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.search-filter select {
+    min-width: 160px;
+    min-height: 40px;
+    padding: 0 12px;
+    color: var(--primary);
+    border: 1px solid color-mix(in srgb, var(--accent) 10%, var(--border));
+    border-radius: var(--radius-sm);
+    background: var(--surface-strong);
+}
+
+.search-filter:first-child select {
+    min-width: 144px;
+}
+
+.search-filter select:focus {
+    border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+    outline: none;
 }
 
 #searchResults li {
     list-style: none;
     border-radius: var(--radius);
-    padding: 10px;
+    padding: 14px 16px;
     margin: 10px 0;
     position: relative;
     font-weight: 500;
+    border: 1px solid color-mix(in srgb, var(--accent) 10%, var(--border));
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 248, 252, 0.88)),
+        var(--surface-strong);
+    box-shadow: var(--shadow-sm);
 }
 
 #searchResults {
     margin: 10px 0;
     width: 100%;
+}
+
+.search-result-card {
+    display: grid;
+    gap: 0.6rem;
+}
+
+.search-result-card .entry-header h2 {
+    min-height: 0;
+    margin: 0;
+    font-size: 1.18rem;
+}
+
+.search-result-card .entry-content {
+    min-height: 0;
+    margin: 0;
+    font-size: 0.94rem;
+    line-height: 1.72;
+}
+
+.search-result-card .entry-content p {
+    -webkit-line-clamp: 2;
+}
+
+.search-highlight {
+    padding: 0 0.16em;
+    border-radius: 0.35em;
+    color: inherit;
+    background: linear-gradient(180deg, rgba(255, 233, 122, 0.18), rgba(255, 213, 118, 0.42));
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+.search-result-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.search-meta-date {
+    color: var(--secondary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.search-meta-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 9px;
+    border-radius: 999px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.search-meta-chip-series {
+    color: #8d5573;
+    background: linear-gradient(180deg, rgba(255, 232, 240, 0.98), rgba(255, 241, 246, 0.96));
+}
+
+.search-meta-chip-muted {
+    color: var(--secondary);
+    background: color-mix(in srgb, var(--surface-muted) 88%, white);
 }
 
 #searchResults li:active {
@@ -41,5 +160,52 @@
 
 #searchResults .focus {
     transform: scale(0.98);
-    border: 2px solid var(--tertiary);
+    border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border));
+}
+
+.dark #searchResults li {
+    background:
+        linear-gradient(180deg, rgba(20, 27, 39, 0.98), rgba(13, 18, 27, 0.98)),
+        var(--surface-strong);
+}
+
+.dark .search-hint {
+    color: color-mix(in srgb, var(--secondary) 84%, white);
+}
+
+.dark .search-filter span {
+    color: color-mix(in srgb, var(--secondary) 82%, white);
+}
+
+.dark .search-filter select {
+    background: rgba(20, 27, 39, 0.98);
+}
+
+.dark .search-meta-date {
+    color: color-mix(in srgb, var(--secondary) 82%, white);
+}
+
+.dark .search-meta-chip-series {
+    color: #ffe2ea;
+    background: rgba(112, 67, 89, 0.88);
+}
+
+.dark .search-meta-chip-muted {
+    color: color-mix(in srgb, var(--secondary) 76%, white);
+    background: rgba(29, 36, 48, 0.96);
+}
+
+.dark .search-highlight {
+    background: linear-gradient(180deg, rgba(255, 170, 120, 0.16), rgba(255, 132, 92, 0.34));
+}
+
+@media screen and (max-width: 768px) {
+    .search-filters {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .search-filter select {
+        width: 100%;
+    }
 }

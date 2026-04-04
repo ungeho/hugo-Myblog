@@ -2,9 +2,17 @@
 title = 'My First Post'
 date = 2024-01-22T19:01:13+09:00
 draft = true
+description = "Hugo の投稿確認用に作成した最初の記事です。"
 categories = ["test"]
+tags = ["test"]
+series = ["Blog Customization"]
 math = true
 +++
+
+{{< marker >}}ここを強調{{< /marker >}}
+{{< marker color="yellow" >}}黄色マーカー{{< /marker >}}
+{{< marker color="mint" >}}ミント系{{< /marker >}}
+
 
 `draft = true`にした場合
 

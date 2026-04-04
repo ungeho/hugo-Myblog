@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Game on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/tags/game/</link>
+    <description>Recent content in Game on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sat, 04 Apr 2026 09:25:00 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/tags/game/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ゲーム記事サンプル</title>
+      <link>https://ungeho.netlify.app/posts/sample-game-article/</link>
+      <pubDate>Sat, 04 Apr 2026 09:25:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/sample-game-article/</guid>
+      <description>ゲーム記事テンプレートの実戦寄りサンプル。update note、steps、FAQ、linkcard の使い方をまとめています。</description>
+    </item>
+  </channel>
+</rss>
