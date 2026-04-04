@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>数値積分 on ungehoBlog</title>
-    <link>https://ungeho.netlify.app/tags/%E6%95%B0%E5%80%A4%E7%A9%8D%E5%88%86/</link>
+    <link>http://localhost:1313/tags/%E6%95%B0%E5%80%A4%E7%A9%8D%E5%88%86/</link>
     <description>Recent content in 数値積分 on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <lastBuildDate>Wed, 10 Dec 2025 20:28:15 +0900</lastBuildDate>
-    <atom:link href="https://ungeho.netlify.app/tags/%E6%95%B0%E5%80%A4%E7%A9%8D%E5%88%86/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/%E6%95%B0%E5%80%A4%E7%A9%8D%E5%88%86/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>数値積分</title>
-      <link>https://ungeho.netlify.app/posts/numericalintegration/</link>
+      <link>http://localhost:1313/posts/numericalintegration/</link>
       <pubDate>Wed, 10 Dec 2025 20:28:15 +0900</pubDate>
-      <guid>https://ungeho.netlify.app/posts/numericalintegration/</guid>
+      <guid>http://localhost:1313/posts/numericalintegration/</guid>
       <description>&lt;hr&gt;
 &lt;blockquote&gt;
     &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;

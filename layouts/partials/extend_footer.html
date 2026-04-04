@@ -1,10 +1,12 @@
 {{- /* Footer custom content area start */ -}}
 {{- /* Article interaction helpers live here to keep footer.html focused on shared layout behavior. */ -}}
+{{- if .IsPage -}}
 {{- $postEnhancements := resources.Get "js/post-enhancements.js" | js.Build | resources.Minify -}}
 {{- if not site.Params.assets.disableFingerprinting -}}
 {{- $postEnhancements = $postEnhancements | fingerprint -}}
 <script defer crossorigin="anonymous" src="{{ $postEnhancements.RelPermalink }}" integrity="{{ $postEnhancements.Data.Integrity }}"></script>
 {{- else -}}
 <script defer crossorigin="anonymous" src="{{ $postEnhancements.RelPermalink }}"></script>
+{{- end -}}
 {{- end -}}
 {{- /* Footer custom content area end */ -}}

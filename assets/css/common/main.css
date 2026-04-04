@@ -103,7 +103,6 @@ pre:hover .copy-code {
 
 .lightbox::backdrop {
     background: rgba(10, 12, 18, 0.72);
-    backdrop-filter: blur(10px);
 }
 
 .lightbox-shell {
@@ -113,7 +112,7 @@ pre:hover .copy-code {
     background: var(--surface-strong);
     border: 1px solid var(--border);
     border-radius: calc(var(--radius) + 4px);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 16px 36px rgba(16, 20, 28, 0.18);
 }
 
 .lightbox-image {

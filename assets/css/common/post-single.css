@@ -132,7 +132,7 @@
     background: var(--surface-strong);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 6px 16px rgba(34, 27, 20, 0.05);
 }
 
 .reading-progress-card {
@@ -167,11 +167,13 @@
 
 .reading-progress-bar {
     display: block;
-    width: 0;
+    width: 100%;
     height: 100%;
     border-radius: inherit;
     background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 58%, white));
-    transition: width 0.18s ease;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.12s linear;
 }
 
 .post-content {
@@ -528,7 +530,6 @@
     font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    backdrop-filter: blur(10px);
 }
 
 .post-content li > .highlight {
@@ -859,7 +860,7 @@
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 248, 243, 0.96)),
         var(--surface-strong);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 6px 16px rgba(34, 27, 20, 0.05);
 }
 
 .article-jump-current {

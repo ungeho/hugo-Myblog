@@ -1,91 +1,23 @@
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const getArticleSections = () => {
-  return [...document.querySelectorAll(".toc a[href^='#']")]
-    .map((link) => {
-      const id = decodeURIComponent(link.getAttribute("href").slice(1));
-      const section = document.getElementById(id);
-      return section ? { link, section, id, label: link.textContent.trim() } : null;
-    })
-    .filter(Boolean);
-};
-
-const getActiveSectionIndex = (sections) => {
-  if (!sections.length) {
-    return -1;
-  }
-
-  let activeIndex = 0;
-
-  sections.forEach((item, index) => {
-    if (item.section.getBoundingClientRect().top <= 140) {
-      activeIndex = index;
-    }
-  });
-
-  return activeIndex;
-};
-
-const setReadingProgress = () => {
-  const article = document.querySelector(".article-single .post-content");
-  const bar = document.querySelector("[data-reading-progress-bar]");
-  const value = document.querySelector("[data-reading-progress-value]");
-
-  if (!article || !bar || !value) {
-    return;
-  }
-
-  const rect = article.getBoundingClientRect();
-  const total = Math.max(article.offsetHeight - window.innerHeight * 0.6, 1);
-  const passed = Math.min(Math.max(-rect.top + window.innerHeight * 0.15, 0), total);
-  const progress = Math.round((passed / total) * 100);
-
-  bar.style.width = `${progress}%`;
-  value.textContent = `${progress}%`;
-};
-
-const highlightCurrentHeading = () => {
-  const sections = getArticleSections();
-
-  if (!sections.length) {
-    return;
-  }
-
-  const active = sections[getActiveSectionIndex(sections)];
-
-  sections.forEach(({ link }) => link.removeAttribute("aria-current"));
-  active.link.setAttribute("aria-current", "true");
-
-  document.querySelectorAll(".toc .toc-item-parent").forEach((item) => {
-    item.classList.remove("is-open", "is-active-branch");
-    const row = [...item.children].find((child) => child.classList?.contains("toc-item-row"));
-    const toggle = row?.querySelector(".toc-toggle");
-    if (toggle) {
-      toggle.setAttribute("aria-expanded", "false");
-    }
-  });
-
-  let current = active.link.closest(".toc-item-parent");
-  while (current) {
-    current.classList.add("is-open", "is-active-branch");
-    const row = [...current.children].find((child) => child.classList?.contains("toc-item-row"));
-    const toggle = row?.querySelector(".toc-toggle");
-    if (toggle) {
-      toggle.setAttribute("aria-expanded", "true");
-    }
-    current = current.parentElement?.closest(".toc-item-parent") || null;
-  }
-};
-
-const scrollToHeading = (section) => {
-  if (!section) {
-    return;
-  }
-
-  section.scrollIntoView({
-    behavior: prefersReducedMotion ? "auto" : "smooth",
-    block: "start",
-  });
+const postState = {
+  article: null,
+  progressBar: null,
+  progressValue: null,
+  tocDetails: null,
+  tocNav: null,
+  tocParentItems: [],
+  sections: [],
+  articleNavigator: null,
+  articleNavigatorCurrent: null,
+  articleNavigatorPrev: null,
+  articleNavigatorNext: null,
+  activeSectionIndex: -1,
+  visibleSectionIds: new Set(),
+  headingObserver: null,
+  scrollTicking: false,
+  resizeTicking: false,
+  progressValueNumber: -1,
 };
 
 const normalizeLanguageLabel = (language) => {
@@ -122,6 +54,186 @@ const normalizeLanguageLabel = (language) => {
   return value.charAt(0).toUpperCase() + value.slice(1);
 };
 
+const cachePostElements = () => {
+  postState.article = document.querySelector(".article-single .post-content");
+  postState.progressBar = document.querySelector("[data-reading-progress-bar]");
+  postState.progressValue = document.querySelector("[data-reading-progress-value]");
+  postState.tocDetails = document.querySelector("[data-toc-details]");
+  postState.tocNav = document.querySelector(".toc nav");
+  postState.articleNavigator = document.querySelector("[data-article-jump-nav]");
+};
+
+const rebuildSections = () => {
+  postState.sections = [...document.querySelectorAll(".toc a[href^='#']")]
+    .map((link) => {
+      const id = decodeURIComponent(link.getAttribute("href").slice(1));
+      const section = document.getElementById(id);
+      return section ? { link, section, id, label: link.textContent.trim() } : null;
+    })
+    .filter(Boolean);
+
+  postState.tocParentItems = [...document.querySelectorAll(".toc .toc-item-parent")];
+};
+
+const getHeaderOffset = () => {
+  const headerHeight = parseFloat(
+    getComputedStyle(document.documentElement).getPropertyValue("--header-height"),
+  );
+
+  return Number.isFinite(headerHeight) ? headerHeight + 28 : 112;
+};
+
+const getActiveSectionIndex = () => {
+  if (!postState.sections.length) {
+    return -1;
+  }
+
+  if (postState.visibleSectionIds.size) {
+    const visibleSections = postState.sections.filter(({ id }) => postState.visibleSectionIds.has(id));
+
+    if (visibleSections.length) {
+      const sorted = visibleSections
+        .map((item) => ({
+          item,
+          top: item.section.getBoundingClientRect().top,
+        }))
+        .sort((left, right) => Math.abs(left.top - getHeaderOffset()) - Math.abs(right.top - getHeaderOffset()));
+
+      const activeId = sorted[0]?.item.id;
+      const activeIndex = postState.sections.findIndex(({ id }) => id === activeId);
+      if (activeIndex >= 0) {
+        return activeIndex;
+      }
+    }
+  }
+
+  let fallbackIndex = 0;
+  const threshold = getHeaderOffset() + 12;
+
+  postState.sections.forEach((item, index) => {
+    if (item.section.getBoundingClientRect().top <= threshold) {
+      fallbackIndex = index;
+    }
+  });
+
+  return fallbackIndex;
+};
+
+const scrollToHeading = (section) => {
+  if (!section) {
+    return;
+  }
+
+  section.scrollIntoView({
+    behavior: prefersReducedMotion ? "auto" : "smooth",
+    block: "start",
+  });
+};
+
+const setReadingProgress = () => {
+  const { article, progressBar, progressValue } = postState;
+
+  if (!article || !progressBar || !progressValue) {
+    return;
+  }
+
+  const rect = article.getBoundingClientRect();
+  const total = Math.max(article.offsetHeight - window.innerHeight * 0.6, 1);
+  const passed = Math.min(Math.max(-rect.top + window.innerHeight * 0.15, 0), total);
+  const progress = Math.round((passed / total) * 100);
+
+  if (progress !== postState.progressValueNumber) {
+    progressBar.style.transform = `scaleX(${progress / 100})`;
+    progressValue.textContent = `${progress}%`;
+    postState.progressValueNumber = progress;
+  }
+};
+
+const applyActiveSection = (activeIndex) => {
+  if (!postState.sections.length || activeIndex < 0) {
+    return;
+  }
+
+  if (activeIndex === postState.activeSectionIndex) {
+    return;
+  }
+
+  postState.activeSectionIndex = activeIndex;
+  const active = postState.sections[activeIndex];
+
+  postState.sections.forEach(({ link }) => link.removeAttribute("aria-current"));
+  active.link.setAttribute("aria-current", "true");
+
+  postState.tocParentItems.forEach((item) => {
+    item.classList.remove("is-open", "is-active-branch");
+    const row = [...item.children].find((child) => child.classList?.contains("toc-item-row"));
+    const toggle = row?.querySelector(".toc-toggle");
+    if (toggle) {
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  let current = active.link.closest(".toc-item-parent");
+  while (current) {
+    current.classList.add("is-open", "is-active-branch");
+    const row = [...current.children].find((child) => child.classList?.contains("toc-item-row"));
+    const toggle = row?.querySelector(".toc-toggle");
+    if (toggle) {
+      toggle.setAttribute("aria-expanded", "true");
+    }
+    current = current.parentElement?.closest(".toc-item-parent") || null;
+  }
+};
+
+const highlightCurrentHeading = () => {
+  if (!postState.sections.length) {
+    return;
+  }
+
+  applyActiveSection(getActiveSectionIndex());
+};
+
+const disconnectHeadingObserver = () => {
+  postState.headingObserver?.disconnect();
+  postState.headingObserver = null;
+  postState.visibleSectionIds.clear();
+};
+
+const setupHeadingObserver = () => {
+  disconnectHeadingObserver();
+
+  if (!postState.sections.length || typeof IntersectionObserver !== "function") {
+    return;
+  }
+
+  const offset = getHeaderOffset();
+  postState.headingObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const id = entry.target.id;
+        if (!id) {
+          return;
+        }
+
+        if (entry.isIntersecting) {
+          postState.visibleSectionIds.add(id);
+        } else {
+          postState.visibleSectionIds.delete(id);
+        }
+      });
+
+      applyActiveSection(getActiveSectionIndex());
+      updateArticleNavigator();
+    },
+    {
+      rootMargin: `${-offset}px 0px -55% 0px`,
+      threshold: [0, 1],
+    },
+  );
+
+  postState.sections.forEach(({ section }) => postState.headingObserver.observe(section));
+};
+
 const setupCodeLanguageLabels = () => {
   const blocks = document.querySelectorAll(".post-content .highlight, .post-content > pre");
 
@@ -130,7 +242,7 @@ const setupCodeLanguageLabels = () => {
       return;
     }
 
-    const code = block.matches("pre") ? block.querySelector("code") : block.querySelector("code");
+    const code = block.querySelector("code");
     const pre = block.matches("pre") ? block : block.querySelector("pre");
     const classes = `${block.className} ${pre?.className || ""} ${code?.className || ""}`;
     const match = classes.match(/language-([a-z0-9#+-]+)/i) || classes.match(/\b(chroma|highlight)\s+([a-z0-9#+-]+)/i);
@@ -148,15 +260,9 @@ const setupCodeLanguageLabels = () => {
 };
 
 const setupArticleNavigator = () => {
-  const mount = document.querySelector("[data-article-jump-nav]");
+  const mount = postState.articleNavigator;
 
-  if (!mount || mount.dataset.ready === "true") {
-    return;
-  }
-
-  const sections = getArticleSections();
-
-  if (!sections.length) {
+  if (!mount || mount.dataset.ready === "true" || !postState.sections.length) {
     return;
   }
 
@@ -173,57 +279,52 @@ const setupArticleNavigator = () => {
 
   mount.hidden = false;
   mount.dataset.ready = "true";
+  postState.articleNavigatorCurrent = mount.querySelector("[data-article-current]");
+  postState.articleNavigatorPrev = mount.querySelector("[data-article-prev]");
+  postState.articleNavigatorNext = mount.querySelector("[data-article-next]");
 
-  mount.querySelector("[data-article-prev]")?.addEventListener("click", () => {
-    const currentIndex = getActiveSectionIndex(getArticleSections());
-    const target = getArticleSections()[Math.max(currentIndex - 1, 0)];
+  postState.articleNavigatorPrev?.addEventListener("click", () => {
+    const currentIndex = Math.max(postState.activeSectionIndex, 0);
+    const target = postState.sections[Math.max(currentIndex - 1, 0)];
     scrollToHeading(target?.section);
   });
 
-  mount.querySelector("[data-article-next]")?.addEventListener("click", () => {
-    const sections = getArticleSections();
-    const currentIndex = getActiveSectionIndex(sections);
-    const target = sections[Math.min(currentIndex + 1, sections.length - 1)];
+  postState.articleNavigatorNext?.addEventListener("click", () => {
+    const currentIndex = Math.max(postState.activeSectionIndex, 0);
+    const target = postState.sections[Math.min(currentIndex + 1, postState.sections.length - 1)];
     scrollToHeading(target?.section);
   });
 };
 
 const updateArticleNavigator = () => {
-  const navigator = document.querySelector("[data-article-jump-nav]");
-  const sections = getArticleSections();
-
-  if (!navigator || !sections.length) {
+  if (!postState.articleNavigator || !postState.sections.length || postState.activeSectionIndex < 0) {
     return;
   }
 
-  const activeIndex = getActiveSectionIndex(sections);
-  const active = sections[activeIndex];
-  const currentLink = navigator.querySelector("[data-article-current]");
-  const prevButton = navigator.querySelector("[data-article-prev]");
-  const nextButton = navigator.querySelector("[data-article-next]");
+  const active = postState.sections[postState.activeSectionIndex];
 
-  if (currentLink && active) {
-    currentLink.textContent = active.label;
-    currentLink.setAttribute("href", `#${encodeURIComponent(active.id)}`);
-    currentLink.onclick = (event) => {
+  if (postState.articleNavigatorCurrent && active) {
+    postState.articleNavigatorCurrent.textContent = active.label;
+    postState.articleNavigatorCurrent.setAttribute("href", `#${encodeURIComponent(active.id)}`);
+    postState.articleNavigatorCurrent.onclick = (event) => {
       event.preventDefault();
       scrollToHeading(active.section);
     };
   }
 
-  if (prevButton) {
-    prevButton.disabled = activeIndex <= 0;
+  if (postState.articleNavigatorPrev) {
+    postState.articleNavigatorPrev.disabled = postState.activeSectionIndex <= 0;
   }
 
-  if (nextButton) {
-    nextButton.disabled = activeIndex >= sections.length - 1;
+  if (postState.articleNavigatorNext) {
+    postState.articleNavigatorNext.disabled = postState.activeSectionIndex >= postState.sections.length - 1;
   }
 };
 
 const setupCollapsibleCodeBlocks = () => {
   const codeBlocks = document.querySelectorAll(".post-content .highlight:not(table), .post-content > pre");
 
-  codeBlocks.forEach((block, index) => {
+  codeBlocks.forEach((block) => {
     if (
       block.classList.contains("mermaid") ||
       block.closest(".mermaid-shell") ||
@@ -255,25 +356,22 @@ const setupCollapsibleCodeBlocks = () => {
     block.appendChild(controls);
 
     controls.querySelector(".code-fold-toggle")?.addEventListener("click", () => {
-      const expanded = block.classList.toggle("is-collapsed") === false;
-      controls.querySelector(".code-fold-toggle").textContent = expanded ? "たたむ" : "続きを見る";
-      controls.querySelector(".code-fold-toggle").setAttribute("aria-expanded", String(expanded));
+      const expanded = !block.classList.toggle("is-collapsed");
+      const toggle = controls.querySelector(".code-fold-toggle");
+      toggle.textContent = expanded ? "たたむ" : "続きを見る";
+      toggle.setAttribute("aria-expanded", String(expanded));
     });
   });
 };
 
 const setupCollapsibleToc = () => {
-  const toc = document.querySelector(".toc nav");
+  const toc = postState.tocNav;
 
   if (!toc || toc.dataset.enhanced === "true") {
     return;
   }
 
   toc.querySelectorAll("li").forEach((item) => {
-    if (item.classList.contains("toc-item-parent")) {
-      return;
-    }
-
     const childList = [...item.children].find((child) => child.tagName === "UL");
     const link = [...item.children].find((child) => child.tagName === "A");
 
@@ -319,23 +417,23 @@ const setupCollapsibleToc = () => {
   });
 
   toc.dataset.enhanced = "true";
+  rebuildSections();
 };
 
 const setupTocLinkCollapse = () => {
-  document.querySelectorAll(".toc a[href^='#']").forEach((anchor) => {
-    if (anchor.dataset.tocCollapseBound === "true") {
+  postState.sections.forEach(({ link }) => {
+    if (link.dataset.tocCollapseBound === "true") {
       return;
     }
 
-    anchor.dataset.tocCollapseBound = "true";
-    anchor.addEventListener("click", () => {
+    link.dataset.tocCollapseBound = "true";
+    link.addEventListener("click", () => {
       if (prefersReducedMotion) {
         return;
       }
 
-      const details = document.querySelector("[data-toc-details]");
-      if (details && window.innerWidth < 1100) {
-        details.open = false;
+      if (postState.tocDetails && window.innerWidth < 1100) {
+        postState.tocDetails.open = false;
       }
     });
   });
@@ -412,29 +510,67 @@ const wrapTables = () => {
 };
 
 const setupTocAutoOpen = () => {
-  const details = document.querySelector("[data-toc-details]");
-
-  if (!details) {
+  if (!postState.tocDetails) {
     return;
   }
 
   if (window.innerWidth >= 1100) {
-    details.open = true;
+    postState.tocDetails.open = true;
   }
 };
 
+const runScrollUpdates = () => {
+  setReadingProgress();
+  postState.scrollTicking = false;
+};
+
+const requestScrollUpdates = () => {
+  if (postState.scrollTicking) {
+    return;
+  }
+
+  postState.scrollTicking = true;
+  window.requestAnimationFrame(runScrollUpdates);
+};
+
 const setupEnhancements = () => {
+  cachePostElements();
+  if (!postState.article) {
+    return;
+  }
+
   wrapTables();
   setupLightbox();
-  setupTocAutoOpen();
-  setupCollapsibleToc();
   setupCodeLanguageLabels();
   setupCollapsibleCodeBlocks();
+  rebuildSections();
+  setupTocAutoOpen();
+  setupCollapsibleToc();
+  setupHeadingObserver();
   setupArticleNavigator();
   setupTocLinkCollapse();
-  setReadingProgress();
-  highlightCurrentHeading();
-  updateArticleNavigator();
+  runScrollUpdates();
+};
+
+const scheduleResizeUpdates = () => {
+  if (postState.resizeTicking) {
+    return;
+  }
+
+  postState.resizeTicking = true;
+  window.requestAnimationFrame(() => {
+    cachePostElements();
+    if (!postState.article) {
+      postState.resizeTicking = false;
+      return;
+    }
+
+    rebuildSections();
+    setupTocAutoOpen();
+    setupHeadingObserver();
+    runScrollUpdates();
+    postState.resizeTicking = false;
+  });
 };
 
 if (document.readyState === "loading") {
@@ -443,15 +579,5 @@ if (document.readyState === "loading") {
   setupEnhancements();
 }
 
-window.addEventListener("scroll", () => {
-  setReadingProgress();
-  highlightCurrentHeading();
-  updateArticleNavigator();
-}, { passive: true });
-
-window.addEventListener("resize", () => {
-  setupTocAutoOpen();
-  setReadingProgress();
-  highlightCurrentHeading();
-  updateArticleNavigator();
-});
+window.addEventListener("scroll", requestScrollUpdates, { passive: true });
+window.addEventListener("resize", scheduleResizeUpdates, { passive: true });

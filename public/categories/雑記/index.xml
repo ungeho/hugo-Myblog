@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>雑記 on ungehoBlog</title>
-    <link>https://ungeho.netlify.app/categories/%E9%9B%91%E8%A8%98/</link>
+    <link>http://localhost:1313/categories/%E9%9B%91%E8%A8%98/</link>
     <description>Recent content in 雑記 on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <lastBuildDate>Fri, 02 Jan 2026 18:06:28 +0900</lastBuildDate>
-    <atom:link href="https://ungeho.netlify.app/categories/%E9%9B%91%E8%A8%98/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/categories/%E9%9B%91%E8%A8%98/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>現実世界は本当に「アナログ」なのか？</title>
-      <link>https://ungeho.netlify.app/posts/analog/</link>
+      <link>http://localhost:1313/posts/analog/</link>
       <pubDate>Fri, 02 Jan 2026 18:06:28 +0900</pubDate>
-      <guid>https://ungeho.netlify.app/posts/analog/</guid>
+      <guid>http://localhost:1313/posts/analog/</guid>
       <description>&lt;h3 id=&#34;現実世界のアナログってなに&#34;&gt;現実世界のアナログってなに？&lt;/h3&gt;
 &lt;p&gt;便宜上「&lt;strong&gt;アナログ（連続的）&lt;/strong&gt;」という言葉はよく使われる。&lt;br&gt;
 しかし、&lt;strong&gt;現実世界に真にアナログなものは本当に存在するのだろうか&lt;/strong&gt;、という疑問がある。&lt;/p&gt;
