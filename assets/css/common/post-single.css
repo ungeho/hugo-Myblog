@@ -300,11 +300,11 @@
 .post-content table > thead,
 .post-content table > tbody,
 .post-content table > tfoot {
-    background: inherit;
+    background: var(--surface-strong);
 }
 
 .post-content table tr {
-    background: inherit;
+    background: var(--surface-strong);
 }
 
 .post-content table th,
@@ -313,7 +313,7 @@
     padding: 12px 14px;
     line-height: 1.6;
     border-bottom: 1px solid var(--border);
-    background: inherit;
+    background: var(--surface-strong);
 }
 
 .post-content table th {
