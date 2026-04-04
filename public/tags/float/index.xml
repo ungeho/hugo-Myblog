@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Float on ungehoBlog</title>
-    <link>http://localhost:1313/tags/float/</link>
+    <link>https://ungeho.netlify.app/tags/float/</link>
     <description>Recent content in Float on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <lastBuildDate>Fri, 12 Dec 2025 16:30:33 +0900</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/float/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://ungeho.netlify.app/tags/float/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>自動微分</title>
-      <link>http://localhost:1313/posts/autodiff/</link>
+      <link>https://ungeho.netlify.app/posts/autodiff/</link>
       <pubDate>Fri, 12 Dec 2025 16:30:33 +0900</pubDate>
-      <guid>http://localhost:1313/posts/autodiff/</guid>
+      <guid>https://ungeho.netlify.app/posts/autodiff/</guid>
       <description>&lt;hr&gt;
 &lt;blockquote&gt;
     &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
@@ -27,9 +27,9 @@
     </item>
     <item>
       <title>数値微分</title>
-      <link>http://localhost:1313/posts/numericaldifferentiation/</link>
+      <link>https://ungeho.netlify.app/posts/numericaldifferentiation/</link>
       <pubDate>Fri, 12 Dec 2025 13:50:42 +0900</pubDate>
-      <guid>http://localhost:1313/posts/numericaldifferentiation/</guid>
+      <guid>https://ungeho.netlify.app/posts/numericaldifferentiation/</guid>
       <description>&lt;hr&gt;
 &lt;blockquote&gt;
     &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
@@ -44,9 +44,9 @@
     </item>
     <item>
       <title>数値積分</title>
-      <link>http://localhost:1313/posts/numericalintegration/</link>
+      <link>https://ungeho.netlify.app/posts/numericalintegration/</link>
       <pubDate>Wed, 10 Dec 2025 20:28:15 +0900</pubDate>
-      <guid>http://localhost:1313/posts/numericalintegration/</guid>
+      <guid>https://ungeho.netlify.app/posts/numericalintegration/</guid>
       <description>&lt;hr&gt;
 &lt;blockquote&gt;
     &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
@@ -62,9 +62,9 @@
     </item>
     <item>
       <title>区間演算</title>
-      <link>http://localhost:1313/posts/interval/</link>
+      <link>https://ungeho.netlify.app/posts/interval/</link>
       <pubDate>Tue, 09 Dec 2025 14:46:40 +0900</pubDate>
-      <guid>http://localhost:1313/posts/interval/</guid>
+      <guid>https://ungeho.netlify.app/posts/interval/</guid>
       <description>&lt;hr&gt;
 &lt;blockquote&gt;
     &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;
@@ -79,9 +79,9 @@
     </item>
     <item>
       <title>浮動小数点数</title>
-      <link>http://localhost:1313/posts/float/</link>
+      <link>https://ungeho.netlify.app/posts/float/</link>
       <pubDate>Sun, 07 Dec 2025 19:03:04 +0900</pubDate>
-      <guid>http://localhost:1313/posts/float/</guid>
+      <guid>https://ungeho.netlify.app/posts/float/</guid>
       <description>&lt;hr&gt;
 &lt;blockquote&gt;
     &lt;p&gt;💡 &lt;strong&gt;この記事は「コンピューターで計算する」シリーズの一部です。&lt;/strong&gt;&lt;br&gt;

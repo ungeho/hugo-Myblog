@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja" dir="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <title>数値積分 | ungehoBlog</title>
 <meta name="keywords" content="Float, IEEE754, 数値計算, 誤差, プログラミング, 数値積分">
 <meta name="description" content="
@@ -20,16 +20,16 @@
 多くの積分は「紙とペン」で簡単に計算できるとは限りません。
 実際、積分の中には">
 <meta name="author" content="ungeho">
-<link rel="canonical" href="http://localhost:1313/posts/numericalintegration/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.b14f1c4d568c3f08ef7f9d7366c352316a675df6a956bebd74e53a2cdc47ad9f.css" integrity="sha256-sU8cTVaMPwjvf51zZsNSMWpnXfapVr69dOU6LNxHrZ8=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/favicon/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="canonical" href="https://ungeho.netlify.app/posts/numericalintegration/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.418ac07df723c4489a8310c5ec6a81ad36f505c57be6f641de3660bcc0d16dad.css" integrity="sha256-QYrAffcjxEiagxDF7GqBrTb1BcV75vZB3jZgvMDRba0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://ungeho.netlify.app/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ungeho.netlify.app/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ungeho.netlify.app/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ungeho.netlify.app/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ungeho.netlify.app/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/numericalintegration/">
+<link rel="alternate" hreflang="ja" href="https://ungeho.netlify.app/posts/numericalintegration/">
 <noscript>
     <style>
         #theme-toggle,
@@ -104,7 +104,97 @@
     });
 </script>
 
+<meta property="og:url" content="https://ungeho.netlify.app/posts/numericalintegration/">
+  <meta property="og:site_name" content="ungehoBlog">
+  <meta property="og:title" content="数値積分">
+  <meta property="og:description" content=" 💡 この記事は「コンピューターで計算する」シリーズの一部です。
+1. 浮動小数点数
+2. 区間演算
+3. 数値積分 👈 今ここ
+4. 数値微分
+5. 自動微分
+多くの積分は「紙とペン」で簡単に計算できるとは限りません。
+実際、積分の中には">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-12-10T20:28:15+09:00">
+    <meta property="article:modified_time" content="2025-12-10T20:28:15+09:00">
+    <meta property="article:tag" content="Float">
+    <meta property="article:tag" content="IEEE754">
+    <meta property="article:tag" content="数値計算">
+    <meta property="article:tag" content="誤差">
+    <meta property="article:tag" content="プログラミング">
+    <meta property="article:tag" content="数値積分">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数値積分">
+<meta name="twitter:description" content="
 
+    💡 この記事は「コンピューターで計算する」シリーズの一部です。
+1. 浮動小数点数
+2. 区間演算
+3. 数値積分 👈 今ここ
+4. 数値微分
+5. 自動微分
+
+
+多くの積分は「紙とペン」で簡単に計算できるとは限りません。
+実際、積分の中には">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://ungeho.netlify.app/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "数値積分",
+      "item": "https://ungeho.netlify.app/posts/numericalintegration/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "数値積分",
+  "name": "数値積分",
+  "description": " 💡 この記事は「コンピューターで計算する」シリーズの一部です。\n1. 浮動小数点数\n2. 区間演算\n3. 数値積分 👈 今ここ\n4. 数値微分\n5. 自動微分\n多くの積分は「紙とペン」で簡単に計算できるとは限りません。\n実際、積分の中には\n",
+  "keywords": [
+    "Float", "IEEE754", "数値計算", "誤差", "プログラミング", "数値積分"
+  ],
+  "articleBody": " 💡 この記事は「コンピューターで計算する」シリーズの一部です。\n1. 浮動小数点数\n2. 区間演算\n3. 数値積分 👈 今ここ\n4. 数値微分\n5. 自動微分\n多くの積分は「紙とペン」で簡単に計算できるとは限りません。\n実際、積分の中には\n原始関数を初等関数で表せない といった理由で、解析的に解くことが難しいものが多数存在します。\nそのため、コンピューターを用いて積分を数値的に近似して求める手法(数値積分) が重要になります。\n数値積分では、関数の値を離散的に評価し、それらを小さな面積の総和として積み上げることで積分を近似します。\n数値積分(Numerical Integration) 与えられた関数の定積分の値を、解析的(紙とペンを使って式変形などを行う厳密な計算) ではなく、コンピューターを使って数値的に近似値を求める方法を数値積分(Numerical Integration) と呼びます。\n特に次のような場合に有効です\n解析的に積分できない関数を扱いたいとき 関数が複雑で厳密な解を求めるのが困難なとき 関数の式がなく、離散的なデータ点しか存在しないとき コンピューターは繰り返しの計算を高速かつ正確に行うことが得意です。\n積分区間を細かい区間に分割し、それぞれの部分の面積を求めて足し合わせる処理も素早く行うことができます。\n解析的に積分が出来ない例 解析的に積分することが困難な例として、次のような積分があります。\n$$ \\begin{aligned} \\int^{\\frac{\\pi}{2}}_{0} \\frac{d \\theta}{\\sqrt{1 - 0.5 \\sin^{2} \\theta }} \\end{aligned} $$\nこの積分の被積分関数は、初等関数で表現できる原始関数を持ちません。\nこのタイプの積分は数学的に特別な形をしており、実は楕円積分(Elliptic Integral) と呼ばれる「特殊関数」に分類されるものです。\nつまり、普通の関数(多項式・指数関数・三角関数など)をどれだけ組み合わせても、原始関数を表現することはできないため、解析的に解くことができません。\nそのため、値を求める方法の一つとして\n数値積分を用いて近似値を求める が用いられることがあります。\n解析的に積分できる関数は意外と限られており、現代では数値積分が極めて重要な役割を果たしています。\n数値積分法 この記事では次の数値積分法を紹介します。\n台形公式(Trapezoidal Rule) 二重指数関数型積分公式(DoubleExponentialFormula) 台形公式は最も基本的で理解しやすい数値積分法であり、多くの手法の基礎となります。\n一方、DE法(二重指数関数型積分公式)は、積分区間の端点に特異点(関数値が無限大に発散する点) を持つ関数に対しても高精度な結果を得られる強力な手法です。\nそれぞれの手法の特徴・利点について、わかりやすく解説していきます。\n台形公式(Trapezoidal Rule) 台形公式は、台形の面積を求める公式\n$$ \\begin{aligned} \\frac{(\\text{上底} + \\text{下底}) \\times \\text{高さ}}{2} \\end{aligned} $$\nに基づいて、定積分の値を台形の面積の和として近似する手法です。\n積分区間をいくつかの小さな区間に分割し、各区間で関数の値を「上底」と「下底」 、小区間の区間幅を「高さ」 とみなすことで、曲線のある面積を台形の集まりとして近似します。\n複合台形公式(Composite Trapezoidal Rule) 積分区間$[a,b]$を等間隔の小区間に分割し、その各区間に積分則を適用する方法を複合則と呼びます。\n特に、各小区間に台形公式を適用し、それらを足し合わせたものを複合台形公式(Composite Trapezoidal Rule) といいます。\n積分区間を$n$個の等間隔の小区間に分割し、各区間に台形公式を適用して得られる近似値を$T_{n}$とすると\n$$ \\begin{aligned} \\int_{a}^{b} f(x)dx \\approx T_{n} \\end{aligned} $$\nとなります。\n$T_{n}$の具体的な式 小区間(刻み幅)を\n$$ \\begin{aligned} h = \\frac{b - a}{ n } \\end{aligned} $$\nとすると、複合台形公式は次のように表されます。\n$$ \\begin{aligned} T_{n} \\approx h \\times \\left( \\frac{f(a)}{2} + \\sum_{i=1}^{n-1}f( a + hi ) + \\frac{f(b)}{2} \\right) \\end{aligned} $$\nここで\n$$ \\begin{aligned} \\frac{f(a)}{2} + \\sum_{i=1}^{n-1}f( a + hi ) + \\frac{f(b)}{2} \\end{aligned} $$\nは全ての台形の上底と下底の総和に対応し\n$$ \\begin{aligned} h \\end{aligned} $$\nは台形の高さに対応します。\n離散化(Discretization) このように、元々連続的な値で定義されている関数$f(x)$を\n$$ \\begin{aligned} f(a) \\quad,\\quad f(a + h) \\quad,\\quad f(a + 2h) \\quad,\\quad \\dots \\quad,\\quad f(b) \\end{aligned} $$\nという離散的な点によって近似的に扱うことを離散化(Discretization) と呼びます。\n台形公式の実装 次のPythonの例は、複合台形公式を用いて\n$$ \\begin{aligned} \\int_{0}^{1} x\\exp(x)dx = 1 \\end{aligned} $$\nの定積分を近似する方法を示したものです。\nPythonimport numpy as np # 被積分関数 f(x) = x * exp(x) def f(x): return x * np.exp(x) # 複合台形公式 def trapezoidal_rule(f, a, b, n): h = (b - a) / n # aからbまでn+1個の等間隔の点を生成 x = np.linspace(a, b, n + 1) y = f(x) # y[0]とy[-1]は端点の関数値、f(a)とf(b) # [1:-1](a",
+  "wordCount" : "7170",
+  "inLanguage": "ja",
+  "datePublished": "2025-12-10T20:28:15+09:00",
+  "dateModified": "2025-12-10T20:28:15+09:00",
+  "author":{
+    "@type": "Person",
+    "name": "ungeho"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ungeho.netlify.app/posts/numericalintegration/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ungehoBlog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ungeho.netlify.app/favicon.ico"
+    }
+  }
+}
+</script>
 </head>
 
 <body class="" id="top">
@@ -122,7 +212,7 @@
 <header class="header site-header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
+            <a href="https://ungeho.netlify.app/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -150,32 +240,32 @@
         </div>
         <ul id="menu" class="menu">
             <li>
-                <a href="http://localhost:1313/about" title="About">
+                <a href="https://ungeho.netlify.app/about" title="About">
                     <span>About</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/posts" title="Posts">
+                <a href="https://ungeho.netlify.app/posts" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/archives/" title="Archive">
+                <a href="https://ungeho.netlify.app/archives/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/search" title="Search (Alt &#43; /)" accesskey=/>
+                <a href="https://ungeho.netlify.app/search" title="Search (Alt &#43; /)" accesskey=/>
                     <span>Search</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/categories/" title="Categories">
+                <a href="https://ungeho.netlify.app/categories/" title="Categories">
                     <span>Categories</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/tags/" title="Tags">
+                <a href="https://ungeho.netlify.app/tags/" title="Tags">
                     <span>Tags</span>
                 </a>
             </li>
@@ -183,7 +273,7 @@
     </nav>
 </header>
 <main class="main"><article class="post-single article-single"><header class="post-header article-hero">
-  <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+  <div class="breadcrumbs"><a href="https://ungeho.netlify.app/">ホーム</a>&nbsp;»&nbsp;<a href="https://ungeho.netlify.app/posts/">Posts</a></div>
 
   <div class="article-hero-inner">
     <div class="article-hero-copy">
@@ -328,7 +418,7 @@ $$</p>
 \end{aligned}
 $$</p>
 <p>の定積分を近似する方法を示したものです。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight is-collapsible is-collapsed" data-code-fold-ready="true" style="--code-preview-height: 24rem;"><span class="code-language-badge">Python</span><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 被積分関数 f(x) = x * exp(x)</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -363,10 +453,9 @@ $$</p>
 </span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="se">\t</span><span class="s2"> </span><span class="si">{</span><span class="n">approx</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="se">\t</span><span class="s2"> </span><span class="si">{</span><span class="n">error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
-</span></span></code></pre></div><hr>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span></span></span></code></pre><div class="code-fold-controls" data-code-fold-ready="true"><span class="code-fold-meta">36 lines</span><button type="button" class="code-fold-toggle" aria-expanded="false">続きを見る</button></div></div><hr>
 <p>実行結果</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">f<span class="o">(</span>x<span class="o">)</span> <span class="o">=</span> x * exp<span class="o">(</span>x<span class="o">)</span> on <span class="o">[</span>0, 1<span class="o">]</span>
+<div class="highlight"><span class="code-language-badge">Bash</span><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">f<span class="o">(</span>x<span class="o">)</span> <span class="o">=</span> x * exp<span class="o">(</span>x<span class="o">)</span> on <span class="o">[</span>0, 1<span class="o">]</span>
 </span></span><span class="line"><span class="cl">n        approx          error
 </span></span><span class="line"><span class="cl">-----------------------------------
 </span></span><span class="line"><span class="cl"><span class="m">2</span>        1.0917507748    9.18e-02
@@ -375,8 +464,7 @@ $$</p>
 </span></span><span class="line"><span class="cl"><span class="m">16</span>       1.0014440271    1.44e-03
 </span></span><span class="line"><span class="cl"><span class="m">32</span>       1.0003610380    3.61e-04
 </span></span><span class="line"><span class="cl"><span class="m">64</span>       1.0000902615    9.03e-05
-</span></span><span class="line"><span class="cl"><span class="m">128</span>      1.0000225655    2.26e-05
-</span></span></code></pre></div><p>分点数$n$を増やし刻み幅$h$を細かくするにつれて、台形公式の近似値が真値1に収束していく様子がよくわかります。</p>
+</span></span><span class="line"><span class="cl"><span class="m">128</span>      1.0000225655    2.26e-05</span></span></code></pre></div><p>分点数$n$を増やし刻み幅$h$を細かくするにつれて、台形公式の近似値が真値1に収束していく様子がよくわかります。</p>
 <p>数値積分では、一般に<strong>分点数を増やすことで精度を上げる</strong>というアプローチをとります。しかし、分割数を増やせばその分だけ<strong>計算回数も増加</strong>し、コンピューター上では<strong>丸め誤差</strong>が蓄積してしまいます。</p>
 <p>したがって、単純に分割数を増やすだけでは限界があり、<strong>分点数を増やした時に高速に収束する高精度な積分法</strong>が求められます。</p>
 <p>その代表的な手法が<strong>DE公式(Double Exponential Formula, 二重指数関数型積分公式)</strong> です。</p>
@@ -657,7 +745,7 @@ $$</p>
 $$</p>
 <p>を用いて安全に計算しています。</p>
 <p>pythonで実装すると次のようになります。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight is-collapsible is-collapsed" data-code-fold-ready="true" style="--code-preview-height: 24rem;"><span class="code-language-badge">Python</span><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># ---- 被積分関数 f(x) = 1/sqrt(x) ----</span>
 </span></span><span class="line"><span class="cl">
@@ -724,17 +812,15 @@ $$</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
-</span></span></code></pre></div><p>実行結果</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> n       approx            error
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span></span></span></code></pre><div class="code-fold-controls" data-code-fold-ready="true"><span class="code-fold-meta">68 lines</span><button type="button" class="code-fold-toggle" aria-expanded="false">続きを見る</button></div></div><p>実行結果</p>
+<div class="highlight"><span class="code-language-badge">Bash</span><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> n       approx            error
 </span></span><span class="line"><span class="cl">-------------------------------------------
 </span></span><span class="line"><span class="cl">  <span class="m">4</span>    2.000012041343   1.204e-05
 </span></span><span class="line"><span class="cl">  <span class="m">8</span>    2.000000004154   4.154e-09
 </span></span><span class="line"><span class="cl"> <span class="m">16</span>    2.000000000000   2.220e-15
 </span></span><span class="line"><span class="cl"> <span class="m">32</span>    2.000000000000   4.441e-16
 </span></span><span class="line"><span class="cl"> <span class="m">64</span>    2.000000000000   4.441e-16
-</span></span><span class="line"><span class="cl"><span class="m">128</span>    2.000000000000   1.554e-15
-</span></span></code></pre></div><hr>
+</span></span><span class="line"><span class="cl"><span class="m">128</span>    2.000000000000   1.554e-15</span></span></code></pre></div><hr>
 <h3 id="台形公式とde公式の特徴の比較">台形公式とDE公式の特徴の比較<a hidden class="anchor" aria-hidden="true" href="#台形公式とde公式の特徴の比較">#</a></h3>
 <p>台形公式とDE公式の特徴を比較すると次のようになります。</p>
 <table>
@@ -835,22 +921,22 @@ $$
   <section class="article-footer-section">
     <h2 class="article-footer-heading">Tags</h2>
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/float/">Float</a></li>
-      <li><a href="http://localhost:1313/tags/ieee754/">IEEE754</a></li>
-      <li><a href="http://localhost:1313/tags/%E6%95%B0%E5%80%A4%E8%A8%88%E7%AE%97/">数値計算</a></li>
-      <li><a href="http://localhost:1313/tags/%E8%AA%A4%E5%B7%AE/">誤差</a></li>
-      <li><a href="http://localhost:1313/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">プログラミング</a></li>
-      <li><a href="http://localhost:1313/tags/%E6%95%B0%E5%80%A4%E7%A9%8D%E5%88%86/">数値積分</a></li>
+      <li><a href="https://ungeho.netlify.app/tags/float/">Float</a></li>
+      <li><a href="https://ungeho.netlify.app/tags/ieee754/">IEEE754</a></li>
+      <li><a href="https://ungeho.netlify.app/tags/%E6%95%B0%E5%80%A4%E8%A8%88%E7%AE%97/">数値計算</a></li>
+      <li><a href="https://ungeho.netlify.app/tags/%E8%AA%A4%E5%B7%AE/">誤差</a></li>
+      <li><a href="https://ungeho.netlify.app/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">プログラミング</a></li>
+      <li><a href="https://ungeho.netlify.app/tags/%E6%95%B0%E5%80%A4%E7%A9%8D%E5%88%86/">数値積分</a></li>
     </ul>
   </section>
   <section class="article-footer-section">
 <nav class="paginav">
-  <a class="prev" href="http://localhost:1313/posts/numericaldifferentiation/">
+  <a class="prev" href="https://ungeho.netlify.app/posts/numericaldifferentiation/">
     <span class="title">« 前へ</span>
     <br>
     <span>数値微分</span>
   </a>
-  <a class="next" href="http://localhost:1313/posts/interval/">
+  <a class="next" href="https://ungeho.netlify.app/posts/interval/">
     <span class="title">次へ »</span>
     <br>
     <span>区間演算</span>
@@ -863,7 +949,7 @@ $$
 <ul class="share-buttons">
     <li>
         <a target="_blank" rel="noopener noreferrer" aria-label="share 数値積分 on x"
-            href="https://x.com/intent/tweet/?text=%e6%95%b0%e5%80%a4%e7%a9%8d%e5%88%86&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fnumericalintegration%2f&amp;hashtags=Float%2cIEEE754%2c%e6%95%b0%e5%80%a4%e8%a8%88%e7%ae%97%2c%e8%aa%a4%e5%b7%ae%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0%2c%e6%95%b0%e5%80%a4%e7%a9%8d%e5%88%86">
+            href="https://x.com/intent/tweet/?text=%e6%95%b0%e5%80%a4%e7%a9%8d%e5%88%86&amp;url=https%3a%2f%2fungeho.netlify.app%2fposts%2fnumericalintegration%2f&amp;hashtags=Float%2cIEEE754%2c%e6%95%b0%e5%80%a4%e8%a8%88%e7%ae%97%2c%e8%aa%a4%e5%b7%ae%2c%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9f%e3%83%b3%e3%82%b0%2c%e6%95%b0%e5%80%a4%e7%a9%8d%e5%88%86">
             <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
                 <path
                     d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
@@ -923,7 +1009,7 @@ $$
 <footer class="footer">
     <div class="footer-inner">
         <div class="footer-brand">
-            <span>&copy; 2026 <a href="http://localhost:1313/">ungehoBlog</a></span>
+            <span>&copy; 2026 <a href="https://ungeho.netlify.app/">ungehoBlog</a></span>
         </div>
         <div class="footer-meta">
             <span>ネトゲが趣味の人の個人ブログ</span>
@@ -939,7 +1025,7 @@ $$
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
         <path d="M12 6H0l6-6z" />
     </svg>
-</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.29e30f1dd7bcd361ec8a0611a95c5888d54c18f98018cd691a70fc91458138b0.js" integrity="sha256-KeMPHde802HsigYRqVxYiNVMGPmAGM1pGnD8kUWBOLA="></script>
+</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.96b4c1fc230f50379cf87b0d734685b704d71799b6aaed3d045b5ce3b3efa115.js" integrity="sha256-lrTB/CMPUDec&#43;HsNc0aFtwTXF5m2qu09BFtc47PvoRU="></script>
 
 <script>
     let menu = document.getElementById('menu')

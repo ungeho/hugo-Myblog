@@ -33,8 +33,7 @@ YesAlreadyプラグインが必須。
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;https://raw.githubusercontent.com/FFXIV-Sonar/SonarRepo/main/pluginmaster.json
-&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;https://raw.githubusercontent.com/FFXIV-Sonar/SonarRepo/main/pluginmaster.json&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
 &lt;li&gt;Divination.FaloopIntegration&lt;br&gt;
 Faloopに報告された情報を、チャットに表示するプラグイン&lt;br&gt;
 役割はSonarとほぼ同じ。&lt;/li&gt;
@@ -46,8 +45,7 @@ lifestreamにも対応。
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;https://xiv.starry.blue/plugins/master.json
-&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;https://xiv.starry.blue/plugins/master.json&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
 &lt;li&gt;Lemegeton&lt;br&gt;
 現地に到着した後の、Sモブの位置とHP確認に使用。
 &lt;ul&gt;
@@ -55,8 +53,7 @@ lifestreamにも対応。
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;https://raw.githubusercontent.com/paissaheavyindustries/Dalamud-Repo/main/repo.json
-&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;設定の変更が不要なプラグイン&#34;&gt;設定の変更が不要なプラグイン&lt;/h1&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;https://raw.githubusercontent.com/paissaheavyindustries/Dalamud-Repo/main/repo.json&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;設定の変更が不要なプラグイン&#34;&gt;設定の変更が不要なプラグイン&lt;/h1&gt;
 &lt;p&gt;多分不要。&lt;/p&gt;</description>
     </item>
   </channel>

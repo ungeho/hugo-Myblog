@@ -20,38 +20,19 @@ const postState = {
   progressValueNumber: -1,
 };
 
-const normalizeLanguageLabel = (language) => {
-  if (!language) {
-    return "";
+const runAfterPaint = (callback) => {
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(callback);
+  });
+};
+
+const runWhenIdle = (callback, timeout = 800) => {
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(callback, { timeout });
+    return;
   }
 
-  const value = language.toLowerCase();
-  const aliases = {
-    js: "JavaScript",
-    ts: "TypeScript",
-    jsx: "JSX",
-    tsx: "TSX",
-    py: "Python",
-    sh: "Shell",
-    bash: "Bash",
-    ps1: "PowerShell",
-    yml: "YAML",
-    md: "Markdown",
-    csharp: "C#",
-    cs: "C#",
-    cpp: "C++",
-    txt: "Text",
-  };
-
-  if (aliases[value]) {
-    return aliases[value];
-  }
-
-  if (value.length <= 3) {
-    return value.toUpperCase();
-  }
-
-  return value.charAt(0).toUpperCase() + value.slice(1);
+  window.setTimeout(callback, 120);
 };
 
 const cachePostElements = () => {
@@ -234,31 +215,6 @@ const setupHeadingObserver = () => {
   postState.sections.forEach(({ section }) => postState.headingObserver.observe(section));
 };
 
-const setupCodeLanguageLabels = () => {
-  const blocks = document.querySelectorAll(".post-content .highlight, .post-content > pre");
-
-  blocks.forEach((block) => {
-    if (block.querySelector(".code-language-badge") || block.classList.contains("mermaid")) {
-      return;
-    }
-
-    const code = block.querySelector("code");
-    const pre = block.matches("pre") ? block : block.querySelector("pre");
-    const classes = `${block.className} ${pre?.className || ""} ${code?.className || ""}`;
-    const match = classes.match(/language-([a-z0-9#+-]+)/i) || classes.match(/\b(chroma|highlight)\s+([a-z0-9#+-]+)/i);
-    const language = normalizeLanguageLabel(match?.[1] || match?.[2] || "");
-
-    if (!language) {
-      return;
-    }
-
-    const badge = document.createElement("span");
-    badge.className = "code-language-badge";
-    badge.textContent = language;
-    block.appendChild(badge);
-  });
-};
-
 const setupArticleNavigator = () => {
   const mount = postState.articleNavigator;
 
@@ -325,16 +281,28 @@ const setupCollapsibleCodeBlocks = () => {
   const codeBlocks = document.querySelectorAll(".post-content .highlight:not(table), .post-content > pre");
 
   codeBlocks.forEach((block) => {
-    if (
-      block.classList.contains("mermaid") ||
-      block.closest(".mermaid-shell") ||
-      block.dataset.codeFoldReady === "true"
-    ) {
+    if (block.classList.contains("mermaid") || block.closest(".mermaid-shell")) {
       return;
     }
 
     const pre = block.matches("pre") ? block : block.querySelector("pre");
     const code = pre?.querySelector("code");
+    const existingToggle = block.querySelector(".code-fold-toggle");
+
+    if (existingToggle && block.dataset.codeFoldBound !== "true") {
+      block.dataset.codeFoldBound = "true";
+      existingToggle.addEventListener("click", () => {
+        const expanded = !block.classList.toggle("is-collapsed");
+        existingToggle.textContent = expanded ? "たたむ" : "続きを見る";
+        existingToggle.setAttribute("aria-expanded", String(expanded));
+      });
+      return;
+    }
+
+    if (block.dataset.codeFoldReady === "true") {
+      return;
+    }
+
     const lineCount = code?.textContent?.split("\n").length ?? 0;
 
     if (!pre || lineCount < 18) {
@@ -539,17 +507,24 @@ const setupEnhancements = () => {
     return;
   }
 
-  wrapTables();
-  setupLightbox();
-  setupCodeLanguageLabels();
-  setupCollapsibleCodeBlocks();
   rebuildSections();
   setupTocAutoOpen();
-  setupCollapsibleToc();
-  setupHeadingObserver();
-  setupArticleNavigator();
-  setupTocLinkCollapse();
   runScrollUpdates();
+
+  runAfterPaint(() => {
+    setupCollapsibleCodeBlocks();
+    setupCollapsibleToc();
+    rebuildSections();
+    setupHeadingObserver();
+    setupArticleNavigator();
+    setupTocLinkCollapse();
+    runScrollUpdates();
+  });
+
+  runWhenIdle(() => {
+    wrapTables();
+    setupLightbox();
+  });
 };
 
 const scheduleResizeUpdates = () => {

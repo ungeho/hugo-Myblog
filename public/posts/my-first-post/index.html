@@ -14,7 +14,7 @@ hugo server で -D オプションを付与しないと表示されない。
 tagsは&quot;test&quot;">
 <meta name="author" content="ungeho">
 <link rel="canonical" href="http://localhost:1313/posts/my-first-post/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.b14f1c4d568c3f08ef7f9d7366c352316a675df6a956bebd74e53a2cdc47ad9f.css" integrity="sha256-sU8cTVaMPwjvf51zZsNSMWpnXfapVr69dOU6LNxHrZ8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b815e2d2cbaf90a45cf0f4553ee75c41248e745cf5f9ab9bc08470d46c81d54e.css" integrity="sha256-uBXi0suvkKRc8PRVPudcQSSOdFz1&#43;aubwIRw1GyB1U4=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
@@ -263,22 +263,18 @@ tagsは&quot;test&quot;">
 <p>コードブロック</p>
 <p>言語の識別子を書くと対応したシンタックスハイライトが適用される。</p>
 <p>{linenos=inline}を追加する事で、行番号をつけられる。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="ln">1</span><span class="cl"><span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="s2">&#34;JavaScript syntax highlighting&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="nx">alert</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
-</span></span></code></pre></div><p>{hl_lines=[1, 3,&ldquo;5-9&rdquo;]}のように、網掛けしたい行を指定することで
+<div class="highlight"><span class="code-language-badge">Javascript</span><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="ln">1</span><span class="cl"><span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="s2">&#34;JavaScript syntax highlighting&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="nx">alert</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span></span></span></code></pre></div><p>{hl_lines=[1, 3,&ldquo;5-9&rdquo;]}のように、網掛けしたい行を指定することで
 任意に網掛けを行う事が出来る。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line hl"><span class="cl"><span class="n">s</span> <span class="o">=</span> <span class="s2">&#34;Python syntax highlighting&#34;</span>
+<div class="highlight"><span class="code-language-badge">Python</span><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line hl"><span class="cl"><span class="n">s</span> <span class="o">=</span> <span class="s2">&#34;Python syntax highlighting&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line hl"><span class="cl"><span class="nb">print</span> <span class="n">s</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># 総和</span>
 </span></span><span class="line hl"><span class="cl"><span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
 </span></span><span class="line hl"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line hl"><span class="cl">    <span class="nb">sum</span> <span class="o">+=</span> <span class="n">i</span>
-</span></span><span class="line hl"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><pre tabindex="0"><code>No language indicated, so no syntax highlighting.
-But let&#39;s throw in a &lt;b&gt;tag&lt;/b&gt;.
-</code></pre><pre tabindex="0"><code>copy text
-</code></pre><p><del>AnanteテーマではKatexは使えなかったのでこちら<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>を参考にした。</del></p>
+</span></span><span class="line hl"><span class="cl"><span class="p">}</span></span></span></code></pre></div><pre tabindex="0"><code>No language indicated, so no syntax highlighting.
+But let&#39;s throw in a &lt;b&gt;tag&lt;/b&gt;.</code></pre><pre tabindex="0"><code>copy text</code></pre><p><del>AnanteテーマではKatexは使えなかったのでこちら<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>を参考にした。</del></p>
 <p>PaperModテーマでもKatexは使えなかったのでこちら<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>を参考にした。</p>
 <p><del><code>layouts/partials/site-footer.html</code> に追記する。</del></p>
 <p>PaperModでは <code>layouts/partials/footer.html</code> に追記</p>
@@ -351,7 +347,7 @@ $$</p>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
         <path d="M12 6H0l6-6z" />
     </svg>
-</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.29e30f1dd7bcd361ec8a0611a95c5888d54c18f98018cd691a70fc91458138b0.js" integrity="sha256-KeMPHde802HsigYRqVxYiNVMGPmAGM1pGnD8kUWBOLA="></script>
+</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.96b4c1fc230f50379cf87b0d734685b704d71799b6aaed3d045b5ce3b3efa115.js" integrity="sha256-lrTB/CMPUDec&#43;HsNc0aFtwTXF5m2qu09BFtc47PvoRU="></script>
 
 <script>
     let menu = document.getElementById('menu')

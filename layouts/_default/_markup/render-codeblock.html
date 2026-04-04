@@ -1,0 +1,56 @@
+{{- $result := transform.HighlightCodeBlock . -}}
+{{- $language := lower .Type -}}
+{{- $aliases := dict
+  "js" "JavaScript"
+  "ts" "TypeScript"
+  "jsx" "JSX"
+  "tsx" "TSX"
+  "py" "Python"
+  "sh" "Shell"
+  "bash" "Bash"
+  "ps1" "PowerShell"
+  "yml" "YAML"
+  "yaml" "YAML"
+  "md" "Markdown"
+  "csharp" "C#"
+  "cs" "C#"
+  "cpp" "C++"
+  "txt" "Text"
+  "html" "HTML"
+  "css" "CSS"
+  "json" "JSON"
+  "toml" "TOML"
+  "xml" "XML"
+-}}
+{{- $languageLabel := "" -}}
+{{- if $language -}}
+  {{- with index $aliases $language -}}
+    {{- $languageLabel = . -}}
+  {{- else -}}
+    {{- if le (len $language) 3 -}}
+      {{- $languageLabel = upper $language -}}
+    {{- else -}}
+      {{- $languageLabel = humanize $language -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $lineCount := 0 -}}
+{{- with .Inner -}}
+  {{- $normalized := replaceRE "\r\n?" "\n" . -}}
+  {{- $trimmed := replaceRE "\n$" "" $normalized -}}
+  {{- if gt (len $trimmed) 0 -}}
+    {{- $lineCount = len (split $trimmed "\n") -}}
+  {{- end -}}
+{{- end -}}
+{{- $isCollapsible := ge $lineCount 18 -}}
+{{- $wrapped := $result.Wrapped -}}
+{{- if $languageLabel -}}
+  {{- $badge := printf "<span class=\"code-language-badge\">%s</span>" $languageLabel -}}
+  {{- $wrapped = replaceRE "<div class=\"highlight\">" (printf "<div class=\"highlight\">%s" $badge) $wrapped 1 -}}
+{{- end -}}
+{{- if $isCollapsible -}}
+  {{- $wrapped = replace $wrapped "class=\"highlight\"" "class=\"highlight is-collapsible is-collapsed\" data-code-fold-ready=\"true\" style=\"--code-preview-height: 24rem;\"" 1 -}}
+  {{- $controls := printf "<div class=\"code-fold-controls\" data-code-fold-ready=\"true\"><span class=\"code-fold-meta\">%d lines</span><button type=\"button\" class=\"code-fold-toggle\" aria-expanded=\"false\">続きを見る</button></div>" $lineCount -}}
+  {{- $wrapped = replaceRE "</div>\\s*$" (printf "%s</div>" $controls) $wrapped 1 -}}
+{{- end -}}
+{{- $wrapped | safeHTML -}}

@@ -352,17 +352,80 @@
 }
 
 .post-content h3 {
+    padding-inline-start: 1rem;
     font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+    color: color-mix(in srgb, var(--primary) 94%, var(--accent));
+}
+
+.post-content h3::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.22em;
+    width: 6px;
+    height: calc(100% - 0.44em);
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 56%, white));
+    opacity: 0.9;
 }
 
 .post-content h4 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.18rem 0.85rem 0.22rem 0.2rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent-soft) 72%, white), transparent);
     font-size: 1.18rem;
+    color: color-mix(in srgb, var(--primary) 92%, var(--accent));
+}
+
+.post-content h4::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 78%, white);
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent-soft) 64%, transparent);
 }
 
 .post-content h5,
 .post-content h6 {
     font-size: 1rem;
-    color: var(--secondary);
+    color: color-mix(in srgb, var(--secondary) 88%, var(--accent));
+}
+
+.post-content h5 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    letter-spacing: 0.01em;
+}
+
+.post-content h5::before {
+    content: "";
+    width: 8px;
+    height: 2px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 68%, var(--border));
+}
+
+.post-content h6 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.post-content h6::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 56%, var(--border));
 }
 
 .post-content a,
@@ -407,14 +470,116 @@
     text-wrap: pretty;
 }
 
+.post-content p + p {
+    margin-top: calc(var(--content-gap) * 0.72);
+}
+
 .post-content ol,
 .post-content ul {
     padding-inline-start: 1.3rem;
 }
 
+.post-content ul {
+    list-style: none;
+    padding-inline-start: 0.35rem;
+}
+
 .post-content li {
     margin-top: 0.45rem;
     padding-inline-start: 0.2rem;
+}
+
+.post-content ul > li {
+    position: relative;
+    padding-inline-start: 1.45rem;
+}
+
+.post-content ul > li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 11px;
+    height: 11px;
+    border-radius: 4px;
+    background:
+        radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.88) 0 24%, transparent 25%),
+        linear-gradient(180deg, #7fc7c1, #58a8b7);
+    box-shadow:
+        0 0 0 5px rgba(127, 199, 193, 0.18),
+        0 4px 10px rgba(88, 168, 183, 0.16);
+}
+
+.post-content ul ul {
+    margin-top: 0.55rem;
+    padding-inline-start: 0.55rem;
+}
+
+.post-content ul ul > li::before {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background:
+        radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.9) 0 22%, transparent 23%),
+        linear-gradient(180deg, #8fd8b7, #69bd9f);
+    box-shadow:
+        0 0 0 4px rgba(143, 216, 183, 0.16),
+        0 3px 8px rgba(105, 189, 159, 0.14);
+}
+
+.post-content ul ul ul > li::before {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #7d98d8;
+    box-shadow: 0 0 0 4px rgba(125, 152, 216, 0.16);
+}
+
+.post-content ol {
+    padding-inline-start: 0.4rem;
+    counter-reset: post-list;
+    list-style: none;
+}
+
+.post-content ol > li {
+    position: relative;
+    counter-increment: post-list;
+    min-height: 1.9rem;
+    padding-inline-start: 2.6rem;
+}
+
+.post-content ol > li::before {
+    content: counter(post-list);
+    position: absolute;
+    left: 0;
+    top: 0.02rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.9rem;
+    height: 1.9rem;
+    padding: 0 0.45rem;
+    border-radius: 999px;
+    color: #2f4550;
+    background: linear-gradient(180deg, #f8fbfc, #edf4f6);
+    border: 1px solid rgba(96, 128, 142, 0.22);
+    box-shadow:
+        0 4px 10px rgba(96, 128, 142, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.82);
+    font-size: 0.88rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0;
+}
+
+.post-content ol > li + li {
+    margin-top: 0.6rem;
+}
+
+.post-content li > ul,
+.post-content li > ol {
+    margin-top: 0.7rem;
+    margin-bottom: 0.15rem;
 }
 
 .post-content li p {
@@ -423,20 +588,37 @@
 
 .post-content dl {
     display: grid;
-    grid-template-columns: minmax(110px, 160px) minmax(0, 1fr);
-    gap: 10px 16px;
+    grid-template-columns: minmax(110px, 170px) minmax(0, 1fr);
+    gap: 12px 18px;
     margin: 0 0 var(--content-gap);
+    padding: 1rem 1.05rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 10%, var(--border));
+    border-radius: var(--radius-sm);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 248, 243, 0.88)),
+        var(--surface-strong);
 }
 
 .post-content dt {
-    font-weight: 700;
+    align-self: start;
+    justify-self: start;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    color: color-mix(in srgb, var(--accent) 88%, var(--primary));
+    background: color-mix(in srgb, var(--accent-soft) 64%, white);
+    font-size: 0.86rem;
+    font-weight: 800;
+    line-height: 1.4;
 }
 
 .post-content dd {
     margin-inline-start: 0;
+    padding-top: 0.32rem;
+    line-height: 1.85;
 }
 
 .table-scroll {
+    position: relative;
     display: block;
     width: fit-content;
     margin-inline: auto;
@@ -513,6 +695,16 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
+.post-content .highlight:not(table)::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent 48%);
+    pointer-events: none;
+}
+
 .code-language-badge {
     position: absolute;
     top: 10px;
@@ -530,6 +722,70 @@
     font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
+}
+
+.footnote-ref {
+    vertical-align: super;
+    margin-inline-start: 0.08rem;
+    font-size: 0.72em;
+    font-weight: 800;
+}
+
+.footnote-ref a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.3rem;
+    height: 1.3rem;
+    padding: 0 0.28rem;
+    border-radius: 999px;
+    color: #54737d;
+    background: linear-gradient(180deg, #f7fbfc, #edf4f6);
+    border: 1px solid rgba(96, 128, 142, 0.18);
+    text-decoration: none;
+}
+
+.post-content .footnotes {
+    margin-top: calc(var(--content-gap) * 1.5);
+    padding: 1rem 1.05rem 0.2rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 10%, var(--border));
+    border-radius: var(--radius-sm);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.68), rgba(255, 248, 243, 0.84)),
+        var(--surface-strong);
+}
+
+.post-content .footnotes > hr {
+    margin: 0 0 0.95rem;
+}
+
+.post-content .footnotes ol {
+    padding-inline-start: 0.2rem;
+}
+
+.post-content .footnotes ol > li {
+    min-height: 0;
+    margin-top: 0;
+    margin-bottom: 0.9rem;
+    padding-inline-start: 2.35rem;
+}
+
+.post-content .footnotes ol > li::before {
+    min-width: 1.65rem;
+    height: 1.65rem;
+    font-size: 0.8rem;
+}
+
+.post-content .footnotes p {
+    margin-bottom: 0.5rem;
+    font-size: 0.98rem;
+    line-height: 1.8;
+}
+
+.post-content .footnotes .footnote-backref {
+    margin-inline-start: 0.25rem;
+    color: var(--accent);
+    text-decoration: none;
 }
 
 .post-content li > .highlight {
@@ -1089,8 +1345,8 @@ img.in-text {
     }
 
     .post-content {
-        font-size: 1rem;
-        line-height: 1.9;
+        font-size: 1.02rem;
+        line-height: 1.95;
     }
 
     .article-summary-card {
@@ -1107,6 +1363,24 @@ img.in-text {
 
     .post-content h3 {
         font-size: 1.3rem;
+    }
+
+    .post-content h3 {
+        padding-inline-start: 0.85rem;
+    }
+
+    .post-content h4 {
+        padding-right: 0.55rem;
+    }
+
+    .post-content dl {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+        padding: 0.95rem 0.9rem;
+    }
+
+    .post-content .footnotes {
+        padding: 0.95rem 0.9rem 0.15rem;
     }
 
     .post-content pre code {
