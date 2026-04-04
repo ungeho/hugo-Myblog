@@ -104,7 +104,7 @@ body:not(.dark) #sun {
 
 #menu a:hover {
     color: var(--primary);
-    background: var(--accent-soft);
+    background: color-mix(in srgb, var(--accent-soft) 72%, white);
     transform: translateY(-1px);
 }
 
@@ -116,13 +116,13 @@ body:not(.dark) #sun {
     margin: 0 -14px;
     font-weight: 500;
     color: var(--primary);
-    background: var(--surface-strong);
+    background: color-mix(in srgb, var(--accent-soft) 48%, white);
     border-radius: 999px;
-    box-shadow: inset 0 0 0 1px var(--border), 0 6px 14px rgba(26, 33, 52, 0.08);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 10%, var(--border));
 }
 
 #menu a:hover .active {
-    background: var(--surface-strong);
+    background: color-mix(in srgb, var(--accent-soft) 52%, white);
 }
 
 .lang-switch li,

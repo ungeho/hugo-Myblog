@@ -112,16 +112,16 @@
 }
 
 .article-sidebar {
-    position: relative;
+    position: sticky;
+    top: calc(var(--header-height) + 18px);
     align-self: start;
+    max-height: calc(100vh - var(--header-height) - 32px);
 }
 
 .article-sidebar-inner {
-    position: sticky;
-    top: calc(var(--header-height) + 18px);
     display: grid;
     gap: 16px;
-    max-height: calc(100vh - var(--header-height) - 32px);
+    max-height: 100%;
     overflow-y: auto;
     padding-right: 4px;
 }
@@ -660,8 +660,15 @@ img.in-text {
         gap: 18px;
     }
 
+    .article-sidebar {
+        position: static;
+        max-height: none;
+    }
+
     .article-sidebar-inner {
         position: static;
+        max-height: none;
+        overflow: visible;
     }
 
     .reading-progress-card {
