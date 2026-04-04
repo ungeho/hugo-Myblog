@@ -21,16 +21,17 @@
     border: 1px solid var(--border);
     border-radius: calc(var(--radius) + 6px);
     background:
-        radial-gradient(circle at top right, rgba(217, 119, 87, 0.12), transparent 30%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 248, 243, 0.92)),
+        radial-gradient(circle at top right, rgba(216, 130, 159, 0.14), transparent 30%),
+        radial-gradient(circle at 18% 16%, rgba(255, 220, 232, 0.28), transparent 20%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 247, 251, 0.94)),
         var(--surface-strong);
     box-shadow: var(--shadow-sm);
 }
 
 .profile img {
     border-radius: 50%;
-    border: 6px solid rgba(255, 255, 255, 0.75);
-    box-shadow: 0 18px 38px rgba(26, 33, 52, 0.14);
+    border: 6px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 18px 38px rgba(107, 80, 97, 0.14);
 }
 
 .profile h1 {
@@ -60,7 +61,7 @@
     padding: 0 14px;
     border: 1px solid color-mix(in srgb, var(--accent) 14%, var(--border));
     border-radius: 999px;
-    background: color-mix(in srgb, var(--accent-soft) 62%, white);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent-soft) 72%, white), rgba(255, 255, 255, 0.92));
     transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
 }
 
@@ -79,14 +80,15 @@
 
 .button:hover {
     transform: translateY(-1px);
-    background: color-mix(in srgb, var(--accent-soft) 78%, white);
-    box-shadow: 0 10px 20px rgba(217, 119, 87, 0.08);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent-soft) 84%, white), rgba(255, 255, 255, 0.96));
+    box-shadow: 0 12px 24px rgba(216, 130, 159, 0.1);
 }
 
 .dark .profile .profile_inner {
     background:
-        radial-gradient(circle at top right, rgba(242, 161, 126, 0.1), transparent 32%),
-        linear-gradient(180deg, rgba(29, 35, 46, 0.95), rgba(20, 25, 35, 0.98)),
+        radial-gradient(circle at top right, rgba(255, 156, 122, 0.12), transparent 32%),
+        radial-gradient(circle at 12% 18%, rgba(88, 134, 216, 0.12), transparent 18%),
+        linear-gradient(180deg, rgba(19, 26, 37, 0.98), rgba(11, 16, 24, 0.99)),
         var(--surface-strong);
 }
 
@@ -96,9 +98,9 @@
 }
 
 .dark .button {
-    background: color-mix(in srgb, var(--accent-soft) 18%, rgba(39, 46, 58, 0.98));
+    background: linear-gradient(180deg, rgba(33, 42, 56, 0.98), rgba(24, 31, 43, 0.98));
 }
 
 .dark .button:hover {
-    background: color-mix(in srgb, var(--accent-soft) 26%, rgba(43, 50, 64, 0.98));
+    background: linear-gradient(180deg, rgba(39, 49, 66, 0.98), rgba(27, 35, 49, 0.98));
 }

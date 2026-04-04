@@ -48,8 +48,9 @@
     overflow: hidden;
     padding: clamp(28px, 5vw, 44px);
     background:
-        radial-gradient(circle at top right, rgba(217, 119, 87, 0.18), transparent 28%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 248, 243, 0.92)),
+        radial-gradient(circle at top right, rgba(216, 130, 159, 0.18), transparent 28%),
+        radial-gradient(circle at 18% 18%, rgba(255, 221, 233, 0.22), transparent 18%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 247, 251, 0.94)),
         var(--surface-strong);
     border: 1px solid var(--border);
     border-radius: calc(var(--radius) + 4px);
@@ -58,8 +59,9 @@
 
 .dark .article-hero-inner {
     background:
-        radial-gradient(circle at top right, rgba(242, 161, 126, 0.16), transparent 32%),
-        linear-gradient(135deg, rgba(28, 34, 45, 0.96), rgba(20, 25, 35, 0.98)),
+        radial-gradient(circle at top right, rgba(255, 156, 122, 0.16), transparent 32%),
+        radial-gradient(circle at 14% 16%, rgba(84, 124, 214, 0.14), transparent 16%),
+        linear-gradient(135deg, rgba(20, 27, 39, 0.98), rgba(12, 17, 26, 0.99)),
         var(--surface-strong);
 }
 
@@ -133,6 +135,13 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow: 0 6px 16px rgba(34, 27, 20, 0.05);
+}
+
+.dark .reading-progress-card,
+.dark .toc-card,
+.dark .article-jump-nav {
+    border-color: color-mix(in srgb, var(--accent) 10%, var(--border));
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
 }
 
 .reading-progress-card {
@@ -1165,6 +1174,32 @@
 .article-jump-button:disabled {
     opacity: 0.45;
     cursor: default;
+}
+
+.dark .article-jump-nav {
+    background:
+        linear-gradient(180deg, rgba(30, 36, 47, 0.96), rgba(22, 28, 38, 0.98)),
+        var(--surface-strong);
+    border-color: color-mix(in srgb, var(--accent) 10%, var(--border));
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+}
+
+.dark .article-jump-label {
+    color: color-mix(in srgb, var(--secondary) 88%, white);
+}
+
+.dark .article-jump-current-link {
+    color: color-mix(in srgb, var(--primary) 94%, white);
+}
+
+.dark .article-jump-button {
+    color: color-mix(in srgb, var(--primary) 90%, white);
+    background: color-mix(in srgb, var(--accent-soft) 18%, rgba(38, 45, 58, 0.96));
+    border-color: color-mix(in srgb, var(--accent) 14%, var(--border));
+}
+
+.dark .article-jump-button:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--accent-soft) 24%, rgba(44, 52, 66, 0.98));
 }
 
 .post-footer {
