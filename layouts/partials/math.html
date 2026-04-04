@@ -5,13 +5,16 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        renderMathInElement(document.body, {
+        const mathRoot = document.querySelector(".post-content") || document.body;
+        renderMathInElement(mathRoot, {
             delimiters: [
                 { left: "$$", right: "$$", display: true },
                 { left: "$", right: "$", display: false },
                 { left: "\\(", right: "\\)", display: false },
                 { left: "\\[", right: "\\]", display: true },
-            ]
+            ],
+            throwOnError: false,
+            strict: "ignore"
         });
     });
 </script>
@@ -22,8 +25,10 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         if (window.mermaid) {
+            const isDark = document.body.classList.contains("dark");
             mermaid.initialize({
                 startOnLoad: true,
+                theme: isDark ? "dark" : "base",
             });
         }
     });

@@ -1,0 +1,111 @@
+.post-content .katex {
+    font-size: 1.04em;
+}
+
+.post-content .katex-display {
+    margin: 1.6rem auto;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(255, 248, 243, 0.9)),
+        var(--surface-strong);
+    box-shadow: var(--shadow-sm);
+    scrollbar-width: thin;
+}
+
+.post-content .katex-display > .katex {
+    display: inline-block;
+    min-width: min-content;
+    padding: 0 0.2rem;
+}
+
+.post-content .katex-display + .katex-display {
+    margin-top: -0.4rem;
+}
+
+.post-content .katex-display::-webkit-scrollbar {
+    height: 8px;
+}
+
+.post-content .katex-display::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--accent) 24%, var(--tertiary));
+    border-radius: 999px;
+    border: 0;
+}
+
+.post-content .katex-display::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.post-content .katex-html {
+    line-height: 1.75;
+}
+
+.post-content .katex-error {
+    color: color-mix(in srgb, #c8564f 82%, var(--content));
+}
+
+.mermaid-shell {
+    margin: 1.8rem 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background:
+        radial-gradient(circle at top right, rgba(217, 119, 87, 0.08), transparent 28%),
+        var(--surface-strong);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.mermaid-shell-header {
+    padding: 0.8rem 1rem 0.76rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--secondary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: color-mix(in srgb, var(--accent-soft) 40%, var(--surface-strong));
+}
+
+.mermaid-shell .mermaid {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+    background: transparent;
+}
+
+.mermaid-shell .mermaid svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-inline: auto;
+}
+
+.mermaid-shell .label,
+.mermaid-shell .cluster-label text,
+.mermaid-shell text {
+    fill: var(--primary) !important;
+}
+
+.mermaid-shell .node rect,
+.mermaid-shell .node circle,
+.mermaid-shell .node ellipse,
+.mermaid-shell .node polygon,
+.mermaid-shell .node path {
+    stroke: color-mix(in srgb, var(--accent) 26%, var(--border)) !important;
+}
+
+.dark .post-content .katex-display {
+    background:
+        linear-gradient(180deg, rgba(34, 40, 52, 0.94), rgba(23, 28, 38, 0.98)),
+        var(--surface-strong);
+}
+
+.dark .mermaid-shell {
+    background:
+        radial-gradient(circle at top right, rgba(242, 161, 126, 0.12), transparent 28%),
+        var(--surface-strong);
+}

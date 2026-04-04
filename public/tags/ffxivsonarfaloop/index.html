@@ -10,7 +10,7 @@
 <meta name="description" content="ungeho">
 <meta name="author" content="ungeho">
 <link rel="canonical" href="http://localhost:1313/tags/ffxivsonarfaloop/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.bc85154ae609e1073e871add4579357aa1db1c68856f74ae301a09d160969f06.css" integrity="sha256-vIUVSuYJ4Qc&#43;hxrdRXk1eqHbHGiFb3SuMBoJ0WCWnwY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7b1501e0248ae8c287b0f3a39995ccc90255c01a513080124df92c7b12feb21f.css" integrity="sha256-exUB4CSK6MKHsPOjmZXMyQJVwBpRMIASTfksexL&#43;sh8=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
@@ -65,13 +65,16 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        renderMathInElement(document.body, {
+        const mathRoot = document.querySelector(".post-content") || document.body;
+        renderMathInElement(mathRoot, {
             delimiters: [
                 { left: "$$", right: "$$", display: true },
                 { left: "$", right: "$", display: false },
                 { left: "\\(", right: "\\)", display: false },
                 { left: "\\[", right: "\\]", display: true },
-            ]
+            ],
+            throwOnError: false,
+            strict: "ignore"
         });
     });
 </script>
@@ -82,8 +85,10 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         if (window.mermaid) {
+            const isDark = document.body.classList.contains("dark");
             mermaid.initialize({
                 startOnLoad: true,
+                theme: isDark ? "dark" : "base",
             });
         }
     });
@@ -210,7 +215,7 @@ lifestreamにも対応。 リポジトリ(Divination.~~) https://xiv.starry.blue
             <span>&copy; 2026 <a href="http://localhost:1313/">ungehoBlog</a></span>
         </div>
         <div class="footer-meta">
-            <span>読みやすさを大切にした個人ブログ</span>
+            <span>ネトゲが趣味の人の個人ブログ</span>
             <span>
                 Powered by
                 <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
@@ -223,7 +228,7 @@ lifestreamにも対応。 リポジトリ(Divination.~~) https://xiv.starry.blue
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
         <path d="M12 6H0l6-6z" />
     </svg>
-</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.08f76c3fe8b955fa9e0484c40bc4a9903308008b8caaffb5a2293ad0b00a24ce.js" integrity="sha256-CPdsP&#43;i5VfqeBITEC8SpkDMIAIuMqv&#43;1oik60LAKJM4="></script>
+</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.6eb5eb90b787a191ff15424643f664e9760583325e3bc3294a1d8cb99c5f6219.js" integrity="sha256-brXrkLeHoZH/FUJGQ/Zk6XYFgzJeO8MpSh2MuZxfYhk="></script>
 
 <script>
     let menu = document.getElementById('menu')

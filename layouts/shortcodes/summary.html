@@ -1,0 +1,7 @@
+{{- $title := .Get "title" | default "Quick Summary" -}}
+<section class="article-summary-card">
+  <div class="article-summary-label">{{ $title }}</div>
+  <div class="article-summary-body">
+    {{ .Inner | markdownify }}
+  </div>
+</section>

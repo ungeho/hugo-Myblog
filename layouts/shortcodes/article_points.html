@@ -1,0 +1,7 @@
+{{- $title := .Get "title" | default "この記事でやったこと" -}}
+<section class="article-outro-card">
+  <div class="article-outro-label">{{ $title }}</div>
+  <div class="article-outro-body">
+    {{ .Inner | markdownify }}
+  </div>
+</section>

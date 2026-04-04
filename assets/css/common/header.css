@@ -98,31 +98,49 @@ body:not(.dark) #sun {
     min-height: 40px;
     font-size: 15px;
     color: var(--secondary);
-    border-radius: 999px;
-    transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+    border-radius: 16px;
+    transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 #menu a:hover {
     color: var(--primary);
-    background: color-mix(in srgb, var(--accent-soft) 72%, white);
+    background: color-mix(in srgb, var(--accent-soft) 68%, white);
+    box-shadow: 0 8px 18px rgba(217, 119, 87, 0.08);
     transform: translateY(-1px);
 }
 
 #menu a .active {
     display: inline-flex;
     align-items: center;
-    min-height: 40px;
-    padding: 0 14px;
-    margin: 0 -14px;
-    font-weight: 500;
+    min-height: 42px;
+    padding: 0 18px;
+    margin: 0 -10px;
+    font-weight: 600;
     color: var(--primary);
-    background: color-mix(in srgb, var(--accent-soft) 48%, white);
-    border-radius: 999px;
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 10%, var(--border));
+    background: color-mix(in srgb, var(--accent-soft) 68%, white);
+    border-radius: 18px;
+    box-shadow:
+        inset 0 0 0 1px color-mix(in srgb, var(--accent) 6%, transparent),
+        0 8px 18px rgba(217, 119, 87, 0.06);
 }
 
 #menu a:hover .active {
-    background: color-mix(in srgb, var(--accent-soft) 52%, white);
+    background: color-mix(in srgb, var(--accent-soft) 78%, white);
+}
+
+.dark #menu a:hover {
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.dark #menu a .active {
+    background: color-mix(in srgb, var(--accent-soft) 22%, rgba(36, 42, 54, 0.96));
+    box-shadow:
+        inset 0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent),
+        0 8px 18px rgba(0, 0, 0, 0.14);
+}
+
+.dark #menu a:hover .active {
+    background: color-mix(in srgb, var(--accent-soft) 28%, rgba(40, 47, 60, 0.98));
 }
 
 .lang-switch li,

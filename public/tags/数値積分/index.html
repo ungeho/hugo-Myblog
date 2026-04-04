@@ -10,7 +10,7 @@
 <meta name="description" content="ungeho">
 <meta name="author" content="ungeho">
 <link rel="canonical" href="https://ungeho.netlify.app/tags/%E6%95%B0%E5%80%A4%E7%A9%8D%E5%88%86/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.a553ee657cdd97cbea33402420f812f7ad783d9388d657b5a23ba2086632d176.css" integrity="sha256-pVPuZXzdl8vqM0AkIPgS9614PZOI1le1ojuiCGYy0XY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd43338a8f4ddb5cf3fea25cc094de582e727ffd739077aa714b2d3b86e14516.css" integrity="sha256-zUMzio9N21zz/qJcwJTeWC5yf/1zkHeqcUstO4bhRRY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://ungeho.netlify.app/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://ungeho.netlify.app/favicon/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://ungeho.netlify.app/favicon/favicon-32x32.png">
@@ -65,13 +65,16 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        renderMathInElement(document.body, {
+        const mathRoot = document.querySelector(".post-content") || document.body;
+        renderMathInElement(mathRoot, {
             delimiters: [
                 { left: "$$", right: "$$", display: true },
                 { left: "$", right: "$", display: false },
                 { left: "\\(", right: "\\)", display: false },
                 { left: "\\[", right: "\\]", display: true },
-            ]
+            ],
+            throwOnError: false,
+            strict: "ignore"
         });
     });
 </script>
@@ -82,8 +85,10 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         if (window.mermaid) {
+            const isDark = document.body.classList.contains("dark");
             mermaid.initialize({
                 startOnLoad: true,
+                theme: isDark ? "dark" : "base",
             });
         }
     });
@@ -223,7 +228,7 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
         <path d="M12 6H0l6-6z" />
     </svg>
-</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.08f76c3fe8b955fa9e0484c40bc4a9903308008b8caaffb5a2293ad0b00a24ce.js" integrity="sha256-CPdsP&#43;i5VfqeBITEC8SpkDMIAIuMqv&#43;1oik60LAKJM4="></script>
+</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.b707887538e9509488377b2760ca941d4f8e69146ecbbe96ee869e0319bffdc3.js" integrity="sha256-tweIdTjpUJSIN3snYMqUHU&#43;OaRRuy76W7oaeAxm//cM="></script>
 
 <script>
     let menu = document.getElementById('menu')

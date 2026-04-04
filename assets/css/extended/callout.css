@@ -1,26 +1,31 @@
 .callout {
     --callout-accent: var(--accent);
-    --callout-bg: color-mix(in srgb, var(--accent) 10%, var(--surface-strong));
-    --callout-label-bg: color-mix(in srgb, var(--accent) 92%, #ffffff);
-    --callout-label-color: #fff;
-    --callout-border: color-mix(in srgb, var(--accent) 26%, var(--border));
+    --callout-bg: color-mix(in srgb, var(--accent) 8%, #ffffff);
+    --callout-label-bg: color-mix(in srgb, var(--accent) 10%, #ffffff);
+    --callout-label-color: color-mix(in srgb, var(--callout-accent) 76%, #513347);
+    --callout-border: color-mix(in srgb, var(--accent) 18%, var(--border));
     --callout-link: var(--callout-accent);
+    --callout-shadow: 0 10px 22px color-mix(in srgb, var(--accent) 8%, transparent);
 
-    margin: 1.6rem 0;
+    position: relative;
+    margin: 1.8rem 0;
 }
 
 .callout-label {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    margin: 0 0 -1px 0.2rem;
-    padding: 0.68rem 1.1rem 0.64rem;
-    border-radius: 14px 14px 0 0;
+    gap: 0.65rem;
+    margin: 0 0 -10px 0.9rem;
+    padding: 0.72rem 1rem 0.7rem;
+    border: 1px solid color-mix(in srgb, var(--callout-accent) 14%, transparent);
+    border-radius: 999px;
     background: var(--callout-label-bg);
     color: var(--callout-label-color);
-    font-size: 0.96rem;
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--callout-accent) 9%, transparent);
+    font-size: 0.9rem;
     font-weight: 700;
     line-height: 1.1;
+    letter-spacing: 0.01em;
 }
 
 summary.callout-label {
@@ -33,56 +38,50 @@ summary.callout-label::-webkit-details-marker {
 }
 
 .callout-label-text {
-    color: #fff;
+    color: inherit;
 }
 
 .callout-label-icon {
-    width: 1rem;
-    height: 1rem;
-    flex: 0 0 1rem;
+    width: 1.45rem;
+    height: 1.45rem;
+    flex: 0 0 1.45rem;
     display: inline-block;
-    background: currentColor;
-    color: #fff;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-position: center;
-    mask-size: contain;
-    -webkit-mask-size: contain;
+    border-radius: 999px;
+    background-color: var(--callout-accent);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 0.84rem 0.84rem;
+    box-shadow:
+        inset 0 0 0 1px color-mix(in srgb, #ffffff 18%, transparent),
+        0 6px 14px color-mix(in srgb, var(--callout-accent) 28%, transparent);
 }
 
 .callout-note .callout-label-icon {
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8 16A8 8 0 108 0a8 8 0 000 16zm.75-11.5a.75.75 0 10-1.5 0 .75.75 0 001.5 0zM7 7h2v5H7V7z'/%3E%3C/svg%3E");
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8 16A8 8 0 108 0a8 8 0 000 16zm.75-11.5a.75.75 0 10-1.5 0 .75.75 0 001.5 0zM7 7h2v5H7V7z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M7 3.75A2.25 2.25 0 0 0 4.75 6v12A2.25 2.25 0 0 0 7 20.25h10A2.25 2.25 0 0 0 19.25 18V9.81a2.25 2.25 0 0 0-.66-1.59l-3.81-3.81A2.25 2.25 0 0 0 13.19 3.75H7zm6 1.6v3.4c0 .41.34.75.75.75h3.4L13 5.35zM8.5 12a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5A.75.75 0 0 1 8.5 12zm0 3a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5A.75.75 0 0 1 8.5 15z'/%3E%3C/svg%3E");
 }
 
 .callout-tip .callout-label-icon {
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M6 14h4v1H6v-1zm2-14a5 5 0 00-3 9v2h6v-2a5 5 0 00-3-9z'/%3E%3C/svg%3E");
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M6 14h4v1H6v-1zm2-14a5 5 0 00-3 9v2h6v-2a5 5 0 00-3-9z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 2.75a6.25 6.25 0 0 0-3.86 11.17c.6.48 1.01 1.06 1.2 1.72l.05.18h5.22l.05-.18c.19-.66.6-1.24 1.2-1.72A6.25 6.25 0 0 0 12 2.75zm-2 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5A.75.75 0 0 1 10 18zm.25 2.25a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5H11a.75.75 0 0 1-.75-.75z'/%3E%3C/svg%3E");
 }
 
 .callout-important .callout-label-icon {
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8 0l3 6h-6l3-6zm-3 7h6v7h-6v-7z'/%3E%3C/svg%3E");
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8 0l3 6h-6l3-6zm-3 7h6v7h-6v-7z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 2.75a4.25 4.25 0 0 0-4.24 4.1L7.75 7v3.19l-1.78 2.67a.75.75 0 0 0 .62 1.16h10.82a.75.75 0 0 0 .62-1.16l-1.78-2.67V7A4.25 4.25 0 0 0 12 2.75zm0 18.5a2.25 2.25 0 0 1-2.12-1.5h4.24A2.25 2.25 0 0 1 12 21.25z'/%3E%3C/svg%3E");
 }
 
 .callout-warning .callout-label-icon {
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8.22 1.5L.75 14h14.5L8.22 1.5zM8 6v3m0 2h.01' stroke='black' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8.22 1.5L.75 14h14.5L8.22 1.5zM8 6v3m0 2h.01' stroke='black' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 3.75a1.75 1.75 0 0 1 1.52.88l6.72 11.75a1.75 1.75 0 0 1-1.52 2.62H5.28a1.75 1.75 0 0 1-1.52-2.62L10.48 4.63A1.75 1.75 0 0 1 12 3.75zm0 4.5a.75.75 0 0 0-.75.75v4.25a.75.75 0 0 0 1.5 0V9a.75.75 0 0 0-.75-.75zm0 8.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z'/%3E%3C/svg%3E");
 }
 
 .callout-caution .callout-label-icon {
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8 1a7 7 0 110 14A7 7 0 018 1zm0 4v4m0 2h.01' stroke='black' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8 1a7 7 0 110 14A7 7 0 018 1zm0 4v4m0 2h.01' stroke='black' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 3.25a8.75 8.75 0 1 0 0 17.5 8.75 8.75 0 0 0 0-17.5zm0 4.5c.41 0 .75.34.75.75v4.5a.75.75 0 0 1-1.5 0V8.5c0-.41.34-.75.75-.75zm0 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z'/%3E%3C/svg%3E");
 }
 
 .callout-body {
     background: var(--callout-bg);
     border: 1px solid var(--callout-border);
-    border-top: none;
-    border-radius: 0 14px 14px 14px;
-    padding: 1.08rem 1.25rem;
-    box-shadow: var(--shadow-sm);
+    border-radius: 20px;
+    padding: 1.28rem 1.35rem 1.15rem;
+    box-shadow: var(--callout-shadow);
 }
 
 .callout-body > *:first-child {
@@ -95,7 +94,7 @@ summary.callout-label::-webkit-details-marker {
 
 .callout-body p,
 .callout-body li {
-    line-height: 1.85;
+    line-height: 1.82;
 }
 
 .callout-body ul,
@@ -115,16 +114,17 @@ summary.callout-label::-webkit-details-marker {
 }
 
 .callout-body :not(pre) > code {
-    padding: 0.15em 0.45em;
-    border-radius: 6px;
+    padding: 0.18em 0.5em;
+    border-radius: 999px;
     font-size: 0.92em;
+    background: color-mix(in srgb, var(--callout-accent) 10%, #ffffff);
 }
 
 .callout-body pre {
     overflow-x: auto;
-    border-radius: 10px;
+    border-radius: 14px;
     margin: 0.9rem 0 0.2rem;
-    padding: 0.95rem 1rem;
+    padding: 1rem 1.05rem;
 }
 
 .callout-body pre code {
@@ -138,12 +138,13 @@ summary.callout-label::-webkit-details-marker {
 .callout-chevron {
     width: 0.7rem;
     height: 0.7rem;
-    margin-left: 0.1rem;
-    border-right: 2px solid rgba(255, 255, 255, 0.92);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.92);
+    margin-left: 0.2rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
     transform: rotate(45deg);
     transform-origin: center;
     transition: transform 0.18s ease;
+    opacity: 0.72;
 }
 
 details[open] > summary .callout-chevron {
@@ -171,43 +172,53 @@ details.callout[open] .callout-body {
 }
 
 .callout-note {
-    --callout-accent: #2f6db3;
-    --callout-bg: rgba(47, 109, 179, 0.08);
-    --callout-label-bg: #2f6db3;
-    --callout-border: rgba(47, 109, 179, 0.24);
-    --callout-link: #2f6db3;
+    --callout-accent: #6f99d8;
+    --callout-bg: color-mix(in srgb, #6f99d8 10%, #ffffff);
+    --callout-label-bg: color-mix(in srgb, #6f99d8 14%, #ffffff);
+    --callout-label-color: #5677ad;
+    --callout-border: color-mix(in srgb, #6f99d8 20%, var(--border));
+    --callout-shadow: 0 10px 22px rgba(111, 153, 216, 0.12);
+    --callout-link: #3d6fb3;
 }
 
 .callout-tip {
-    --callout-accent: #3a8f6a;
-    --callout-bg: rgba(58, 143, 106, 0.08);
-    --callout-label-bg: #3a8f6a;
-    --callout-border: rgba(58, 143, 106, 0.24);
-    --callout-link: #2d7a59;
+    --callout-accent: #77bf98;
+    --callout-bg: color-mix(in srgb, #77bf98 10%, #ffffff);
+    --callout-label-bg: color-mix(in srgb, #77bf98 14%, #ffffff);
+    --callout-label-color: #4d8f6b;
+    --callout-border: color-mix(in srgb, #77bf98 20%, var(--border));
+    --callout-shadow: 0 10px 22px rgba(119, 191, 152, 0.12);
+    --callout-link: #3b8d65;
 }
 
 .callout-important {
-    --callout-accent: #aa6a95;
-    --callout-bg: rgba(170, 106, 149, 0.1);
-    --callout-label-bg: #aa6a95;
-    --callout-border: rgba(170, 106, 149, 0.24);
-    --callout-link: #975883;
+    --callout-accent: #cb92bb;
+    --callout-bg: color-mix(in srgb, #cb92bb 10%, #ffffff);
+    --callout-label-bg: color-mix(in srgb, #cb92bb 14%, #ffffff);
+    --callout-label-color: #9a678b;
+    --callout-border: color-mix(in srgb, #cb92bb 20%, var(--border));
+    --callout-shadow: 0 10px 22px rgba(203, 146, 187, 0.12);
+    --callout-link: #9d5d8a;
 }
 
 .callout-warning {
-    --callout-accent: #c0625c;
-    --callout-bg: rgba(192, 98, 92, 0.1);
-    --callout-label-bg: #c0625c;
-    --callout-border: rgba(192, 98, 92, 0.28);
-    --callout-link: #ba5046;
+    --callout-accent: #e5a091;
+    --callout-bg: color-mix(in srgb, #e5a091 10%, #ffffff);
+    --callout-label-bg: color-mix(in srgb, #e5a091 14%, #ffffff);
+    --callout-label-color: #b56e60;
+    --callout-border: color-mix(in srgb, #e5a091 20%, var(--border));
+    --callout-shadow: 0 10px 22px rgba(229, 160, 145, 0.12);
+    --callout-link: #bf6358;
 }
 
 .callout-caution {
-    --callout-accent: #bc8b3b;
-    --callout-bg: rgba(188, 139, 59, 0.14);
-    --callout-label-bg: #bc8b3b;
-    --callout-border: rgba(188, 139, 59, 0.3);
-    --callout-link: #8d6322;
+    --callout-accent: #dabb78;
+    --callout-bg: color-mix(in srgb, #dabb78 11%, #ffffff);
+    --callout-label-bg: color-mix(in srgb, #dabb78 15%, #ffffff);
+    --callout-label-color: #9b7a3a;
+    --callout-border: color-mix(in srgb, #dabb78 21%, var(--border));
+    --callout-shadow: 0 10px 22px rgba(218, 187, 120, 0.12);
+    --callout-link: #9e742f;
 }
 
 @media (max-width: 640px) {
@@ -216,14 +227,14 @@ details.callout[open] .callout-body {
     }
 
     .callout-label {
-        margin-left: 0.1rem;
-        padding: 0.6rem 0.9rem 0.56rem;
-        font-size: 0.9rem;
+        margin-left: 0.35rem;
+        padding: 0.64rem 0.88rem 0.62rem;
+        font-size: 0.84rem;
     }
 
     .callout-body {
-        padding: 0.9rem 1rem;
-        border-radius: 0 8px 8px 8px;
+        padding: 1rem 1rem 0.94rem;
+        border-radius: 16px;
     }
 
     .callout-body p,
@@ -239,41 +250,46 @@ details.callout[open] .callout-body {
 }
 
 .dark .callout-note {
-    --callout-accent: #6ba6ea;
-    --callout-bg: rgba(107, 166, 234, 0.15);
-    --callout-label-bg: #467fcd;
-    --callout-border: rgba(107, 166, 234, 0.28);
-    --callout-link: #93c3ff;
+    --callout-accent: #89baf5;
+    --callout-bg: rgba(38, 55, 78, 0.88);
+    --callout-label-bg: rgba(72, 109, 158, 0.22);
+    --callout-label-color: #d9e9ff;
+    --callout-border: rgba(121, 167, 232, 0.28);
+    --callout-link: #a8cfff;
 }
 
 .dark .callout-tip {
-    --callout-accent: #66c49c;
-    --callout-bg: rgba(102, 196, 156, 0.15);
-    --callout-label-bg: #2d8a66;
-    --callout-border: rgba(102, 196, 156, 0.28);
-    --callout-link: #88e0ba;
+    --callout-accent: #83d5ab;
+    --callout-bg: rgba(31, 63, 50, 0.88);
+    --callout-label-bg: rgba(63, 132, 99, 0.24);
+    --callout-label-color: #daf8e9;
+    --callout-border: rgba(116, 210, 168, 0.28);
+    --callout-link: #a8ebc8;
 }
 
 .dark .callout-important {
-    --callout-accent: #d39cc1;
-    --callout-bg: rgba(211, 156, 193, 0.18);
-    --callout-label-bg: #9d678a;
-    --callout-border: rgba(211, 156, 193, 0.3);
-    --callout-link: #efb6dd;
+    --callout-accent: #e4afd4;
+    --callout-bg: rgba(72, 42, 66, 0.88);
+    --callout-label-bg: rgba(152, 97, 138, 0.24);
+    --callout-label-color: #ffe3f7;
+    --callout-border: rgba(217, 158, 198, 0.3);
+    --callout-link: #f5c6e9;
 }
 
 .dark .callout-warning {
-    --callout-accent: #f09488;
-    --callout-bg: rgba(240, 148, 136, 0.16);
-    --callout-label-bg: #c75f55;
-    --callout-border: rgba(240, 148, 136, 0.3);
-    --callout-link: #ffb5ab;
+    --callout-accent: #f4b0a5;
+    --callout-bg: rgba(79, 45, 42, 0.88);
+    --callout-label-bg: rgba(177, 93, 83, 0.24);
+    --callout-label-color: #ffe4e0;
+    --callout-border: rgba(240, 161, 151, 0.3);
+    --callout-link: #ffc8c1;
 }
 
 .dark .callout-caution {
-    --callout-accent: #e0b368;
-    --callout-bg: rgba(224, 179, 104, 0.16);
-    --callout-label-bg: #a57428;
-    --callout-border: rgba(224, 179, 104, 0.3);
-    --callout-link: #f5ce90;
+    --callout-accent: #ebc27f;
+    --callout-bg: rgba(78, 60, 32, 0.88);
+    --callout-label-bg: rgba(170, 126, 53, 0.24);
+    --callout-label-color: #ffeed1;
+    --callout-border: rgba(234, 191, 117, 0.3);
+    --callout-link: #f7d798;
 }

@@ -1,139 +1,248 @@
-### Hugoを試しに触ってみるメモ
+# hugo-Myblog Memo
 
-windows10
-cmd(mingw)
+この README は、このブログで記事を書くときに見返す用のメモです。  
+Hugo や PaperMod の一般説明ではなく、このリポジトリで実際に使う書き方だけをまとめています。
 
-で行った時のメモ
+## 起動と投稿
 
-[作ったブログ](https://ungeho.netlify.app/ "UngehoBlog")
+### ローカル起動
 
+- `.\run.ps1`
+  - 通常のローカル起動
+- `.\runDraft.ps1`
+  - 下書き記事も含めて確認したいとき
+- `.\runIgnoreCache.ps1`
+  - キャッシュの影響を避けて表示確認したいとき
 
-#### サイト構築
+補足:
 
-```
-hugo new site siteName
-```
+- これらのスクリプトはローカル確認用に `http://localhost:1313/` を使う
+- 本番の `baseURL` は `hugo.toml` に残してあるので、デプロイ設定はそのままでよい
+- スクリプトを書き換えたあとに反映されない場合は、いったん起動中の Hugo サーバーを止めてから再実行する
 
-#### ディレクトリ構造
+### 新しい記事を作る
 
-.<br>
-┣━━archetypes/<br>
-┃       'hugo new' コマンドで生成するコンテンツのひな型格納場所<br>
-┣━━content/<br>
-┃       コンテンツ格納場所<br>
-┣━━data/<br>
-┃       JSONやYAML、TOML形式のデータ格納場所<br>
-┣━━layouts/<br>
-┃       themesのテーマを上書きするレイアウト格納場所<br>
-┣━━static/<br>
-┃       静的ファイル格納場所（メディアファイルなど）<br>
-┣━━themes/<br>
-┃       テーマ格納場所<br>
-┗━━hugo.toml(config.toml)<br>
-サイトの構成ファイル<br>
+- `.\post.ps1 -name "my-post-name"`
 
-<!--
-┣ ┠ ┝ ├
-┫ ┨ ┥ ┤
-│ ┃
-─ ━
-┌ ┏ ┓ ┐
-└ ┗ ┛ ┘
--->
+例:
 
-#### テーマの追加
-
-hugoの PaperMod テーマを 'theme/PaperMod' フォルダに追加する。
-
-```
-git submodule add https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod
+```powershell
+.\post.ps1 -name "float-notes"
 ```
 
-#### hugo.toml(config.toml)（サイトの構成ファイル）の追加と編集
+これで `content/posts/float-notes.md` が作られる。
 
-※`v0.109.0`から設定ファイルは`hugo.toml`
+## 記事 Front Matter
 
-設定ファイルを編集したい場合は、`hugo.toml`を編集
+よく使う項目:
 
-[PaperModの設定項目](https://github.com/adityatelange/hugo-PaperMod/wiki/Features "PaperMod-wiki")
-
-[Tomlの書式](https://toml.io/ja/v0.5.0 "toml.io")
-
-例えば、コードブロックにコピーボタンを追加したい場合は
-
-`hugo.toml`に以下を追加する。
-
-```
-[params]
-    ShowCodeCopyButtons = true
-```
-
-
-#### テーマの反映
-
-`themes\PaperMod` にある `README.md`と`git関連`のファイル以外をコピーする。
-
-サイト直下にコピーしたものを全て上書きする。
-
-以下のコマンドでローカルで起動する事が出来る。
-
-```
-hugo server -D
+```toml
++++
+title = "記事タイトル"
+date = 2026-04-04T12:00:00+09:00
+draft = false
+categories = ["Programming"]
+tags = ["Hugo", "メモ"]
+showtoc = true
+tocopen = true
+math = false
++++
 ```
 
--Dオプション、下書き(Draft)として定義したコンテンツもプレビュー結果に表示する。
+補足:
 
-#### Netlifyでデプロイ（公開）する。
+- `draft = true` にすると通常ビルドでは出ない
+- `showtoc = true` で目次表示
+- `tocopen = true` で目次カード自体を最初から開く
+- `math = true` で KaTeX / Mermaid 関連の読み込みが有効になる
 
-`netlify.toml`を新規作成して
+## Callout
 
-[Host on Netlify](https://gohugo.io/hosting-and-deployment/hosting-on-netlify/#configure-hugo-version-in-netlify "gohugo.io")を参考に
+このブログでは Hugo の alert blockquote を使って callout を出せる。
 
-```
-[build]
-  publish = "public"
-  command = "hugo --gc --minify"
+使える種類:
 
-  [build.environment]
-    HUGO_VERSION = "0.121.2"
+- `note`
+- `tip`
+- `important`
+- `warning`
+- `caution`
 
-[context.production.environment]
-  HUGO_ENV           = "production"
-  HUGO_ENABLEGITINFO = "true"
+### 通常の callout
 
-[context.split1]
-  command = "hugo --gc --minify --enableGitInfo"
-
-  [context.split1.environment]
-    HUGO_ENV = "production"
-
-[context.deploy-preview]
-  command = "hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL"
-
-[context.branch-deploy]
-  command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
-
-[context.next.environment]
-  HUGO_ENABLEGITINFO = "true"
-
-[[redirects]]
-  from   = "/npmjs/*"
-  to     = "/npmjs/"
-  status = 200
+```md
+> [!NOTE] 補足
+> この部分は note として表示される。
 ```
 
-のような内容をコピーして、`version`情報を自身のhugoに合わせて変更して保存
-
-その後、Netlifyでアカウントを作成し、道なりに設定。
-
-#### コンテンツの作成(記事の投稿)
-
-hugoサイト直下で、以下のコマンドを実行することで
-
-フォルダ`content/post`とファイル`content/post/my-first-post.md`を生成し、コンテンツを作成する。
-
-```
-hugo new posts/my-first-post.md
+```md
+> [!TIP] コツ
+> ちょっとしたコツや補足を書く。
 ```
 
-また、`archettypes/default.md`を編集する事で、投稿する記事のデフォルトの設定を変更できる。
+### 折りたたみできる callout
+
+`[!TYPE]+` で最初から開く、`[!TYPE]-` で最初は閉じる。
+
+```md
+> [!IMPORTANT]+ 先に読んでおく
+> 最初から開いた状態で表示される。
+```
+
+```md
+> [!WARNING]- 注意
+> クリックするまで閉じた状態にしておける。
+```
+
+## Quick Summary / 記事末尾まとめ
+
+自動生成は使っていない。  
+必要な記事だけ shortcode で手動挿入する。
+
+### Quick Summary
+
+```md
+{{< summary title="Quick Summary" >}}
+- この記事でわかること
+- 先に知っておくと楽なこと
+- 読みどころ
+{{< /summary >}}
+```
+
+`title` を省略すると `Quick Summary` になる。
+
+### 記事末尾のまとめ
+
+```md
+{{< article_points title="この記事でやったこと" >}}
+- 基本概念を整理した
+- 実例を確認した
+- 実装例を載せた
+{{< /article_points >}}
+```
+
+## 折りたたみブロック
+
+長くなりすぎる補足は `collapse` shortcode を使える。
+
+```md
+{{< collapse summary="補足を開く" >}}
+ここに長めの補足を書く。
+{{< /collapse >}}
+```
+
+## 数式
+
+Front Matter で `math = true` を付ける。
+
+インライン:
+
+```md
+$a^2 + b^2 = c^2$
+```
+
+ディスプレイ数式:
+
+```md
+$$
+\int_0^1 x^2 dx = \frac{1}{3}
+$$
+```
+
+```md
+\[
+f(x) = x^2 + 1
+\]
+```
+
+## Mermaid
+
+`math = true` を付けたうえで、コードフェンスに `mermaid` を指定する。
+
+```md
+```mermaid
+flowchart TD
+    A[Start] --> B[Process]
+    B --> C[End]
+```
+```
+
+Mermaid は専用カード風の見た目になる。
+
+## コードブロック
+
+普通の fenced code block を使えばよい。
+
+```md
+```python
+print("hello")
+```
+```
+
+補足:
+
+- 言語ラベルは自動で付く
+- 長いコードは自動で折りたたみ対象になることがある
+- コピーボタンも付く
+
+## 画像
+
+通常の Markdown 画像でよい。
+
+```md
+![説明文](/images/example.png)
+```
+
+画像はライトボックス対応。  
+キャプションを強めたい場合は figure shortcode も使える。
+
+```md
+{{< figure
+  src="/images/example.png"
+  caption="図1. この図の説明"
+>}}
+```
+
+## 表
+
+通常の Markdown table でよい。  
+狭い表は中央寄せ、広い表は必要に応じて横スクロールまたは折り返しで表示されるよう調整済み。
+
+## 記事を書くときのおすすめ
+
+- 長い記事は最初に `summary` を置く
+- 注意書きは callout を使う
+- 補足が長いなら `collapse` を使う
+- 数式や Mermaid を使う記事は `math = true`
+- 章立てを分かりやすくすると TOC が活きる
+- コードが多い記事は h2 / h3 を素直に切ると読みやすい
+
+## よくある確認ポイント
+
+- ローカルなのに本番URLへ飛ぶ
+  - 起動中の古い Hugo サーバーを止めてから `run.ps1` / `runDraft.ps1` を再実行する
+- TOC を出したい
+  - `showtoc = true`
+- 数式が表示されない
+  - `math = true` を付ける
+- 下書きが見えない
+  - `.\runDraft.ps1` を使う
+
+## 関連ファイル
+
+- `hugo.toml`
+  - サイト全体の設定
+- `post.ps1`
+  - 新規記事作成
+- `run.ps1`
+  - 通常起動
+- `runDraft.ps1`
+  - Draft込みで起動
+- `runIgnoreCache.ps1`
+  - キャッシュ無視で起動
+- `layouts/shortcodes/summary.html`
+  - Quick Summary 用
+- `layouts/shortcodes/article_points.html`
+  - 記事末尾まとめ用
+- `layouts/shortcodes/collapse.html`
+  - 折りたたみ用
