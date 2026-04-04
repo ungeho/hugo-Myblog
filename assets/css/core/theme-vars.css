@@ -1,36 +1,55 @@
 :root {
-    --gap: 24px;
-    --content-gap: 20px;
-    --nav-width: 1024px;
-    --main-width: 720px;
-    --header-height: 60px;
-    --footer-height: 60px;
-    --radius: 8px;
-    --theme: rgb(255, 255, 255);
-    --entry: rgb(255, 255, 255);
-    --primary: rgb(30, 30, 30);
-    --secondary: rgb(108, 108, 108);
-    --tertiary: rgb(214, 214, 214);
-    --content: rgb(31, 31, 31);
-    --code-block-bg: rgb(28, 29, 33);
-    --code-bg: rgb(245, 245, 245);
-    --border: rgb(238, 238, 238);
+    --gap: 28px;
+    --content-gap: 1.5rem;
+    --nav-width: 1200px;
+    --main-width: 1180px;
+    --article-width: 760px;
+    --header-height: 74px;
+    --footer-height: 88px;
+    --radius: 18px;
+    --radius-sm: 12px;
+    --shadow-sm: 0 14px 30px rgba(26, 33, 52, 0.08);
+    --shadow-md: 0 24px 50px rgba(26, 33, 52, 0.12);
+    --theme: #f6f2eb;
+    --entry: rgba(255, 255, 255, 0.86);
+    --primary: #1f2937;
+    --secondary: #6b7280;
+    --tertiary: #d8d1c6;
+    --content: #243042;
+    --accent: #d97757;
+    --accent-soft: rgba(217, 119, 87, 0.14);
+    --code-block-bg: #1f2430;
+    --code-bg: #f3ede4;
+    --border: rgba(111, 95, 77, 0.16);
+    --surface-strong: rgba(255, 252, 247, 0.94);
+    --surface-muted: rgba(255, 255, 255, 0.62);
+    --link-hover: #b85f42;
 }
 
 .dark {
-    --theme: rgb(29, 30, 32);
-    --entry: rgb(46, 46, 51);
-    --primary: rgb(218, 218, 219);
-    --secondary: rgb(155, 156, 157);
-    --tertiary: rgb(65, 66, 68);
-    --content: rgb(196, 196, 197);
-    --code-block-bg: rgb(46, 46, 51);
-    --code-bg: rgb(55, 56, 62);
-    --border: rgb(51, 51, 51);
+    --shadow-sm: 0 18px 38px rgba(0, 0, 0, 0.28);
+    --shadow-md: 0 28px 60px rgba(0, 0, 0, 0.34);
+    --theme: #13161d;
+    --entry: rgba(26, 31, 41, 0.92);
+    --primary: #f3f4f6;
+    --secondary: #9aa4b2;
+    --tertiary: #2f3644;
+    --content: #d8dee9;
+    --accent: #f2a17e;
+    --accent-soft: rgba(242, 161, 126, 0.16);
+    --code-block-bg: #0f1722;
+    --code-bg: #1d2430;
+    --border: rgba(255, 255, 255, 0.08);
+    --surface-strong: rgba(20, 25, 35, 0.96);
+    --surface-muted: rgba(32, 39, 51, 0.82);
+    --link-hover: #ffc3aa;
 }
 
 .list {
-    background: var(--code-bg);
+    background:
+        radial-gradient(circle at top, rgba(217, 119, 87, 0.12), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.38), transparent 22%),
+        var(--theme);
 }
 
 .dark.list {

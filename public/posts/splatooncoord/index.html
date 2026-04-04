@@ -106,7 +106,7 @@ splatoonのlayout作成のTips
 
 </script>
 
-<header class="header">
+<header class="header site-header">
     <nav class="nav">
         <div class="logo">
             <a href="http://localhost:1313/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
@@ -135,7 +135,7 @@ splatoonのlayout作成のTips
                 </ul>
             </div>
         </div>
-        <ul id="menu">
+        <ul id="menu" class="menu">
             <li>
                 <a href="http://localhost:1313/about" title="About">
                     <span>About</span>
@@ -169,25 +169,34 @@ splatoonのlayout作成のTips
         </ul>
     </nav>
 </header>
-<main class="main">
+<main class="main"><article class="post-single article-single"><header class="post-header article-hero">
+  <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
 
-<article class="post-single">
-  <header class="post-header">
-    <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
-    <h1 class="post-title entry-hint-parent">
-      FF14の座標の計算方法と豆知識
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h1>
-    <div class="post-meta"><span title='2024-01-27 03:15:32 +0900 JST'>2024/01/27</span>&nbsp;·&nbsp;3 分&nbsp;·&nbsp;ungeho
+  <div class="article-hero-inner">
+    <div class="article-hero-copy">
+      <div class="article-taxonomy-row">
+        <span class="article-chip">FFXIV</span>
+      </div>
+
+      <h1 class="post-title entry-hint-parent">
+        FF14の座標の計算方法と豆知識
+        <span class="entry-hint" title="Draft">
+          <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+            <path d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+          </svg>
+        </span>
+      </h1>
+      <div class="post-meta article-meta"><span title='2024-01-27 03:15:32 +0900 JST'>2024/01/27</span>&nbsp;·&nbsp;3 分&nbsp;·&nbsp;ungeho
 
 </div>
-  </header> 
-  <div class="post-content"><p><code>splatoon</code>や<code>waymarkPreset</code>プラグインのlayout作成に便利な式と豆知識</p>
+    </div>
+  </div>
+</header>
+ 
+
+  <div class="article-layout">
+    <div class="article-main">
+      <div class="post-content"><p><code>splatoon</code>や<code>waymarkPreset</code>プラグインのlayout作成に便利な式と豆知識</p>
 <h3 id="splatoonのlayout作成のtips">splatoonのlayout作成のTips<a hidden class="anchor" aria-hidden="true" href="#splatoonのlayout作成のtips">#</a></h3>
 <p>設定を行う場合は<code>A realm Recorded</code>を使うと楽</p>
 <p><code>/splatoon</code>-&gt;<code>ツール</code>-&gt;<code>ロガー</code>から、<code>ロガーを有効にする</code>と<code>viewer mode</code>にチェックを入れるとオブジェクトを確認出来る。</p>
@@ -261,14 +270,16 @@ Y座標は、中心の座標から設定<br>
 </table>
 
 
-  </div>
-
-  <footer class="post-footer">
+      </div><footer class="post-footer article-footer">
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Tags</h2>
     <ul class="post-tags">
       <li><a href="http://localhost:1313/tags/ffxiv/">FFXIV</a></li>
       <li><a href="http://localhost:1313/tags/splatoon/">Splatoon</a></li>
       <li><a href="http://localhost:1313/tags/waymarkplugin/">WaymarkPlugin</a></li>
     </ul>
+  </section>
+  <section class="article-footer-section">
 <nav class="paginav">
   <a class="prev" href="http://localhost:1313/posts/umu-splatoonpresets/">
     <span class="title">« 前へ</span>
@@ -282,6 +293,8 @@ Y座標は、中心の座標から設定<br>
   </a>
 </nav>
 
+  </section>
+  <section class="article-footer-section">
 
 <ul class="share-buttons">
     <li>
@@ -294,24 +307,35 @@ Y座標は、中心の座標から設定<br>
         </a>
     </li>
 </ul>
+</section>
+</footer>
 
-  </footer>
+    </div>
+
+  </div>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2026 <a href="http://localhost:1313/">ungehoBlog</a></span>
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span>&copy; 2026 <a href="http://localhost:1313/">ungehoBlog</a></span>
+        </div>
+        <div class="footer-meta">
+            <span>読みやすさを大切にした個人ブログ</span>
+            <span>
+                Powered by
+                <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+                <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+            </span>
+        </div>
+    </div>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
         <path d="M12 6H0l6-6z" />
     </svg>
-</a>
+</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.08f76c3fe8b955fa9e0484c40bc4a9903308008b8caaffb5a2293ad0b00a24ce.js" integrity="sha256-CPdsP&#43;i5VfqeBITEC8SpkDMIAIuMqv&#43;1oik60LAKJM4="></script>
 
 <script>
     let menu = document.getElementById('menu')
@@ -413,6 +437,7 @@ Y座標は、中心の座標から設定<br>
             codeblock.parentNode.appendChild(copybutton);
         }
     });
-</script></body>
+</script>
+</body>
 
 </html>

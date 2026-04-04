@@ -3,24 +3,32 @@
     min-height: calc(100vh - var(--header-height) - var(--footer-height));
     max-width: calc(var(--main-width) + var(--gap) * 2);
     margin: auto;
-    padding: var(--gap);
+    padding: calc(var(--gap) * 1.1) var(--gap) calc(var(--gap) * 1.8);
 }
 
 .page-header h1 {
-    font-size: 40px;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    letter-spacing: -0.03em;
 }
 
 .pagination {
     display: flex;
+    gap: 12px;
 }
 
 .pagination a {
     color: var(--theme);
     font-size: 13px;
-    line-height: 36px;
-    background: var(--primary);
-    border-radius: calc(36px / 2);
-    padding: 0 16px;
+    line-height: 40px;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 0 18px;
+    transition: transform 0.22s ease, background-color 0.22s ease;
+}
+
+.pagination a:hover {
+    background: var(--link-hover);
+    transform: translateY(-1px);
 }
 
 .pagination .next {
@@ -31,6 +39,13 @@
 .social-icons a {
     display: inline-flex;
     padding: 10px;
+    border-radius: 999px;
+    transition: transform 0.22s ease, background-color 0.22s ease;
+}
+
+.social-icons a:hover {
+    transform: translateY(-2px);
+    background: var(--accent-soft);
 }
 
 .social-icons a svg {
@@ -48,19 +63,83 @@ pre {
 }
 
 .copy-code {
-    display: none;
+    display: inline-flex;
     position: absolute;
-    top: 4px;
-    right: 4px;
-    color: rgba(255, 255, 255, 0.8);
-    background: rgba(78, 78, 78, 0.8);
-    border-radius: var(--radius);
-    padding: 0 5px;
-    font-size: 14px;
+    top: 12px;
+    right: 12px;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    height: 32px;
+    color: rgba(255, 255, 255, 0.92);
+    background: rgba(31, 36, 48, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    padding: 0 12px;
+    font-size: 13px;
     user-select: none;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
 }
 
 div.highlight:hover .copy-code,
 pre:hover .copy-code {
-    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.copy-code:hover {
+    background: rgba(52, 59, 76, 0.96);
+}
+
+.lightbox {
+    max-width: min(92vw, 1100px);
+    width: 100%;
+    border: none;
+    padding: 0;
+    background: transparent;
+}
+
+.lightbox::backdrop {
+    background: rgba(10, 12, 18, 0.72);
+    backdrop-filter: blur(10px);
+}
+
+.lightbox-shell {
+    position: relative;
+    margin: 0;
+    padding: 24px;
+    background: var(--surface-strong);
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 4px);
+    box-shadow: var(--shadow-md);
+}
+
+.lightbox-image {
+    width: 100%;
+    max-height: 78vh;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    background: rgba(15, 23, 34, 0.2);
+}
+
+.lightbox-caption {
+    margin: 14px 0 0;
+    color: var(--secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    min-width: 82px;
+    height: 36px;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(12, 16, 24, 0.82);
+    color: #fff;
+    cursor: pointer;
 }

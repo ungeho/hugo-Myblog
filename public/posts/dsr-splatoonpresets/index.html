@@ -106,7 +106,7 @@
 
 </script>
 
-<header class="header">
+<header class="header site-header">
     <nav class="nav">
         <div class="logo">
             <a href="http://localhost:1313/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
@@ -135,7 +135,7 @@
                 </ul>
             </div>
         </div>
-        <ul id="menu">
+        <ul id="menu" class="menu">
             <li>
                 <a href="http://localhost:1313/about" title="About">
                     <span>About</span>
@@ -169,80 +169,34 @@
         </ul>
     </nav>
 </header>
-<main class="main">
+<main class="main"><article class="post-single article-single"><header class="post-header article-hero">
+  <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
 
-<article class="post-single">
-  <header class="post-header">
-    <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
-    <h1 class="post-title entry-hint-parent">
-      絶竜詩戦争 Splatoon Layout
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h1>
-    <div class="post-meta"><span title='2024-02-07 03:59:51 +0900 JST'>2024/02/07</span>&nbsp;·&nbsp;763 分&nbsp;·&nbsp;ungeho
+  <div class="article-hero-inner">
+    <div class="article-hero-copy">
+      <div class="article-taxonomy-row">
+        <span class="article-chip">FFXIV</span>
+      </div>
+
+      <h1 class="post-title entry-hint-parent">
+        絶竜詩戦争 Splatoon Layout
+        <span class="entry-hint" title="Draft">
+          <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+            <path d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+          </svg>
+        </span>
+      </h1>
+      <div class="post-meta article-meta"><span title='2024-02-07 03:59:51 +0900 JST'>2024/02/07</span>&nbsp;·&nbsp;763 分&nbsp;·&nbsp;ungeho
 
 </div>
-  </header> <div class="toc">
-    <details  open>
-        <summary accesskey="c" title="(Alt + C)">
-            <span class="details">目次</span>
-        </summary>
+    </div>
+  </div>
+</header>
+ 
 
-        <div class="inner"><ul>
-                <li>
-                    <a href="#dragonsongs-reprise" aria-label="Dragonsong&rsquo;s Reprise">Dragonsong&rsquo;s Reprise</a><ul>
-                        
-                <li>
-                    <a href="#script" aria-label="Script">Script</a><ul>
-                        
-                <li>
-                    <a href="#dsr_p6_cauterize_unsafe" aria-label="DSR_P6_Cauterize_Unsafe">DSR_P6_Cauterize_Unsafe</a></li>
-                <li>
-                    <a href="#p6-autotargetswitcher" aria-label="P6 AutoTargetSwitcher">P6 AutoTargetSwitcher</a></li>
-                <li>
-                    <a href="#p6-wyrmsbreath-first" aria-label="P6 Wyrmsbreath First">P6 Wyrmsbreath First</a></li>
-                <li>
-                    <a href="#p6-wroth-flames" aria-label="P6 Wroth Flames">P6 Wroth Flames</a></li>
-                <li>
-                    <a href="#p6-wroth-flames-1" aria-label="P6 Wroth Flames">P6 Wroth Flames</a><ul>
-                        
-                <li>
-                    <a href="#registered-elements" aria-label="Registered Elements">Registered Elements</a></li></ul>
-                </li></ul>
-                </li>
-                <li>
-                    <a href="#%e3%81%9d%e3%81%ae%e4%bb%96%e3%81%ae%e3%83%97%e3%83%a9%e3%82%b0%e3%82%a4%e3%83%b3" aria-label="その他のプラグイン">その他のプラグイン</a><ul>
-                        
-                <li>
-                    <a href="#lemegeton" aria-label="Lemegeton">Lemegeton</a><ul>
-                        
-                <li>
-                    <a href="#p6-dragon-hp-difference-indicator" aria-label="(P6) Dragon HP difference indicator">(P6) Dragon HP difference indicator</a></li></ul>
-                </li></ul>
-                </li>
-                <li>
-                    <a href="#preset" aria-label="Preset">Preset</a></li></ul>
-                </li>
-                <li>
-                    <a href="#%e3%81%9d%e3%81%ae%e4%bb%96%e5%bd%b9%e3%81%ab%e7%ab%8b%e3%81%a4%e3%81%8b%e3%82%82%e3%81%97%e3%82%8c%e3%81%aa%e3%81%84script" aria-label="その他、役に立つかもしれないscript">その他、役に立つかもしれないscript</a></li>
-                <li>
-                    <a href="#%e5%b0%8e%e5%85%a5%e3%82%92%e6%8e%a8%e5%a5%a8%e3%81%97%e3%81%aa%e3%81%84%e3%83%97%e3%83%a9%e3%82%b0%e3%82%a4%e3%83%b3" aria-label="導入を推奨しないプラグイン">導入を推奨しないプラグイン</a><ul>
-                        
-                <li>
-                    <a href="#dsr-toolbox" aria-label="DSR Toolbox">DSR Toolbox</a>
-                </li>
-            </ul>
-            </li>
-            </ul>
-        </div>
-    </details>
-</div>
-
-  <div class="post-content"><p>ご利用は自己責任で</p>
+  <div class="article-layout">
+    <div class="article-main">
+      <div class="post-content"><p>ご利用は自己責任で</p>
 <p>必要なものをオンにしてお使いください。</p>
 <p>※コードブロックの右上にカーソルを合わせると全文コピー出来ます。</p>
 <p>その後、ゲーム内で<code>/splatoon</code>-&gt;<code>layout</code>タブ-&gt;<code>importfromclipboard</code>で利用出来るようになります。</p>
@@ -1199,13 +1153,15 @@ UIの位置を調節できるようになった為、導入推奨。</p>
 <p><code>DSR Toolbox</code>の<code>Eye Locator</code>と<code>Chain Tether</code>については、類似した機能がPreset内にあります。</p>
 
 
-  </div>
-
-  <footer class="post-footer">
+      </div><footer class="post-footer article-footer">
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Tags</h2>
     <ul class="post-tags">
       <li><a href="http://localhost:1313/tags/ffxiv/">FFXIV</a></li>
       <li><a href="http://localhost:1313/tags/splatoon/">Splatoon</a></li>
     </ul>
+  </section>
+  <section class="article-footer-section">
 <nav class="paginav">
   <a class="prev" href="http://localhost:1313/posts/sildihn-splatoonpresets/">
     <span class="title">« 前へ</span>
@@ -1219,6 +1175,8 @@ UIの位置を調節できるようになった為、導入推奨。</p>
   </a>
 </nav>
 
+  </section>
+  <section class="article-footer-section">
 
 <ul class="share-buttons">
     <li>
@@ -1231,24 +1189,78 @@ UIの位置を調節できるようになった為、導入推奨。</p>
         </a>
     </li>
 </ul>
+</section>
+</footer>
 
-  </footer>
+    </div>
+<aside class="article-sidebar" aria-label="Article navigation">
+  <div class="article-sidebar-inner">
+    <div class="reading-progress-card">
+      <div class="reading-progress-label">
+        <span>Reading progress</span>
+        <span class="reading-progress-value" data-reading-progress-value>0%</span>
+      </div>
+      <div class="reading-progress-track" aria-hidden="true">
+        <span class="reading-progress-bar" data-reading-progress-bar></span>
+      </div>
+    </div><div class="toc toc-card" data-toc-card>
+    <details open data-toc-details>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目次</span>
+        </summary>
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#script">Script</a>
+      <ul>
+        <li><a href="#dsr_p6_cauterize_unsafe">DSR_P6_Cauterize_Unsafe</a></li>
+        <li><a href="#p6-autotargetswitcher">P6 AutoTargetSwitcher</a></li>
+        <li><a href="#p6-wyrmsbreath-first">P6 Wyrmsbreath First</a></li>
+        <li><a href="#p6-wroth-flames">P6 Wroth Flames</a></li>
+        <li><a href="#p6-wroth-flames-1">P6 Wroth Flames</a></li>
+      </ul>
+    </li>
+    <li><a href="#その他のプラグイン">その他のプラグイン</a>
+      <ul>
+        <li><a href="#lemegeton">Lemegeton</a></li>
+      </ul>
+    </li>
+    <li><a href="#preset">Preset</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#dsr-toolbox">DSR Toolbox</a></li>
+  </ul>
+</nav></div>
+    </details>
+</div>
+
+  </div>
+</aside>
+
+  </div>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2026 <a href="http://localhost:1313/">ungehoBlog</a></span>
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span>&copy; 2026 <a href="http://localhost:1313/">ungehoBlog</a></span>
+        </div>
+        <div class="footer-meta">
+            <span>読みやすさを大切にした個人ブログ</span>
+            <span>
+                Powered by
+                <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+                <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+            </span>
+        </div>
+    </div>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
         <path d="M12 6H0l6-6z" />
     </svg>
-</a>
+</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.08f76c3fe8b955fa9e0484c40bc4a9903308008b8caaffb5a2293ad0b00a24ce.js" integrity="sha256-CPdsP&#43;i5VfqeBITEC8SpkDMIAIuMqv&#43;1oik60LAKJM4="></script>
 
 <script>
     let menu = document.getElementById('menu')
@@ -1350,6 +1362,7 @@ UIの位置を調節できるようになった為、導入推奨。</p>
             codeblock.parentNode.appendChild(copybutton);
         }
     });
-</script></body>
+</script>
+</body>
 
 </html>

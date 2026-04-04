@@ -2,188 +2,122 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://ungeho.netlify.app/categories/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/ffxiv/</loc>
+    <loc>https://ungeho.netlify.app/categories/ffxiv/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/ffxiv/</loc>
+    <loc>https://ungeho.netlify.app/tags/ffxiv/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>https://ungeho.netlify.app/posts/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/splatoon/</loc>
+    <loc>https://ungeho.netlify.app/tags/splatoon/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://ungeho.netlify.app/tags/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://ungeho.netlify.app/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/m12s/</loc>
+    <loc>https://ungeho.netlify.app/posts/m12s/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/m11s/</loc>
+    <loc>https://ungeho.netlify.app/posts/m11s/</loc>
     <lastmod>2026-01-20T19:02:11+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/m10s/</loc>
+    <loc>https://ungeho.netlify.app/posts/m10s/</loc>
     <lastmod>2026-01-10T10:07:25+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/m9s/</loc>
+    <loc>https://ungeho.netlify.app/posts/m9s/</loc>
     <lastmod>2026-01-07T23:07:30+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E3%82%A2%E3%83%8A%E3%83%AD%E3%82%B0/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E3%82%A2%E3%83%8A%E3%83%AD%E3%82%B0/</loc>
     <lastmod>2026-01-02T18:06:28+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/analog/</loc>
+    <loc>https://ungeho.netlify.app/posts/analog/</loc>
     <lastmod>2026-01-02T18:06:28+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/%E9%9B%91%E8%A8%98/</loc>
+    <loc>https://ungeho.netlify.app/categories/%E9%9B%91%E8%A8%98/</loc>
     <lastmod>2026-01-02T18:06:28+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E9%9B%91%E8%A8%98/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E9%9B%91%E8%A8%98/</loc>
     <lastmod>2026-01-02T18:06:28+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E9%80%A3%E7%B6%9A%E7%9A%84/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E9%80%A3%E7%B6%9A%E7%9A%84/</loc>
     <lastmod>2026-01-02T18:06:28+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/exdoomtrain/</loc>
+    <loc>https://ungeho.netlify.app/posts/exdoomtrain/</loc>
     <lastmod>2025-12-21T16:08:27+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/programming/</loc>
+    <loc>https://ungeho.netlify.app/categories/programming/</loc>
     <lastmod>2025-12-14T12:13:06+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/regular-star-polygon/</loc>
+    <loc>https://ungeho.netlify.app/tags/regular-star-polygon/</loc>
     <lastmod>2025-12-14T12:13:06+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/</loc>
     <lastmod>2025-12-14T12:13:06+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/regularstarpolygon/</loc>
+    <loc>https://ungeho.netlify.app/posts/regularstarpolygon/</loc>
     <lastmod>2025-12-14T12:13:06+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E6%98%9F%E5%BD%A2%E6%AD%A3%E5%A4%9A%E8%A7%92%E5%BD%A2/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E6%98%9F%E5%BD%A2%E6%AD%A3%E5%A4%9A%E8%A7%92%E5%BD%A2/</loc>
     <lastmod>2025-12-14T12:13:06+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E5%B9%B3%E9%9D%A2%E5%B9%BE%E4%BD%95%E5%AD%A6%E5%9B%B3%E5%BD%A2/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E5%B9%B3%E9%9D%A2%E5%B9%BE%E4%BD%95%E5%AD%A6%E5%9B%B3%E5%BD%A2/</loc>
     <lastmod>2025-12-14T12:13:06+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/float/</loc>
+    <loc>https://ungeho.netlify.app/tags/float/</loc>
     <lastmod>2025-12-12T16:30:33+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/ieee754/</loc>
+    <loc>https://ungeho.netlify.app/tags/ieee754/</loc>
     <lastmod>2025-12-12T16:30:33+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E8%AA%A4%E5%B7%AE/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E8%AA%A4%E5%B7%AE/</loc>
     <lastmod>2025-12-12T16:30:33+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/autodiff/</loc>
+    <loc>https://ungeho.netlify.app/posts/autodiff/</loc>
     <lastmod>2025-12-12T16:30:33+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E8%87%AA%E5%8B%95%E5%BE%AE%E5%88%86/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E8%87%AA%E5%8B%95%E5%BE%AE%E5%88%86/</loc>
     <lastmod>2025-12-12T16:30:33+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E6%95%B0%E5%80%A4%E8%A8%88%E7%AE%97/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E6%95%B0%E5%80%A4%E8%A8%88%E7%AE%97/</loc>
     <lastmod>2025-12-12T16:30:33+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E5%8F%8C%E5%AF%BE%E6%95%B0/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E5%8F%8C%E5%AF%BE%E6%95%B0/</loc>
     <lastmod>2025-12-12T16:30:33+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/numericaldifferentiation/</loc>
+    <loc>https://ungeho.netlify.app/posts/numericaldifferentiation/</loc>
     <lastmod>2025-12-12T13:50:42+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E6%95%B0%E5%80%A4%E5%BE%AE%E5%88%86/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E6%95%B0%E5%80%A4%E5%BE%AE%E5%88%86/</loc>
     <lastmod>2025-12-12T13:50:42+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/numericalintegration/</loc>
+    <loc>https://ungeho.netlify.app/posts/numericalintegration/</loc>
     <lastmod>2025-12-10T20:28:15+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E6%95%B0%E5%80%A4%E7%A9%8D%E5%88%86/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E6%95%B0%E5%80%A4%E7%A9%8D%E5%88%86/</loc>
     <lastmod>2025-12-10T20:28:15+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/interval/</loc>
+    <loc>https://ungeho.netlify.app/posts/interval/</loc>
     <lastmod>2025-12-09T14:46:40+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E5%8C%BA%E9%96%93%E6%BC%94%E7%AE%97/</loc>
+    <loc>https://ungeho.netlify.app/tags/%E5%8C%BA%E9%96%93%E6%BC%94%E7%AE%97/</loc>
     <lastmod>2025-12-09T14:46:40+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/float/</loc>
+    <loc>https://ungeho.netlify.app/posts/float/</loc>
     <lastmod>2025-12-07T19:03:04+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/ffxivsonarfaloop/</loc>
-    <lastmod>2024-09-13T03:13:38+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/hunts/</loc>
-    <lastmod>2024-09-13T03:13:38+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/ffxivsplatoon/</loc>
-    <lastmod>2024-08-01T07:27:05+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/the_arcadion_savage/</loc>
-    <lastmod>2024-08-01T07:27:05+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/league-of-legends/</loc>
-    <lastmod>2024-05-26T17:00:04+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/league-of-legends/</loc>
-    <lastmod>2024-05-26T17:00:04+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/lol-lux/</loc>
-    <lastmod>2024-05-26T17:00:04+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/aloalo_island-splatoonpresets/</loc>
-    <lastmod>2024-03-22T20:21:08+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/mount_rokkkon-splatoonpresets/</loc>
-    <lastmod>2024-03-04T18:25:44+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/sildihn-splatoonpresets/</loc>
-    <lastmod>2024-02-24T04:44:03+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/dsr-splatoonpresets/</loc>
-    <lastmod>2024-02-07T03:59:51+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/dsr/</loc>
-    <lastmod>2024-02-01T05:09:18+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/preparation/</loc>
-    <lastmod>2024-02-01T05:09:18+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/dsr_pre_p1_vault/</loc>
-    <lastmod>2024-02-01T05:09:18+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/yesalready/</loc>
-    <lastmod>2024-01-28T18:09:26+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/yesalreadypreset/</loc>
-    <lastmod>2024-01-28T18:09:26+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://ungeho.netlify.app/about/</loc>
     <lastmod>2024-01-28T04:55:26+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/umu-splatoonpresets/</loc>
-    <lastmod>2024-01-27T04:20:49+09:00</lastmod>
+    <loc>https://ungeho.netlify.app/archives/</loc>
   </url><url>
-    <loc>http://localhost:1313/posts/splatooncoord/</loc>
-    <lastmod>2024-01-27T03:15:32+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/waymarkplugin/</loc>
-    <lastmod>2024-01-27T03:15:32+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/ucob-splatoonpresets/</loc>
-    <lastmod>2024-01-27T02:39:08+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/my-first-post/</loc>
-    <lastmod>2024-01-22T19:01:13+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/test/</loc>
-    <lastmod>2024-01-22T19:01:13+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/archives/</loc>
-  </url><url>
-    <loc>http://localhost:1313/search/</loc>
+    <loc>https://ungeho.netlify.app/search/</loc>
   </url>
 </urlset>

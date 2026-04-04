@@ -2,6 +2,7 @@
     /* theme-vars */
     :root {
         --gap: 14px;
+        --header-height: 68px;
     }
 
     /* profile-mode */
@@ -26,6 +27,21 @@
     /* footer */
     .footer {
         padding: calc((var(--footer-height) - var(--gap) - 10px) / 2) var(--gap);
+    }
+
+    .nav {
+        line-height: 1.2;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .logo,
+    #menu {
+        margin: 4px var(--gap);
+    }
+
+    .footer-inner {
+        padding: 18px;
     }
 }
 

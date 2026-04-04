@@ -1,3 +1,12 @@
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    background: color-mix(in srgb, var(--theme) 78%, transparent);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+}
+
 .nav {
     display: flex;
     flex-wrap: wrap;
@@ -6,6 +15,7 @@
     margin-inline-start: auto;
     margin-inline-end: auto;
     line-height: var(--header-height);
+    min-height: var(--header-height);
 }
 
 .nav a {
@@ -20,11 +30,14 @@
 
 .logo {
     flex-wrap: inherit;
+    align-items: center;
+    gap: 14px;
 }
 
 .logo a {
-    font-size: 24px;
+    font-size: 1.35rem;
     font-weight: 700;
+    letter-spacing: -0.03em;
 }
 
 .logo a img, .logo a svg {
@@ -37,8 +50,23 @@
 }
 
 button#theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
     font-size: 26px;
     margin: auto 4px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface-muted);
+    transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+}
+
+button#theme-toggle:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+    background: var(--surface-strong);
 }
 
 body.dark #moon {
@@ -55,19 +83,34 @@ body:not(.dark) #sun {
     word-break: keep-all;
     overflow-x: auto;
     white-space: nowrap;
+    padding: 0;
+    scrollbar-width: none;
 }
 
 #menu li + li {
-    margin-inline-start: var(--gap);
+    margin-inline-start: 8px;
 }
 
 #menu a {
-    font-size: 16px;
+    padding: 0 14px;
+    font-size: 15px;
+    color: var(--secondary);
+    border-radius: 999px;
+    transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+#menu a:hover {
+    color: var(--primary);
+    background: var(--accent-soft);
+    transform: translateY(-1px);
 }
 
 #menu .active {
     font-weight: 500;
-    border-bottom: 2px solid currentColor;
+    color: var(--primary);
+    background: var(--surface-strong);
+    border-bottom: none;
+    box-shadow: inset 0 0 0 1px var(--border);
 }
 
 .lang-switch li,

@@ -113,7 +113,7 @@ Burst
 
 </script>
 
-<header class="header">
+<header class="header site-header">
     <nav class="nav">
         <div class="logo">
             <a href="http://localhost:1313/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
@@ -142,7 +142,7 @@ Burst
                 </ul>
             </div>
         </div>
-        <ul id="menu">
+        <ul id="menu" class="menu">
             <li>
                 <a href="http://localhost:1313/about" title="About">
                     <span>About</span>
@@ -176,93 +176,34 @@ Burst
         </ul>
     </nav>
 </header>
-<main class="main">
+<main class="main"><article class="post-single article-single"><header class="post-header article-hero">
+  <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
 
-<article class="post-single">
-  <header class="post-header">
-    <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
-    <h1 class="post-title entry-hint-parent">
-      Lux
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h1>
-    <div class="post-meta"><span title='2024-05-26 17:00:04 +0900 JST'>2024/05/26</span>&nbsp;·&nbsp;2 分&nbsp;·&nbsp;ungeho
+  <div class="article-hero-inner">
+    <div class="article-hero-copy">
+      <div class="article-taxonomy-row">
+        <span class="article-chip">League of Legends</span>
+      </div>
+
+      <h1 class="post-title entry-hint-parent">
+        Lux
+        <span class="entry-hint" title="Draft">
+          <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+            <path d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+          </svg>
+        </span>
+      </h1>
+      <div class="post-meta article-meta"><span title='2024-05-26 17:00:04 +0900 JST'>2024/05/26</span>&nbsp;·&nbsp;2 分&nbsp;·&nbsp;ungeho
 
 </div>
-  </header> <div class="toc">
-    <details  open>
-        <summary accesskey="c" title="(Alt + C)">
-            <span class="details">目次</span>
-        </summary>
+    </div>
+  </div>
+</header>
+ 
 
-        <div class="inner"><ul>
-                <li>
-                    <a href="#%e3%83%a9%e3%83%83%e3%82%af%e3%82%b9" aria-label="ラックス">ラックス</a><ul>
-                        
-                <li>
-                    <a href="#%e8%a8%ad%e8%a8%88" aria-label="設計">設計</a><ul>
-                        
-                <li>
-                    <a href="#%e3%82%af%e3%83%a9%e3%82%b9" aria-label="クラス">クラス</a></li>
-                <li>
-                    <a href="#%e3%83%9d%e3%82%b8%e3%82%b7%e3%83%a7%e3%83%b3" aria-label="ポジション">ポジション</a></li>
-                <li>
-                    <a href="#%e3%82%a2%e3%83%80%e3%83%97%e3%83%86%e3%82%a3%e3%83%96%e3%82%bf%e3%82%a4%e3%83%97" aria-label="アダプティブタイプ">アダプティブタイプ</a></li></ul>
-                </li>
-                <li>
-                    <a href="#%e3%82%b9%e3%83%86%e3%83%bc%e3%82%bf%e3%82%b9" aria-label="ステータス">ステータス</a><ul>
-                        
-                <li>
-                    <a href="#%e6%94%be%e7%89%a9%e6%88%90%e9%95%b7%e5%bc%8f" aria-label="放物成長式">放物成長式</a></li>
-                <li>
-                    <a href="#%e4%bd%93%e5%8a%9b" aria-label="体力">体力</a></li>
-                <li>
-                    <a href="#%e4%bd%93%e5%8a%9b%e8%87%aa%e5%8b%95%e5%9b%9e%e5%be%a9%e9%87%8f5%e7%a7%92%e6%af%8e" aria-label="体力自動回復量(5秒毎)">体力自動回復量(5秒毎)</a></li>
-                <li>
-                    <a href="#%e3%83%9e%e3%83%8a" aria-label="マナ">マナ</a></li>
-                <li>
-                    <a href="#%e3%83%9e%e3%83%8a%e8%87%aa%e5%8b%95%e5%9b%9e%e5%be%a9%e9%87%8f5%e7%a7%92%e6%af%8e" aria-label="マナ自動回復量(5秒毎)">マナ自動回復量(5秒毎)</a></li>
-                <li>
-                    <a href="#%e7%89%a9%e7%90%86%e9%98%b2%e5%be%a1" aria-label="物理防御">物理防御</a></li>
-                <li>
-                    <a href="#%e9%ad%94%e6%b3%95%e9%98%b2%e5%be%a1" aria-label="魔法防御">魔法防御</a></li>
-                <li>
-                    <a href="#%e7%a7%bb%e5%8b%95%e9%80%9f%e5%ba%a6" aria-label="移動速度">移動速度</a></li>
-                <li>
-                    <a href="#aa%e8%b7%9d%e9%9b%a2" aria-label="AA距離">AA距離</a></li></ul>
-                </li>
-                <li>
-                    <a href="#%e3%82%a2%e3%83%93%e3%83%aa%e3%83%86%e3%82%a3" aria-label="アビリティ">アビリティ</a><ul>
-                        
-                <li>
-                    <a href="#p%e3%82%a4%e3%83%ab%e3%83%9f%e3%83%8d%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3" aria-label="P：イルミネーション">P：イルミネーション</a><ul>
-                        
-                <li>
-                    <a href="#%e3%83%80%e3%83%a1%e3%83%bc%e3%82%b8" aria-label="ダメージ">ダメージ</a></li></ul>
-                </li>
-                <li>
-                    <a href="#q%e3%83%a9%e3%82%a4%e3%83%88%e3%83%90%e3%82%a4%e3%83%b3%e3%83%89" aria-label="Q：ライトバインド">Q：ライトバインド</a></li>
-                <li>
-                    <a href="#w%e3%83%97%e3%83%aa%e3%82%ba%e3%83%a0%e3%83%90%e3%83%aa%e3%82%a2" aria-label="W：プリズムバリア">W：プリズムバリア</a></li>
-                <li>
-                    <a href="#e%e3%82%b7%e3%83%b3%e3%82%b0%e3%83%a9%e3%83%aa%e3%83%86%e3%82%a3" aria-label="E：シングラリティ">E：シングラリティ</a></li>
-                <li>
-                    <a href="#r%e3%83%95%e3%82%a1%e3%82%a4%e3%83%8a%e3%83%ab%e3%82%b9%e3%83%91%e3%83%bc%e3%82%af" aria-label="R：ファイナルスパーク">R：ファイナルスパーク</a>
-                </li>
-            </ul>
-            </li>
-            </ul>
-            </li>
-            </ul>
-        </div>
-    </details>
-</div>
-
-  <div class="post-content"><h1 id="ラックス">ラックス<a hidden class="anchor" aria-hidden="true" href="#ラックス">#</a></h1>
+  <div class="article-layout">
+    <div class="article-main">
+      <div class="post-content"><h1 id="ラックス">ラックス<a hidden class="anchor" aria-hidden="true" href="#ラックス">#</a></h1>
 <p>最終更新日：2024/05/26</p>
 <p>チャンピオンの情報はLoLWiki(英語)<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>を参考。</p>
 <h2 id="設計">設計<a hidden class="anchor" aria-hidden="true" href="#設計">#</a></h2>
@@ -376,12 +317,14 @@ Burst
 </div>
 
 
-  </div>
-
-  <footer class="post-footer">
+      </div><footer class="post-footer article-footer">
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Tags</h2>
     <ul class="post-tags">
       <li><a href="http://localhost:1313/tags/league-of-legends/">League of Legends</a></li>
     </ul>
+  </section>
+  <section class="article-footer-section">
 <nav class="paginav">
   <a class="prev" href="http://localhost:1313/posts/the_arcadion_savage/">
     <span class="title">« 前へ</span>
@@ -395,6 +338,8 @@ Burst
   </a>
 </nav>
 
+  </section>
+  <section class="article-footer-section">
 
 <ul class="share-buttons">
     <li>
@@ -407,24 +352,88 @@ Burst
         </a>
     </li>
 </ul>
+</section>
+</footer>
 
-  </footer>
+    </div>
+<aside class="article-sidebar" aria-label="Article navigation">
+  <div class="article-sidebar-inner">
+    <div class="reading-progress-card">
+      <div class="reading-progress-label">
+        <span>Reading progress</span>
+        <span class="reading-progress-value" data-reading-progress-value>0%</span>
+      </div>
+      <div class="reading-progress-track" aria-hidden="true">
+        <span class="reading-progress-bar" data-reading-progress-bar></span>
+      </div>
+    </div><div class="toc toc-card" data-toc-card>
+    <details open data-toc-details>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目次</span>
+        </summary>
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#設計">設計</a>
+      <ul>
+        <li><a href="#クラス">クラス</a></li>
+        <li><a href="#ポジション">ポジション</a></li>
+        <li><a href="#アダプティブタイプ">アダプティブタイプ</a></li>
+      </ul>
+    </li>
+    <li><a href="#ステータス">ステータス</a>
+      <ul>
+        <li><a href="#放物成長式">放物成長式</a></li>
+        <li><a href="#体力">体力</a></li>
+        <li><a href="#体力自動回復量5秒毎">体力自動回復量(5秒毎)</a></li>
+        <li><a href="#マナ">マナ</a></li>
+        <li><a href="#マナ自動回復量5秒毎">マナ自動回復量(5秒毎)</a></li>
+        <li><a href="#物理防御">物理防御</a></li>
+        <li><a href="#魔法防御">魔法防御</a></li>
+        <li><a href="#移動速度">移動速度</a></li>
+        <li><a href="#aa距離">AA距離</a></li>
+      </ul>
+    </li>
+    <li><a href="#アビリティ">アビリティ</a>
+      <ul>
+        <li><a href="#pイルミネーション">P：イルミネーション</a></li>
+        <li><a href="#qライトバインド">Q：ライトバインド</a></li>
+        <li><a href="#wプリズムバリア">W：プリズムバリア</a></li>
+        <li><a href="#eシングラリティ">E：シングラリティ</a></li>
+        <li><a href="#rファイナルスパーク">R：ファイナルスパーク</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </details>
+</div>
+
+  </div>
+</aside>
+
+  </div>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2026 <a href="http://localhost:1313/">ungehoBlog</a></span>
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span>&copy; 2026 <a href="http://localhost:1313/">ungehoBlog</a></span>
+        </div>
+        <div class="footer-meta">
+            <span>読みやすさを大切にした個人ブログ</span>
+            <span>
+                Powered by
+                <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+                <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+            </span>
+        </div>
+    </div>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
         <path d="M12 6H0l6-6z" />
     </svg>
-</a>
+</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.08f76c3fe8b955fa9e0484c40bc4a9903308008b8caaffb5a2293ad0b00a24ce.js" integrity="sha256-CPdsP&#43;i5VfqeBITEC8SpkDMIAIuMqv&#43;1oik60LAKJM4="></script>
 
 <script>
     let menu = document.getElementById('menu')
@@ -526,6 +535,7 @@ Burst
             codeblock.parentNode.appendChild(copybutton);
         }
     });
-</script></body>
+</script>
+</body>
 
 </html>

@@ -1,0 +1,26 @@
+<footer class="post-footer article-footer">
+  {{- $tags := .Language.Params.Taxonomies.tag | default "tags" }}
+  {{- $tagTerms := $.GetTerms $tags }}
+  {{- if gt (len $tagTerms) 0 }}
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Tags</h2>
+    <ul class="post-tags">
+      {{- range $tagTerms }}
+      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+
+  {{- if (.Param "ShowPostNavLinks") }}
+  <section class="article-footer-section">
+    {{- partial "post_nav_links.html" . }}
+  </section>
+  {{- end }}
+
+  {{- if (and site.Params.ShowShareButtons (ne .Params.disableShare true)) }}
+  <section class="article-footer-section">
+    {{- partial "share_icons.html" . -}}
+  </section>
+  {{- end }}
+</footer>

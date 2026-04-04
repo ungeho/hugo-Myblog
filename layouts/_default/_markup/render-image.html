@@ -1,1 +1,8 @@
-<img loading="lazy" src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title}} title="{{ . }}" {{ end }} />
+<figure class="article-media">
+  <a class="article-media-link" href="{{ .Destination | safeURL }}" data-lightbox-trigger>
+    <img loading="lazy" src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title}} title="{{ . }}" {{ end }} />
+  </a>
+  {{- if .Title }}
+  <figcaption>{{ .Title | markdownify }}</figcaption>
+  {{- end }}
+</figure>

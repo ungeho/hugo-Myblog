@@ -104,7 +104,7 @@
 
 </script>
 
-<header class="header">
+<header class="header site-header">
     <nav class="nav">
         <div class="logo">
             <a href="http://localhost:1313/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
@@ -133,7 +133,7 @@
                 </ul>
             </div>
         </div>
-        <ul id="menu">
+        <ul id="menu" class="menu">
             <li>
                 <a href="http://localhost:1313/about" title="About">
                     <span>About</span>
@@ -197,18 +197,25 @@ splatoonのlayout作成のTips 設定を行う場合はA realm Recordedを使う
     </main>
     
 <footer class="footer">
-    <span>&copy; 2026 <a href="http://localhost:1313/">ungehoBlog</a></span>
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span>&copy; 2026 <a href="http://localhost:1313/">ungehoBlog</a></span>
+        </div>
+        <div class="footer-meta">
+            <span>読みやすさを大切にした個人ブログ</span>
+            <span>
+                Powered by
+                <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+                <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+            </span>
+        </div>
+    </div>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
         <path d="M12 6H0l6-6z" />
     </svg>
-</a>
+</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.08f76c3fe8b955fa9e0484c40bc4a9903308008b8caaffb5a2293ad0b00a24ce.js" integrity="sha256-CPdsP&#43;i5VfqeBITEC8SpkDMIAIuMqv&#43;1oik60LAKJM4="></script>
 
 <script>
     let menu = document.getElementById('menu')
@@ -263,6 +270,7 @@ splatoonのlayout作成のTips 設定を行う場合はA realm Recordedを使う
         }
     })
 
-</script></body>
+</script>
+</body>
 
 </html>

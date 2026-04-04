@@ -1,12 +1,12 @@
 .callout {
-    --callout-accent: #8250df;
-    --callout-bg: rgba(130, 80, 223, 0.08);
-    --callout-label-bg: #8250df;
+    --callout-accent: var(--accent);
+    --callout-bg: color-mix(in srgb, var(--accent) 10%, var(--surface-strong));
+    --callout-label-bg: color-mix(in srgb, var(--accent) 92%, #ffffff);
     --callout-label-color: #fff;
-    --callout-border: rgba(130, 80, 223, 0.28);
+    --callout-border: color-mix(in srgb, var(--accent) 26%, var(--border));
     --callout-link: var(--callout-accent);
 
-    margin: 1.4rem 0;
+    margin: 1.6rem 0;
 }
 
 .callout-label {
@@ -15,7 +15,7 @@
     gap: 0.55rem;
     margin: 0 0 -1px 0.2rem;
     padding: 0.68rem 1.1rem 0.64rem;
-    border-radius: 10px 10px 0 0;
+    border-radius: 14px 14px 0 0;
     background: var(--callout-label-bg);
     color: var(--callout-label-color);
     font-size: 0.96rem;
@@ -23,7 +23,6 @@
     line-height: 1.1;
 }
 
-/* details / summary */
 summary.callout-label {
     cursor: pointer;
     list-style: none;
@@ -37,7 +36,6 @@ summary.callout-label::-webkit-details-marker {
     color: #fff;
 }
 
-/* icon */
 .callout-label-icon {
     width: 1rem;
     height: 1rem;
@@ -45,7 +43,6 @@ summary.callout-label::-webkit-details-marker {
     display: inline-block;
     background: currentColor;
     color: #fff;
-
     mask-repeat: no-repeat;
     -webkit-mask-repeat: no-repeat;
     mask-position: center;
@@ -54,31 +51,26 @@ summary.callout-label::-webkit-details-marker {
     -webkit-mask-size: contain;
 }
 
-/* note */
 .callout-note .callout-label-icon {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8 16A8 8 0 108 0a8 8 0 000 16zm.75-11.5a.75.75 0 10-1.5 0 .75.75 0 001.5 0zM7 7h2v5H7V7z'/%3E%3C/svg%3E");
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8 16A8 8 0 108 0a8 8 0 000 16zm.75-11.5a.75.75 0 10-1.5 0 .75.75 0 001.5 0zM7 7h2v5H7V7z'/%3E%3C/svg%3E");
 }
 
-/* tip */
 .callout-tip .callout-label-icon {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M6 14h4v1H6v-1zm2-14a5 5 0 00-3 9v2h6v-2a5 5 0 00-3-9z'/%3E%3C/svg%3E");
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M6 14h4v1H6v-1zm2-14a5 5 0 00-3 9v2h6v-2a5 5 0 00-3-9z'/%3E%3C/svg%3E");
 }
 
-/* important */
 .callout-important .callout-label-icon {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8 0l3 6h-6l3-6zm-3 7h6v7h-6v-7z'/%3E%3C/svg%3E");
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8 0l3 6h-6l3-6zm-3 7h6v7h-6v-7z'/%3E%3C/svg%3E");
 }
 
-/* warning */
 .callout-warning .callout-label-icon {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8.22 1.5L.75 14h14.5L8.22 1.5zM8 6v3m0 2h.01' stroke='black' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8.22 1.5L.75 14h14.5L8.22 1.5zM8 6v3m0 2h.01' stroke='black' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
 }
 
-/* caution */
 .callout-caution .callout-label-icon {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8 1a7 7 0 110 14A7 7 0 018 1zm0 4v4m0 2h.01' stroke='black' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='black' d='M8 1a7 7 0 110 14A7 7 0 018 1zm0 4v4m0 2h.01' stroke='black' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
@@ -88,16 +80,16 @@ summary.callout-label::-webkit-details-marker {
     background: var(--callout-bg);
     border: 1px solid var(--callout-border);
     border-top: none;
-    border-radius: 0 10px 10px 10px;
-    padding: 1.05rem 1.25rem;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    border-radius: 0 14px 14px 14px;
+    padding: 1.08rem 1.25rem;
+    box-shadow: var(--shadow-sm);
 }
 
-.callout-body>*:first-child {
+.callout-body > *:first-child {
     margin-top: 0;
 }
 
-.callout-body>*:last-child {
+.callout-body > *:last-child {
     margin-bottom: 0;
 }
 
@@ -111,7 +103,6 @@ summary.callout-label::-webkit-details-marker {
     padding-left: 1.25rem;
 }
 
-/* callout内リンク */
 .callout-body a {
     color: var(--callout-link);
     text-decoration: underline;
@@ -123,14 +114,12 @@ summary.callout-label::-webkit-details-marker {
     text-decoration-color: currentColor;
 }
 
-/* callout内インラインコード */
-.callout-body :not(pre)>code {
+.callout-body :not(pre) > code {
     padding: 0.15em 0.45em;
     border-radius: 6px;
     font-size: 0.92em;
 }
 
-/* callout内コードブロック */
 .callout-body pre {
     overflow-x: auto;
     border-radius: 10px;
@@ -146,7 +135,6 @@ summary.callout-label::-webkit-details-marker {
     line-height: 1.65;
 }
 
-/* 折りたたみ矢印 */
 .callout-chevron {
     width: 0.7rem;
     height: 0.7rem;
@@ -158,17 +146,14 @@ summary.callout-label::-webkit-details-marker {
     transition: transform 0.18s ease;
 }
 
-/* open のとき */
-details[open]>summary .callout-chevron {
+details[open] > summary .callout-chevron {
     transform: rotate(225deg);
 }
 
-/* 閉じているときは本文を隠す */
 details.callout:not([open]) .callout-body {
     display: none;
 }
 
-/* 開閉アニメーションは控えめに */
 details.callout[open] .callout-body {
     animation: callout-fade-in 0.16s ease;
 }
@@ -185,52 +170,46 @@ details.callout[open] .callout-body {
     }
 }
 
-/* note = blue */
 .callout-note {
-    --callout-accent: #0969da;
-    --callout-bg: rgba(9, 105, 218, 0.08);
-    --callout-label-bg: #0969da;
-    --callout-border: rgba(9, 105, 218, 0.28);
-    --callout-link: #0969da;
+    --callout-accent: #2f6db3;
+    --callout-bg: rgba(47, 109, 179, 0.08);
+    --callout-label-bg: #2f6db3;
+    --callout-border: rgba(47, 109, 179, 0.24);
+    --callout-link: #2f6db3;
 }
 
-/* tip = green */
 .callout-tip {
-    --callout-accent: #1a7f37;
-    --callout-bg: rgba(26, 127, 55, 0.08);
-    --callout-label-bg: #1a7f37;
-    --callout-border: rgba(26, 127, 55, 0.28);
-    --callout-link: #1a7f37;
+    --callout-accent: #3a8f6a;
+    --callout-bg: rgba(58, 143, 106, 0.08);
+    --callout-label-bg: #3a8f6a;
+    --callout-border: rgba(58, 143, 106, 0.24);
+    --callout-link: #2d7a59;
 }
 
-/* important = purple */
 .callout-important {
-    --callout-accent: #8250df;
-    --callout-bg: rgba(130, 80, 223, 0.08);
-    --callout-label-bg: #8250df;
-    --callout-border: rgba(130, 80, 223, 0.28);
-    --callout-link: #8250df;
+    --callout-accent: #aa6a95;
+    --callout-bg: rgba(170, 106, 149, 0.1);
+    --callout-label-bg: #aa6a95;
+    --callout-border: rgba(170, 106, 149, 0.24);
+    --callout-link: #975883;
 }
 
-/* warning = red */
 .callout-warning {
-    --callout-accent: #cf222e;
-    --callout-bg: rgba(207, 34, 46, 0.09);
-    --callout-label-bg: #cf222e;
-    --callout-border: rgba(207, 34, 46, 0.30);
-    --callout-link: #cf222e;
+    --callout-accent: #c0625c;
+    --callout-bg: rgba(192, 98, 92, 0.1);
+    --callout-label-bg: #c0625c;
+    --callout-border: rgba(192, 98, 92, 0.28);
+    --callout-link: #ba5046;
 }
 
-/* caution = yellow */
 .callout-caution {
-    --callout-accent: #d29922;
-    --callout-bg: rgba(210, 153, 34, 0.12);
-    --callout-label-bg: #d29922;
-    --callout-border: rgba(210, 153, 34, 0.34);
-    --callout-link: #9a6700;
+    --callout-accent: #bc8b3b;
+    --callout-bg: rgba(188, 139, 59, 0.14);
+    --callout-label-bg: #bc8b3b;
+    --callout-border: rgba(188, 139, 59, 0.3);
+    --callout-link: #8d6322;
 }
 
-/* モバイル最適化 */
 @media (max-width: 640px) {
     .callout {
         margin: 1.1rem 0;
@@ -259,43 +238,42 @@ details.callout[open] .callout-body {
     }
 }
 
-/* ダークモード */
 .dark .callout-note {
-    --callout-accent: #2f81f7;
-    --callout-bg: rgba(47, 129, 247, 0.15);
-    --callout-label-bg: #1f6feb;
-    --callout-border: rgba(47, 129, 247, 0.34);
-    --callout-link: #58a6ff;
+    --callout-accent: #6ba6ea;
+    --callout-bg: rgba(107, 166, 234, 0.15);
+    --callout-label-bg: #467fcd;
+    --callout-border: rgba(107, 166, 234, 0.28);
+    --callout-link: #93c3ff;
 }
 
 .dark .callout-tip {
-    --callout-accent: #3fb950;
-    --callout-bg: rgba(63, 185, 80, 0.15);
-    --callout-label-bg: #238636;
-    --callout-border: rgba(63, 185, 80, 0.34);
-    --callout-link: #56d364;
+    --callout-accent: #66c49c;
+    --callout-bg: rgba(102, 196, 156, 0.15);
+    --callout-label-bg: #2d8a66;
+    --callout-border: rgba(102, 196, 156, 0.28);
+    --callout-link: #88e0ba;
 }
 
 .dark .callout-important {
-    --callout-accent: #a371f7;
-    --callout-bg: rgba(163, 113, 247, 0.16);
-    --callout-label-bg: #8957e5;
-    --callout-border: rgba(163, 113, 247, 0.34);
-    --callout-link: #bc8cff;
+    --callout-accent: #d39cc1;
+    --callout-bg: rgba(211, 156, 193, 0.18);
+    --callout-label-bg: #9d678a;
+    --callout-border: rgba(211, 156, 193, 0.3);
+    --callout-link: #efb6dd;
 }
 
 .dark .callout-warning {
-    --callout-accent: #ff6b6b;
-    --callout-bg: rgba(255, 107, 107, 0.15);
-    --callout-label-bg: #da3633;
-    --callout-border: rgba(255, 107, 107, 0.34);
-    --callout-link: #ff7b72;
+    --callout-accent: #f09488;
+    --callout-bg: rgba(240, 148, 136, 0.16);
+    --callout-label-bg: #c75f55;
+    --callout-border: rgba(240, 148, 136, 0.3);
+    --callout-link: #ffb5ab;
 }
 
 .dark .callout-caution {
-    --callout-accent: #d29922;
-    --callout-bg: rgba(210, 153, 34, 0.15);
-    --callout-label-bg: #9e6a03;
-    --callout-border: rgba(210, 153, 34, 0.34);
-    --callout-link: #e3b341;
+    --callout-accent: #e0b368;
+    --callout-bg: rgba(224, 179, 104, 0.16);
+    --callout-label-bg: #a57428;
+    --callout-border: rgba(224, 179, 104, 0.3);
+    --callout-link: #f5ce90;
 }
