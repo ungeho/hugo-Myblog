@@ -47,6 +47,19 @@ The main goals were:
 - create stronger mind games for competitive play
 - make the game work both against another person and against AI
 
+## What is Black Path Game?
+
+The original `Black Path Game` is generally attributed to Larry Black in 1960.  
+At its core, it is a two-player board game about extending a path while avoiding the move that sends that path out through the edge of the board.
+
+My version borrows that basic idea, but then adds:
+
+- fixed and random missing cells
+- hidden-information traps
+- short per-turn time limits
+
+So I think it is more accurate to describe this project as a **competitive Black-inspired variant** rather than a direct reproduction of the original game.
+
 ## What do you do in the game?
 
 You place tiles on the next available cell at the tip of the path and keep extending it forward.  
