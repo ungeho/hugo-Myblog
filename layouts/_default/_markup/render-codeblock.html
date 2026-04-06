@@ -44,9 +44,14 @@
 {{- end -}}
 {{- $isCollapsible := ge $lineCount 18 -}}
 {{- $wrapped := $result.Wrapped -}}
+{{- $hasHighlightWrapper := gt (len (findRE "<div class=\"highlight" $wrapped 1)) 0 -}}
+{{- if not $hasHighlightWrapper -}}
+  {{- $wrapped = printf "<div class=\"highlight highlight-plain\">%s</div>" $wrapped -}}
+{{- end -}}
 {{- if $languageLabel -}}
   {{- $badge := printf "<span class=\"code-language-badge\">%s</span>" $languageLabel -}}
   {{- $wrapped = replaceRE "<div class=\"highlight\">" (printf "<div class=\"highlight\">%s" $badge) $wrapped 1 -}}
+  {{- $wrapped = replaceRE "<div class=\"highlight highlight-plain\">" (printf "<div class=\"highlight highlight-plain\">%s" $badge) $wrapped 1 -}}
 {{- end -}}
 {{- if $isCollapsible -}}
   {{- $wrapped = replace $wrapped "class=\"highlight\"" "class=\"highlight is-collapsible is-collapsed\" data-code-fold-ready=\"true\" style=\"--code-preview-height: 24rem;\"" 1 -}}
