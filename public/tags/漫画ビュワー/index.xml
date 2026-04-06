@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>漫画ビュワー on ungehoBlog</title>
+    <link>http://localhost:1313/tags/%E6%BC%AB%E7%94%BB%E3%83%93%E3%83%A5%E3%83%AF%E3%83%BC/</link>
+    <description>Recent content in 漫画ビュワー on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <lastBuildDate>Mon, 06 Apr 2026 00:30:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E6%BC%AB%E7%94%BB%E3%83%93%E3%83%A5%E3%83%AF%E3%83%BC/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI補助で開発した LAN内専用のローカルライブラリ/漫画ビュワー「LAN Library」</title>
+      <link>http://localhost:1313/posts/lan-library-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:30:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/lan-library-intro/</guid>
+      <description>AI補助で開発した LAN 内専用のローカルライブラリ / 漫画ビュワー「LAN Library」を、機能や使いどころとあわせて紹介します。</description>
+    </item>
+  </channel>
+</rss>

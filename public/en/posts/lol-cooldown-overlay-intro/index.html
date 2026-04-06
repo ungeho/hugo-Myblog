@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>&#34;LoL Cooldown Overlay&#34;: a League of Legends Spell Cooldown Overlay Developed with AI Assistance | ungehoBlog</title>
+<meta name="keywords" content="League of Legends, overlay, Electron, React, TypeScript">
+<meta name="description" content="An English companion article introducing LoL Cooldown Overlay, a manual enemy spell cooldown overlay for League of Legends developed with AI assistance.">
+<meta name="author" content="ungeho">
+<link rel="canonical" href="http://localhost:1313/en/posts/lol-cooldown-overlay-intro/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.94969b53fcb47eef2dcd85a03ba8411e4aac9d3072a7045a586328284b4754d2.css" integrity="sha256-lJabU/y0fu8tzYWgO6hBHkqsnTBypwRaWGMoKEtHVNI=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/lol-cooldown-overlay-intro/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/en/posts/lol-cooldown-overlay-intro/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mathRoot = document.querySelector(".post-content") || document.body;
+        renderMathInElement(mathRoot, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ],
+            throwOnError: false,
+            strict: "ignore"
+        });
+    });
+</script>
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.mermaid) {
+            const isDark = document.body.classList.contains("dark");
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: isDark ? "dark" : "base",
+            });
+        }
+    });
+</script>
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header site-header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/en/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li class="lang-switch-separator" aria-hidden="true">|</li><li>
+                        <a href="http://localhost:1313/" class="" title="Japanese"
+                            aria-label="日本語" >日本語</a>
+                    </li><li>
+                        <a href="http://localhost:1313/en/" class="is-active" title="English"
+                            aria-label="English" aria-current="true">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/en/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/en/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/en/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/en/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/en/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/en/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"><article class="post-single article-single"><header class="post-header article-hero">
+  <div class="breadcrumbs"><a href="http://localhost:1313/en/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/en/posts/">Posts</a></div>
+
+  <div class="article-hero-inner">
+    <div class="article-hero-copy">
+      <div class="article-taxonomy-row">
+        <a class="article-chip article-chip-series" href="http://localhost:1313/en/series/introducing-apps-developed-with-ai-assistance/">Introducing Apps Developed With AI Assistance</a>
+        <span class="article-chip">League of Legends</span>
+      </div>
+
+      <h1 class="post-title entry-hint-parent">
+        &#34;LoL Cooldown Overlay&#34;: a League of Legends Spell Cooldown Overlay Developed with AI Assistance
+      </h1>
+      <div class="post-description article-lead">
+        An English companion article introducing LoL Cooldown Overlay, a manual enemy spell cooldown overlay for League of Legends developed with AI assistance.
+      </div>
+      <div class="post-meta article-meta"><span title='2026-04-06 00:50:00 +0900 JST'>2026/04/06</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;ungeho&nbsp;|&nbsp;Translations:
+<ul class="i18n_list">
+    <li>
+        <a href="http://localhost:1313/posts/lol-cooldown-overlay-intro/">日本語</a>
+    </li>
+</ul>
+
+</div>
+    </div>
+  </div>
+</header>
+ 
+
+  <div class="article-layout">
+    <div class="article-main">
+      <div class="post-content"><div class="translation-note" role="note" aria-label="AI translation notice">
+  <div class="translation-note__eyebrow">AI-assisted English companion</div>
+  <div class="translation-note__body">This English page presents a project I developed with AI assistance, with AI also used to help draft and translate the article.<br>
+It is written as a creator-side introduction, not as an outside review.<p><a href="/posts/lol-cooldown-overlay-intro/">Read the original Japanese post</a></p></div>
+</div>
+
+<section class="article-summary-card">
+  <div class="article-summary-label">Quick Summary</div>
+  <div class="article-summary-body">
+    <ul>
+<li><code>LoL Cooldown Overlay</code> is a manual enemy spell cooldown overlay for League of Legends</li>
+<li>It does not read game memory and does not automate input</li>
+<li>It is intentionally designed to avoid Vanguard and rules-related risk as much as possible</li>
+</ul>
+
+  </div>
+</section>
+
+<a class="link-card" href="https://github.com/ungeho/lol-cooldown-overlay" target="_blank" rel="noopener noreferrer">
+  <span class="link-card-meta">Repository</span>
+  <span class="link-card-title">GitHub: ungeho/lol-cooldown-overlay</span><span class="link-card-desc">A League of Legends spell cooldown overlay that I developed with AI assistance.</span><span class="link-card-arrow" aria-hidden="true">→</span>
+</a>
+
+<h2 id="what-kind-of-app-is-this">What kind of app is this?<a hidden class="anchor" aria-hidden="true" href="#what-kind-of-app-is-this">#</a></h2>
+<p><code>LoL Cooldown Overlay</code> is a <strong>manual enemy spell cooldown overlay for League of Legends</strong>.<br>
+The most important design decision is also the simplest one: it does <strong>not</strong> read game memory and it does <strong>not</strong> automate actions.</p>
+<p>That means the tool is built around three ideas:</p>
+<ul>
+<li>no automatic detection</li>
+<li>manual interaction</li>
+<li>fast enough overlay controls to still feel practical</li>
+</ul>
+<p>I cared a lot about that choice.<br>
+The biggest reason was that I wanted to avoid getting anywhere near Riot Vanguard or rules-related risk, and keep the app on a path that feels safer from a ban-risk point of view.<br>
+Instead of pushing toward partial automation, I wanted to make a <strong>manual overlay that still feels good to use</strong>.</p>
+<h2 id="what-it-can-do">What it can do<a hidden class="anchor" aria-hidden="true" href="#what-it-can-do">#</a></h2>
+<h3 id="champion-data-management">Champion data management<a hidden class="anchor" aria-hidden="true" href="#champion-data-management">#</a></h3>
+<p>The app starts with editable champion data.</p>
+<ul>
+<li>English and Japanese champion names</li>
+<li>champion registration, editing, and search</li>
+<li>favorites</li>
+<li>patch-based filtering</li>
+<li>skill-rank-specific cooldown data</li>
+<li>custom skill icons</li>
+</ul>
+<p>I did not want the overlay to exist in isolation.<br>
+I wanted the underlying champion data to be something I could maintain properly over time.</p>
+<h3 id="overlay-features">Overlay features<a hidden class="anchor" aria-hidden="true" href="#overlay-features">#</a></h3>
+<p>On the overlay side, the features are focused on in-match usage.</p>
+<ul>
+<li>transparent frameless overlay</li>
+<li>always-on-top window</li>
+<li>click a skill button to start a countdown</li>
+<li>click again to cancel</li>
+<li>estimated skill rank by level bracket</li>
+<li>cooldown reduction based on Ability Haste</li>
+<li>settings mode for position, opacity, and scale</li>
+<li>configurable hotkeys</li>
+</ul>
+<p>The goal here is not “a database app with a floating window.”<br>
+It is an overlay that still makes sense during an actual match.</p>
+<h2 id="why-i-kept-it-fully-manual">Why I kept it fully manual<a hidden class="anchor" aria-hidden="true" href="#why-i-kept-it-fully-manual">#</a></h2>
+<p>The biggest characteristic of this project is that it stays fully manual.</p>
+<div class="compare-grid">
+  <section class="compare-card">
+    <div class="compare-card-label">Why I chose manual tracking</div>
+    <div class="compare-card-body">
+      <ul>
+<li>I wanted to stay away from Vanguard and policy-related risk</li>
+<li>I wanted a direction that feels safer from a ban-risk perspective</li>
+<li>I did not want to rely on memory reading or automation at all</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="compare-card">
+    <div class="compare-card-label">What that required</div>
+    <div class="compare-card-body">
+      <ul>
+<li>interaction has to be quick</li>
+<li>level and AH adjustments have to be easy</li>
+<li>the overlay itself must stay unobtrusive</li>
+</ul>
+
+    </div>
+  </section>
+</div>
+
+<p>Manual tracking sounds inconvenient at first, but it makes a lot of sense when the goal is to avoid that kind of risk entirely.<br>
+That is why I cared so much about UI flow, hotkeys, and overlay behavior: if everything must stay manual, the manual path has to feel practical.</p>
+<h2 id="level-brackets-and-cooldown-calculation">Level brackets and cooldown calculation<a hidden class="anchor" aria-hidden="true" href="#level-brackets-and-cooldown-calculation">#</a></h2>
+<p>The code estimates skill ranks from champion data, level brackets, and max-order information.</p>
+<p>For regular skills, it uses:</p>
+<ul>
+<li>available skill points by level</li>
+<li>R rank-up timing</li>
+<li>the champion&rsquo;s <code>maxOrder</code></li>
+</ul>
+<p>to estimate Q/W/E/R ranks.</p>
+<p>Then it layers in:</p>
+<ul>
+<li>Ability Haste</li>
+<li>cooldown offset adjustment</li>
+<li>Flash handling with Cosmic Insight</li>
+</ul>
+<p>This part matters because I wanted the display to feel closer to what players actually care about in a match, not just to be a generic timer.</p>
+<h2 id="screen-structure">Screen structure<a hidden class="anchor" aria-hidden="true" href="#screen-structure">#</a></h2>
+<h3 id="editor-page">Editor page<a hidden class="anchor" aria-hidden="true" href="#editor-page">#</a></h3>
+<p>The editor page handles:</p>
+<ul>
+<li>champion list</li>
+<li>search</li>
+<li>patch filtering</li>
+<li>favorites</li>
+<li>champion editing</li>
+<li>settings</li>
+<li>overlay launch</li>
+</ul>
+<p>Favorite champions are shown first in the launch area so frequently used entries stay easy to access.</p>
+<h3 id="overlay-page">Overlay page<a hidden class="anchor" aria-hidden="true" href="#overlay-page">#</a></h3>
+<p>The overlay page brings together:</p>
+<ul>
+<li>champion name</li>
+<li>sound toggle</li>
+<li>settings mode toggle</li>
+<li>close button</li>
+<li>level bracket bar</li>
+<li>AH input</li>
+<li>cooldown offset</li>
+<li>countdown sound timing</li>
+<li>dedicated Flash handling</li>
+<li>skill buttons</li>
+</ul>
+<p>In settings mode, the overlay can be repositioned and resized directly, which helps it stay usable without taking over the screen.</p>
+<h2 id="hotkeys-and-usability">Hotkeys and usability<a hidden class="anchor" aria-hidden="true" href="#hotkeys-and-usability">#</a></h2>
+<p>The app also supports configurable key bindings.<br>
+By default:</p>
+<ul>
+<li><code>Ctrl + Shift + S</code> toggles settings mode</li>
+<li><code>Ctrl + Shift + X</code> closes the overlay</li>
+<li><code>Ctrl + Shift + Right</code> moves to the next level bracket</li>
+<li><code>Ctrl + Shift + Left</code> moves to the previous level bracket</li>
+</ul>
+<p>That matters because overlays become annoying very quickly if they can only be managed through clumsy mouse interaction.</p>
+<h2 id="technical-structure">Technical structure<a hidden class="anchor" aria-hidden="true" href="#technical-structure">#</a></h2>
+<p>Overall, the project is a fairly straightforward Electron app.</p>
+<div class="compare-grid">
+  <section class="compare-card">
+    <div class="compare-card-label">UI side</div>
+    <div class="compare-card-body">
+      <ul>
+<li>React</li>
+<li>TypeScript</li>
+<li>Vite</li>
+<li>separate editor and overlay views</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="compare-card">
+    <div class="compare-card-label">Desktop side</div>
+    <div class="compare-card-body">
+      <ul>
+<li>Electron</li>
+<li>split <code>main</code> and <code>preload</code></li>
+<li>IPC for settings and data</li>
+<li>local JSON persistence</li>
+</ul>
+
+    </div>
+  </section>
+</div>
+
+<p>The app stores data under <code>%APPDATA%/lol-cooldown-overlay/</code>, including:</p>
+<ul>
+<li><code>champions.json</code></li>
+<li><code>settings.json</code></li>
+</ul>
+<p>That kind of explicit local storage felt right for this type of utility.</p>
+<h2 id="who-this-is-for">Who this is for<a hidden class="anchor" aria-hidden="true" href="#who-this-is-for">#</a></h2>
+<div class="article-steps">
+  <ol>
+<li>someone who wants to track enemy spell cooldowns manually in LoL</li>
+<li>someone who does not want to rely on automatic detection or memory reading</li>
+<li>someone who wants a lightweight overlay on top of the game</li>
+<li>someone who wants editable champion data by patch</li>
+</ol>
+
+</div>
+
+<p>If your goal is fully automatic cooldown tracking, this tool is probably aiming at a different philosophy.</p>
+<h2 id="faq">FAQ<a hidden class="anchor" aria-hidden="true" href="#faq">#</a></h2>
+<details class="faq-item" >
+  <summary class="faq-question">Does it detect enemy skills automatically?</summary>
+  <div class="faq-answer">
+    No.<br>
+The tool is intentionally built around <strong>fully manual interaction</strong>.<br>
+That design choice is mainly about staying away from Vanguard and rules-related risk as much as possible.
+  </div>
+</details>
+
+<details class="faq-item" >
+  <summary class="faq-question">Do I need to manually choose every skill rank?</summary>
+  <div class="faq-answer">
+    Not entirely.<br>
+The app estimates likely skill ranks from level brackets, then applies things like Ability Haste on top of that.
+  </div>
+</details>
+
+<details class="faq-item" >
+  <summary class="faq-question">Can I adjust how the overlay looks?</summary>
+  <div class="faq-answer">
+    Yes.<br>
+The settings mode lets you change position, opacity, and scale, and it restores the previous placement automatically.
+  </div>
+</details>
+
+<h2 id="closing-thoughts">Closing thoughts<a hidden class="anchor" aria-hidden="true" href="#closing-thoughts">#</a></h2>
+<section class="article-outro-card">
+  <div class="article-outro-label">What I wanted this app to do</div>
+  <div class="article-outro-body">
+    <ul>
+<li>create a LoL cooldown overlay that fully commits to manual tracking</li>
+<li>keep the in-match UI lightweight and usable</li>
+<li>make cooldown display feel more realistic through level and AH handling</li>
+<li>let champion data be edited and maintained over time</li>
+</ul>
+
+  </div>
+</section>
+
+<p><code>LoL Cooldown Overlay</code> is not meant to be flashy automation.<br>
+I built it as a <strong>practical overlay that still feels good to use even when everything is manual</strong>.<br>
+For players who want to actively track information themselves, that tradeoff makes a lot of sense.</p>
+
+
+      </div><footer class="post-footer article-footer"><section class="article-footer-section article-series-nav-section">
+    <h2 class="article-footer-heading">Series Navigation</h2>
+    <nav class="series-nav"><a class="series-nav-link series-nav-prev" href="/en/posts/budget-book-intro/">
+        <span class="series-nav-label">Prev in Series</span>
+        <span class="series-nav-title">&#34;Budget Book&#34;: a Household Budget App Developed with AI Assistance</span>
+      </a><a class="series-nav-center" href="http://localhost:1313/en/series/introducing-apps-developed-with-ai-assistance/">
+        <span class="series-nav-label">Series</span>
+        <span class="series-nav-title">Introducing Apps Developed With AI Assistance</span>
+      </a><a class="series-nav-link series-nav-next" href="/en/posts/dodgem-browser-intro/">
+        <span class="series-nav-label">Next in Series</span>
+        <span class="series-nav-title">&#34;Dodgem Browser&#34;: a Browser Game Developed with AI Assistance</span>
+      </a></nav>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Series</h2>
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/en/series/introducing-apps-developed-with-ai-assistance/">Introducing Apps Developed With AI Assistance</a></li>
+    </ul>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Tags</h2>
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/en/tags/league-of-legends/">League of Legends</a></li>
+      <li><a href="http://localhost:1313/en/tags/overlay/">Overlay</a></li>
+      <li><a href="http://localhost:1313/en/tags/electron/">Electron</a></li>
+      <li><a href="http://localhost:1313/en/tags/react/">React</a></li>
+      <li><a href="http://localhost:1313/en/tags/typescript/">TypeScript</a></li>
+    </ul>
+  </section>
+<section class="article-footer-section article-related-section">
+  <h2 class="article-footer-heading">Related Posts</h2>
+  <div class="article-related-grid">
+    <a class="article-related-card" href="/en/posts/black-path-game-intro/">
+      <span class="article-related-series">Introducing Apps Developed with AI Assistance</span>
+      <span class="article-related-title">&#34;Black Path Game&#34;: a Browser Game Developed with AI Assistance</span>
+      <span class="article-related-meta">game</span>
+    </a>
+    <a class="article-related-card" href="/en/posts/dodgem-browser-intro/">
+      <span class="article-related-series">Introducing Apps Developed with AI Assistance</span>
+      <span class="article-related-title">&#34;Dodgem Browser&#34;: a Browser Game Developed with AI Assistance</span>
+      <span class="article-related-meta">game</span>
+    </a>
+    <a class="article-related-card" href="/en/posts/budget-book-intro/">
+      <span class="article-related-series">Introducing Apps Developed with AI Assistance</span>
+      <span class="article-related-title">&#34;Budget Book&#34;: a Household Budget App Developed with AI Assistance</span>
+      <span class="article-related-meta">budget app</span>
+    </a>
+  </div>
+</section>
+
+  <section class="article-footer-section">
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/en/posts/dodgem-browser-intro/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>&#34;Dodgem Browser&#34;: a Browser Game Developed with AI Assistance</span>
+  </a>
+  <a class="next" href="http://localhost:1313/en/posts/budget-book-intro/">
+    <span class="title">Next »</span>
+    <br>
+    <span>&#34;Budget Book&#34;: a Household Budget App Developed with AI Assistance</span>
+  </a>
+</nav>
+
+  </section>
+  <section class="article-footer-section">
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share &#34;LoL Cooldown Overlay&#34;: a League of Legends Spell Cooldown Overlay Developed with AI Assistance on x"
+            href="https://x.com/intent/tweet/?text=%22LoL%20Cooldown%20Overlay%22%3a%20a%20League%20of%20Legends%20Spell%20Cooldown%20Overlay%20Developed%20with%20AI%20Assistance&amp;url=http%3a%2f%2flocalhost%3a1313%2fen%2fposts%2flol-cooldown-overlay-intro%2f&amp;hashtags=LeagueofLegends%2coverlay%2cElectron%2cReact%2cTypeScript">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+</section>
+</footer>
+
+    </div>
+<aside class="article-sidebar" aria-label="Article navigation">
+  <div class="article-sidebar-inner">
+    <div class="reading-progress-card">
+      <div class="reading-progress-label">
+        <span>Reading progress</span>
+        <span class="reading-progress-value" data-reading-progress-value>0%</span>
+      </div>
+      <div class="reading-progress-track" aria-hidden="true">
+        <span class="reading-progress-bar" data-reading-progress-bar></span>
+      </div>
+    </div>
+    <div class="article-jump-nav" data-article-jump-nav hidden></div><div class="toc toc-card" data-toc-card>
+    <details open data-toc-details>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-kind-of-app-is-this">What kind of app is this?</a></li>
+    <li><a href="#what-it-can-do">What it can do</a>
+      <ul>
+        <li><a href="#champion-data-management">Champion data management</a></li>
+        <li><a href="#overlay-features">Overlay features</a></li>
+      </ul>
+    </li>
+    <li><a href="#why-i-kept-it-fully-manual">Why I kept it fully manual</a></li>
+    <li><a href="#level-brackets-and-cooldown-calculation">Level brackets and cooldown calculation</a></li>
+    <li><a href="#screen-structure">Screen structure</a>
+      <ul>
+        <li><a href="#editor-page">Editor page</a></li>
+        <li><a href="#overlay-page">Overlay page</a></li>
+      </ul>
+    </li>
+    <li><a href="#hotkeys-and-usability">Hotkeys and usability</a></li>
+    <li><a href="#technical-structure">Technical structure</a></li>
+    <li><a href="#who-this-is-for">Who this is for</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#closing-thoughts">Closing thoughts</a></li>
+  </ul>
+</nav></div>
+    </details>
+</div>
+
+  </div>
+</aside>
+
+  </div>
+</article>
+    </main>
+    
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span>&copy; 2026 <a href="http://localhost:1313/en/">ungehoBlog</a></span>
+        </div>
+        <div class="footer-meta">
+            <span>A personal blog by someone who loves online games</span>
+            <span>
+                Powered by
+                <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+                <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+            </span>
+        </div>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><script>
+  window.postEnhancementLabels = {
+    nowReading: "\"NOW READING\"",
+    prev: "\"Prev\"",
+    next: "\"Next\"",
+    showMore: "\"Show more\"",
+    showLess: "\"Show less\"",
+    closeImageViewer: "\"Close image viewer\"",
+    close: "\"Close\""
+  };
+</script><script defer crossorigin="anonymous" src="/js/post-enhancements.min.4bd7577f5be3fe7bea935a345114fa02a203a3b1f27ebe80b9186dac37ab7222.js" integrity="sha256-S9dXf1vj/nvqk1o0URT6AqIDo7Hyfr6AuRhtrDerciI="></script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

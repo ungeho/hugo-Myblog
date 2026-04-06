@@ -15,7 +15,11 @@
 
 <ul class="terms-tags">
     {{- $type := .Type }}
-    {{- $notes := index site.Data.taxonomy_notes $type }}
+    {{- $notesSource := site.Data.taxonomy_notes }}
+    {{- if eq site.Language.Lang "en" }}
+      {{- $notesSource = site.Data.taxonomy_notes_en | default site.Data.taxonomy_notes }}
+    {{- end }}
+    {{- $notes := index $notesSource $type }}
     {{- $terms := .Data.Terms.Alphabetical }}
     {{- if eq $type "series" }}
       {{- $terms = .Data.Terms.ByCount }}
@@ -33,7 +37,7 @@
     <li>
         <a href="{{ .Permalink }}">
             <span class="terms-name">{{ .Name }}</span>
-            <span class="terms-count">{{ $count }} posts</span>
+            <span class="terms-count">{{ $count }} {{ i18n "post_groups" | default "posts" }}</span>
             {{- with $termDesc }}
             <span class="terms-description">{{ . }}</span>
             {{- end }}

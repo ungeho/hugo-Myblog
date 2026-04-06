@@ -164,14 +164,68 @@ body:not(.dark) #sun {
 .lang-switch {
     display: flex;
     flex-wrap: inherit;
+    align-items: center;
+    gap: 4px;
 }
 
 .lang-switch a {
-    margin: auto 3px;
-    font-size: 16px;
-    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 12px;
+    margin: auto 0;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--secondary);
+    transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.lang-switch a:hover {
+    color: var(--primary);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent-soft) 72%, white), rgba(255, 255, 255, 0.9));
+    box-shadow: 0 10px 22px rgba(216, 130, 159, 0.08);
+    transform: translateY(-1px);
+}
+
+.lang-switch a.is-active {
+    color: var(--primary);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent-soft) 78%, white), rgba(255, 255, 255, 0.96));
+    box-shadow:
+        inset 0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent),
+        0 10px 24px rgba(216, 130, 159, 0.08);
+}
+
+.lang-switch-separator {
+    margin: 0 2px 0 0;
+    color: color-mix(in srgb, var(--secondary) 42%, transparent);
+    font-size: 0.95rem;
 }
 
 .logo-switches {
     flex-wrap: inherit;
+}
+
+.dark .lang-switch a {
+    color: color-mix(in srgb, var(--secondary) 78%, white);
+}
+
+.dark .lang-switch a:hover {
+    color: color-mix(in srgb, var(--primary) 92%, white);
+    background: linear-gradient(180deg, rgba(30, 39, 53, 0.98), rgba(22, 29, 40, 0.98));
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
+}
+
+.dark .lang-switch a.is-active {
+    color: #fff4f7;
+    background:
+        radial-gradient(circle at top right, rgba(255, 170, 188, 0.12), transparent 46%),
+        linear-gradient(180deg, rgba(39, 31, 45, 0.98), rgba(24, 29, 40, 0.98));
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 199, 215, 0.12),
+        0 12px 24px rgba(0, 0, 0, 0.26);
+}
+
+.dark .lang-switch-separator {
+    color: rgba(255, 240, 245, 0.28);
 }

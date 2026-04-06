@@ -9,9 +9,9 @@
             {{- end }}
         </div>
         <div class="footer-meta">
-            <span>ネトゲが趣味の人の個人ブログ</span>
+            <span>{{ site.Params.footerTagline | default (i18n "footer_tagline" | default "A personal blog by someone who loves online games") }}</span>
             <span>
-                Powered by
+                {{ i18n "powered_by" | default "Powered by" }}
                 <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
                 <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
             </span>

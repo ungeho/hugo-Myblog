@@ -232,6 +232,49 @@
     box-shadow: var(--shadow-sm);
 }
 
+.translation-note {
+    margin: 0 0 calc(var(--content-gap) + 0.15rem);
+    padding: 1rem 1.1rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 16%, var(--border));
+    border-radius: calc(var(--radius) - 2px);
+    background:
+        radial-gradient(circle at top right, rgba(217, 119, 87, 0.09), transparent 34%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 248, 243, 0.92)),
+        var(--surface-strong);
+    box-shadow: var(--shadow-sm);
+}
+
+.translation-note__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    margin-bottom: 0.72rem;
+    padding: 0 0.82rem;
+    border-radius: 999px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.translation-note__body > *:first-child {
+    margin-top: 0;
+}
+
+.translation-note__body > *:last-child {
+    margin-bottom: 0;
+}
+
+.translation-note__body p {
+    color: var(--secondary);
+}
+
+.translation-note__body a {
+    font-weight: 700;
+}
+
 .article-outro-card {
     margin: calc(var(--content-gap) + 0.5rem) 0 0;
     padding: 1.08rem 1.15rem 1rem;
@@ -253,6 +296,26 @@
         linear-gradient(180deg, rgba(21, 28, 40, 0.98), rgba(14, 19, 29, 0.99)),
         var(--surface-strong);
     box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+}
+
+.dark .translation-note {
+    border-color: color-mix(in srgb, var(--accent) 12%, var(--border));
+    background:
+        radial-gradient(circle at top right, rgba(255, 156, 122, 0.08), transparent 32%),
+        radial-gradient(circle at 14% 18%, rgba(94, 134, 214, 0.08), transparent 16%),
+        linear-gradient(180deg, rgba(21, 28, 40, 0.98), rgba(14, 19, 29, 0.99)),
+        var(--surface-strong);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+}
+
+.dark .translation-note__eyebrow {
+    color: #ffe8ef;
+    background: rgba(122, 74, 95, 0.9);
+    border: 1px solid rgba(233, 164, 192, 0.22);
+}
+
+.dark .translation-note__body p {
+    color: var(--content);
 }
 
 .article-outro-label {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Arcadion Savage Splatoon on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/en/series/arcadion-savage-splatoon/</link>
+    <description>Recent content in Arcadion Savage Splatoon on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Tue, 10 Mar 2026 00:46:35 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/en/series/arcadion-savage-splatoon/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Heavyweight Savage Floor 4 Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/en/posts/m12s/</link>
+      <pubDate>Tue, 10 Mar 2026 00:46:35 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/m12s/</guid>
+      <description>An AI-translated English edition of the original memo for the Arcadion Savage Heavyweight Floor 4 Splatoon layout.</description>
+    </item>
+    <item>
+      <title>Heavyweight Savage Floor 3 Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/en/posts/m11s/</link>
+      <pubDate>Tue, 20 Jan 2026 19:02:11 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/m11s/</guid>
+      <description>An AI-translated English edition of the original memo for the Arcadion Savage Heavyweight Floor 3 Splatoon layout.</description>
+    </item>
+    <item>
+      <title>Heavyweight Savage Floor 2 Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/en/posts/m10s/</link>
+      <pubDate>Sat, 10 Jan 2026 10:07:25 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/m10s/</guid>
+      <description>An AI-translated English edition of the original memo for the Arcadion Savage Heavyweight Floor 2 Splatoon layout.</description>
+    </item>
+    <item>
+      <title>Heavyweight Savage Floor 1 Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/en/posts/m9s/</link>
+      <pubDate>Wed, 07 Jan 2026 23:07:30 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/m9s/</guid>
+      <description>An AI-translated English edition of the original memo for the Arcadion Savage Heavyweight Floor 1 Splatoon layout.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,4 +1,4 @@
-{{- $title := .Get "title" | default "この記事でやったこと" -}}
+{{- $title := .Get "title" | default (i18n "article_points_title" | default "What This Article Covers") -}}
 <section class="article-outro-card">
   <div class="article-outro-label">{{ $title }}</div>
   <div class="article-outro-body">

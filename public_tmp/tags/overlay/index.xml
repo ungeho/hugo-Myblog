@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Overlay on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/tags/overlay/</link>
+    <description>Recent content in Overlay on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <lastBuildDate>Mon, 06 Apr 2026 00:50:00 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/tags/overlay/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI補助で開発した League of Legends 用スペルクールダウンオーバーレイ「LoL Cooldown Overlay」</title>
+      <link>https://ungeho.netlify.app/posts/lol-cooldown-overlay-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:50:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/lol-cooldown-overlay-intro/</guid>
+      <description>League of Legends 用の敵スキルクールダウン手動管理オーバーレイ「LoL Cooldown Overlay」を、AI補助で開発したアプリとして紹介します。</description>
+    </item>
+  </channel>
+</rss>

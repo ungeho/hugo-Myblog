@@ -1,6 +1,17 @@
 {{- /* Footer custom content area start */ -}}
 {{- /* Article interaction helpers live here to keep footer.html focused on shared layout behavior. */ -}}
 {{- if .IsPage -}}
+<script>
+  window.postEnhancementLabels = {
+    nowReading: {{ i18n "now_reading" | default "Now Reading" | jsonify }},
+    prev: {{ i18n "prev_short" | default "Prev" | jsonify }},
+    next: {{ i18n "next_short" | default "Next" | jsonify }},
+    showMore: {{ i18n "show_more" | default "Show more" | jsonify }},
+    showLess: {{ i18n "show_less" | default "Show less" | jsonify }},
+    closeImageViewer: {{ i18n "close_image_viewer" | default "Close image viewer" | jsonify }},
+    close: {{ i18n "close_label" | default "Close" | jsonify }}
+  };
+</script>
 {{- $postEnhancements := resources.Get "js/post-enhancements.js" | js.Build | resources.Minify -}}
 {{- if not site.Params.assets.disableFingerprinting -}}
 {{- $postEnhancements = $postEnhancements | fingerprint -}}

@@ -1,6 +1,7 @@
 baseURL = 'https://ungeho.netlify.app/'
 languageCode = "ja"
 defaultContentLanguage = "ja"
+defaultContentLanguageInSubdir = false
 hasCJKLanguage = true
 title = 'ungehoBlog'
 theme = 'PaperMod'
@@ -15,50 +16,13 @@ buildDrafts = false
 buildFuture = false
 buildExpired = false
 
-
-# メニュー（ヘッダー右側）
-[[menu.main]]
-identifier = "about"
-name = "About"
-url = "/about"
-weight = 5
-
-[[menu.main]]
-identifier = "posts"
-name = "Posts"
-url = "/posts"
-weight = 10
-
-[[menu.main]]
-identifier = "archives"
-name       = "Archive"
-url        = "/archives/"
-weight     = 15
-
-[[menu.main]]
-identifier = "search"
-name = "Search"
-url = "/search"
-weight = 20
-
-[[menu.main]]
-identifier = "categories"
-name = "Categories"
-pageRef = "/categories"
-weight = 25
-
-[[menu.main]]
-identifier = "tags"
-name = "Tags"
-pageRef = "/tags"
-weight = 30
-
 [params]
     title = 'ungehoBlog'
     description = 'ungeho'
     author = 'ungeho'
     DateFormat = "2006/01/02"
     defaultTheme = 'auto'
+    displayFullLangName = true
     # postsフォルダ内を記事一覧として扱う
     mainSections = ["posts"]
 
@@ -85,9 +49,12 @@ weight = 30
         enabled = true
         title = "Ungeho"
         subtitle = "ネトゲ大好きおたく"
+        lead = "ゲームのこと、気になったこと、あとで見返したいメモを、やわらかく整理して残していく場所です。"
         imageUrl = "profile.png"
         imageWidth = 256
         imageHeight = 256
+
+    footerTagline = "ネトゲが趣味の人の個人ブログ"
 
     # [[params.profileMode.buttons]]
     #     name = "Posts"
@@ -111,6 +78,93 @@ weight = 30
 
 [outputs]
 home = ["HTML", "RSS", "JSON"]
+
+[languages]
+  [languages.ja]
+    languageCode = "ja-JP"
+    languageName = "日本語"
+    title = "ungehoBlog"
+    weight = 1
+    [languages.ja.params]
+      description = "ungeho"
+      languageAltTitle = "Japanese"
+      footerTagline = "ネトゲが趣味の人の個人ブログ"
+      [languages.ja.params.profileMode]
+        subtitle = "ネトゲ大好きおたく"
+        lead = "ゲームのこと、気になったこと、あとで見返したいメモを、やわらかく整理して残していく場所です。"
+    [[languages.ja.menu.main]]
+      identifier = "about"
+      name = "About"
+      url = "/about/"
+      weight = 5
+    [[languages.ja.menu.main]]
+      identifier = "posts"
+      name = "Posts"
+      url = "/posts/"
+      weight = 10
+    [[languages.ja.menu.main]]
+      identifier = "archives"
+      name = "Archive"
+      url = "/archives/"
+      weight = 15
+    [[languages.ja.menu.main]]
+      identifier = "search"
+      name = "Search"
+      url = "/search/"
+      weight = 20
+    [[languages.ja.menu.main]]
+      identifier = "categories"
+      name = "Categories"
+      url = "/categories/"
+      weight = 25
+    [[languages.ja.menu.main]]
+      identifier = "tags"
+      name = "Tags"
+      url = "/tags/"
+      weight = 30
+
+  [languages.en]
+    languageCode = "en-US"
+    languageName = "English"
+    title = "ungehoBlog"
+    weight = 2
+    [languages.en.params]
+      description = "A personal blog by someone who loves online games."
+      languageAltTitle = "English"
+      footerTagline = "A personal blog by someone who loves online games"
+      [languages.en.params.profileMode]
+        subtitle = "an online game-loving nerd"
+        lead = "A quiet place for game notes, things that caught my attention, and personal memos worth revisiting later."
+    [[languages.en.menu.main]]
+      identifier = "about"
+      name = "About"
+      url = "/about/"
+      weight = 5
+    [[languages.en.menu.main]]
+      identifier = "posts"
+      name = "Posts"
+      url = "/posts/"
+      weight = 10
+    [[languages.en.menu.main]]
+      identifier = "archives"
+      name = "Archive"
+      url = "/archives/"
+      weight = 15
+    [[languages.en.menu.main]]
+      identifier = "search"
+      name = "Search"
+      url = "/search/"
+      weight = 20
+    [[languages.en.menu.main]]
+      identifier = "categories"
+      name = "Categories"
+      url = "/categories/"
+      weight = 25
+    [[languages.en.menu.main]]
+      identifier = "tags"
+      name = "Tags"
+      url = "/tags/"
+      weight = 30
 
 [related]
     includeNewer = true

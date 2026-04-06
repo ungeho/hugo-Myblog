@@ -10,7 +10,7 @@
 <meta name="description" content="YesAlreadyPreset の設定メモと利用例をまとめた記事です。">
 <meta name="author" content="ungeho">
 <link rel="canonical" href="https://ungeho.netlify.app/posts/yesalreadypreset/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.214a6d0a43d0ca2b39d0fca0440e9c19f89f6db4f880cbd11494e74aba504ed8.css" integrity="sha256-IUptCkPQyis50PygRA6cGfifbbT4gMvRFJTnSrpQTtg=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.94969b53fcb47eef2dcd85a03ba8411e4aac9d3072a7045a586328284b4754d2.css" integrity="sha256-lJabU/y0fu8tzYWgO6hBHkqsnTBypwRaWGMoKEtHVNI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://ungeho.netlify.app/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://ungeho.netlify.app/favicon/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://ungeho.netlify.app/favicon/favicon-32x32.png">
@@ -197,18 +197,24 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-                <ul class="lang-switch"><li>|</li>
+                <ul class="lang-switch"><li class="lang-switch-separator" aria-hidden="true">|</li><li>
+                        <a href="https://ungeho.netlify.app/" class="is-active" title="Japanese"
+                            aria-label="日本語" aria-current="true">日本語</a>
+                    </li><li>
+                        <a href="https://ungeho.netlify.app/en/" class="" title="English"
+                            aria-label="English" >English</a>
+                    </li>
                 </ul>
             </div>
         </div>
         <ul id="menu" class="menu">
             <li>
-                <a href="https://ungeho.netlify.app/about" title="About">
+                <a href="https://ungeho.netlify.app/about/" title="About">
                     <span>About</span>
                 </a>
             </li>
             <li>
-                <a href="https://ungeho.netlify.app/posts" title="Posts">
+                <a href="https://ungeho.netlify.app/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
@@ -218,7 +224,7 @@
                 </a>
             </li>
             <li>
-                <a href="https://ungeho.netlify.app/search" title="Search (Alt &#43; /)" accesskey=/>
+                <a href="https://ungeho.netlify.app/search/" title="Search (Alt &#43; /)" accesskey=/>
                     <span>Search</span>
                 </a>
             </li>
@@ -541,15 +547,15 @@
 /send NUMPAD0</code></pre>
 
       </div><footer class="post-footer article-footer"><section class="article-footer-section article-series-nav-section">
-    <h2 class="article-footer-heading">Series Navigation</h2>
+    <h2 class="article-footer-heading">シリーズ内ナビ</h2>
     <nav class="series-nav"><a class="series-nav-link series-nav-prev" href="/posts/splatooncoord/">
-        <span class="series-nav-label">Prev in Series</span>
+        <span class="series-nav-label">シリーズ前へ</span>
         <span class="series-nav-title">FF14の座標の計算方法と豆知識</span>
       </a><a class="series-nav-center" href="https://ungeho.netlify.app/series/ffxiv-raid-notes/">
         <span class="series-nav-label">Series</span>
         <span class="series-nav-title">FFXIV Raid Notes</span>
       </a><a class="series-nav-link series-nav-next" href="/posts/dsr_pre_p1_vault/">
-        <span class="series-nav-label">Next in Series</span>
+        <span class="series-nav-label">シリーズ次へ</span>
         <span class="series-nav-title">絶竜詩、教皇庁フェーズ予習</span>
       </a></nav>
   </section>
@@ -619,7 +625,7 @@
 </footer>
 
     </div>
-<aside class="article-sidebar" aria-label="Article navigation">
+<aside class="article-sidebar" aria-label="記事ナビゲーション">
   <div class="article-sidebar-inner">
     <div class="reading-progress-card">
       <div class="reading-progress-label">
@@ -683,7 +689,17 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
         <path d="M12 6H0l6-6z" />
     </svg>
-</a><script defer crossorigin="anonymous" src="/js/post-enhancements.min.96b4c1fc230f50379cf87b0d734685b704d71799b6aaed3d045b5ce3b3efa115.js" integrity="sha256-lrTB/CMPUDec&#43;HsNc0aFtwTXF5m2qu09BFtc47PvoRU="></script>
+</a><script>
+  window.postEnhancementLabels = {
+    nowReading: "\"NOW READING\"",
+    prev: "\"Prev\"",
+    next: "\"Next\"",
+    showMore: "\"続きを見る\"",
+    showLess: "\"たたむ\"",
+    closeImageViewer: "\"画像ビューアを閉じる\"",
+    close: "\"閉じる\""
+  };
+</script><script defer crossorigin="anonymous" src="/js/post-enhancements.min.4bd7577f5be3fe7bea935a345114fa02a203a3b1f27ebe80b9186dac37ab7222.js" integrity="sha256-S9dXf1vj/nvqk1o0URT6AqIDo7Hyfr6AuRhtrDerciI="></script>
 
 <script>
     let menu = document.getElementById('menu')

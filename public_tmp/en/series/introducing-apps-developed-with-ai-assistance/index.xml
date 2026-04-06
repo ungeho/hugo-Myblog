@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Introducing Apps Developed With AI Assistance on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/en/series/introducing-apps-developed-with-ai-assistance/</link>
+    <description>Recent content in Introducing Apps Developed With AI Assistance on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 06 Apr 2026 01:05:00 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/en/series/introducing-apps-developed-with-ai-assistance/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>&#34;Black Path Game&#34;: a Browser Game Developed with AI Assistance</title>
+      <link>https://ungeho.netlify.app/en/posts/black-path-game-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 01:05:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/black-path-game-intro/</guid>
+      <description>An English companion article introducing Black Path Game, a browser-based path-building game with missing cells, traps, and time limits, developed with AI assistance.</description>
+    </item>
+    <item>
+      <title>&#34;Dodgem Browser&#34;: a Browser Game Developed with AI Assistance</title>
+      <link>https://ungeho.netlify.app/en/posts/dodgem-browser-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:58:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/dodgem-browser-intro/</guid>
+      <description>An English companion article introducing Dodgem Browser, a browser-based Dodgem game with local play, CPU opponents, and online multiplayer, developed with AI assistance.</description>
+    </item>
+    <item>
+      <title>&#34;LoL Cooldown Overlay&#34;: a League of Legends Spell Cooldown Overlay Developed with AI Assistance</title>
+      <link>https://ungeho.netlify.app/en/posts/lol-cooldown-overlay-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:50:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/lol-cooldown-overlay-intro/</guid>
+      <description>An English companion article introducing LoL Cooldown Overlay, a manual enemy spell cooldown overlay for League of Legends developed with AI assistance.</description>
+    </item>
+    <item>
+      <title>&#34;Budget Book&#34;: a Household Budget App Developed with AI Assistance</title>
+      <link>https://ungeho.netlify.app/en/posts/budget-book-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:40:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/budget-book-intro/</guid>
+      <description>An English companion article introducing Budget Book as a household budget app developed with AI assistance, focused on recording, summarizing, budgeting, and subscription tracking.</description>
+    </item>
+    <item>
+      <title>&#34;LAN Library&#34;: a Local Library and Manga Viewer I Developed with AI Assistance</title>
+      <link>https://ungeho.netlify.app/en/posts/lan-library-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:30:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/lan-library-intro/</guid>
+      <description>An English companion article introducing LAN Library as a project developed with AI assistance: a local-only library and manga viewer designed for use within a home network.</description>
+    </item>
+  </channel>
+</rss>

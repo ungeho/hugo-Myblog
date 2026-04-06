@@ -1,11 +1,11 @@
 {{- $headers := findRE "<h[2-4][^>]*id=" .Content -}}
 {{- $showToc := and (.Param "ShowToc") (gt (len $headers) 0) -}}
 {{- if $showToc }}
-<aside class="article-sidebar" aria-label="Article navigation">
+<aside class="article-sidebar" aria-label="{{ i18n "article_navigation" | default "Article navigation" }}">
   <div class="article-sidebar-inner">
     <div class="reading-progress-card">
       <div class="reading-progress-label">
-        <span>Reading progress</span>
+        <span>{{ i18n "reading_progress" | default "Reading progress" }}</span>
         <span class="reading-progress-value" data-reading-progress-value>0%</span>
       </div>
       <div class="reading-progress-track" aria-hidden="true">

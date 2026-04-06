@@ -100,12 +100,11 @@
                 {{- $separator := or $label_text (not site.Params.disableThemeToggle)}}
                 {{- with site.Home.AllTranslations }}
                 <ul class="lang-switch">
-                    {{- if $separator }}<li>|</li>{{ end }}
+                    {{- if $separator }}<li class="lang-switch-separator" aria-hidden="true">|</li>{{ end }}
                     {{- range . -}}
-                    {{- if ne $lang .Lang }}
                     <li>
-                        <a href="{{- .Permalink -}}" title="{{ .Language.Params.languageAltTitle | default (.Language.LanguageName | emojify) | default (.Lang | title) }}"
-                            aria-label="{{ .Language.LanguageName | default (.Lang | title) }}">
+                        <a href="{{- .Permalink -}}" class="{{ if eq $lang .Lang }}is-active{{ end }}" title="{{ .Language.Params.languageAltTitle | default (.Language.LanguageName | emojify) | default (.Lang | title) }}"
+                            aria-label="{{ .Language.LanguageName | default (.Lang | title) }}" {{ if eq $lang .Lang }}aria-current="true"{{ end }}>
                             {{- if (and site.Params.displayFullLangName (.Language.LanguageName)) }}
                             {{- .Language.LanguageName | emojify -}}
                             {{- else }}
@@ -113,7 +112,6 @@
                             {{- end -}}
                         </a>
                     </li>
-                    {{- end -}}
                     {{- end}}
                 </ul>
                 {{- end }}

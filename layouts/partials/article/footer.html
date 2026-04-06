@@ -4,7 +4,7 @@
   {{- $seriesTerms := $.GetTerms "series" }}
   {{- if gt (len $seriesTerms) 0 }}
   <section class="article-footer-section">
-    <h2 class="article-footer-heading">Series</h2>
+    <h2 class="article-footer-heading">{{ i18n "series_label" | default "Series" }}</h2>
     <ul class="post-tags">
       {{- range $seriesTerms }}
       <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
@@ -17,7 +17,7 @@
   {{- $tagTerms := $.GetTerms $tags }}
   {{- if gt (len $tagTerms) 0 }}
   <section class="article-footer-section">
-    <h2 class="article-footer-heading">Tags</h2>
+    <h2 class="article-footer-heading">{{ i18n "tags_label" | default "Tags" }}</h2>
     <ul class="post-tags">
       {{- range $tagTerms }}
       <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Preset on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/en/tags/preset/</link>
+    <description>Recent content in Preset on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sun, 21 Dec 2025 16:08:27 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/en/tags/preset/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Patch 7.4 Extreme Splatoon Layout</title>
+      <link>https://ungeho.netlify.app/en/posts/exdoomtrain/</link>
+      <pubDate>Sun, 21 Dec 2025 16:08:27 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/exdoomtrain/</guid>
+      <description>An AI-translated English edition of the original memo for the Patch 7.4 Extreme Splatoon layout.</description>
+    </item>
+  </channel>
+</rss>

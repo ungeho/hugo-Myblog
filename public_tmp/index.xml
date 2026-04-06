@@ -5,9 +5,44 @@
     <link>https://ungeho.netlify.app/</link>
     <description>Recent content on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>ja</language>
-    <lastBuildDate>Sat, 04 Apr 2026 10:00:00 +0900</lastBuildDate>
+    <language>ja-JP</language>
+    <lastBuildDate>Mon, 06 Apr 2026 01:05:00 +0900</lastBuildDate>
     <atom:link href="https://ungeho.netlify.app/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI補助で開発したブラウザゲーム「Black Path Game」</title>
+      <link>https://ungeho.netlify.app/posts/black-path-game-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 01:05:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/black-path-game-intro/</guid>
+      <description>欠損マス、罠、制限時間といった要素を加えた、AI補助で開発したブラウザゲーム「Black Path Game」を紹介します。</description>
+    </item>
+    <item>
+      <title>AI補助で開発したブラウザゲーム「Dodgem Browser」</title>
+      <link>https://ungeho.netlify.app/posts/dodgem-browser-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:58:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/dodgem-browser-intro/</guid>
+      <description>人対人、CPU対戦、オンライン対戦に対応した、AI補助で開発したブラウザゲーム「Dodgem Browser」を紹介します。</description>
+    </item>
+    <item>
+      <title>AI補助で開発した League of Legends 用スペルクールダウンオーバーレイ「LoL Cooldown Overlay」</title>
+      <link>https://ungeho.netlify.app/posts/lol-cooldown-overlay-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:50:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/lol-cooldown-overlay-intro/</guid>
+      <description>League of Legends 用の敵スキルクールダウン手動管理オーバーレイ「LoL Cooldown Overlay」を、AI補助で開発したアプリとして紹介します。</description>
+    </item>
+    <item>
+      <title>AI補助で開発した家計簿アプリ「Budget Book」</title>
+      <link>https://ungeho.netlify.app/posts/budget-book-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:40:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/budget-book-intro/</guid>
+      <description>収支記録、カテゴリ集計、予算管理、サブスク管理までまとめた、AI補助で開発した家計簿アプリ「Budget Book」を紹介します。</description>
+    </item>
+    <item>
+      <title>AI補助で開発した LAN内専用のローカルライブラリ/漫画ビュワー「LAN Library」</title>
+      <link>https://ungeho.netlify.app/posts/lan-library-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:30:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/lan-library-intro/</guid>
+      <description>AI補助で開発した LAN 内専用のローカルライブラリ / 漫画ビュワー「LAN Library」を、機能や使いどころとあわせて紹介します。</description>
+    </item>
     <item>
       <title>Shortcode Showcase</title>
       <link>https://ungeho.netlify.app/posts/shortcode-showcase/</link>

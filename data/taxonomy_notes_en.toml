@@ -1,0 +1,67 @@
+[series.overview]
+eyebrow = "Series Index"
+description = "Browse grouped themes that are meant to be read together, from technical notes to game setup posts and blog customization logs."
+
+[series."コンピューターで計算する"]
+description = "A series about numerical computing, floating-point errors, and how to reason about calculations on a computer."
+
+[series."アルカディア零式 Splatoon"]
+description = "Splatoon notes for the Arcadion Savage raids, organized so they are easy to revisit before practice."
+
+[series."FFXIV Splatoon Presets"]
+description = "Personal notes and presets for Splatoon in various FFXIV encounters, gathered in one place for quick reference."
+
+[series."FFXIV Raid Notes"]
+description = "A quiet series of raid notes, coordinate helpers, settings, and small utility memos for FFXIV."
+
+[series."数学とプログラミング"]
+description = "A series that connects the fun of mathematics with practical ways to think about it in code."
+
+[series."League of Legends Notes"]
+description = "Personal League of Legends notes, champion references, and small reminders that are easy to revisit later."
+
+[series."思考メモ"]
+description = "Short reflective notes and casual thoughts, kept in a form that is still easy to read back later."
+
+[series."Blog Customization"]
+description = "A small series for checking blog design changes, shortcodes, and other site customization experiments."
+
+[series."Introducing Apps Developed with AI Assistance"]
+description = "A series introducing apps I developed with AI assistance, including why I made them, how I approached the design, and who they are for."
+
+[series."Computing with Numbers"]
+description = "English companion pages for the numerical computing series, covering floating-point arithmetic, interval methods, numerical differentiation, integration, and automatic differentiation."
+
+[series."Arcadion Savage Splatoon"]
+description = "English companion pages for Arcadion Savage Splatoon layouts and setup notes."
+
+[series."Math and Programming"]
+description = "English posts where geometry or mathematical ideas meet implementation."
+
+[series."Thinking Notes"]
+description = "English companion pages for short essays and reflective notes."
+
+[categories.overview]
+eyebrow = "Categories"
+description = "Entry points by broad topic, so it is easy to jump between technical notes, game-related posts, and casual writing."
+
+[categories.Programming]
+description = "Technical posts about code, formulas, algorithms, implementation notes, and related ideas."
+
+[categories.Blog]
+description = "Posts about the blog itself, including layout tweaks, shortcodes, and other customization work."
+
+[categories."雑記"]
+description = "Casual thoughts and small reflective notes, written in a way that is easy to revisit later."
+
+[categories."League of Legends"]
+description = "Personal League of Legends notes, champion references, and related gameplay memos."
+
+[categories.test]
+description = "Test posts used to verify markdown rendering, layouts, and small site changes."
+
+[categories.FFXIV]
+description = "Posts about FFXIV, mainly Splatoon layouts, presets, and raid setup notes."
+
+[categories.Notes]
+description = "Essay-style English companion posts and general reflections."

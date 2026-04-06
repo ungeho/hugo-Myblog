@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dual Numbers on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/en/tags/dual-numbers/</link>
+    <description>Recent content in Dual Numbers on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Fri, 12 Dec 2025 16:30:33 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/en/tags/dual-numbers/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Automatic Differentiation</title>
+      <link>https://ungeho.netlify.app/en/posts/autodiff/</link>
+      <pubDate>Fri, 12 Dec 2025 16:30:33 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/autodiff/</guid>
+      <description>An AI-translated English edition of the original article on automatic differentiation with dual numbers and validated computation.</description>
+    </item>
+  </channel>
+</rss>

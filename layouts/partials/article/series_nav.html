@@ -12,12 +12,12 @@
   {{- $currentIndex := $scratch.Get "currentIndex" -}}
   {{- if ge $currentIndex 0 -}}
   <section class="article-footer-section article-series-nav-section">
-    <h2 class="article-footer-heading">Series Navigation</h2>
+    <h2 class="article-footer-heading">{{ i18n "series_navigation" | default "Series Navigation" }}</h2>
     <nav class="series-nav">
       {{- if gt $currentIndex 0 -}}
       {{- $prev := index $pages (sub $currentIndex 1) -}}
       <a class="series-nav-link series-nav-prev" href="{{ $prev.RelPermalink }}">
-        <span class="series-nav-label">Prev in Series</span>
+        <span class="series-nav-label">{{ i18n "prev_in_series" | default "Prev in Series" }}</span>
         <span class="series-nav-title">{{ $prev.Title }}</span>
       </a>
       {{- else -}}
@@ -25,14 +25,14 @@
       {{- end -}}
 
       <a class="series-nav-center" href="{{ $series.Permalink }}">
-        <span class="series-nav-label">Series</span>
+        <span class="series-nav-label">{{ i18n "series_label" | default "Series" }}</span>
         <span class="series-nav-title">{{ $series.LinkTitle }}</span>
       </a>
 
       {{- if lt (add $currentIndex 1) (len $pages) -}}
       {{- $next := index $pages (add $currentIndex 1) -}}
       <a class="series-nav-link series-nav-next" href="{{ $next.RelPermalink }}">
-        <span class="series-nav-label">Next in Series</span>
+        <span class="series-nav-label">{{ i18n "next_in_series" | default "Next in Series" }}</span>
         <span class="series-nav-title">{{ $next.Title }}</span>
       </a>
       {{- else -}}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dodgem on ungehoBlog</title>
+    <link>http://localhost:1313/en/tags/dodgem/</link>
+    <description>Recent content in Dodgem on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 06 Apr 2026 00:58:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/en/tags/dodgem/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>&#34;Dodgem Browser&#34;: a Browser Game Developed with AI Assistance</title>
+      <link>http://localhost:1313/en/posts/dodgem-browser-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:58:00 +0900</pubDate>
+      <guid>http://localhost:1313/en/posts/dodgem-browser-intro/</guid>
+      <description>An English companion article introducing Dodgem Browser, a browser-based Dodgem game with local play, CPU opponents, and online multiplayer, developed with AI assistance.</description>
+    </item>
+  </channel>
+</rss>

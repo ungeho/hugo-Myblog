@@ -1,7 +1,7 @@
 <div class="profile">
     {{- with site.Params.profileMode }}
     <div class="profile_inner">
-        <div class="profile_eyebrow">Personal Blog</div>
+        <div class="profile_eyebrow">{{ i18n "profile_eyebrow" | default "Personal Blog" }}</div>
         {{- if .imageUrl -}}
         {{- $img := "" }}
         {{- if not (urls.Parse .imageUrl).IsAbs }}
@@ -24,16 +24,16 @@
                     {{- $img = $img.Resize "150x150" }}
                 {{- end }}
             {{- end }}
-            <img draggable="false" src="{{ $img.Permalink }}" alt="{{ .imageTitle | default "profile image" }}" title="{{ .imageTitle }}"
+            <img draggable="false" src="{{ $img.Permalink }}" alt="{{ .imageTitle | default (i18n "profile_image_alt" | default "profile image") }}" title="{{ .imageTitle }}"
                 height="{{ .imageHeight | default 150 }}" width="{{ .imageWidth | default 150 }}" />
         {{- else }}
-        <img draggable="false" src="{{ .imageUrl | absURL }}" alt="{{ .imageTitle | default "profile image" }}" title="{{ .imageTitle }}"
+        <img draggable="false" src="{{ .imageUrl | absURL }}" alt="{{ .imageTitle | default (i18n "profile_image_alt" | default "profile image") }}" title="{{ .imageTitle }}"
             height="{{ .imageHeight | default 150 }}" width="{{ .imageWidth | default 150 }}" />
         {{- end }}
         {{- end }}
         <h1>{{ .title | default site.Title | markdownify }}</h1>
         <span>{{ .subtitle | markdownify }}</span>
-        <p class="profile_lead">ゲームのこと、気になったこと、あとで見返したいメモを、やわらかく整理して残していく場所です。</p>
+        <p class="profile_lead">{{ .lead | default (i18n "profile_lead" | default "A quiet place for game notes, things worth revisiting, and personal memos.") }}</p>
         {{- partial "social_icons.html" -}}
         {{- with .buttons }}
         <div class="buttons">
@@ -57,10 +57,10 @@
         {{- $postCount := len (where site.RegularPages "Section" "posts") -}}
         {{- $tagCount := len site.Taxonomies.tags -}}
         {{- $categoryCount := len site.Taxonomies.categories -}}
-        <div class="profile_stats" aria-label="Site stats">
-            <span class="profile_stat"><span class="profile_stat_value">{{ $postCount }}</span><span class="profile_stat_label">Posts</span></span>
-            <span class="profile_stat"><span class="profile_stat_value">{{ $categoryCount }}</span><span class="profile_stat_label">Categories</span></span>
-            <span class="profile_stat"><span class="profile_stat_value">{{ $tagCount }}</span><span class="profile_stat_label">Tags</span></span>
+        <div class="profile_stats" aria-label="{{ i18n "site_stats_label" | default "Site stats" }}">
+            <span class="profile_stat"><span class="profile_stat_value">{{ $postCount }}</span><span class="profile_stat_label">{{ i18n "posts_label" | default "Posts" }}</span></span>
+            <span class="profile_stat"><span class="profile_stat_value">{{ $categoryCount }}</span><span class="profile_stat_label">{{ i18n "categories_label" | default "Categories" }}</span></span>
+            <span class="profile_stat"><span class="profile_stat_value">{{ $tagCount }}</span><span class="profile_stat_label">{{ i18n "tags_label" | default "Tags" }}</span></span>
         </div>
     </div>
     {{- end}}

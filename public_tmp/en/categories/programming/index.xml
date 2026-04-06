@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Programming on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/en/categories/programming/</link>
+    <description>Recent content in Programming on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 06 Apr 2026 01:05:00 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/en/categories/programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>&#34;Black Path Game&#34;: a Browser Game Developed with AI Assistance</title>
+      <link>https://ungeho.netlify.app/en/posts/black-path-game-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 01:05:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/black-path-game-intro/</guid>
+      <description>An English companion article introducing Black Path Game, a browser-based path-building game with missing cells, traps, and time limits, developed with AI assistance.</description>
+    </item>
+    <item>
+      <title>&#34;Dodgem Browser&#34;: a Browser Game Developed with AI Assistance</title>
+      <link>https://ungeho.netlify.app/en/posts/dodgem-browser-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:58:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/dodgem-browser-intro/</guid>
+      <description>An English companion article introducing Dodgem Browser, a browser-based Dodgem game with local play, CPU opponents, and online multiplayer, developed with AI assistance.</description>
+    </item>
+    <item>
+      <title>&#34;Budget Book&#34;: a Household Budget App Developed with AI Assistance</title>
+      <link>https://ungeho.netlify.app/en/posts/budget-book-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:40:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/budget-book-intro/</guid>
+      <description>An English companion article introducing Budget Book as a household budget app developed with AI assistance, focused on recording, summarizing, budgeting, and subscription tracking.</description>
+    </item>
+    <item>
+      <title>&#34;LAN Library&#34;: a Local Library and Manga Viewer I Developed with AI Assistance</title>
+      <link>https://ungeho.netlify.app/en/posts/lan-library-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:30:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/lan-library-intro/</guid>
+      <description>An English companion article introducing LAN Library as a project developed with AI assistance: a local-only library and manga viewer designed for use within a home network.</description>
+    </item>
+    <item>
+      <title>Regular Star Polygons</title>
+      <link>https://ungeho.netlify.app/en/posts/regularstarpolygon/</link>
+      <pubDate>Sun, 14 Dec 2025 12:13:06 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/regularstarpolygon/</guid>
+      <description>An AI-translated English edition of the original article on the names, properties, and construction of regular star polygons.</description>
+    </item>
+    <item>
+      <title>Automatic Differentiation</title>
+      <link>https://ungeho.netlify.app/en/posts/autodiff/</link>
+      <pubDate>Fri, 12 Dec 2025 16:30:33 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/autodiff/</guid>
+      <description>An AI-translated English edition of the original article on automatic differentiation with dual numbers and validated computation.</description>
+    </item>
+    <item>
+      <title>Numerical Differentiation</title>
+      <link>https://ungeho.netlify.app/en/posts/numericaldifferentiation/</link>
+      <pubDate>Fri, 12 Dec 2025 13:50:42 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/numericaldifferentiation/</guid>
+      <description>An AI-translated English edition of the original article on finite-difference differentiation, step size, and floating-point error.</description>
+    </item>
+    <item>
+      <title>Numerical Integration</title>
+      <link>https://ungeho.netlify.app/en/posts/numericalintegration/</link>
+      <pubDate>Wed, 10 Dec 2025 20:28:15 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/numericalintegration/</guid>
+      <description>An AI-translated English edition of the original article on numerical integration, including the trapezoidal rule, DE formula, and interval-based validation.</description>
+    </item>
+    <item>
+      <title>Interval Arithmetic</title>
+      <link>https://ungeho.netlify.app/en/posts/interval/</link>
+      <pubDate>Tue, 09 Dec 2025 14:46:40 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/interval/</guid>
+      <description>An AI-translated English edition of the original article introducing interval arithmetic and how it preserves guaranteed bounds even in the presence of rounding error.</description>
+    </item>
+    <item>
+      <title>Floating-Point Numbers</title>
+      <link>https://ungeho.netlify.app/en/posts/float/</link>
+      <pubDate>Sun, 07 Dec 2025 19:03:04 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/float/</guid>
+      <description>An English AI translation of the original article on why floating-point numbers cannot represent every real number exactly and how that creates numerical error.</description>
+    </item>
+  </channel>
+</rss>

@@ -5,9 +5,16 @@
     <link>http://localhost:1313/tags/league-of-legends/</link>
     <description>Recent content in League of Legends on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>ja</language>
-    <lastBuildDate>Sun, 26 May 2024 17:00:04 +0900</lastBuildDate>
+    <language>ja-JP</language>
+    <lastBuildDate>Mon, 06 Apr 2026 00:50:00 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/league-of-legends/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI補助で開発した League of Legends 用スペルクールダウンオーバーレイ「LoL Cooldown Overlay」</title>
+      <link>http://localhost:1313/posts/lol-cooldown-overlay-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:50:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/lol-cooldown-overlay-intro/</guid>
+      <description>League of Legends 用の敵スキルクールダウン手動管理オーバーレイ「LoL Cooldown Overlay」を、AI補助で開発したアプリとして紹介します。</description>
+    </item>
     <item>
       <title>Lux</title>
       <link>http://localhost:1313/posts/lol-lux/</link>

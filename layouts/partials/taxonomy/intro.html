@@ -1,5 +1,9 @@
 {{- $type := .Type -}}
-{{- $data := index site.Data.taxonomy_notes $type -}}
+{{- $notesSource := site.Data.taxonomy_notes -}}
+{{- if eq site.Language.Lang "en" -}}
+  {{- $notesSource = site.Data.taxonomy_notes_en | default site.Data.taxonomy_notes -}}
+{{- end -}}
+{{- $data := index $notesSource $type -}}
 {{- $overview := dict -}}
 {{- with $data -}}
   {{- with index . "overview" -}}
@@ -18,17 +22,17 @@
 {{- $eyebrow := "" -}}
 {{- if $isTermPage -}}
   {{- $description = index $termNote "description" | default .Description -}}
-  {{- $eyebrow = index $termNote "eyebrow" | default (cond (eq $type "series") "Series" "Category") -}}
+  {{- $eyebrow = index $termNote "eyebrow" | default (cond (eq $type "series") (i18n "series_label" | default "Series") (i18n "category_label" | default "Category")) -}}
 {{- else -}}
   {{- $description = index $overview "description" | default .Description -}}
   {{- $eyebrow = index $overview "eyebrow" | default .Title -}}
 {{- end -}}
 {{- $count := 0 -}}
-{{- $countLabel := "posts" -}}
+{{- $countLabel := i18n "post_groups" | default "posts" -}}
 {{- $latest := "" -}}
 {{- if $isTermPage -}}
   {{- $count = len .Pages -}}
-  {{- $countLabel = cond (eq $count 1) "article" "articles" -}}
+  {{- $countLabel = i18n "article_count" $count | default (cond (eq $count 1) "article" "articles") -}}
   {{- with .Pages.ByDate.Reverse -}}
     {{- with index . 0 -}}
       {{- $latest = .Date.Format "2006.01.02" -}}
@@ -36,7 +40,7 @@
   {{- end -}}
 {{- else -}}
   {{- $count = len .Data.Terms -}}
-  {{- $countLabel = cond (eq $count 1) "group" "groups" -}}
+  {{- $countLabel = i18n "group_count" $count | default (cond (eq $count 1) "group" "groups") -}}
 {{- end -}}
 
 {{- if or $description $isTermPage $overview -}}
@@ -48,9 +52,9 @@
   <div class="taxonomy-stats" aria-label="taxonomy stats">
     <span class="taxonomy-stat"><strong>{{ $count }}</strong> {{ $countLabel }}</span>
     {{- if $latest }}
-    <span class="taxonomy-stat"><strong>Latest</strong> {{ $latest }}</span>
+    <span class="taxonomy-stat"><strong>{{ i18n "latest_label" | default "Latest" }}</strong> {{ $latest }}</span>
     {{- end }}
-    <span class="taxonomy-stat"><strong>View</strong> {{ cond (eq $type "series") "reading order" "topic grouping" }}</span>
+    <span class="taxonomy-stat"><strong>{{ i18n "view_label" | default "View" }}</strong> {{ cond (eq $type "series") (i18n "reading_order" | default "reading order") (i18n "topic_grouping" | default "topic grouping") }}</span>
   </div>
 </section>
 {{- end -}}

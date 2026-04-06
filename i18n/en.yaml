@@ -31,3 +31,121 @@
 
 - id: code_copied
   translation: "copied!"
+
+- id: profile_eyebrow
+  translation: "Personal Blog"
+
+- id: profile_image_alt
+  translation: "profile image"
+
+- id: profile_lead
+  translation: "A quiet place for game notes, things that caught my attention, and personal memos worth revisiting later."
+
+- id: site_stats_label
+  translation: "Site stats"
+
+- id: posts_label
+  translation: "Posts"
+
+- id: categories_label
+  translation: "Categories"
+
+- id: tags_label
+  translation: "Tags"
+
+- id: footer_tagline
+  translation: "A personal blog by someone who loves online games"
+
+- id: powered_by
+  translation: "Powered by"
+
+- id: article_navigation
+  translation: "Article navigation"
+
+- id: reading_progress
+  translation: "Reading progress"
+
+- id: series_label
+  translation: "Series"
+
+- id: category_label
+  translation: "Category"
+
+- id: series_navigation
+  translation: "Series Navigation"
+
+- id: prev_in_series
+  translation: "Prev in Series"
+
+- id: next_in_series
+  translation: "Next in Series"
+
+- id: latest_label
+  translation: "Latest"
+
+- id: view_label
+  translation: "View"
+
+- id: reading_order
+  translation: "reading order"
+
+- id: topic_grouping
+  translation: "topic grouping"
+
+- id: search_hint
+  translation: "Search by title, content, tags, categories, or series."
+
+- id: sort_label
+  translation: "Sort"
+
+- id: sort_relevance
+  translation: "Relevance"
+
+- id: sort_newest
+  translation: "Newest"
+
+- id: sort_oldest
+  translation: "Oldest"
+
+- id: all_label
+  translation: "All"
+
+- id: now_reading
+  translation: "NOW READING"
+
+- id: prev_short
+  translation: "Prev"
+
+- id: next_short
+  translation: "Next"
+
+- id: show_more
+  translation: "Show more"
+
+- id: show_less
+  translation: "Show less"
+
+- id: close_image_viewer
+  translation: "Close image viewer"
+
+- id: close_label
+  translation: "Close"
+
+- id: quick_summary_title
+  translation: "Quick Summary"
+
+- id: article_points_title
+  translation: "What This Article Covers"
+
+- id: article_count
+  translation:
+    one: "article"
+    other: "articles"
+
+- id: group_count
+  translation:
+    one: "group"
+    other: "groups"
+
+- id: post_groups
+  translation: "posts"

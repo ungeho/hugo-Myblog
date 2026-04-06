@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Geometry on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/en/tags/geometry/</link>
+    <description>Recent content in Geometry on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sun, 14 Dec 2025 12:13:06 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/en/tags/geometry/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Regular Star Polygons</title>
+      <link>https://ungeho.netlify.app/en/posts/regularstarpolygon/</link>
+      <pubDate>Sun, 14 Dec 2025 12:13:06 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/regularstarpolygon/</guid>
+      <description>An AI-translated English edition of the original article on the names, properties, and construction of regular star polygons.</description>
+    </item>
+  </channel>
+</rss>

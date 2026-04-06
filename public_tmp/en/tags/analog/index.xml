@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Analog on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/en/tags/analog/</link>
+    <description>Recent content in Analog on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Fri, 02 Jan 2026 18:06:28 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/en/tags/analog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Is the Real World Really Analog?</title>
+      <link>https://ungeho.netlify.app/en/posts/analog/</link>
+      <pubDate>Fri, 02 Jan 2026 18:06:28 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/analog/</guid>
+      <description>A short essay on whether the physical world can really be called analog, using the contrast between continuity and discreteness as a guide.</description>
+    </item>
+  </channel>
+</rss>

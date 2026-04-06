@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Browser Game on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/en/tags/browser-game/</link>
+    <description>Recent content in Browser Game on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 06 Apr 2026 01:05:00 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/en/tags/browser-game/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>&#34;Black Path Game&#34;: a Browser Game Developed with AI Assistance</title>
+      <link>https://ungeho.netlify.app/en/posts/black-path-game-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 01:05:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/black-path-game-intro/</guid>
+      <description>An English companion article introducing Black Path Game, a browser-based path-building game with missing cells, traps, and time limits, developed with AI assistance.</description>
+    </item>
+    <item>
+      <title>&#34;Dodgem Browser&#34;: a Browser Game Developed with AI Assistance</title>
+      <link>https://ungeho.netlify.app/en/posts/dodgem-browser-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:58:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/posts/dodgem-browser-intro/</guid>
+      <description>An English companion article introducing Dodgem Browser, a browser-based Dodgem game with local play, CPU opponents, and online multiplayer, developed with AI assistance.</description>
+    </item>
+  </channel>
+</rss>

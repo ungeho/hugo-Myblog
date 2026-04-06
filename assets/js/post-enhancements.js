@@ -1,4 +1,14 @@
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const labels = {
+  nowReading: "Now Reading",
+  prev: "Prev",
+  next: "Next",
+  showMore: "Show more",
+  showLess: "Show less",
+  closeImageViewer: "Close image viewer",
+  close: "Close",
+  ...(window.postEnhancementLabels || {}),
+};
 
 const postState = {
   article: null,
@@ -224,12 +234,12 @@ const setupArticleNavigator = () => {
 
   mount.innerHTML = `
     <div class="article-jump-current">
-      <span class="article-jump-label">Now Reading</span>
+      <span class="article-jump-label">${labels.nowReading}</span>
       <a class="article-jump-current-link" data-article-current href="#"></a>
     </div>
     <div class="article-jump-actions">
-      <button type="button" class="article-jump-button" data-article-prev aria-label="Go to previous heading">Prev</button>
-      <button type="button" class="article-jump-button" data-article-next aria-label="Go to next heading">Next</button>
+      <button type="button" class="article-jump-button" data-article-prev aria-label="Go to previous heading">${labels.prev}</button>
+      <button type="button" class="article-jump-button" data-article-next aria-label="Go to next heading">${labels.next}</button>
     </div>
   `;
 
@@ -293,7 +303,7 @@ const setupCollapsibleCodeBlocks = () => {
       block.dataset.codeFoldBound = "true";
       existingToggle.addEventListener("click", () => {
         const expanded = !block.classList.toggle("is-collapsed");
-        existingToggle.textContent = expanded ? "たたむ" : "続きを見る";
+        existingToggle.textContent = expanded ? labels.showLess : labels.showMore;
         existingToggle.setAttribute("aria-expanded", String(expanded));
       });
       return;
@@ -318,7 +328,7 @@ const setupCollapsibleCodeBlocks = () => {
     controls.className = "code-fold-controls";
     controls.innerHTML = `
       <span class="code-fold-meta">${lineCount} lines</span>
-      <button type="button" class="code-fold-toggle" aria-expanded="false">続きを見る</button>
+      <button type="button" class="code-fold-toggle" aria-expanded="false">${labels.showMore}</button>
     `;
 
     block.appendChild(controls);
@@ -326,7 +336,7 @@ const setupCollapsibleCodeBlocks = () => {
     controls.querySelector(".code-fold-toggle")?.addEventListener("click", () => {
       const expanded = !block.classList.toggle("is-collapsed");
       const toggle = controls.querySelector(".code-fold-toggle");
-      toggle.textContent = expanded ? "たたむ" : "続きを見る";
+      toggle.textContent = expanded ? labels.showLess : labels.showMore;
       toggle.setAttribute("aria-expanded", String(expanded));
     });
   });
@@ -418,7 +428,7 @@ const setupLightbox = () => {
   lightbox.className = "lightbox";
   lightbox.innerHTML = `
     <form method="dialog" class="lightbox-shell">
-      <button class="lightbox-close" aria-label="Close image viewer">Close</button>
+      <button class="lightbox-close" aria-label="${labels.closeImageViewer}">${labels.close}</button>
       <img class="lightbox-image" alt="">
       <p class="lightbox-caption"></p>
     </form>

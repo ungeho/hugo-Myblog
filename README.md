@@ -527,3 +527,28 @@ print("hello")
   - 記事末尾まとめ用
 - `layouts/shortcodes/collapse.html`
   - 折りたたみ用
+
+## 多言語記事
+
+英語版の記事を作るときは、同じ basename に `.en.md` を付ける。
+
+例:
+
+```text
+content/posts/float.md
+content/posts/float.en.md
+```
+
+英語版の companion 記事では、冒頭に `ai_translation_notice` shortcode を置いておくと、AI翻訳であることが分かりやすい。
+
+```md
+{{< ai_translation_notice source="/posts/float/" >}}
+This page is an AI-translated English edition of the original Japanese article.
+{{< /ai_translation_notice >}}
+```
+
+補足:
+
+- `source` には日本語側の記事 URL を入れる
+- 公開済みの記事だけ英語版を作り、ドラフトは必要になるまで後回しでよい
+- 日本語記事と英語記事で basename を揃えると Hugo の translation link が効く

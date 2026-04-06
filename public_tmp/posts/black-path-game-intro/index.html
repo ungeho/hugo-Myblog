@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ja" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>AI補助で開発したブラウザゲーム「Black Path Game」 | ungehoBlog</title>
+<meta name="keywords" content="ゲーム, ブラウザゲーム, React, TypeScript, パズルゲーム">
+<meta name="description" content="欠損マス、罠、制限時間といった要素を加えた、AI補助で開発したブラウザゲーム「Black Path Game」を紹介します。">
+<meta name="author" content="ungeho">
+<link rel="canonical" href="https://ungeho.netlify.app/posts/black-path-game-intro/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.94969b53fcb47eef2dcd85a03ba8411e4aac9d3072a7045a586328284b4754d2.css" integrity="sha256-lJabU/y0fu8tzYWgO6hBHkqsnTBypwRaWGMoKEtHVNI=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://ungeho.netlify.app/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ungeho.netlify.app/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ungeho.netlify.app/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ungeho.netlify.app/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ungeho.netlify.app/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="ja" href="https://ungeho.netlify.app/posts/black-path-game-intro/">
+<link rel="alternate" hreflang="en" href="https://ungeho.netlify.app/en/posts/black-path-game-intro/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mathRoot = document.querySelector(".post-content") || document.body;
+        renderMathInElement(mathRoot, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ],
+            throwOnError: false,
+            strict: "ignore"
+        });
+    });
+</script>
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.mermaid) {
+            const isDark = document.body.classList.contains("dark");
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: isDark ? "dark" : "base",
+            });
+        }
+    });
+</script>
+
+<meta property="og:title" content="AI補助で開発したブラウザゲーム「Black Path Game」 | ungehoBlog">
+<meta property="og:description" content="欠損マス、罠、制限時間といった要素を加えた、AI補助で開発したブラウザゲーム「Black Path Game」を紹介します。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ungeho.netlify.app/posts/black-path-game-intro/">
+<meta property="og:site_name" content="ungehoBlog">
+<meta property="og:image" content="https://ungeho.netlify.app/assets/generated/og-47fd8b4e64b261f1be2450c7012188c0.svg">
+<meta property="article:published_time" content="2026-04-06T01:05:00&#43;09:00"><meta property="article:modified_time" content="2026-04-06T01:05:00&#43;09:00"><meta property="article:tag" content="ゲーム"><meta property="article:tag" content="ブラウザゲーム"><meta property="article:tag" content="React"><meta property="article:tag" content="TypeScript"><meta property="article:tag" content="パズルゲーム">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI補助で開発したブラウザゲーム「Black Path Game」 | ungehoBlog">
+<meta name="twitter:description" content="欠損マス、罠、制限時間といった要素を加えた、AI補助で開発したブラウザゲーム「Black Path Game」を紹介します。"><meta name="twitter:image" content="https://ungeho.netlify.app/assets/generated/og-47fd8b4e64b261f1be2450c7012188c0.svg">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://ungeho.netlify.app/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "AI補助で開発したブラウザゲーム「Black Path Game」",
+      "item": "https://ungeho.netlify.app/posts/black-path-game-intro/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AI補助で開発したブラウザゲーム「Black Path Game」",
+  "name": "AI補助で開発したブラウザゲーム「Black Path Game」",
+  "description": "欠損マス、罠、制限時間といった要素を加えた、AI補助で開発したブラウザゲーム「Black Path Game」を紹介します。",
+  "keywords": [
+    "ゲーム", "ブラウザゲーム", "React", "TypeScript", "パズルゲーム"
+  ],
+  "articleBody": " AI補助で執筆 この記事は AI補助で開発した Black Path Game を、AI の補助を使って整理・執筆した紹介記事 です。\n内容は現在の実装と画面構成をもとにまとめています。README には古い情報も残っているため、この記事は現行バージョン寄りの紹介になっています。 この記事のポイント Black Path Game は、ブラウザで遊べる 2 人対戦のパス構築ゲーム 大元の Black 系の考え方をベースにしつつ、欠損マス、罠、制限時間でかなり遊び味を変えている 盤面ルールだけでなく、対人戦 / vs AI、先手後手、盤面サイズまで含めて調整できる Repository GitHub: ungeho/black-path-variantAI補助で開発した、Black 系の発想をベースにしたブラウザ対戦ゲームです。→ ゲーム画面 現在の画面は、中央に盤面、上に HUD、右に設定パネル という構成です。\nルールの追加で情報量は増えていますが、できるだけ「いま何を選べるか」が崩れないようにまとめています。\nどんなゲーム？ Black Path Game は、AI補助で開発した、ブラウザで遊べる 2 人対戦のパス構築ゲームです。\n大元の発想は Black 系のルールに近いのですが、そのまま再現するのではなく、欠損マス・罠・制限時間 を加えることで、読み合いの性質がかなり変わるようにしています。\n自分の中では、単なる再現よりも\nルールが分かりやすいこと 対戦ゲームとして読み合いが生まれること AI 相手でも人相手でも成立すること を大事にして作っています。\n何をするゲームなのか 盤面上では、道の先端に続くマスへタイルを置いて、パスを伸ばしていきます。\n左上のスタート地点には最初から十字タイルが置かれていて、そこから経路が進んでいきます。\n基本の感覚としては、\n道の先端にタイルを置く 既にあるタイルには自動追従する 自分の手で道を危険な場所へ押し出してしまうと負ける という流れです。\nただし、このゲームでは 右下の固定欠損マス が最初からあり、さらに設定によってランダムな欠損マスを追加できます。\nそのため、盤外だけでなく「どこが穴になっているか」もかなり重要になります。\nこのバリアントで大きい 3 つの要素 欠損マス このゲームでは、右下のマスが常に欠損しています。\nさらに設定で、指定した数だけランダムな欠損マス を追加できます。\nつまり、毎回同じ形の盤面で遊ぶだけでなく、\n穴の数を増やして盤面を荒らす 毎回違う盤面の危険地帯を読む 終盤の逃げ道を減らす といった遊び方ができます。\n単に難しくするというより、安全そうに見える経路が途中で急に危険になる感覚 を作れるのが面白いところです。\n罠 このバリアントでいちばん特徴的なのは、やはり 罠 です。\n各プレイヤーは、設定した個数ぶんだけ任意のマスに罠を置けます。\n罠の効果は、「そのマスで選べる 3 種類のタイルのうち 1 つを潰す」ことです。\nつまり、そのマスに到達したときの選択肢が減ります。\n同じマスに罠が重なったとき 両者が同じマスで同じタイルを潰した 両者が同じマスで別々のタイルを潰した その結果どうなるか 選択肢は 2 つのまま 選択肢は 1 つまで減る この仕様があるので、罠は「ただの禁止マス」ではなく、将来そのマスに来たときの分岐をどこまで細くするか という形で効いてきます。\nしかも、自分が置いた罠は見えますが、相手がどこに置いたかは見えません。\nそのため、盤面上の経路だけでなく、見えていない情報も含めて読む必要があります。\n制限時間 さらに、1 手あたりの持ち時間を設定できます。\n現行版では なし / 3s / 5s / 7s / 9s から選べます。\n時間制限があると、\n罠の位置を読んで悩みすぎると負ける 終盤の強制手で判断が雑になる 対人戦でも AI 戦でもテンポが変わる ので、盤面パズルというより 対戦ゲームとしての緊張感 がかなり強くなります。\n画面と操作 現行版の画面は、大きく分けると\n盤面 上部の HUD 右側の操作 / ゲーム設定パネル で構成しています。\n右側では、\n対人戦 / vs AI Easy / Medium / Hard 先手 / 後手 盤面サイズ 欠損マス 罠 制限時間 を切り替えられるので、1 本のアプリの中で遊び味をかなり変えられます。\n盤面側では、\n合法手のハイライト 経路の可視化 直前の流れの追跡 罠配置フェーズでの自分の罠確認 ができるようにしていて、ルールが増えても盤面の読みやすさが落ちすぎないようにしています。\nvs AI でも遊べる このゲームは 対人戦 だけでなく vs AI にも対応しています。\n難易度は Easy / Medium / Hard の 3 段階です。\nAI 戦があることで、\nルール確認だけしたいとき 新しい設定を試したいとき 罠あり盤面の感覚を練習したいとき にも 1 人で触りやすくしています。\nどういう読み合いが生まれるか このゲームが面白いのは、単に「今どこへ伸びるか」だけではなく、\n欠損マスがどこにあるか その先で罠に選択肢を削られるか 時間内にどこまで読めるか を一緒に考える必要があるところです。\nまず見えている経路の危険度を読む 次に、欠損マスで詰まる形を警戒する さらに、見えていない相手の罠を想定する 制限時間があるなら、その読みを短時間で決める この多層構造があるので、見た目はシンプルでも、実際の対戦ではかなりいやらしいゲームになります。\n技術的な構成 技術的には React + TypeScript + Vite ベースのブラウザゲームです。\nUI 側 React TypeScript Vite CSS Modules ゲームロジック側 盤面状態 合法手生成 ゲーム進行 罠配置 AI 思考 実装としては、UI とルール処理を分けていて、\nengine.ts moveGenerator.ts rules.ts ai.ts あたりに責務を分離しています。\nREADME が古くなっていても、コード側は「今のルールがどこにあるか」を追いやすい構成にしてあります。\nどういう人に向いているか シンプルな見た目で読み合いが深いゲームが好き 隠し情報や罠で分岐が絞られる感覚が好き AI 戦と対人戦の両方を 1 本で遊びたい オリジナル寄りの Black バリアントを触ってみたい 逆に、定番ルールをできるだけ忠実に再現したものを探している場合とは少し方向性が違います。\nこのゲームは、Black 系の発想を土台にしつつ、対戦用にかなり味付けした版 と捉えるのが近いです。\nFAQ 元の Black と同じゲーム？ 完全に同じではありません。\n大元の発想は近いですが、欠損マス、罠、制限時間などを入れていて、かなり別の読み合いになっています。 罠はどう見える？ 自分が置いた罠の場所と内容は確認できますが、相手が置いた罠は見えません。\nそのため、対戦では見えていない情報を含めた読みが必要になります。 同じマスに両者が罠を置いたら？ 同じタイルを潰していた場合は選択肢は 2 つのまま、別々のタイルを潰していた場合は選択肢が 1 つまで減ります。 まとめ このアプリでやりたかったこと Black 系の発想をベースにしつつ、別の読み合いを持つゲームにすること 欠損マス、罠、制限時間で盤面の緊張感を増やすこと 対人戦でも AI 戦でも遊べる形にすること ルール追加後も盤面が分かりやすい UI にすること Black Path Game は、もとの発想を借りつつ、自分なりに対戦ゲームとして面白くなる方向へ崩したバリアント です。\n欠損マス、隠し情報としての罠、短い持ち時間が重なることで、見た目以上に緊張感のあるゲームになっていると思います。\n",
+  "wordCount" : "2813",
+  "inLanguage": "ja",
+  "datePublished": "2026-04-06T01:05:00+09:00",
+  "dateModified": "2026-04-06T01:05:00+09:00",
+  "author":{
+    "@type": "Person",
+    "name": "ungeho"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ungeho.netlify.app/posts/black-path-game-intro/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ungehoBlog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ungeho.netlify.app/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header site-header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://ungeho.netlify.app/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li class="lang-switch-separator" aria-hidden="true">|</li><li>
+                        <a href="https://ungeho.netlify.app/" class="is-active" title="Japanese"
+                            aria-label="日本語" aria-current="true">日本語</a>
+                    </li><li>
+                        <a href="https://ungeho.netlify.app/en/" class="" title="English"
+                            aria-label="English" >English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://ungeho.netlify.app/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"><article class="post-single article-single"><header class="post-header article-hero">
+  <div class="breadcrumbs"><a href="https://ungeho.netlify.app/">ホーム</a>&nbsp;»&nbsp;<a href="https://ungeho.netlify.app/posts/">Posts</a></div>
+
+  <div class="article-hero-inner">
+    <div class="article-hero-copy">
+      <div class="article-taxonomy-row">
+        <a class="article-chip article-chip-series" href="https://ungeho.netlify.app/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E7%B4%B9%E4%BB%8B/">AI補助で開発したアプリの紹介</a>
+        <span class="article-chip">Programming</span>
+      </div>
+
+      <h1 class="post-title entry-hint-parent">
+        AI補助で開発したブラウザゲーム「Black Path Game」
+      </h1>
+      <div class="post-description article-lead">
+        欠損マス、罠、制限時間といった要素を加えた、AI補助で開発したブラウザゲーム「Black Path Game」を紹介します。
+      </div>
+      <div class="post-meta article-meta"><span title='2026-04-06 01:05:00 +0900 JST'>2026/04/06</span>&nbsp;·&nbsp;6 分&nbsp;·&nbsp;ungeho&nbsp;|&nbsp;言語:
+<ul class="i18n_list">
+    <li>
+        <a href="https://ungeho.netlify.app/en/posts/black-path-game-intro/">English</a>
+    </li>
+</ul>
+
+</div>
+    </div>
+  </div>
+</header>
+ 
+
+  <div class="article-layout">
+    <div class="article-main">
+      <div class="post-content"><div class="update-note update-note-blue">
+  <div class="update-note-label">AI補助で執筆</div>
+  <div class="update-note-body">この記事は <strong>AI補助で開発した <code>Black Path Game</code> を、AI の補助を使って整理・執筆した紹介記事</strong> です。<br>
+内容は現在の実装と画面構成をもとにまとめています。README には古い情報も残っているため、この記事は現行バージョン寄りの紹介になっています。</div>
+</div>
+
+<section class="article-summary-card">
+  <div class="article-summary-label">この記事のポイント</div>
+  <div class="article-summary-body">
+    <ul>
+<li><code>Black Path Game</code> は、ブラウザで遊べる 2 人対戦のパス構築ゲーム</li>
+<li>大元の Black 系の考え方をベースにしつつ、欠損マス、罠、制限時間でかなり遊び味を変えている</li>
+<li>盤面ルールだけでなく、対人戦 / vs AI、先手後手、盤面サイズまで含めて調整できる</li>
+</ul>
+
+  </div>
+</section>
+
+<a class="link-card" href="https://github.com/ungeho/black-path-variant" target="_blank" rel="noopener noreferrer">
+  <span class="link-card-meta">Repository</span>
+  <span class="link-card-title">GitHub: ungeho/black-path-variant</span><span class="link-card-desc">AI補助で開発した、Black 系の発想をベースにしたブラウザ対戦ゲームです。</span><span class="link-card-arrow" aria-hidden="true">→</span>
+</a>
+
+<h2 id="ゲーム画面">ゲーム画面<a hidden class="anchor" aria-hidden="true" href="#ゲーム画面">#</a></h2>
+<p><figure class="article-media">
+  <a class="article-media-link" href="/images/posts/black-path-game/gameplay.png" data-lightbox-trigger>
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/images/posts/black-path-game/gameplay.png" alt="Black Path Game のゲーム画面" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="691" height="907" />
+  </a>
+</figure>
+</p>
+<p>現在の画面は、<strong>中央に盤面、上に HUD、右に設定パネル</strong> という構成です。<br>
+ルールの追加で情報量は増えていますが、できるだけ「いま何を選べるか」が崩れないようにまとめています。</p>
+<h2 id="どんなゲーム">どんなゲーム？<a hidden class="anchor" aria-hidden="true" href="#どんなゲーム">#</a></h2>
+<p><code>Black Path Game</code> は、<strong>AI補助で開発した、ブラウザで遊べる 2 人対戦のパス構築ゲーム</strong>です。<br>
+大元の発想は Black 系のルールに近いのですが、そのまま再現するのではなく、<strong>欠損マス・罠・制限時間</strong> を加えることで、読み合いの性質がかなり変わるようにしています。</p>
+<p>自分の中では、単なる再現よりも</p>
+<ul>
+<li>ルールが分かりやすいこと</li>
+<li>対戦ゲームとして読み合いが生まれること</li>
+<li>AI 相手でも人相手でも成立すること</li>
+</ul>
+<p>を大事にして作っています。</p>
+<h2 id="何をするゲームなのか">何をするゲームなのか<a hidden class="anchor" aria-hidden="true" href="#何をするゲームなのか">#</a></h2>
+<p>盤面上では、道の先端に続くマスへタイルを置いて、パスを伸ばしていきます。<br>
+左上のスタート地点には最初から十字タイルが置かれていて、そこから経路が進んでいきます。</p>
+<p>基本の感覚としては、</p>
+<ul>
+<li>道の先端にタイルを置く</li>
+<li>既にあるタイルには自動追従する</li>
+<li>自分の手で道を危険な場所へ押し出してしまうと負ける</li>
+</ul>
+<p>という流れです。</p>
+<p>ただし、このゲームでは <strong>右下の固定欠損マス</strong> が最初からあり、さらに設定によってランダムな欠損マスを追加できます。<br>
+そのため、盤外だけでなく「どこが穴になっているか」もかなり重要になります。</p>
+<h2 id="このバリアントで大きい-3-つの要素">このバリアントで大きい 3 つの要素<a hidden class="anchor" aria-hidden="true" href="#このバリアントで大きい-3-つの要素">#</a></h2>
+<h3 id="欠損マス">欠損マス<a hidden class="anchor" aria-hidden="true" href="#欠損マス">#</a></h3>
+<p>このゲームでは、右下のマスが常に欠損しています。<br>
+さらに設定で、<strong>指定した数だけランダムな欠損マス</strong> を追加できます。</p>
+<p>つまり、毎回同じ形の盤面で遊ぶだけでなく、</p>
+<ul>
+<li>穴の数を増やして盤面を荒らす</li>
+<li>毎回違う盤面の危険地帯を読む</li>
+<li>終盤の逃げ道を減らす</li>
+</ul>
+<p>といった遊び方ができます。</p>
+<p>単に難しくするというより、<strong>安全そうに見える経路が途中で急に危険になる感覚</strong> を作れるのが面白いところです。</p>
+<h3 id="罠">罠<a hidden class="anchor" aria-hidden="true" href="#罠">#</a></h3>
+<p>このバリアントでいちばん特徴的なのは、やはり <strong>罠</strong> です。</p>
+<p>各プレイヤーは、設定した個数ぶんだけ任意のマスに罠を置けます。<br>
+罠の効果は、「そのマスで選べる 3 種類のタイルのうち 1 つを潰す」ことです。</p>
+<p>つまり、そのマスに到達したときの選択肢が減ります。</p>
+<div class="compare-grid">
+  <section class="compare-card">
+    <div class="compare-card-label">同じマスに罠が重なったとき</div>
+    <div class="compare-card-body">
+      <ul>
+<li>両者が同じマスで同じタイルを潰した</li>
+<li>両者が同じマスで別々のタイルを潰した</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="compare-card">
+    <div class="compare-card-label">その結果どうなるか</div>
+    <div class="compare-card-body">
+      <ul>
+<li>選択肢は 2 つのまま</li>
+<li>選択肢は 1 つまで減る</li>
+</ul>
+
+    </div>
+  </section>
+</div>
+
+<p>この仕様があるので、罠は「ただの禁止マス」ではなく、<strong>将来そのマスに来たときの分岐をどこまで細くするか</strong> という形で効いてきます。</p>
+<p>しかも、自分が置いた罠は見えますが、<strong>相手がどこに置いたかは見えません</strong>。<br>
+そのため、盤面上の経路だけでなく、見えていない情報も含めて読む必要があります。</p>
+<h3 id="制限時間">制限時間<a hidden class="anchor" aria-hidden="true" href="#制限時間">#</a></h3>
+<p>さらに、1 手あたりの持ち時間を設定できます。<br>
+現行版では <code>なし / 3s / 5s / 7s / 9s</code> から選べます。</p>
+<p>時間制限があると、</p>
+<ul>
+<li>罠の位置を読んで悩みすぎると負ける</li>
+<li>終盤の強制手で判断が雑になる</li>
+<li>対人戦でも AI 戦でもテンポが変わる</li>
+</ul>
+<p>ので、盤面パズルというより <strong>対戦ゲームとしての緊張感</strong> がかなり強くなります。</p>
+<h2 id="画面と操作">画面と操作<a hidden class="anchor" aria-hidden="true" href="#画面と操作">#</a></h2>
+<p>現行版の画面は、大きく分けると</p>
+<ul>
+<li>盤面</li>
+<li>上部の HUD</li>
+<li>右側の操作 / ゲーム設定パネル</li>
+</ul>
+<p>で構成しています。</p>
+<p>右側では、</p>
+<ul>
+<li><code>対人戦 / vs AI</code></li>
+<li><code>Easy / Medium / Hard</code></li>
+<li><code>先手 / 後手</code></li>
+<li><code>盤面サイズ</code></li>
+<li><code>欠損マス</code></li>
+<li><code>罠</code></li>
+<li><code>制限時間</code></li>
+</ul>
+<p>を切り替えられるので、1 本のアプリの中で遊び味をかなり変えられます。</p>
+<p>盤面側では、</p>
+<ul>
+<li>合法手のハイライト</li>
+<li>経路の可視化</li>
+<li>直前の流れの追跡</li>
+<li>罠配置フェーズでの自分の罠確認</li>
+</ul>
+<p>ができるようにしていて、ルールが増えても盤面の読みやすさが落ちすぎないようにしています。</p>
+<h2 id="vs-ai-でも遊べる">vs AI でも遊べる<a hidden class="anchor" aria-hidden="true" href="#vs-ai-でも遊べる">#</a></h2>
+<p>このゲームは <code>対人戦</code> だけでなく <code>vs AI</code> にも対応しています。<br>
+難易度は <code>Easy / Medium / Hard</code> の 3 段階です。</p>
+<p>AI 戦があることで、</p>
+<ul>
+<li>ルール確認だけしたいとき</li>
+<li>新しい設定を試したいとき</li>
+<li>罠あり盤面の感覚を練習したいとき</li>
+</ul>
+<p>にも 1 人で触りやすくしています。</p>
+<h2 id="どういう読み合いが生まれるか">どういう読み合いが生まれるか<a hidden class="anchor" aria-hidden="true" href="#どういう読み合いが生まれるか">#</a></h2>
+<p>このゲームが面白いのは、単に「今どこへ伸びるか」だけではなく、</p>
+<ul>
+<li>欠損マスがどこにあるか</li>
+<li>その先で罠に選択肢を削られるか</li>
+<li>時間内にどこまで読めるか</li>
+</ul>
+<p>を一緒に考える必要があるところです。</p>
+<div class="article-steps">
+  <ol>
+<li>まず見えている経路の危険度を読む</li>
+<li>次に、欠損マスで詰まる形を警戒する</li>
+<li>さらに、見えていない相手の罠を想定する</li>
+<li>制限時間があるなら、その読みを短時間で決める</li>
+</ol>
+
+</div>
+
+<p>この多層構造があるので、見た目はシンプルでも、実際の対戦ではかなりいやらしいゲームになります。</p>
+<h2 id="技術的な構成">技術的な構成<a hidden class="anchor" aria-hidden="true" href="#技術的な構成">#</a></h2>
+<p>技術的には React + TypeScript + Vite ベースのブラウザゲームです。</p>
+<div class="compare-grid">
+  <section class="compare-card">
+    <div class="compare-card-label">UI 側</div>
+    <div class="compare-card-body">
+      <ul>
+<li>React</li>
+<li>TypeScript</li>
+<li>Vite</li>
+<li>CSS Modules</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="compare-card">
+    <div class="compare-card-label">ゲームロジック側</div>
+    <div class="compare-card-body">
+      <ul>
+<li>盤面状態</li>
+<li>合法手生成</li>
+<li>ゲーム進行</li>
+<li>罠配置</li>
+<li>AI 思考</li>
+</ul>
+
+    </div>
+  </section>
+</div>
+
+<p>実装としては、UI とルール処理を分けていて、</p>
+<ul>
+<li><code>engine.ts</code></li>
+<li><code>moveGenerator.ts</code></li>
+<li><code>rules.ts</code></li>
+<li><code>ai.ts</code></li>
+</ul>
+<p>あたりに責務を分離しています。<br>
+README が古くなっていても、コード側は「今のルールがどこにあるか」を追いやすい構成にしてあります。</p>
+<h2 id="どういう人に向いているか">どういう人に向いているか<a hidden class="anchor" aria-hidden="true" href="#どういう人に向いているか">#</a></h2>
+<div class="article-steps">
+  <ol>
+<li>シンプルな見た目で読み合いが深いゲームが好き</li>
+<li>隠し情報や罠で分岐が絞られる感覚が好き</li>
+<li>AI 戦と対人戦の両方を 1 本で遊びたい</li>
+<li>オリジナル寄りの Black バリアントを触ってみたい</li>
+</ol>
+
+</div>
+
+<p>逆に、定番ルールをできるだけ忠実に再現したものを探している場合とは少し方向性が違います。<br>
+このゲームは、<strong>Black 系の発想を土台にしつつ、対戦用にかなり味付けした版</strong> と捉えるのが近いです。</p>
+<h2 id="faq">FAQ<a hidden class="anchor" aria-hidden="true" href="#faq">#</a></h2>
+<details class="faq-item" >
+  <summary class="faq-question">元の Black と同じゲーム？</summary>
+  <div class="faq-answer">
+    完全に同じではありません。<br>
+大元の発想は近いですが、欠損マス、罠、制限時間などを入れていて、かなり別の読み合いになっています。
+  </div>
+</details>
+
+<details class="faq-item" >
+  <summary class="faq-question">罠はどう見える？</summary>
+  <div class="faq-answer">
+    自分が置いた罠の場所と内容は確認できますが、相手が置いた罠は見えません。<br>
+そのため、対戦では見えていない情報を含めた読みが必要になります。
+  </div>
+</details>
+
+<details class="faq-item" >
+  <summary class="faq-question">同じマスに両者が罠を置いたら？</summary>
+  <div class="faq-answer">
+    同じタイルを潰していた場合は選択肢は 2 つのまま、別々のタイルを潰していた場合は選択肢が 1 つまで減ります。
+  </div>
+</details>
+
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<section class="article-outro-card">
+  <div class="article-outro-label">このアプリでやりたかったこと</div>
+  <div class="article-outro-body">
+    <ul>
+<li>Black 系の発想をベースにしつつ、別の読み合いを持つゲームにすること</li>
+<li>欠損マス、罠、制限時間で盤面の緊張感を増やすこと</li>
+<li>対人戦でも AI 戦でも遊べる形にすること</li>
+<li>ルール追加後も盤面が分かりやすい UI にすること</li>
+</ul>
+
+  </div>
+</section>
+
+<p><code>Black Path Game</code> は、もとの発想を借りつつ、<strong>自分なりに対戦ゲームとして面白くなる方向へ崩したバリアント</strong> です。<br>
+欠損マス、隠し情報としての罠、短い持ち時間が重なることで、見た目以上に緊張感のあるゲームになっていると思います。</p>
+
+
+      </div><footer class="post-footer article-footer"><section class="article-footer-section article-series-nav-section">
+    <h2 class="article-footer-heading">シリーズ内ナビ</h2>
+    <nav class="series-nav"><a class="series-nav-link series-nav-prev" href="/posts/dodgem-browser-intro/">
+        <span class="series-nav-label">シリーズ前へ</span>
+        <span class="series-nav-title">AI補助で開発したブラウザゲーム「Dodgem Browser」</span>
+      </a><a class="series-nav-center" href="https://ungeho.netlify.app/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E7%B4%B9%E4%BB%8B/">
+        <span class="series-nav-label">Series</span>
+        <span class="series-nav-title">AI補助で開発したアプリの紹介</span>
+      </a><span class="series-nav-placeholder"></span></nav>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Series</h2>
+    <ul class="post-tags">
+      <li><a href="https://ungeho.netlify.app/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E7%B4%B9%E4%BB%8B/">AI補助で開発したアプリの紹介</a></li>
+    </ul>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Tags</h2>
+    <ul class="post-tags">
+      <li><a href="https://ungeho.netlify.app/tags/%E3%82%B2%E3%83%BC%E3%83%A0/">ゲーム</a></li>
+      <li><a href="https://ungeho.netlify.app/tags/%E3%83%96%E3%83%A9%E3%82%A6%E3%82%B6%E3%82%B2%E3%83%BC%E3%83%A0/">ブラウザゲーム</a></li>
+      <li><a href="https://ungeho.netlify.app/tags/react/">React</a></li>
+      <li><a href="https://ungeho.netlify.app/tags/typescript/">TypeScript</a></li>
+      <li><a href="https://ungeho.netlify.app/tags/%E3%83%91%E3%82%BA%E3%83%AB%E3%82%B2%E3%83%BC%E3%83%A0/">パズルゲーム</a></li>
+    </ul>
+  </section>
+<section class="article-footer-section article-related-section">
+  <h2 class="article-footer-heading">Related Posts</h2>
+  <div class="article-related-grid">
+    <a class="article-related-card" href="/posts/dodgem-browser-intro/">
+      <span class="article-related-series">AI補助で開発したアプリの紹介</span>
+      <span class="article-related-title">AI補助で開発したブラウザゲーム「Dodgem Browser」</span>
+      <span class="article-related-meta">ゲーム</span>
+    </a>
+    <a class="article-related-card" href="/posts/lol-cooldown-overlay-intro/">
+      <span class="article-related-series">AI補助で開発したアプリの紹介</span>
+      <span class="article-related-title">AI補助で開発した League of Legends 用スペルクールダウンオーバーレイ「LoL Cooldown Overlay」</span>
+      <span class="article-related-meta">League of Legends</span>
+    </a>
+    <a class="article-related-card" href="/posts/budget-book-intro/">
+      <span class="article-related-series">AI補助で開発したアプリの紹介</span>
+      <span class="article-related-title">AI補助で開発した家計簿アプリ「Budget Book」</span>
+      <span class="article-related-meta">家計簿</span>
+    </a>
+  </div>
+</section>
+
+  <section class="article-footer-section">
+<nav class="paginav">
+  <a class="next" href="https://ungeho.netlify.app/posts/dodgem-browser-intro/">
+    <span class="title">次へ »</span>
+    <br>
+    <span>AI補助で開発したブラウザゲーム「Dodgem Browser」</span>
+  </a>
+</nav>
+
+  </section>
+  <section class="article-footer-section">
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share AI補助で開発したブラウザゲーム「Black Path Game」 on x"
+            href="https://x.com/intent/tweet/?text=AI%e8%a3%9c%e5%8a%a9%e3%81%a7%e9%96%8b%e7%99%ba%e3%81%97%e3%81%9f%e3%83%96%e3%83%a9%e3%82%a6%e3%82%b6%e3%82%b2%e3%83%bc%e3%83%a0%e3%80%8cBlack%20Path%20Game%e3%80%8d&amp;url=https%3a%2f%2fungeho.netlify.app%2fposts%2fblack-path-game-intro%2f&amp;hashtags=%e3%82%b2%e3%83%bc%e3%83%a0%2c%e3%83%96%e3%83%a9%e3%82%a6%e3%82%b6%e3%82%b2%e3%83%bc%e3%83%a0%2cReact%2cTypeScript%2c%e3%83%91%e3%82%ba%e3%83%ab%e3%82%b2%e3%83%bc%e3%83%a0">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+</section>
+</footer>
+
+    </div>
+<aside class="article-sidebar" aria-label="記事ナビゲーション">
+  <div class="article-sidebar-inner">
+    <div class="reading-progress-card">
+      <div class="reading-progress-label">
+        <span>Reading progress</span>
+        <span class="reading-progress-value" data-reading-progress-value>0%</span>
+      </div>
+      <div class="reading-progress-track" aria-hidden="true">
+        <span class="reading-progress-bar" data-reading-progress-bar></span>
+      </div>
+    </div>
+    <div class="article-jump-nav" data-article-jump-nav hidden></div><div class="toc toc-card" data-toc-card>
+    <details open data-toc-details>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目次</span>
+        </summary>
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#ゲーム画面">ゲーム画面</a></li>
+    <li><a href="#どんなゲーム">どんなゲーム？</a></li>
+    <li><a href="#何をするゲームなのか">何をするゲームなのか</a></li>
+    <li><a href="#このバリアントで大きい-3-つの要素">このバリアントで大きい 3 つの要素</a>
+      <ul>
+        <li><a href="#欠損マス">欠損マス</a></li>
+        <li><a href="#罠">罠</a></li>
+        <li><a href="#制限時間">制限時間</a></li>
+      </ul>
+    </li>
+    <li><a href="#画面と操作">画面と操作</a></li>
+    <li><a href="#vs-ai-でも遊べる">vs AI でも遊べる</a></li>
+    <li><a href="#どういう読み合いが生まれるか">どういう読み合いが生まれるか</a></li>
+    <li><a href="#技術的な構成">技術的な構成</a></li>
+    <li><a href="#どういう人に向いているか">どういう人に向いているか</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#まとめ">まとめ</a></li>
+  </ul>
+</nav></div>
+    </details>
+</div>
+
+  </div>
+</aside>
+
+  </div>
+</article>
+    </main>
+    
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span>&copy; 2026 <a href="https://ungeho.netlify.app/">ungehoBlog</a></span>
+        </div>
+        <div class="footer-meta">
+            <span>ネトゲが趣味の人の個人ブログ</span>
+            <span>
+                Powered by
+                <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+                <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+            </span>
+        </div>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><script>
+  window.postEnhancementLabels = {
+    nowReading: "\"NOW READING\"",
+    prev: "\"Prev\"",
+    next: "\"Next\"",
+    showMore: "\"続きを見る\"",
+    showLess: "\"たたむ\"",
+    closeImageViewer: "\"画像ビューアを閉じる\"",
+    close: "\"閉じる\""
+  };
+</script><script defer crossorigin="anonymous" src="/js/post-enhancements.min.4bd7577f5be3fe7bea935a345114fa02a203a3b1f27ebe80b9186dac37ab7222.js" integrity="sha256-S9dXf1vj/nvqk1o0URT6AqIDo7Hyfr6AuRhtrDerciI="></script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

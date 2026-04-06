@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AI補助で開発したアプリ on ungehoBlog</title>
+    <link>http://localhost:1313/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA/</link>
+    <description>Recent content in AI補助で開発したアプリ on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <lastBuildDate>Mon, 06 Apr 2026 00:50:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI補助で開発した League of Legends 用スペルクールダウンオーバーレイ「LoL Cooldown Overlay」</title>
+      <link>http://localhost:1313/posts/lol-cooldown-overlay-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:50:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/lol-cooldown-overlay-intro/</guid>
+      <description>League of Legends 用の敵スキルクールダウン手動管理オーバーレイ「LoL Cooldown Overlay」を、AI補助で開発したアプリとして紹介します。</description>
+    </item>
+    <item>
+      <title>AI補助で開発した家計簿アプリ「Budget Book」</title>
+      <link>http://localhost:1313/posts/budget-book-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:40:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/budget-book-intro/</guid>
+      <description>収支記録、カテゴリ集計、予算管理、サブスク管理までまとめた、AI補助で開発した家計簿アプリ「Budget Book」を紹介します。</description>
+    </item>
+    <item>
+      <title>AI補助で開発した LAN内専用のローカルライブラリ/漫画ビュワー「LAN Library」</title>
+      <link>http://localhost:1313/posts/lan-library-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:30:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/lan-library-intro/</guid>
+      <description>AI補助で開発した LAN 内専用のローカルライブラリ / 漫画ビュワー「LAN Library」を、機能や使いどころとあわせて紹介します。</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LAN on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/tags/lan/</link>
+    <description>Recent content in LAN on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <lastBuildDate>Mon, 06 Apr 2026 00:30:00 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/tags/lan/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI補助で開発した LAN内専用のローカルライブラリ/漫画ビュワー「LAN Library」</title>
+      <link>https://ungeho.netlify.app/posts/lan-library-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 00:30:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/lan-library-intro/</guid>
+      <description>AI補助で開発した LAN 内専用のローカルライブラリ / 漫画ビュワー「LAN Library」を、機能や使いどころとあわせて紹介します。</description>
+    </item>
+  </channel>
+</rss>

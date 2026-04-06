@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>&#34;Black Path Game&#34;: a Browser Game Developed with AI Assistance | ungehoBlog</title>
+<meta name="keywords" content="game, browser game, React, TypeScript, puzzle game">
+<meta name="description" content="An English companion article introducing Black Path Game, a browser-based path-building game with missing cells, traps, and time limits, developed with AI assistance.">
+<meta name="author" content="ungeho">
+<link rel="canonical" href="https://ungeho.netlify.app/en/posts/black-path-game-intro/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.94969b53fcb47eef2dcd85a03ba8411e4aac9d3072a7045a586328284b4754d2.css" integrity="sha256-lJabU/y0fu8tzYWgO6hBHkqsnTBypwRaWGMoKEtHVNI=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://ungeho.netlify.app/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ungeho.netlify.app/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ungeho.netlify.app/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ungeho.netlify.app/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ungeho.netlify.app/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="ja" href="https://ungeho.netlify.app/posts/black-path-game-intro/">
+<link rel="alternate" hreflang="en" href="https://ungeho.netlify.app/en/posts/black-path-game-intro/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mathRoot = document.querySelector(".post-content") || document.body;
+        renderMathInElement(mathRoot, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ],
+            throwOnError: false,
+            strict: "ignore"
+        });
+    });
+</script>
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.mermaid) {
+            const isDark = document.body.classList.contains("dark");
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: isDark ? "dark" : "base",
+            });
+        }
+    });
+</script>
+
+<meta property="og:title" content="&#34;Black Path Game&#34;: a Browser Game Developed with AI Assistance | ungehoBlog">
+<meta property="og:description" content="An English companion article introducing Black Path Game, a browser-based path-building game with missing cells, traps, and time limits, developed with AI assistance.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ungeho.netlify.app/en/posts/black-path-game-intro/">
+<meta property="og:site_name" content="ungehoBlog">
+<meta property="og:image" content="https://ungeho.netlify.app/assets/generated/og-70c4a2e1d2badf047cc4217301821cad.svg">
+<meta property="article:published_time" content="2026-04-06T01:05:00&#43;09:00"><meta property="article:modified_time" content="2026-04-06T01:05:00&#43;09:00"><meta property="article:tag" content="game"><meta property="article:tag" content="browser game"><meta property="article:tag" content="React"><meta property="article:tag" content="TypeScript"><meta property="article:tag" content="puzzle game">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="&#34;Black Path Game&#34;: a Browser Game Developed with AI Assistance | ungehoBlog">
+<meta name="twitter:description" content="An English companion article introducing Black Path Game, a browser-based path-building game with missing cells, traps, and time limits, developed with AI assistance."><meta name="twitter:image" content="https://ungeho.netlify.app/assets/generated/og-70c4a2e1d2badf047cc4217301821cad.svg">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://ungeho.netlify.app/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "\"Black Path Game\": a Browser Game Developed with AI Assistance",
+      "item": "https://ungeho.netlify.app/en/posts/black-path-game-intro/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "\"Black Path Game\": a Browser Game Developed with AI Assistance",
+  "name": "\u0022Black Path Game\u0022: a Browser Game Developed with AI Assistance",
+  "description": "An English companion article introducing Black Path Game, a browser-based path-building game with missing cells, traps, and time limits, developed with AI assistance.",
+  "keywords": [
+    "game", "browser game", "React", "TypeScript", "puzzle game"
+  ],
+  "articleBody": " AI-assisted English companion This English page presents a project I developed with AI assistance, with AI also used to help draft and translate the article.\nIt is written as a creator-side introduction, not as an outside review.Read the original Japanese post\nQuick Summary Black Path Game is a browser-based two-player path-building game It is inspired by Black, but the current version plays quite differently Missing cells, traps, and per-turn time limits are the core ideas that define this variant Repository GitHub: ungeho/black-path-variantA browser-based Black-inspired game variant that I developed with AI assistance.→ Screenshot The current screen layout is built around the board in the center, a HUD at the top, and a settings panel on the right.\nEven after adding more rule layers, I wanted the interface to stay readable enough that players can still understand what their options are at a glance.\nWhat kind of game is this? Black Path Game is a browser-based two-player path-building game that I developed with AI assistance.\nIt is loosely rooted in the idea behind Black, but I did not want to make a strict recreation. Instead, I wanted to push it toward a different style of head-to-head reading game through missing cells, traps, and time limits.\nThe main goals were:\nkeep the rules readable create stronger mind games for competitive play make the game work both against another person and against AI What do you do in the game? You place tiles on the next available cell at the tip of the path and keep extending it forward.\nThe starting cross tile is already placed in the top-left corner, and the route grows from there.\nAt a basic level, the flow is:\nplace a tile at the current path frontier let the path auto-follow through existing tiles lose if your move pushes the route into danger But this version adds more pressure than that.\nThe bottom-right corner is always a missing cell, and the game can also add extra random missing cells based on the selected setting.\nThe three biggest ideas in this variant Missing cells The bottom-right cell is always missing.\nOn top of that, you can add a chosen number of random missing cells to the board.\nThat means you are not only trying to avoid the edge of the board.\nYou are also constantly evaluating where the holes are and how they distort safe-looking routes.\nI like this because it changes the board without making the interface more complicated.\nTraps The trap system is the most distinctive part of this variant.\nEach player can place a configured number of traps on chosen cells before the main game begins.\nA trap does not block the cell entirely. Instead, it disables one of the three tile choices that would normally be available there.\nSo when the path reaches that cell later, the number of options is reduced.\nWhen traps overlap on the same cell both players block the same tile type both players block different tile types What happens to the choices the cell still has 2 choices the cell is reduced to just 1 choice That makes traps more interesting than simple forbidden cells.\nThey reshape future branching.\nAnother important point is visibility:\nyou can see the traps that you placed, but you cannot see the traps placed by the opponent.\nSo the game includes hidden information and reading the other player’s intentions.\nTime limits The current version also supports per-turn time limits: none / 3s / 5s / 7s / 9s.\nThat changes the feel of the game a lot:\nyou cannot spend forever trying to infer trap positions endgames become sharper and more stressful even familiar boards feel different under short thinking time This matters because it pushes the game away from being only a calm puzzle and closer to being a tense competitive duel.\nScreen structure and controls The current layout is split into:\nthe board a top HUD a right-side panel for actions and game settings The right panel lets you change:\nPvP / vs AI Easy / Medium / Hard first / second board size missing cell count trap count time limit So the app is not locked into one static ruleset.\nYou can tune the shape of the match quite a lot from the same screen.\nOn the board side, I tried to keep the state readable through:\nlegal-move highlighting visible route flow readable recent progression trap placement visibility for the current player during the trap phase It also supports AI matches The game supports both local PvP and vs AI.\nThe AI has three difficulty levels: Easy, Medium, and Hard.\nThat helps when:\nyou just want to learn the rules you want to test a configuration quickly you want to practice the feel of missing cells and traps without another player What kind of mind game does it create? What makes this game interesting is that you are not only reading the visible route.\nYou are also thinking about:\nwhere the missing cells are whether a future cell may have reduced options because of traps how much you can read before the timer runs out read the visible danger in the current route watch for lines that can collapse into missing cells imagine what hidden traps the opponent may have placed make that decision quickly if a time limit is active That layering is what gives this variant its personality.\nTechnical structure Technically, this is a React + TypeScript + Vite browser game.\nUI side React TypeScript Vite CSS Modules Game-logic side board state legal move generation game flow trap placement AI search The implementation separates responsibilities across files like:\nengine.ts moveGenerator.ts rules.ts ai.ts That helps because even if the README is outdated, the current rules are still fairly easy to track from the code.\nWho this is for someone who likes games that look simple but hide deeper reading someone who enjoys hidden information and reduced-option traps someone who wants both local PvP and AI play in one browser game someone curious about a Black-inspired variant rather than a strict recreation If you want a very faithful implementation of the original idea, this is probably aiming somewhere else.\nThis project is better understood as a Black-inspired competitive variant with its own personality.\nFAQ Is this the same as the original Black? Not exactly.\nIt starts from a similar idea, but missing cells, traps, and time limits change the game quite a lot. How do traps work visually? You can inspect the traps that you placed, but you cannot see the opponent’s trap locations.\nSo the game includes hidden information during real play. What if both players trap the same cell? If both players block the same tile type, the cell still has 2 choices.\nIf they block different tile types, the cell is reduced to just 1 remaining choice. Closing thoughts What I wanted this app to do build a Black-inspired game that develops a different kind of mind game increase tension through missing cells, traps, and short time limits make it playable both as PvP and as an AI game keep the UI readable even after adding extra rule layers Black Path Game is my attempt to take a familiar core idea and bend it toward a more competitive, more deceptive variant.\nWith missing cells, hidden-information traps, and short timers working together, it becomes much more tense than the clean board layout first suggests.\n",
+  "wordCount" : "1233",
+  "inLanguage": "en",
+  "datePublished": "2026-04-06T01:05:00+09:00",
+  "dateModified": "2026-04-06T01:05:00+09:00",
+  "author":{
+    "@type": "Person",
+    "name": "ungeho"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ungeho.netlify.app/en/posts/black-path-game-intro/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ungehoBlog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ungeho.netlify.app/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header site-header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://ungeho.netlify.app/en/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li class="lang-switch-separator" aria-hidden="true">|</li><li>
+                        <a href="https://ungeho.netlify.app/" class="" title="Japanese"
+                            aria-label="日本語" >日本語</a>
+                    </li><li>
+                        <a href="https://ungeho.netlify.app/en/" class="is-active" title="English"
+                            aria-label="English" aria-current="true">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://ungeho.netlify.app/en/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/en/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/en/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/en/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/en/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/en/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"><article class="post-single article-single"><header class="post-header article-hero">
+  <div class="breadcrumbs"><a href="https://ungeho.netlify.app/en/">Home</a>&nbsp;»&nbsp;<a href="https://ungeho.netlify.app/en/posts/">Posts</a></div>
+
+  <div class="article-hero-inner">
+    <div class="article-hero-copy">
+      <div class="article-taxonomy-row">
+        <a class="article-chip article-chip-series" href="https://ungeho.netlify.app/en/series/introducing-apps-developed-with-ai-assistance/">Introducing Apps Developed With AI Assistance</a>
+        <span class="article-chip">Programming</span>
+      </div>
+
+      <h1 class="post-title entry-hint-parent">
+        &#34;Black Path Game&#34;: a Browser Game Developed with AI Assistance
+      </h1>
+      <div class="post-description article-lead">
+        An English companion article introducing Black Path Game, a browser-based path-building game with missing cells, traps, and time limits, developed with AI assistance.
+      </div>
+      <div class="post-meta article-meta"><span title='2026-04-06 01:05:00 +0900 JST'>2026/04/06</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;ungeho&nbsp;|&nbsp;Translations:
+<ul class="i18n_list">
+    <li>
+        <a href="https://ungeho.netlify.app/posts/black-path-game-intro/">日本語</a>
+    </li>
+</ul>
+
+</div>
+    </div>
+  </div>
+</header>
+ 
+
+  <div class="article-layout">
+    <div class="article-main">
+      <div class="post-content"><div class="translation-note" role="note" aria-label="AI translation notice">
+  <div class="translation-note__eyebrow">AI-assisted English companion</div>
+  <div class="translation-note__body">This English page presents a project I developed with AI assistance, with AI also used to help draft and translate the article.<br>
+It is written as a creator-side introduction, not as an outside review.<p><a href="/posts/black-path-game-intro/">Read the original Japanese post</a></p></div>
+</div>
+
+<section class="article-summary-card">
+  <div class="article-summary-label">Quick Summary</div>
+  <div class="article-summary-body">
+    <ul>
+<li><code>Black Path Game</code> is a browser-based two-player path-building game</li>
+<li>It is inspired by Black, but the current version plays quite differently</li>
+<li>Missing cells, traps, and per-turn time limits are the core ideas that define this variant</li>
+</ul>
+
+  </div>
+</section>
+
+<a class="link-card" href="https://github.com/ungeho/black-path-variant" target="_blank" rel="noopener noreferrer">
+  <span class="link-card-meta">Repository</span>
+  <span class="link-card-title">GitHub: ungeho/black-path-variant</span><span class="link-card-desc">A browser-based Black-inspired game variant that I developed with AI assistance.</span><span class="link-card-arrow" aria-hidden="true">→</span>
+</a>
+
+<h2 id="screenshot">Screenshot<a hidden class="anchor" aria-hidden="true" href="#screenshot">#</a></h2>
+<p><figure class="article-media">
+  <a class="article-media-link" href="/images/posts/black-path-game/gameplay.png" data-lightbox-trigger>
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/images/posts/black-path-game/gameplay.png" alt="Black Path Game gameplay screen" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="691" height="907" />
+  </a>
+</figure>
+</p>
+<p>The current screen layout is built around <strong>the board in the center, a HUD at the top, and a settings panel on the right</strong>.<br>
+Even after adding more rule layers, I wanted the interface to stay readable enough that players can still understand what their options are at a glance.</p>
+<h2 id="what-kind-of-game-is-this">What kind of game is this?<a hidden class="anchor" aria-hidden="true" href="#what-kind-of-game-is-this">#</a></h2>
+<p><code>Black Path Game</code> is a <strong>browser-based two-player path-building game that I developed with AI assistance</strong>.<br>
+It is loosely rooted in the idea behind Black, but I did not want to make a strict recreation. Instead, I wanted to push it toward a different style of head-to-head reading game through <strong>missing cells, traps, and time limits</strong>.</p>
+<p>The main goals were:</p>
+<ul>
+<li>keep the rules readable</li>
+<li>create stronger mind games for competitive play</li>
+<li>make the game work both against another person and against AI</li>
+</ul>
+<h2 id="what-do-you-do-in-the-game">What do you do in the game?<a hidden class="anchor" aria-hidden="true" href="#what-do-you-do-in-the-game">#</a></h2>
+<p>You place tiles on the next available cell at the tip of the path and keep extending it forward.<br>
+The starting cross tile is already placed in the top-left corner, and the route grows from there.</p>
+<p>At a basic level, the flow is:</p>
+<ul>
+<li>place a tile at the current path frontier</li>
+<li>let the path auto-follow through existing tiles</li>
+<li>lose if your move pushes the route into danger</li>
+</ul>
+<p>But this version adds more pressure than that.<br>
+The bottom-right corner is always a missing cell, and the game can also add <strong>extra random missing cells</strong> based on the selected setting.</p>
+<h2 id="the-three-biggest-ideas-in-this-variant">The three biggest ideas in this variant<a hidden class="anchor" aria-hidden="true" href="#the-three-biggest-ideas-in-this-variant">#</a></h2>
+<h3 id="missing-cells">Missing cells<a hidden class="anchor" aria-hidden="true" href="#missing-cells">#</a></h3>
+<p>The bottom-right cell is always missing.<br>
+On top of that, you can add a chosen number of <strong>random missing cells</strong> to the board.</p>
+<p>That means you are not only trying to avoid the edge of the board.<br>
+You are also constantly evaluating where the holes are and how they distort safe-looking routes.</p>
+<p>I like this because it changes the board without making the interface more complicated.</p>
+<h3 id="traps">Traps<a hidden class="anchor" aria-hidden="true" href="#traps">#</a></h3>
+<p>The trap system is the most distinctive part of this variant.</p>
+<p>Each player can place a configured number of traps on chosen cells before the main game begins.<br>
+A trap does not block the cell entirely. Instead, it disables <strong>one of the three tile choices</strong> that would normally be available there.</p>
+<p>So when the path reaches that cell later, the number of options is reduced.</p>
+<div class="compare-grid">
+  <section class="compare-card">
+    <div class="compare-card-label">When traps overlap on the same cell</div>
+    <div class="compare-card-body">
+      <ul>
+<li>both players block the same tile type</li>
+<li>both players block different tile types</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="compare-card">
+    <div class="compare-card-label">What happens to the choices</div>
+    <div class="compare-card-body">
+      <ul>
+<li>the cell still has 2 choices</li>
+<li>the cell is reduced to just 1 choice</li>
+</ul>
+
+    </div>
+  </section>
+</div>
+
+<p>That makes traps more interesting than simple forbidden cells.<br>
+They reshape future branching.</p>
+<p>Another important point is visibility:<br>
+you can see the traps that <strong>you</strong> placed, but you cannot see the traps placed by the opponent.<br>
+So the game includes hidden information and reading the other player&rsquo;s intentions.</p>
+<h3 id="time-limits">Time limits<a hidden class="anchor" aria-hidden="true" href="#time-limits">#</a></h3>
+<p>The current version also supports per-turn time limits: <code>none / 3s / 5s / 7s / 9s</code>.</p>
+<p>That changes the feel of the game a lot:</p>
+<ul>
+<li>you cannot spend forever trying to infer trap positions</li>
+<li>endgames become sharper and more stressful</li>
+<li>even familiar boards feel different under short thinking time</li>
+</ul>
+<p>This matters because it pushes the game away from being only a calm puzzle and closer to being a tense competitive duel.</p>
+<h2 id="screen-structure-and-controls">Screen structure and controls<a hidden class="anchor" aria-hidden="true" href="#screen-structure-and-controls">#</a></h2>
+<p>The current layout is split into:</p>
+<ul>
+<li>the board</li>
+<li>a top HUD</li>
+<li>a right-side panel for actions and game settings</li>
+</ul>
+<p>The right panel lets you change:</p>
+<ul>
+<li><code>PvP / vs AI</code></li>
+<li><code>Easy / Medium / Hard</code></li>
+<li><code>first / second</code></li>
+<li>board size</li>
+<li>missing cell count</li>
+<li>trap count</li>
+<li>time limit</li>
+</ul>
+<p>So the app is not locked into one static ruleset.<br>
+You can tune the shape of the match quite a lot from the same screen.</p>
+<p>On the board side, I tried to keep the state readable through:</p>
+<ul>
+<li>legal-move highlighting</li>
+<li>visible route flow</li>
+<li>readable recent progression</li>
+<li>trap placement visibility for the current player during the trap phase</li>
+</ul>
+<h2 id="it-also-supports-ai-matches">It also supports AI matches<a hidden class="anchor" aria-hidden="true" href="#it-also-supports-ai-matches">#</a></h2>
+<p>The game supports both local PvP and <code>vs AI</code>.<br>
+The AI has three difficulty levels: <code>Easy</code>, <code>Medium</code>, and <code>Hard</code>.</p>
+<p>That helps when:</p>
+<ul>
+<li>you just want to learn the rules</li>
+<li>you want to test a configuration quickly</li>
+<li>you want to practice the feel of missing cells and traps without another player</li>
+</ul>
+<h2 id="what-kind-of-mind-game-does-it-create">What kind of mind game does it create?<a hidden class="anchor" aria-hidden="true" href="#what-kind-of-mind-game-does-it-create">#</a></h2>
+<p>What makes this game interesting is that you are not only reading the visible route.</p>
+<p>You are also thinking about:</p>
+<ul>
+<li>where the missing cells are</li>
+<li>whether a future cell may have reduced options because of traps</li>
+<li>how much you can read before the timer runs out</li>
+</ul>
+<div class="article-steps">
+  <ol>
+<li>read the visible danger in the current route</li>
+<li>watch for lines that can collapse into missing cells</li>
+<li>imagine what hidden traps the opponent may have placed</li>
+<li>make that decision quickly if a time limit is active</li>
+</ol>
+
+</div>
+
+<p>That layering is what gives this variant its personality.</p>
+<h2 id="technical-structure">Technical structure<a hidden class="anchor" aria-hidden="true" href="#technical-structure">#</a></h2>
+<p>Technically, this is a React + TypeScript + Vite browser game.</p>
+<div class="compare-grid">
+  <section class="compare-card">
+    <div class="compare-card-label">UI side</div>
+    <div class="compare-card-body">
+      <ul>
+<li>React</li>
+<li>TypeScript</li>
+<li>Vite</li>
+<li>CSS Modules</li>
+</ul>
+
+    </div>
+  </section>
+  <section class="compare-card">
+    <div class="compare-card-label">Game-logic side</div>
+    <div class="compare-card-body">
+      <ul>
+<li>board state</li>
+<li>legal move generation</li>
+<li>game flow</li>
+<li>trap placement</li>
+<li>AI search</li>
+</ul>
+
+    </div>
+  </section>
+</div>
+
+<p>The implementation separates responsibilities across files like:</p>
+<ul>
+<li><code>engine.ts</code></li>
+<li><code>moveGenerator.ts</code></li>
+<li><code>rules.ts</code></li>
+<li><code>ai.ts</code></li>
+</ul>
+<p>That helps because even if the README is outdated, the current rules are still fairly easy to track from the code.</p>
+<h2 id="who-this-is-for">Who this is for<a hidden class="anchor" aria-hidden="true" href="#who-this-is-for">#</a></h2>
+<div class="article-steps">
+  <ol>
+<li>someone who likes games that look simple but hide deeper reading</li>
+<li>someone who enjoys hidden information and reduced-option traps</li>
+<li>someone who wants both local PvP and AI play in one browser game</li>
+<li>someone curious about a Black-inspired variant rather than a strict recreation</li>
+</ol>
+
+</div>
+
+<p>If you want a very faithful implementation of the original idea, this is probably aiming somewhere else.<br>
+This project is better understood as a Black-inspired competitive variant with its own personality.</p>
+<h2 id="faq">FAQ<a hidden class="anchor" aria-hidden="true" href="#faq">#</a></h2>
+<details class="faq-item" >
+  <summary class="faq-question">Is this the same as the original Black?</summary>
+  <div class="faq-answer">
+    Not exactly.<br>
+It starts from a similar idea, but missing cells, traps, and time limits change the game quite a lot.
+  </div>
+</details>
+
+<details class="faq-item" >
+  <summary class="faq-question">How do traps work visually?</summary>
+  <div class="faq-answer">
+    You can inspect the traps that you placed, but you cannot see the opponent&rsquo;s trap locations.<br>
+So the game includes hidden information during real play.
+  </div>
+</details>
+
+<details class="faq-item" >
+  <summary class="faq-question">What if both players trap the same cell?</summary>
+  <div class="faq-answer">
+    If both players block the same tile type, the cell still has 2 choices.<br>
+If they block different tile types, the cell is reduced to just 1 remaining choice.
+  </div>
+</details>
+
+<h2 id="closing-thoughts">Closing thoughts<a hidden class="anchor" aria-hidden="true" href="#closing-thoughts">#</a></h2>
+<section class="article-outro-card">
+  <div class="article-outro-label">What I wanted this app to do</div>
+  <div class="article-outro-body">
+    <ul>
+<li>build a Black-inspired game that develops a different kind of mind game</li>
+<li>increase tension through missing cells, traps, and short time limits</li>
+<li>make it playable both as PvP and as an AI game</li>
+<li>keep the UI readable even after adding extra rule layers</li>
+</ul>
+
+  </div>
+</section>
+
+<p><code>Black Path Game</code> is my attempt to take a familiar core idea and bend it toward a more competitive, more deceptive variant.<br>
+With missing cells, hidden-information traps, and short timers working together, it becomes much more tense than the clean board layout first suggests.</p>
+
+
+      </div><footer class="post-footer article-footer"><section class="article-footer-section article-series-nav-section">
+    <h2 class="article-footer-heading">Series Navigation</h2>
+    <nav class="series-nav"><a class="series-nav-link series-nav-prev" href="/en/posts/dodgem-browser-intro/">
+        <span class="series-nav-label">Prev in Series</span>
+        <span class="series-nav-title">&#34;Dodgem Browser&#34;: a Browser Game Developed with AI Assistance</span>
+      </a><a class="series-nav-center" href="https://ungeho.netlify.app/en/series/introducing-apps-developed-with-ai-assistance/">
+        <span class="series-nav-label">Series</span>
+        <span class="series-nav-title">Introducing Apps Developed With AI Assistance</span>
+      </a><span class="series-nav-placeholder"></span></nav>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Series</h2>
+    <ul class="post-tags">
+      <li><a href="https://ungeho.netlify.app/en/series/introducing-apps-developed-with-ai-assistance/">Introducing Apps Developed With AI Assistance</a></li>
+    </ul>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Tags</h2>
+    <ul class="post-tags">
+      <li><a href="https://ungeho.netlify.app/en/tags/game/">Game</a></li>
+      <li><a href="https://ungeho.netlify.app/en/tags/browser-game/">Browser Game</a></li>
+      <li><a href="https://ungeho.netlify.app/en/tags/react/">React</a></li>
+      <li><a href="https://ungeho.netlify.app/en/tags/typescript/">TypeScript</a></li>
+      <li><a href="https://ungeho.netlify.app/en/tags/puzzle-game/">Puzzle Game</a></li>
+    </ul>
+  </section>
+<section class="article-footer-section article-related-section">
+  <h2 class="article-footer-heading">Related Posts</h2>
+  <div class="article-related-grid">
+    <a class="article-related-card" href="/en/posts/dodgem-browser-intro/">
+      <span class="article-related-series">Introducing Apps Developed with AI Assistance</span>
+      <span class="article-related-title">&#34;Dodgem Browser&#34;: a Browser Game Developed with AI Assistance</span>
+      <span class="article-related-meta">game</span>
+    </a>
+    <a class="article-related-card" href="/en/posts/lol-cooldown-overlay-intro/">
+      <span class="article-related-series">Introducing Apps Developed with AI Assistance</span>
+      <span class="article-related-title">&#34;LoL Cooldown Overlay&#34;: a League of Legends Spell Cooldown Overlay Developed with AI Assistance</span>
+      <span class="article-related-meta">League of Legends</span>
+    </a>
+    <a class="article-related-card" href="/en/posts/budget-book-intro/">
+      <span class="article-related-series">Introducing Apps Developed with AI Assistance</span>
+      <span class="article-related-title">&#34;Budget Book&#34;: a Household Budget App Developed with AI Assistance</span>
+      <span class="article-related-meta">budget app</span>
+    </a>
+  </div>
+</section>
+
+  <section class="article-footer-section">
+<nav class="paginav">
+  <a class="next" href="https://ungeho.netlify.app/en/posts/dodgem-browser-intro/">
+    <span class="title">Next »</span>
+    <br>
+    <span>&#34;Dodgem Browser&#34;: a Browser Game Developed with AI Assistance</span>
+  </a>
+</nav>
+
+  </section>
+  <section class="article-footer-section">
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share &#34;Black Path Game&#34;: a Browser Game Developed with AI Assistance on x"
+            href="https://x.com/intent/tweet/?text=%22Black%20Path%20Game%22%3a%20a%20Browser%20Game%20Developed%20with%20AI%20Assistance&amp;url=https%3a%2f%2fungeho.netlify.app%2fen%2fposts%2fblack-path-game-intro%2f&amp;hashtags=game%2cbrowsergame%2cReact%2cTypeScript%2cpuzzlegame">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+</section>
+</footer>
+
+    </div>
+<aside class="article-sidebar" aria-label="Article navigation">
+  <div class="article-sidebar-inner">
+    <div class="reading-progress-card">
+      <div class="reading-progress-label">
+        <span>Reading progress</span>
+        <span class="reading-progress-value" data-reading-progress-value>0%</span>
+      </div>
+      <div class="reading-progress-track" aria-hidden="true">
+        <span class="reading-progress-bar" data-reading-progress-bar></span>
+      </div>
+    </div>
+    <div class="article-jump-nav" data-article-jump-nav hidden></div><div class="toc toc-card" data-toc-card>
+    <details open data-toc-details>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#screenshot">Screenshot</a></li>
+    <li><a href="#what-kind-of-game-is-this">What kind of game is this?</a></li>
+    <li><a href="#what-do-you-do-in-the-game">What do you do in the game?</a></li>
+    <li><a href="#the-three-biggest-ideas-in-this-variant">The three biggest ideas in this variant</a>
+      <ul>
+        <li><a href="#missing-cells">Missing cells</a></li>
+        <li><a href="#traps">Traps</a></li>
+        <li><a href="#time-limits">Time limits</a></li>
+      </ul>
+    </li>
+    <li><a href="#screen-structure-and-controls">Screen structure and controls</a></li>
+    <li><a href="#it-also-supports-ai-matches">It also supports AI matches</a></li>
+    <li><a href="#what-kind-of-mind-game-does-it-create">What kind of mind game does it create?</a></li>
+    <li><a href="#technical-structure">Technical structure</a></li>
+    <li><a href="#who-this-is-for">Who this is for</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#closing-thoughts">Closing thoughts</a></li>
+  </ul>
+</nav></div>
+    </details>
+</div>
+
+  </div>
+</aside>
+
+  </div>
+</article>
+    </main>
+    
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span>&copy; 2026 <a href="https://ungeho.netlify.app/en/">ungehoBlog</a></span>
+        </div>
+        <div class="footer-meta">
+            <span>A personal blog by someone who loves online games</span>
+            <span>
+                Powered by
+                <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+                <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+            </span>
+        </div>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><script>
+  window.postEnhancementLabels = {
+    nowReading: "\"NOW READING\"",
+    prev: "\"Prev\"",
+    next: "\"Next\"",
+    showMore: "\"Show more\"",
+    showLess: "\"Show less\"",
+    closeImageViewer: "\"Close image viewer\"",
+    close: "\"Close\""
+  };
+</script><script defer crossorigin="anonymous" src="/js/post-enhancements.min.4bd7577f5be3fe7bea935a345114fa02a203a3b1f27ebe80b9186dac37ab7222.js" integrity="sha256-S9dXf1vj/nvqk1o0URT6AqIDo7Hyfr6AuRhtrDerciI="></script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

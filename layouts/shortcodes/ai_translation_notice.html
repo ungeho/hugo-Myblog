@@ -1,0 +1,16 @@
+{{- $source := .Get "source" -}}
+{{- $title := .Get "title" | default "AI-translated English article" -}}
+{{- $body := .Inner | .Page.RenderString -}}
+<div class="translation-note" role="note" aria-label="AI translation notice">
+  <div class="translation-note__eyebrow">{{ $title }}</div>
+  <div class="translation-note__body">
+    {{- if $body -}}
+      {{ $body }}
+    {{- else -}}
+      <p>This page is an AI-translated English edition of the original Japanese article.</p>
+    {{- end -}}
+    {{- if $source -}}
+      <p><a href="{{ $source }}">Read the original Japanese post</a></p>
+    {{- end -}}
+  </div>
+</div>

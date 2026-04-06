@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/en/categories/</link>
+    <description>Recent content in Categories on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 06 Apr 2026 01:05:00 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/en/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Programming</title>
+      <link>https://ungeho.netlify.app/en/categories/programming/</link>
+      <pubDate>Mon, 06 Apr 2026 01:05:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/categories/programming/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>League of Legends</title>
+      <link>https://ungeho.netlify.app/en/categories/league-of-legends/</link>
+      <pubDate>Mon, 06 Apr 2026 00:50:00 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/categories/league-of-legends/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>FFXIV</title>
+      <link>https://ungeho.netlify.app/en/categories/ffxiv/</link>
+      <pubDate>Tue, 10 Mar 2026 00:46:35 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/categories/ffxiv/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Notes</title>
+      <link>https://ungeho.netlify.app/en/categories/notes/</link>
+      <pubDate>Fri, 02 Jan 2026 18:06:28 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/en/categories/notes/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>AI補助で開発したアプリの紹介 | ungehoBlog</title>
+<meta name="keywords" content="">
+<meta name="description" content="ungeho">
+<meta name="author" content="ungeho">
+<link rel="canonical" href="https://ungeho.netlify.app/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E7%B4%B9%E4%BB%8B/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.94969b53fcb47eef2dcd85a03ba8411e4aac9d3072a7045a586328284b4754d2.css" integrity="sha256-lJabU/y0fu8tzYWgO6hBHkqsnTBypwRaWGMoKEtHVNI=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://ungeho.netlify.app/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ungeho.netlify.app/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ungeho.netlify.app/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ungeho.netlify.app/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ungeho.netlify.app/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://ungeho.netlify.app/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E7%B4%B9%E4%BB%8B/index.xml">
+<link rel="alternate" hreflang="ja" href="https://ungeho.netlify.app/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E7%B4%B9%E4%BB%8B/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mathRoot = document.querySelector(".post-content") || document.body;
+        renderMathInElement(mathRoot, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ],
+            throwOnError: false,
+            strict: "ignore"
+        });
+    });
+</script>
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.mermaid) {
+            const isDark = document.body.classList.contains("dark");
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: isDark ? "dark" : "base",
+            });
+        }
+    });
+</script>
+
+<meta property="og:title" content="AI補助で開発したアプリの紹介 | ungehoBlog">
+<meta property="og:description" content="ungeho">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ungeho.netlify.app/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E7%B4%B9%E4%BB%8B/">
+<meta property="og:site_name" content="ungehoBlog">
+<meta property="og:image" content="https://ungeho.netlify.app/assets/generated/og-26aa549f696f3898af3ee3ccc599741d.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI補助で開発したアプリの紹介 | ungehoBlog">
+<meta name="twitter:description" content="ungeho"><meta name="twitter:image" content="https://ungeho.netlify.app/assets/generated/og-26aa549f696f3898af3ee3ccc599741d.svg">
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header site-header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://ungeho.netlify.app/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li class="lang-switch-separator" aria-hidden="true">|</li><li>
+                        <a href="https://ungeho.netlify.app/" class="is-active" title="Japanese"
+                            aria-label="日本語" aria-current="true">日本語</a>
+                    </li><li>
+                        <a href="https://ungeho.netlify.app/en/" class="" title="English"
+                            aria-label="English" >English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://ungeho.netlify.app/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://ungeho.netlify.app/">ホーム</a>&nbsp;»&nbsp;<a href="https://ungeho.netlify.app/series/">Series</a></div>
+  <h1>
+    AI補助で開発したアプリの紹介
+  </h1>
+</header><section class="taxonomy-intro">
+  <span class="taxonomy-intro-label">Series</span>
+  <p class="taxonomy-intro-copy">AI補助で開発したアプリを、作った理由、設計の考え方、使いどころとあわせて紹介していくシリーズです。</p>
+  <div class="taxonomy-stats" aria-label="taxonomy stats">
+    <span class="taxonomy-stat"><strong>5</strong> articles</span>
+    <span class="taxonomy-stat"><strong>Latest</strong> 2026.04.06</span>
+    <span class="taxonomy-stat"><strong>View</strong> reading order</span>
+  </div>
+</section>
+
+<article class="post-entry tag-entry"> 
+  <div class="entry-series">AI補助で開発したアプリの紹介</div>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">AI補助で開発したブラウザゲーム「Black Path Game」
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> AI補助で執筆 この記事は AI補助で開発した Black Path Game を、AI の補助を使って整理・執筆した紹介記事 です。
+内容は現在の実装と画面構成をもとにまとめています。README には古い情報も残っているため、この記事は現行バージョン寄りの紹介になっています。 この記事のポイント Black Path Game は、ブラウザで遊べる 2 人対戦のパス構築ゲーム 大元の Black 系の考え方をベースにしつつ、欠損マス、罠、制限時間でかなり遊び味を変えている 盤面ルールだけでなく、対人戦 / vs AI、先手後手、盤面サイズまで含めて調整できる Repository GitHub: ungeho/black-path-variantAI補助で開発した、Black 系の発想をベースにしたブラウザ対戦ゲームです。→ ゲーム画面 ...</p>
+  </div>
+  <div class="entry-meta-row">
+    <span class="entry-meta-chip">Programming</span>
+    <span class="entry-meta-chip entry-meta-chip-muted">ゲーム</span>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-06 01:05:00 +0900 JST'>2026/04/06</span>&nbsp;·&nbsp;6 分&nbsp;·&nbsp;ungeho</footer>
+  <a class="entry-link" aria-label="post link to AI補助で開発したブラウザゲーム「Black Path Game」" href="https://ungeho.netlify.app/posts/black-path-game-intro/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <div class="entry-series">AI補助で開発したアプリの紹介</div>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">AI補助で開発したブラウザゲーム「Dodgem Browser」
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> AI補助で執筆 この記事は AI補助で開発した Dodgem Browser を、AI の補助を使って整理・執筆した紹介記事 です。
+内容はローカルの実装と README をもとにまとめています。 この記事のポイント Dodgem Browser は、ブラウザ上で遊べるドッジェムゲーム 人対人、CPU対戦、オンライン対戦に対応している ルール、CPU、共有、オンライン層を UI から分離して、あとから育てやすい構成を意識している Repository GitHub: ungeho/dodgem-browserAI補助で開発した、ブラウザ上で遊べる Dodgem ゲームです。→ どんなゲーム？ Dodgem Browser は、AI補助で開発した、ブラウザ上で遊べるドッジェムゲームです。
+昔ながらのルールをベースにしつつ、そのまま再現するだけでなく、遊びやすさと見返しやすさ をかなり大事にして作っています。
+...</p>
+  </div>
+  <div class="entry-meta-row">
+    <span class="entry-meta-chip">Programming</span>
+    <span class="entry-meta-chip entry-meta-chip-muted">ゲーム</span>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-06 00:58:00 +0900 JST'>2026/04/06</span>&nbsp;·&nbsp;5 分&nbsp;·&nbsp;ungeho</footer>
+  <a class="entry-link" aria-label="post link to AI補助で開発したブラウザゲーム「Dodgem Browser」" href="https://ungeho.netlify.app/posts/dodgem-browser-intro/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <div class="entry-series">AI補助で開発したアプリの紹介</div>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">AI補助で開発した League of Legends 用スペルクールダウンオーバーレイ「LoL Cooldown Overlay」
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> AI補助で執筆 この記事は AI補助で開発した LoL Cooldown Overlay を、AI の補助を使って整理・執筆した紹介記事 です。
+内容はローカルの実装と README をもとにまとめています。 この記事のポイント LoL Cooldown Overlay は、League of Legends 用の敵スキルクールダウン手動管理オーバーレイ ゲームメモリ読み取りや自動操作は行わず、完全に手動入力で動く Riot Vanguard や規約リスクを避け、BAN を気にせず使える方向を重視している Repository GitHub: ungeho/lol-cooldown-overlayAI補助で開発した League of Legends 用のスペルクールダウン手動管理オーバーレイです。→ どんなアプリ？ LoL Cooldown Overlay は、League of Legends 用の敵スキルクールダウン手動管理オーバーレイです。
+いちばん大きな前提は、README にも書いてある通り、ゲームメモリ読み取りや自動操作を一切しないことです。
+...</p>
+  </div>
+  <div class="entry-meta-row">
+    <span class="entry-meta-chip">League of Legends</span>
+    <span class="entry-meta-chip entry-meta-chip-muted">League of Legends</span>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-06 00:50:00 +0900 JST'>2026/04/06</span>&nbsp;·&nbsp;6 分&nbsp;·&nbsp;ungeho</footer>
+  <a class="entry-link" aria-label="post link to AI補助で開発した League of Legends 用スペルクールダウンオーバーレイ「LoL Cooldown Overlay」" href="https://ungeho.netlify.app/posts/lol-cooldown-overlay-intro/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <div class="entry-series">AI補助で開発したアプリの紹介</div>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">AI補助で開発した家計簿アプリ「Budget Book」
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> AI補助で執筆 この記事は AI補助で開発した Budget Book を、AI の補助を使って整理・執筆した紹介記事 です。
+内容はローカルの実装と README をもとにまとめています。 この記事のポイント Budget Book は、AI補助で開発したシンプル寄りの家計簿 Web アプリ 収支記録だけでなく、カテゴリ別内訳、月間予算、サブスク管理、CSV 入出力まで入れている PC とスマホの両方で使いやすいように、表示構成も切り替わるようにしている Repository GitHub: ungeho/budget-bookAI補助で開発した家計簿 Web アプリです。React &#43; TypeScript &#43; Express &#43; SQLite で構成しています。→ どんなアプリ？ Budget Book は、できるだけ素直に使えることを意識して作った家計簿 Web アプリです。
+日々の収支を記録するだけでなく、あとから見返したときに「何に使っているのか」「予算をどれくらい使っているのか」「固定費がどれくらいあるのか」が分かるところまでまとめています。
+...</p>
+  </div>
+  <div class="entry-meta-row">
+    <span class="entry-meta-chip">Programming</span>
+    <span class="entry-meta-chip entry-meta-chip-muted">家計簿</span>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-06 00:40:00 +0900 JST'>2026/04/06</span>&nbsp;·&nbsp;5 分&nbsp;·&nbsp;ungeho</footer>
+  <a class="entry-link" aria-label="post link to AI補助で開発した家計簿アプリ「Budget Book」" href="https://ungeho.netlify.app/posts/budget-book-intro/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <div class="entry-series">AI補助で開発したアプリの紹介</div>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">AI補助で開発した LAN内専用のローカルライブラリ/漫画ビュワー「LAN Library」
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> AI補助で執筆 この記事は AI補助で開発した LAN Library を、AI の補助を使って整理・執筆した紹介記事 です。
+内容はローカルの実装と README をもとにまとめています。 この記事のポイント LAN Library は、AI補助で開発した LAN 内専用のローカルライブラリ / 漫画ビュワー フォルダと ZIP の両方を扱え、ドラッグ&amp;ドロップ追加や読了率管理にも対応 本棚、詳細、リーダーの流れを分けて、家の中の複数端末から使いやすい形を目指した Repository GitHub: ungeho/lan-libraryAI補助で開発した LAN 内専用のローカルライブラリ / 漫画ビュワーです。→ どんなアプリ？ LAN Library は、AI補助で開発した、LAN 内だけで使うことを前提にしたローカルライブラリ / 漫画ビュワーです。
+外部サービスに預けるのではなく、自分の PC や NAS に置いたライブラリを家の中の端末から読む、という使い方に素直に寄せています。
+...</p>
+  </div>
+  <div class="entry-meta-row">
+    <span class="entry-meta-chip">Programming</span>
+    <span class="entry-meta-chip entry-meta-chip-muted">LAN</span>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-06 00:30:00 +0900 JST'>2026/04/06</span>&nbsp;·&nbsp;6 分&nbsp;·&nbsp;ungeho</footer>
+  <a class="entry-link" aria-label="post link to AI補助で開発した LAN内専用のローカルライブラリ/漫画ビュワー「LAN Library」" href="https://ungeho.netlify.app/posts/lan-library-intro/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span>&copy; 2026 <a href="https://ungeho.netlify.app/">ungehoBlog</a></span>
+        </div>
+        <div class="footer-meta">
+            <span>ネトゲが趣味の人の個人ブログ</span>
+            <span>
+                Powered by
+                <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+                <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+            </span>
+        </div>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
