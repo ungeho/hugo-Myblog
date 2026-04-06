@@ -18,7 +18,7 @@ It is written as a creator-side introduction, not as an outside review.
 
 {{< summary title="Quick Summary" >}}
 - `Black Path Game` is a browser-based two-player path-building game
-- It is inspired by Black, but the current version plays quite differently
+- It is based on the core idea of the original Black Path Game, but the current version plays quite differently
 - Missing cells, traps, and per-turn time limits are the core ideas that define this variant
 {{< /summary >}}
 
