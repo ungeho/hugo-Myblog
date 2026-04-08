@@ -2366,6 +2366,10 @@ img.in-text {
 }
 
 @media screen and (max-width: 768px) {
+    .article-sidebar {
+        display: none;
+    }
+
     .article-hero-inner {
         padding: 22px 18px;
     }
