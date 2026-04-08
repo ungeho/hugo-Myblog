@@ -181,16 +181,18 @@
 
 .dark .profile .profile_inner {
     background:
-        radial-gradient(circle at top right, rgba(211, 154, 141, 0.12), transparent 32%),
-        radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.03), transparent 18%),
-        linear-gradient(180deg, rgba(35, 37, 43, 0.98), rgba(21, 23, 28, 0.99)),
+        linear-gradient(180deg, rgba(42, 44, 50, 0.98), rgba(28, 30, 35, 0.99)),
         var(--surface-strong);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 20px 42px rgba(0, 0, 0, 0.24);
 }
 
 .dark .profile .profile_inner::before {
     background:
-        radial-gradient(circle at 84% 16%, rgba(211, 154, 141, 0.1), transparent 14%),
-        radial-gradient(circle at 12% 76%, rgba(255, 255, 255, 0.03), transparent 18%);
+        radial-gradient(circle at 84% 16%, rgba(255, 255, 255, 0.025), transparent 14%),
+        radial-gradient(circle at 12% 76%, rgba(255, 255, 255, 0.02), transparent 18%);
 }
 
 .dark .profile img {
@@ -199,9 +201,9 @@
 }
 
 .dark .profile_eyebrow {
-    color: #f1ddd8;
-    background: rgba(86, 60, 56, 0.84);
-    border-color: rgba(211, 154, 141, 0.16);
+    color: #e8ebee;
+    background: rgba(92, 97, 106, 0.9);
+    border-color: rgba(255, 255, 255, 0.12);
 }
 
 .dark .profile_lead {

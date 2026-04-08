@@ -59,10 +59,12 @@
 
 .dark .article-hero-inner {
     background:
-        radial-gradient(circle at top right, rgba(211, 154, 141, 0.14), transparent 32%),
-        radial-gradient(circle at 15% 16%, rgba(255, 255, 255, 0.03), transparent 16%),
-        linear-gradient(135deg, rgba(35, 37, 43, 0.98), rgba(21, 23, 28, 0.99)),
+        linear-gradient(135deg, rgba(42, 44, 50, 0.98), rgba(28, 30, 35, 0.99)),
         var(--surface-strong);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 18px 38px rgba(0, 0, 0, 0.22);
 }
 
 .article-hero-copy {
