@@ -64,9 +64,9 @@ buildExpired = false
     #     name = "Github"
     #     url = "https://github.com/ungeho"
 
-    [[params.socialIcons]]
-        name = "x"
-        url = "https://x.com/"
+    # [[params.socialIcons]]
+    #     name = "x"
+    #     url = "https://x.com/"
 
     [[params.socialIcons]]
         name = "github"
@@ -118,6 +118,11 @@ home = ["HTML", "RSS", "JSON"]
       url = "/categories/"
       weight = 25
     [[languages.ja.menu.main]]
+      identifier = "series"
+      name = "Series"
+      url = "/series/"
+      weight = 27
+    [[languages.ja.menu.main]]
       identifier = "tags"
       name = "Tags"
       url = "/tags/"
@@ -160,6 +165,11 @@ home = ["HTML", "RSS", "JSON"]
       name = "Categories"
       url = "/categories/"
       weight = 25
+    [[languages.en.menu.main]]
+      identifier = "series"
+      name = "Series"
+      url = "/series/"
+      weight = 27
     [[languages.en.menu.main]]
       identifier = "tags"
       name = "Tags"
