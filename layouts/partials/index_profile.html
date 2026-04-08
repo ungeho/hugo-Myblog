@@ -57,9 +57,11 @@
         {{- $postCount := len (where site.RegularPages "Section" "posts") -}}
         {{- $tagCount := len site.Taxonomies.tags -}}
         {{- $categoryCount := len site.Taxonomies.categories -}}
+        {{- $seriesCount := len site.Taxonomies.series -}}
         <div class="profile_stats" aria-label="{{ i18n "site_stats_label" | default "Site stats" }}">
             <span class="profile_stat"><span class="profile_stat_value">{{ $postCount }}</span><span class="profile_stat_label">{{ i18n "posts_label" | default "Posts" }}</span></span>
             <span class="profile_stat"><span class="profile_stat_value">{{ $categoryCount }}</span><span class="profile_stat_label">{{ i18n "categories_label" | default "Categories" }}</span></span>
+            <span class="profile_stat"><span class="profile_stat_value">{{ $seriesCount }}</span><span class="profile_stat_label">{{ i18n "series_label" | default "Series" }}</span></span>
             <span class="profile_stat"><span class="profile_stat_value">{{ $tagCount }}</span><span class="profile_stat_label">{{ i18n "tags_label" | default "Tags" }}</span></span>
         </div>
     </div>
