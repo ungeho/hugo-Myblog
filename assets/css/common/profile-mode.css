@@ -181,16 +181,16 @@
 
 .dark .profile .profile_inner {
     background:
-        radial-gradient(circle at top right, rgba(255, 156, 122, 0.12), transparent 32%),
-        radial-gradient(circle at 12% 18%, rgba(88, 134, 216, 0.12), transparent 18%),
-        linear-gradient(180deg, rgba(19, 26, 37, 0.98), rgba(11, 16, 24, 0.99)),
+        radial-gradient(circle at top right, rgba(211, 154, 141, 0.12), transparent 32%),
+        radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.03), transparent 18%),
+        linear-gradient(180deg, rgba(35, 37, 43, 0.98), rgba(21, 23, 28, 0.99)),
         var(--surface-strong);
 }
 
 .dark .profile .profile_inner::before {
     background:
-        radial-gradient(circle at 84% 16%, rgba(255, 156, 122, 0.12), transparent 14%),
-        radial-gradient(circle at 12% 76%, rgba(88, 134, 216, 0.12), transparent 18%);
+        radial-gradient(circle at 84% 16%, rgba(211, 154, 141, 0.1), transparent 14%),
+        radial-gradient(circle at 12% 76%, rgba(255, 255, 255, 0.03), transparent 18%);
 }
 
 .dark .profile img {
@@ -199,9 +199,9 @@
 }
 
 .dark .profile_eyebrow {
-    color: #ffd8c8;
-    background: rgba(90, 53, 43, 0.86);
-    border-color: rgba(255, 156, 122, 0.16);
+    color: #f1ddd8;
+    background: rgba(86, 60, 56, 0.84);
+    border-color: rgba(211, 154, 141, 0.16);
 }
 
 .dark .profile_lead {
@@ -221,15 +221,15 @@
 }
 
 .dark .profile_stat + .profile_stat::before {
-    background: linear-gradient(180deg, rgba(159, 186, 221, 0.12), rgba(255, 156, 122, 0.3), rgba(159, 186, 221, 0.12));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(211, 154, 141, 0.26), rgba(255, 255, 255, 0.07));
 }
 
 .dark .button {
-    background: linear-gradient(180deg, rgba(33, 42, 56, 0.98), rgba(24, 31, 43, 0.98));
+    background: linear-gradient(180deg, rgba(43, 45, 51, 0.98), rgba(31, 33, 39, 0.98));
 }
 
 .dark .button:hover {
-    background: linear-gradient(180deg, rgba(39, 49, 66, 0.98), rgba(27, 35, 49, 0.98));
+    background: linear-gradient(180deg, rgba(49, 51, 58, 0.98), rgba(35, 37, 43, 0.98));
 }
 
 @media (prefers-reduced-motion: no-preference) {

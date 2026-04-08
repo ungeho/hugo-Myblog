@@ -10,7 +10,7 @@
 <meta name="description" content="区間演算の考え方と、丸め誤差を含んだままでも真値を含む範囲を保つ方法を紹介します。">
 <meta name="author" content="ungeho">
 <link rel="canonical" href="http://localhost:1313/posts/interval/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.94969b53fcb47eef2dcd85a03ba8411e4aac9d3072a7045a586328284b4754d2.css" integrity="sha256-lJabU/y0fu8tzYWgO6hBHkqsnTBypwRaWGMoKEtHVNI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.9f610c37602d9eb52b4ee4d381fac1c98d844d6de780b4c3f3cbead305f8b50b.css" integrity="sha256-n2EMN2AtnrUrTuTTgfrByY2ETW3ngLTD88vq0wX4tQs=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
@@ -405,7 +405,7 @@ $$</p>
 <p><code>showgood</code>関数を使うと、<code>mid</code>のうち<code>radius</code>の影響を受けない<br>
 <strong>「区間の上下端が一致している桁(=good digits,精度保証値)」</strong> だけを表示出来ます。</p>
 <p>Arbの区間表示は</p>
-<pre tabindex="0"><code class="language-in" data-lang="in">[mid +/- rad]</code></pre><p>という形ですが、これは数学的には次の不等式を表しています。</p>
+<div class="highlight highlight-plain"><span class="code-language-badge">IN</span><pre tabindex="0"><code class="language-in" data-lang="in">[mid +/- rad]</code></pre></div><p>という形ですが、これは数学的には次の不等式を表しています。</p>
 <p>$$
 \begin{aligned}
 mid - rad \le x \le mid + rad

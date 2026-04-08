@@ -29,7 +29,8 @@
 
 .dark .footer-inner {
     background:
-        linear-gradient(180deg, rgba(18, 24, 34, 0.96), rgba(13, 18, 27, 0.98)),
+        radial-gradient(circle at top right, rgba(211, 154, 141, 0.06), transparent 44%),
+        linear-gradient(180deg, rgba(34, 36, 42, 0.97), rgba(21, 23, 28, 0.99)),
         var(--surface-muted);
 }
 
@@ -81,7 +82,7 @@
 }
 
 .dark .top-link {
-    background: linear-gradient(180deg, rgba(26, 33, 45, 0.96), rgba(18, 24, 34, 0.98));
+    background: linear-gradient(180deg, rgba(45, 47, 53, 0.96), rgba(28, 30, 35, 0.98));
 }
 
 .top-link,

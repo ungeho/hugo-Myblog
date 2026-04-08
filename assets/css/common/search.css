@@ -165,8 +165,9 @@
 
 .dark #searchResults li {
     background:
-        linear-gradient(180deg, rgba(20, 27, 39, 0.98), rgba(13, 18, 27, 0.98)),
+        linear-gradient(180deg, rgba(27, 34, 46, 0.98), rgba(18, 23, 32, 0.98)),
         var(--surface-strong);
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 .dark .search-hint {
@@ -178,25 +179,31 @@
 }
 
 .dark .search-filter select {
-    background: rgba(20, 27, 39, 0.98);
+    background: rgba(28, 34, 46, 0.98);
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 .dark .search-meta-date {
     color: color-mix(in srgb, var(--secondary) 82%, white);
 }
 
+.dark .search-meta-chip {
+    color: #e7eaee;
+    background: rgba(55, 69, 91, 0.84);
+}
+
 .dark .search-meta-chip-series {
-    color: #ffe2ea;
-    background: rgba(112, 67, 89, 0.88);
+    color: #eef1f4;
+    background: rgba(64, 71, 89, 0.88);
 }
 
 .dark .search-meta-chip-muted {
     color: color-mix(in srgb, var(--secondary) 76%, white);
-    background: rgba(29, 36, 48, 0.96);
+    background: rgba(33, 41, 54, 0.96);
 }
 
 .dark .search-highlight {
-    background: linear-gradient(180deg, rgba(255, 170, 120, 0.16), rgba(255, 132, 92, 0.34));
+    background: linear-gradient(180deg, rgba(220, 223, 228, 0.12), rgba(184, 189, 197, 0.26));
 }
 
 @media screen and (max-width: 768px) {

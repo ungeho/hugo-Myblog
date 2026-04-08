@@ -115,28 +115,27 @@
 
 .dark .terms-tags a {
     background:
-        linear-gradient(180deg, rgba(20, 27, 39, 0.98), rgba(13, 18, 27, 0.98)),
+        linear-gradient(180deg, rgba(27, 34, 46, 0.98), rgba(18, 23, 32, 0.98)),
         var(--surface-strong);
-    border-color: color-mix(in srgb, var(--accent) 10%, var(--border));
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 .dark .taxonomy-intro {
     background:
-        radial-gradient(circle at top right, rgba(255, 156, 122, 0.09), transparent 30%),
-        radial-gradient(circle at 15% 18%, rgba(94, 134, 214, 0.1), transparent 16%),
-        linear-gradient(180deg, rgba(20, 27, 39, 0.98), rgba(13, 18, 27, 0.99)),
+        radial-gradient(circle at top right, rgba(64, 90, 140, 0.08), transparent 30%),
+        linear-gradient(180deg, rgba(27, 34, 46, 0.98), rgba(18, 23, 32, 0.99)),
         var(--surface-strong);
-    border-color: color-mix(in srgb, var(--accent) 10%, var(--border));
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 .dark .taxonomy-intro-label {
-    color: #ffe7ef;
-    background: rgba(122, 74, 95, 0.88);
+    color: #e7eaee;
+    background: rgba(80, 84, 92, 0.88);
 }
 
 .dark .taxonomy-stat {
     color: color-mix(in srgb, var(--secondary) 82%, white);
-    background: rgba(28, 36, 48, 0.96);
+    background: rgba(33, 41, 54, 0.96);
 }
 
 .dark .taxonomy-stat strong {
@@ -144,7 +143,7 @@
 }
 
 .dark .terms-tags a:hover {
-    background: color-mix(in srgb, var(--accent-soft) 22%, rgba(38, 46, 60, 0.98));
+    background: rgba(33, 41, 54, 0.98);
 }
 
 .dark .terms-count {

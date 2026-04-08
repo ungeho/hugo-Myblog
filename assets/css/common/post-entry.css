@@ -70,14 +70,16 @@
 
 .dark .first-entry {
     background:
-        radial-gradient(circle at top right, rgba(255, 156, 122, 0.12), transparent 30%),
-        linear-gradient(135deg, rgba(20, 27, 38, 0.98), rgba(14, 19, 29, 0.96)),
+        radial-gradient(circle at top right, rgba(64, 90, 140, 0.08), transparent 30%),
+        radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.03), transparent 18%),
+        linear-gradient(135deg, rgba(29, 34, 42, 0.98), rgba(18, 22, 29, 0.97)),
         var(--entry);
 }
 
 .dark .post-entry {
     background:
-        linear-gradient(180deg, rgba(19, 26, 37, 0.98), rgba(15, 20, 30, 0.96)),
+        radial-gradient(circle at top right, rgba(58, 86, 138, 0.08), transparent 52%),
+        linear-gradient(180deg, rgba(27, 33, 42, 0.98), rgba(18, 23, 30, 0.97)),
         var(--entry);
 }
 
@@ -206,8 +208,8 @@
 }
 
 .dark .entry-series {
-    color: #ffe3ec;
-    background: rgba(113, 69, 90, 0.86);
+    color: #f6e4df;
+    background: rgba(94, 63, 59, 0.84);
 }
 
 .dark .entry-footer,
@@ -217,7 +219,7 @@
 
 .dark .entry-meta-chip-muted {
     color: color-mix(in srgb, var(--secondary) 76%, white);
-    background: rgba(29, 36, 48, 0.96);
+    background: rgba(42, 44, 50, 0.96);
 }
 
 .entry-link {

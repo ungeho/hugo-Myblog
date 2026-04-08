@@ -6,8 +6,15 @@
     <description>Recent content in Web App on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 06 Apr 2026 00:40:00 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 06 Apr 2026 01:10:00 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/en/tags/web-app/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Image Converter: An Image Conversion App Developed with AI Assistance</title>
+      <link>http://localhost:1313/en/posts/image-converter-intro/</link>
+      <pubDate>Mon, 06 Apr 2026 01:10:00 +0900</pubDate>
+      <guid>http://localhost:1313/en/posts/image-converter-intro/</guid>
+      <description>An introduction to Image Converter, an image conversion app developed with AI assistance that converts PNG, JPEG, and WebP directly in the browser.</description>
+    </item>
     <item>
       <title>&#34;Budget Book&#34;: a Household Budget App Developed with AI Assistance</title>
       <link>http://localhost:1313/en/posts/budget-book-intro/</link>

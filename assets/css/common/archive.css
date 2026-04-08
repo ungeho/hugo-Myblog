@@ -60,12 +60,12 @@
 }
 
 .dark .archive-year h2 {
-    background: rgba(39, 49, 66, 0.96);
+    background: rgba(44, 56, 78, 0.96);
 }
 
 .dark .archive-entry {
     background:
-        linear-gradient(180deg, rgba(20, 27, 39, 0.98), rgba(13, 18, 27, 0.98)),
+        linear-gradient(180deg, rgba(26, 33, 44, 0.98), rgba(17, 22, 31, 0.98)),
         var(--surface-strong);
 }
 
