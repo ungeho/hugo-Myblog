@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Waymark Preset on ungehoBlog</title>
+    <link>https://ungeho.netlify.app/series/waymark-preset/</link>
+    <description>Recent content in Waymark Preset on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <lastBuildDate>Thu, 09 Apr 2026 10:22:19 +0900</lastBuildDate>
+    <atom:link href="https://ungeho.netlify.app/series/waymark-preset/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Test Waymark</title>
+      <link>https://ungeho.netlify.app/posts/test-waymark/</link>
+      <pubDate>Thu, 09 Apr 2026 10:22:19 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/test-waymark/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;FFXIVLauncher&lt;/code&gt;の&lt;code&gt;Waymark Preset Plugin&lt;/code&gt;のプリセット集&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Waymark Preset Plugin&lt;/code&gt;経由で任意のフィールドマーカーを入手&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピー&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;[/posts/example/]%28https://github.com/Infiziert90/WaymarkPresetPlugin%29&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Pluginのリポジトリ&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;details class=&#34;faq-item&#34; &gt;
+  &lt;summary class=&#34;faq-question&#34;&gt;これは初心者でも使えますか？&lt;/summary&gt;
+  &lt;div class=&#34;faq-answer&#34;&gt;
+    使えます。まずは基本形だけ試すのがおすすめです。
+  &lt;/div&gt;
+&lt;/details&gt;
+
+&lt;ol&gt;
+&lt;li&gt;WaymarkPlugin / 利用先を開く&lt;/li&gt;
+&lt;li&gt;下のコードをコピーする&lt;/li&gt;
+&lt;li&gt;読み込んで配置を確認する&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;コンテンツ名-1&#34;&gt;コンテンツ名 1&lt;/h2&gt;
+&lt;p&gt;ここにこのコンテンツでの使い方や意図を書く。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

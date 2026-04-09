@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Waymark Preset on ungehoBlog</title>
+    <link>http://localhost:1313/series/waymark-preset/</link>
+    <description>Recent content in Waymark Preset on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <lastBuildDate>Thu, 09 Apr 2026 10:22:19 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/series/waymark-preset/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Test Waymark</title>
+      <link>http://localhost:1313/posts/test-waymark/</link>
+      <pubDate>Thu, 09 Apr 2026 10:22:19 +0900</pubDate>
+      <guid>http://localhost:1313/posts/test-waymark/</guid>
+      <description>&lt;div class=&#34;update-note update-note-soft&#34;&gt;
+  &lt;div class=&#34;update-note-label&#34;&gt;2026-04-09T10:22:19&amp;#43;09:00&lt;/div&gt;
+  &lt;div class=&#34;update-note-body&#34;&gt;Waymark Preset 記事の初稿。画像、コード、導入文を埋めて整える。&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;この preset が何向けか&lt;/li&gt;
+&lt;li&gt;導入時の注意点&lt;/li&gt;
+&lt;li&gt;各コンテンツの画像とコード&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;h2 id=&#34;この-preset-について&#34;&gt;この preset について&lt;/h2&gt;
+&lt;p&gt;この preset が何向けのものか、どのコンテンツで使うのかを書く。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

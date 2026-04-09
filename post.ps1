@@ -2,16 +2,23 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$name,
 
-    [ValidateSet("default", "tech", "game", "memo")]
-    [string]$type = "default"
+    [ValidateSet("default", "tech", "game", "memo", "waymark")]
+    [string]$type = "default",
+
+    [switch]$bilingual
 )
 
-$target = "posts/$name.md"
 $repoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 Push-Location $repoRoot
 try {
-    hugo new --kind $type $target
+    if ($type -eq "waymark" -and $bilingual) {
+        hugo new --kind waymark "posts/$name.md"
+        hugo new --kind waymark-en "posts/$name.en.md"
+    }
+    else {
+        hugo new --kind $type "posts/$name.md"
+    }
 }
 finally {
     Pop-Location
