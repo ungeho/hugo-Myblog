@@ -1,7 +1,7 @@
 +++
 title = '[Waymark Preset]希望の園エデン零式：再生編'
 date = 2026-04-09T12:53:03+09:00
-draft = true
+draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]

@@ -1,7 +1,7 @@
 +++
 title = '[Waymark Preset] {{ replace .File.ContentBaseName "-" " " | title }}'
 date = {{ .Date }}
-draft = true
+draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]

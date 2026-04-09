@@ -1,7 +1,7 @@
 +++
 title = '[Waymark Preset]AAC Cruiserweight Tier (Savage)'
 date = 2026-04-09T14:05:19+09:00
-draft = true
+draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]

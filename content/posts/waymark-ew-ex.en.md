@@ -1,7 +1,7 @@
 +++
 title = '[Waymark Preset]Endwalker Extremes'
 date = 2026-04-09T11:40:10+09:00
-draft = true
+draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]

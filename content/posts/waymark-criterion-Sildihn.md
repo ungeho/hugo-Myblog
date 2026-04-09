@@ -1,7 +1,7 @@
 +++
 title = '[Waymark Preset]アナザーダンジョン 異聞シラディハ水道'
 date = 2026-04-09T14:31:37+09:00
-draft = true
+draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]

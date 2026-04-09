@@ -1,7 +1,7 @@
 +++
 title = '[Waymark Preset]Shadowbringers Extremes'
 date = 2026-04-09T11:20:05+09:00
-draft = true
+draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]

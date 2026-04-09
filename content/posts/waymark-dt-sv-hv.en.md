@@ -1,7 +1,7 @@
 +++
 title = '[Waymark Preset] Waymark Dt Sv Hv'
 date = 2026-04-09T14:19:09+09:00
-draft = true
+draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]

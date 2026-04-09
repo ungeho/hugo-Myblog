@@ -1,7 +1,7 @@
 +++
 title = '[Waymark Preset]Another Sildihn Subterrane'
 date = 2026-04-09T14:31:38+09:00
-draft = true
+draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]

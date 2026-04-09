@@ -1,7 +1,7 @@
 +++
 title = '[Waymark Preset]Edens Gate (Savage)'
 date = 2026-04-09T12:53:04+09:00
-draft = true
+draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]

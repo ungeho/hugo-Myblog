@@ -1,7 +1,7 @@
 +++
 title = '[Waymark Preset]Anabaseios (Savage)'
 date = 2026-04-09T13:30:15+09:00
-draft = true
+draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]

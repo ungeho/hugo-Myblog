@@ -1,7 +1,7 @@
 +++
 title = '[Waymark Preset]万魔殿パンデモニウム零式：煉獄編'
 date = 2026-04-09T13:21:22+09:00
-draft = true
+draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]
