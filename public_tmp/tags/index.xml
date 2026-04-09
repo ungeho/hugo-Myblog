@@ -6,8 +6,22 @@
     <description>Recent content in Tags on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-JP</language>
-    <lastBuildDate>Mon, 06 Apr 2026 01:10:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 09 Apr 2026 11:40:10 +0900</lastBuildDate>
     <atom:link href="https://ungeho.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FFXIV</title>
+      <link>https://ungeho.netlify.app/tags/ffxiv/</link>
+      <pubDate>Thu, 09 Apr 2026 11:40:10 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/tags/ffxiv/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>WaymarkPlugin</title>
+      <link>https://ungeho.netlify.app/tags/waymarkplugin/</link>
+      <pubDate>Thu, 09 Apr 2026 11:40:10 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/tags/waymarkplugin/</guid>
+      <description></description>
+    </item>
     <item>
       <title>React</title>
       <link>https://ungeho.netlify.app/tags/react/</link>
@@ -177,13 +191,6 @@
       <description></description>
     </item>
     <item>
-      <title>FFXIV</title>
-      <link>https://ungeho.netlify.app/tags/ffxiv/</link>
-      <pubDate>Tue, 10 Mar 2026 00:46:35 +0900</pubDate>
-      <guid>https://ungeho.netlify.app/tags/ffxiv/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Splatoon</title>
       <link>https://ungeho.netlify.app/tags/splatoon/</link>
       <pubDate>Tue, 10 Mar 2026 00:46:35 +0900</pubDate>
@@ -335,13 +342,6 @@
       <link>https://ungeho.netlify.app/tags/yesalready/</link>
       <pubDate>Sun, 28 Jan 2024 18:09:26 +0900</pubDate>
       <guid>https://ungeho.netlify.app/tags/yesalready/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>WaymarkPlugin</title>
-      <link>https://ungeho.netlify.app/tags/waymarkplugin/</link>
-      <pubDate>Sat, 27 Jan 2024 03:15:32 +0900</pubDate>
-      <guid>https://ungeho.netlify.app/tags/waymarkplugin/</guid>
       <description></description>
     </item>
     <item>

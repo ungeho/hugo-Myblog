@@ -30,8 +30,7 @@ This companion article follows the same Waymark Preset template in English.
 
 ## How to Use This Article
 
-This template assumes that `XIVLauncher` and `Waymark Preset Plugin` are already installed.  
-Articles created from this template belong to the `Waymark Preset` series.
+This template assumes that `XIVLauncher` and `Waymark Preset Plugin` are already installed.
 
 ## How to Import
 
@@ -57,9 +56,9 @@ Articles created from this template belong to the `Waymark Preset` series.
 
 ## Content Name 1
 
-Explain how this preset is meant to be used, which phase it targets, and what was adjusted.
-
-![Content Name 1 screenshot](/images/posts/waymark/example-1.png)
+{{< collapse summary="Open image" >}}
+![Hades](/images/posts/waymark/sb-ex-hades.png)
+{{< /collapse >}}
 
 ```json
 {
@@ -70,9 +69,9 @@ Explain how this preset is meant to be used, which phase it targets, and what wa
 
 ## Content Name 2
 
-Explain how this preset is meant to be used, which phase it targets, and what was adjusted.
-
-![Content Name 2 screenshot](/images/posts/waymark/example-2.png)
+{{< collapse summary="Open image" >}}
+![Hades](/images/posts/waymark/sb-ex-hades.png)
+{{< /collapse >}}
 
 ```json
 {
@@ -83,9 +82,9 @@ Explain how this preset is meant to be used, which phase it targets, and what wa
 
 ## Content Name 3
 
-Explain how this preset is meant to be used, which phase it targets, and what was adjusted.
-
-![Content Name 3 screenshot](/images/posts/waymark/example-3.png)
+{{< collapse summary="Open image" >}}
+![Hades](/images/posts/waymark/sb-ex-hades.png)
+{{< /collapse >}}
 
 ```json
 {
@@ -93,7 +92,3 @@ Explain how this preset is meant to be used, which phase it targets, and what wa
   "MapID": 0
 }
 ```
-
-## Notes
-
-Add extra import notes, update notes, or content-specific caveats if needed.

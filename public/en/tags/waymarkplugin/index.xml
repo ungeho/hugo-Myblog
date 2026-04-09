@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>WaymarkPlugin on ungehoBlog</title>
+    <link>http://localhost:1313/en/tags/waymarkplugin/</link>
+    <description>Recent content in WaymarkPlugin on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Thu, 09 Apr 2026 11:40:10 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/en/tags/waymarkplugin/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Waymark Preset]</title>
+      <link>http://localhost:1313/en/posts/waymark-ew-ex/</link>
+      <pubDate>Thu, 09 Apr 2026 11:40:10 +0900</pubDate>
+      <guid>http://localhost:1313/en/posts/waymark-ew-ex/</guid>
+      <description>&lt;div class=&#34;translation-note&#34; role=&#34;note&#34; aria-label=&#34;AI translation notice&#34;&gt;
+  &lt;div class=&#34;translation-note__eyebrow&#34;&gt;AI-translated English article&lt;/div&gt;
+  &lt;div class=&#34;translation-note__body&#34;&gt;This companion article follows the same Waymark Preset template in English.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;What This Article Covers&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;A Waymark Preset article for XIVLauncher users&lt;/li&gt;
+&lt;li&gt;How to copy and import the preset&lt;/li&gt;
+&lt;li&gt;A screenshot and code block for each content section&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;The Waymark Preset Plugin repository. Check this first if you need setup details.&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;how-to-use-this-article&#34;&gt;How to Use This Article&lt;/h2&gt;
+&lt;p&gt;This template assumes that &lt;code&gt;XIVLauncher&lt;/code&gt; and &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; are already installed.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]Shadowbringers Extremes</title>
+      <link>http://localhost:1313/en/posts/waymark-sb-ex/</link>
+      <pubDate>Thu, 09 Apr 2026 11:20:05 +0900</pubDate>
+      <guid>http://localhost:1313/en/posts/waymark-sb-ex/</guid>
+      <description>&lt;div class=&#34;translation-note&#34; role=&#34;note&#34; aria-label=&#34;AI translation notice&#34;&gt;
+  &lt;div class=&#34;translation-note__eyebrow&#34;&gt;AI-translated English article&lt;/div&gt;
+  &lt;div class=&#34;translation-note__body&#34;&gt;This companion article follows the same Waymark Preset template in English.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;What This Article Covers&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;A Waymark Preset article for XIVLauncher users&lt;/li&gt;
+&lt;li&gt;How to copy and import the preset&lt;/li&gt;
+&lt;li&gt;A screenshot and code block for each content section&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;The Waymark Preset Plugin repository. Check this first if you need setup details.&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;how-to-use-this-article&#34;&gt;How to Use This Article&lt;/h2&gt;
+&lt;p&gt;This template assumes that &lt;code&gt;XIVLauncher&lt;/code&gt; and &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; are already installed.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

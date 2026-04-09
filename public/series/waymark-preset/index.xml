@@ -6,32 +6,82 @@
     <description>Recent content in Waymark Preset on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-JP</language>
-    <lastBuildDate>Thu, 09 Apr 2026 10:22:19 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 09 Apr 2026 12:35:39 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/series/waymark-preset/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Test Waymark</title>
-      <link>http://localhost:1313/posts/test-waymark/</link>
-      <pubDate>Thu, 09 Apr 2026 10:22:19 +0900</pubDate>
-      <guid>http://localhost:1313/posts/test-waymark/</guid>
-      <description>&lt;div class=&#34;update-note update-note-soft&#34;&gt;
-  &lt;div class=&#34;update-note-label&#34;&gt;2026-04-09T10:22:19&amp;#43;09:00&lt;/div&gt;
-  &lt;div class=&#34;update-note-body&#34;&gt;Waymark Preset 記事の初稿。画像、コード、導入文を埋めて整える。&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;section class=&#34;article-summary-card&#34;&gt;
+      <title>[Waymark Preset]黄金のレガシー 極討滅戦</title>
+      <link>http://localhost:1313/posts/waymark-dt-ex/</link>
+      <pubDate>Thu, 09 Apr 2026 12:35:39 +0900</pubDate>
+      <guid>http://localhost:1313/posts/waymark-dt-ex/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
   &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
   &lt;div class=&#34;article-summary-body&#34;&gt;
     &lt;ul&gt;
-&lt;li&gt;この preset が何向けか&lt;/li&gt;
-&lt;li&gt;導入時の注意点&lt;/li&gt;
-&lt;li&gt;各コンテンツの画像とコード&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
 &lt;/ul&gt;
 
   &lt;/div&gt;
 &lt;/section&gt;
 
-&lt;h2 id=&#34;この-preset-について&#34;&gt;この preset について&lt;/h2&gt;
-&lt;p&gt;この preset が何向けのものか、どのコンテンツで使うのかを書く。&lt;/p&gt;</description>
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]暁月のフィナーレ 極討滅戦</title>
+      <link>http://localhost:1313/posts/waymark-ew-ex/</link>
+      <pubDate>Thu, 09 Apr 2026 11:40:10 +0900</pubDate>
+      <guid>http://localhost:1313/posts/waymark-ew-ex/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]漆黒のヴィランズ 極討滅戦</title>
+      <link>http://localhost:1313/posts/waymark-sb-ex/</link>
+      <pubDate>Thu, 09 Apr 2026 11:20:04 +0900</pubDate>
+      <guid>http://localhost:1313/posts/waymark-sb-ex/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

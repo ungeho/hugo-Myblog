@@ -6,8 +6,15 @@
     <description>Recent content in Series on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 06 Apr 2026 01:10:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 09 Apr 2026 11:40:10 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/en/series/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Waymark Preset</title>
+      <link>http://localhost:1313/en/series/waymark-preset/</link>
+      <pubDate>Thu, 09 Apr 2026 11:40:10 +0900</pubDate>
+      <guid>http://localhost:1313/en/series/waymark-preset/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Introducing Apps Developed With AI Assistance</title>
       <link>http://localhost:1313/en/series/introducing-apps-developed-with-ai-assistance/</link>

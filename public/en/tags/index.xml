@@ -6,8 +6,22 @@
     <description>Recent content in Tags on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 06 Apr 2026 01:10:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 09 Apr 2026 11:40:10 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/en/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FFXIV</title>
+      <link>http://localhost:1313/en/tags/ffxiv/</link>
+      <pubDate>Thu, 09 Apr 2026 11:40:10 +0900</pubDate>
+      <guid>http://localhost:1313/en/tags/ffxiv/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>WaymarkPlugin</title>
+      <link>http://localhost:1313/en/tags/waymarkplugin/</link>
+      <pubDate>Thu, 09 Apr 2026 11:40:10 +0900</pubDate>
+      <guid>http://localhost:1313/en/tags/waymarkplugin/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Browser Tool</title>
       <link>http://localhost:1313/en/tags/browser-tool/</link>
@@ -139,13 +153,6 @@
       <link>http://localhost:1313/en/tags/arcadion/</link>
       <pubDate>Tue, 10 Mar 2026 00:46:35 +0900</pubDate>
       <guid>http://localhost:1313/en/tags/arcadion/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>FFXIV</title>
-      <link>http://localhost:1313/en/tags/ffxiv/</link>
-      <pubDate>Tue, 10 Mar 2026 00:46:35 +0900</pubDate>
-      <guid>http://localhost:1313/en/tags/ffxiv/</guid>
       <description></description>
     </item>
     <item>

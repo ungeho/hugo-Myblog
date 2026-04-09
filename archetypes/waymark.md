@@ -27,8 +27,7 @@ math = false
 
 ## 導入方法
 
-`XIVLauncher` と `Waymark Preset Plugin` は導入済みであることを前提とします。  
-このテンプレートで作成した記事は、`Waymark Preset` シリーズの記事として扱います。
+`XIVLauncher` と `Waymark Preset Plugin` は導入済みであることを前提とします。
 
 {{< faq q="フィールドマーカーの導入方法は？" >}}
 
@@ -40,7 +39,7 @@ math = false
 
 {{< /faq >}}
 
-{{< faq q="導入したフィールドマーカーを設置するには？" >}}
+{{< faq q="導入したフィールドマーカーを設置できるようにするには？" >}}
 
 1. ゲーム内チャットで `/pwaymark` を入力して `Waymark Library` を開く
 2. 任意のコンテンツ名のタブを開く
@@ -52,9 +51,9 @@ math = false
 
 ## コンテンツ名 1
 
-ここにこのコンテンツでの使い方、想定しているフェーズ、調整意図などを書く。
-
-![コンテンツ名 1 の画像](/images/posts/waymark/example-1.png)
+{{< collapse summary="画像を開く" >}}
+![極ハーデス](/images/posts/waymark/sb-ex-hades.png)
+{{< /collapse >}}
 
 ```json
 {
@@ -65,9 +64,9 @@ math = false
 
 ## コンテンツ名 2
 
-ここにこのコンテンツでの使い方、想定しているフェーズ、調整意図などを書く。
-
-![コンテンツ名 2 の画像](/images/posts/waymark/example-2.png)
+{{< collapse summary="画像を開く" >}}
+![極ハーデス](/images/posts/waymark/sb-ex-hades.png)
+{{< /collapse >}}
 
 ```json
 {
@@ -78,9 +77,9 @@ math = false
 
 ## コンテンツ名 3
 
-ここにこのコンテンツでの使い方、想定しているフェーズ、調整意図などを書く。
-
-![コンテンツ名 3 の画像](/images/posts/waymark/example-3.png)
+{{< collapse summary="画像を開く" >}}
+![極ハーデス](/images/posts/waymark/sb-ex-hades.png)
+{{< /collapse >}}
 
 ```json
 {
