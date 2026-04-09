@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>[Waymark Preset]Dawntrail Extremes | ungehoBlog</title>
+<meta name="keywords" content="FFXIV, WaymarkPlugin">
+<meta name="description" content="
+  AI-translated English article
+  This companion article follows the same Waymark Preset template in English.
+
+
+
+  What This Article Covers
+  
+    
+A Waymark Preset article for XIVLauncher users
+How to copy and import the preset
+A screenshot and code block for each content section
+
+
+  
+
+
+
+  Repository
+  Waymark Preset PluginThe Waymark Preset Plugin repository. Check this first if you need setup details.→
+
+
+How to Use This Article
+This template assumes that XIVLauncher and Waymark Preset Plugin are already installed.">
+<meta name="author" content="ungeho">
+<link rel="canonical" href="https://ungeho.netlify.app/en/posts/waymark-dt-ex/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.30615bac3ad40c5ac5b55f5884296d354d2a1bd9df97b1629a3cd70dc4d0ab52.css" integrity="sha256-MGFbrDrUDFrFtV9YhCltNU0qG9nfl7FimjzXDcTQq1I=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://ungeho.netlify.app/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ungeho.netlify.app/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ungeho.netlify.app/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ungeho.netlify.app/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ungeho.netlify.app/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="ja" href="https://ungeho.netlify.app/posts/waymark-dt-ex/">
+<link rel="alternate" hreflang="en" href="https://ungeho.netlify.app/en/posts/waymark-dt-ex/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mathRoot = document.querySelector(".post-content") || document.body;
+        renderMathInElement(mathRoot, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ],
+            throwOnError: false,
+            strict: "ignore"
+        });
+    });
+</script>
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.mermaid) {
+            const isDark = document.body.classList.contains("dark");
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: isDark ? "dark" : "base",
+            });
+        }
+    });
+</script>
+
+<meta property="og:title" content="[Waymark Preset]Dawntrail Extremes | ungehoBlog">
+<meta property="og:description" content=" AI-translated English article This companion article follows the same Waymark Preset template in English. What This Article Covers A Waymark Preset article for XIVLauncher users How to copy and import the preset A screenshot and code block for each content section Repository Waymark Preset PluginThe Waymark Preset Plugin repository. Check this first if you need setup details.→ How to Use This Article This template assumes that XIVLauncher and Waymark Preset Plugin are already installed.
+">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ungeho.netlify.app/en/posts/waymark-dt-ex/">
+<meta property="og:site_name" content="ungehoBlog">
+<meta property="og:image" content="https://ungeho.netlify.app/assets/generated/og-2d74105fb12e4f98ca03f43cf822d28e.svg">
+<meta property="article:published_time" content="2026-04-09T12:35:39&#43;09:00"><meta property="article:modified_time" content="2026-04-09T12:35:39&#43;09:00"><meta property="article:tag" content="FFXIV"><meta property="article:tag" content="WaymarkPlugin">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="[Waymark Preset]Dawntrail Extremes | ungehoBlog">
+<meta name="twitter:description" content=" AI-translated English article This companion article follows the same Waymark Preset template in English. What This Article Covers A Waymark Preset article for XIVLauncher users How to copy and import the preset A screenshot and code block for each content section Repository Waymark Preset PluginThe Waymark Preset Plugin repository. Check this first if you need setup details.→ How to Use This Article This template assumes that XIVLauncher and Waymark Preset Plugin are already installed.
+"><meta name="twitter:image" content="https://ungeho.netlify.app/assets/generated/og-2d74105fb12e4f98ca03f43cf822d28e.svg">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://ungeho.netlify.app/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "[Waymark Preset]Dawntrail Extremes",
+      "item": "https://ungeho.netlify.app/en/posts/waymark-dt-ex/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "[Waymark Preset]Dawntrail Extremes",
+  "name": "[Waymark Preset]Dawntrail Extremes",
+  "description": " AI-translated English article This companion article follows the same Waymark Preset template in English. What This Article Covers A Waymark Preset article for XIVLauncher users How to copy and import the preset A screenshot and code block for each content section Repository Waymark Preset PluginThe Waymark Preset Plugin repository. Check this first if you need setup details.→ How to Use This Article This template assumes that XIVLauncher and Waymark Preset Plugin are already installed.\n",
+  "keywords": [
+    "FFXIV", "WaymarkPlugin"
+  ],
+  "articleBody": " AI-translated English article This companion article follows the same Waymark Preset template in English. What This Article Covers A Waymark Preset article for XIVLauncher users How to copy and import the preset A screenshot and code block for each content section Repository Waymark Preset PluginThe Waymark Preset Plugin repository. Check this first if you need setup details.→ How to Use This Article This template assumes that XIVLauncher and Waymark Preset Plugin are already installed.\nHow to Import How do I import a preset from a code block? Copy the preset you want from a code block Type /pwaymark in the in-game chat to open Waymark Library Open the Import Options tab Focus the field labeled Paste a preset here and click \"Import\"., then press Ctrl + V Click the Import button How do I place an imported preset into a field marker slot? Type /pwaymark in the in-game chat to open Waymark Library Open the tab for the content you want Select the preset you want, or choose Imported In Preset Info, choose the target field marker slot from the menu next to Copy to slot Click Copy to slot Worqor Lar Dor Open image JSON{\"Name\":\"Imported\",\"MapID\":833,\"A\":{\"X\":92.017,\"Y\":0.0,\"Z\":92.126,\"ID\":0,\"Active\":true},\"B\":{\"X\":107.841,\"Y\":0.0,\"Z\":92.527,\"ID\":1,\"Active\":true},\"C\":{\"X\":114.514,\"Y\":0.0,\"Z\":99.631,\"ID\":2,\"Active\":true},\"D\":{\"X\":85.781,\"Y\":0.0,\"Z\":100.235,\"ID\":3,\"Active\":true},\"One\":{\"X\":94.574,\"Y\":0.0,\"Z\":94.754,\"ID\":4,\"Active\":true},\"Two\":{\"X\":105.394,\"Y\":0.0,\"Z\":94.973,\"ID\":5,\"Active\":true},\"Three\":{\"X\":105.2,\"Y\":0.0,\"Z\":104.91,\"ID\":6,\"Active\":true},\"Four\":{\"X\":94.525,\"Y\":0.0,\"Z\":104.767,\"ID\":7,\"Active\":true}}Recollection Open image JSON{\"Name\":\"Imported\",\"MapID\":1031,\"A\":{\"X\":100.0,\"Y\":0.0,\"Z\":92.0,\"ID\":0,\"Active\":true},\"B\":{\"X\":108.0,\"Y\":0.0,\"Z\":100.0,\"ID\":1,\"Active\":true},\"C\":{\"X\":100.0,\"Y\":0.0,\"Z\":108.0,\"ID\":2,\"Active\":true},\"D\":{\"X\":92.0,\"Y\":0.0,\"Z\":100.0,\"ID\":3,\"Active\":true},\"One\":{\"X\":105.65685,\"Y\":0.0,\"Z\":94.34315,\"ID\":4,\"Active\":true},\"Two\":{\"X\":105.65685,\"Y\":0.0,\"Z\":105.65685,\"ID\":5,\"Active\":true},\"Three\":{\"X\":94.34315,\"Y\":0.0,\"Z\":105.65685,\"ID\":6,\"Active\":true},\"Four\":{\"X\":94.34315,\"Y\":0.0,\"Z\":94.699,\"ID\":7,\"Active\":true}}The Minstrel’s Ballad: Necron’s Embrace Open image JSON{\"Name\":\"JP\",\"MapID\":1062,\"A\":{\"X\":100.0,\"Y\":0.0,\"Z\":92.0,\"ID\":0,\"Active\":true},\"B\":{\"X\":108.0,\"Y\":0.0,\"Z\":100.0,\"ID\":1,\"Active\":true},\"C\":{\"X\":100.0,\"Y\":0.0,\"Z\":108.0,\"ID\":2,\"Active\":true},\"D\":{\"X\":92.0,\"Y\":0.0,\"Z\":100.0,\"ID\":3,\"Active\":true},\"One\":{\"X\":95.0,\"Y\":0.0,\"Z\":86.5,\"ID\":4,\"Active\":true},\"Two\":{\"X\":105.0,\"Y\":0.0,\"Z\":86.5,\"ID\":5,\"Active\":true},\"Three\":{\"X\":103.0,\"Y\":0.0,\"Z\":92.0,\"ID\":6,\"Active\":true},\"Four\":{\"X\":97.0,\"Y\":0.0,\"Z\":92.0,\"ID\":7,\"Active\":true}}",
+  "wordCount" : "214",
+  "inLanguage": "en",
+  "datePublished": "2026-04-09T12:35:39+09:00",
+  "dateModified": "2026-04-09T12:35:39+09:00",
+  "author":{
+    "@type": "Person",
+    "name": "ungeho"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ungeho.netlify.app/en/posts/waymark-dt-ex/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ungehoBlog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ungeho.netlify.app/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header site-header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://ungeho.netlify.app/en/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li class="lang-switch-separator" aria-hidden="true">|</li><li>
+                        <a href="https://ungeho.netlify.app/" class="" title="Japanese"
+                            aria-label="日本語" >日本語</a>
+                    </li><li>
+                        <a href="https://ungeho.netlify.app/en/" class="is-active" title="English"
+                            aria-label="English" aria-current="true">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://ungeho.netlify.app/en/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/en/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/en/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/en/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/en/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/en/series/" title="Series">
+                    <span>Series</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/en/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"><article class="post-single article-single"><header class="post-header article-hero">
+  <div class="breadcrumbs"><a href="https://ungeho.netlify.app/en/">Home</a>&nbsp;»&nbsp;<a href="https://ungeho.netlify.app/en/posts/">Posts</a></div>
+
+  <div class="article-hero-inner">
+    <div class="article-hero-copy">
+      <div class="article-taxonomy-row">
+        <a class="article-chip article-chip-series" href="https://ungeho.netlify.app/en/series/waymark-preset/">Waymark Preset</a>
+        <span class="article-chip">FFXIV</span>
+      </div>
+
+      <h1 class="post-title entry-hint-parent">
+        [Waymark Preset]Dawntrail Extremes
+        <span class="entry-hint" title="Draft">
+          <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+            <path d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+          </svg>
+        </span>
+      </h1>
+      <div class="post-meta article-meta"><span title='2026-04-09 12:35:39 +0900 JST'>2026/04/09</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;ungeho&nbsp;|&nbsp;Translations:
+<ul class="i18n_list">
+    <li>
+        <a href="https://ungeho.netlify.app/posts/waymark-dt-ex/">日本語</a>
+    </li>
+</ul>
+
+</div>
+    </div>
+  </div>
+</header>
+ 
+
+  <div class="article-layout">
+    <div class="article-main">
+      <div class="post-content"><div class="translation-note" role="note" aria-label="AI translation notice">
+  <div class="translation-note__eyebrow">AI-translated English article</div>
+  <div class="translation-note__body">This companion article follows the same Waymark Preset template in English.</div>
+</div>
+
+<section class="article-summary-card">
+  <div class="article-summary-label">What This Article Covers</div>
+  <div class="article-summary-body">
+    <ul>
+<li>A Waymark Preset article for XIVLauncher users</li>
+<li>How to copy and import the preset</li>
+<li>A screenshot and code block for each content section</li>
+</ul>
+
+  </div>
+</section>
+
+<a class="link-card" href="https://github.com/Infiziert90/WaymarkPresetPlugin" target="_blank" rel="noopener noreferrer">
+  <span class="link-card-meta">Repository</span>
+  <span class="link-card-title">Waymark Preset Plugin</span><span class="link-card-desc">The Waymark Preset Plugin repository. Check this first if you need setup details.</span><span class="link-card-arrow" aria-hidden="true">→</span>
+</a>
+
+<h2 id="how-to-use-this-article">How to Use This Article<a hidden class="anchor" aria-hidden="true" href="#how-to-use-this-article">#</a></h2>
+<p>This template assumes that <code>XIVLauncher</code> and <code>Waymark Preset Plugin</code> are already installed.</p>
+<h2 id="how-to-import">How to Import<a hidden class="anchor" aria-hidden="true" href="#how-to-import">#</a></h2>
+<details class="faq-item" >
+  <summary class="faq-question">How do I import a preset from a code block?</summary>
+  <div class="faq-answer">
+    <ol>
+<li>Copy the preset you want from a code block</li>
+<li>Type <code>/pwaymark</code> in the in-game chat to open <code>Waymark Library</code></li>
+<li>Open the <code>Import Options</code> tab</li>
+<li>Focus the field labeled <code>Paste a preset here and click &quot;Import&quot;.</code>, then press <code>Ctrl + V</code></li>
+<li>Click the <code>Import</code> button</li>
+</ol>
+
+  </div>
+</details>
+
+<details class="faq-item" >
+  <summary class="faq-question">How do I place an imported preset into a field marker slot?</summary>
+  <div class="faq-answer">
+    <ol>
+<li>Type <code>/pwaymark</code> in the in-game chat to open <code>Waymark Library</code></li>
+<li>Open the tab for the content you want</li>
+<li>Select the preset you want, or choose <code>Imported</code></li>
+<li>In <code>Preset Info</code>, choose the target field marker slot from the menu next to <code>Copy to slot</code></li>
+<li>Click <code>Copy to slot</code></li>
+</ol>
+
+  </div>
+</details>
+
+<h2 id="worqor-lar-dor">Worqor Lar Dor<a hidden class="anchor" aria-hidden="true" href="#worqor-lar-dor">#</a></h2>
+
+
+<div class="collapse-panel">
+  <details >
+    <summary markdown="span">Open image</summary>
+    <div class="collapse-panel-body">
+      <figure class="article-media">
+  <a class="article-media-link" href="/images/posts/waymark/dt-ex-worqor.png" data-lightbox-trigger>
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/images/posts/waymark/dt-ex-worqor.png" alt="極ヴァリガルマンダ" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="350" height="380" />
+  </a>
+</figure>
+    </div>
+  </details>
+</div>
+
+<div class="highlight"><span class="code-language-badge">JSON</span><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;Name&#34;</span><span class="p">:</span><span class="s2">&#34;Imported&#34;</span><span class="p">,</span><span class="nt">&#34;MapID&#34;</span><span class="p">:</span><span class="mi">833</span><span class="p">,</span><span class="nt">&#34;A&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">92.017</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">92.126</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;B&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">107.841</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">92.527</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;C&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">114.514</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">99.631</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;D&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">85.781</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">100.235</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;One&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">94.574</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">94.754</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Two&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">105.394</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">94.973</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Three&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">105.2</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">104.91</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Four&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">94.525</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">104.767</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}}</span></span></span></code></pre></div><h2 id="recollection">Recollection<a hidden class="anchor" aria-hidden="true" href="#recollection">#</a></h2>
+
+
+<div class="collapse-panel">
+  <details >
+    <summary markdown="span">Open image</summary>
+    <div class="collapse-panel-body">
+      <figure class="article-media">
+  <a class="article-media-link" href="/images/posts/waymark/dt-ex-recollection.png" data-lightbox-trigger>
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/images/posts/waymark/dt-ex-recollection.png" alt="極ゼレニア" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="350" height="380" />
+  </a>
+</figure>
+    </div>
+  </details>
+</div>
+
+<div class="highlight"><span class="code-language-badge">JSON</span><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;Name&#34;</span><span class="p">:</span><span class="s2">&#34;Imported&#34;</span><span class="p">,</span><span class="nt">&#34;MapID&#34;</span><span class="p">:</span><span class="mi">1031</span><span class="p">,</span><span class="nt">&#34;A&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">100.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">92.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;B&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">108.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">100.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;C&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">100.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">108.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;D&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">92.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">100.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;One&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">105.65685</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">94.34315</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Two&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">105.65685</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">105.65685</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Three&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">94.34315</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">105.65685</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Four&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">94.34315</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">94.699</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}}</span></span></span></code></pre></div><h2 id="the-minstrels-ballad-necrons-embrace">The Minstrel&rsquo;s Ballad: Necron&rsquo;s Embrace<a hidden class="anchor" aria-hidden="true" href="#the-minstrels-ballad-necrons-embrace">#</a></h2>
+
+
+<div class="collapse-panel">
+  <details >
+    <summary markdown="span">Open image</summary>
+    <div class="collapse-panel-body">
+      <figure class="article-media">
+  <a class="article-media-link" href="/images/posts/waymark/dt-ex-necron.png" data-lightbox-trigger>
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/images/posts/waymark/dt-ex-necron.png" alt="極永遠の闇" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="350" height="380" />
+  </a>
+</figure>
+    </div>
+  </details>
+</div>
+
+<div class="highlight"><span class="code-language-badge">JSON</span><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;Name&#34;</span><span class="p">:</span><span class="s2">&#34;JP&#34;</span><span class="p">,</span><span class="nt">&#34;MapID&#34;</span><span class="p">:</span><span class="mi">1062</span><span class="p">,</span><span class="nt">&#34;A&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">100.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">92.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;B&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">108.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">100.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;C&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">100.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">108.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;D&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">92.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">100.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;One&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">95.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">86.5</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Two&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">105.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">86.5</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Three&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">103.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">92.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Four&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">97.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">92.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}}</span></span></span></code></pre></div>
+
+      </div><footer class="post-footer article-footer"><section class="article-footer-section article-series-nav-section">
+    <h2 class="article-footer-heading">Series Navigation</h2>
+    <nav class="series-nav"><a class="series-nav-link series-nav-prev" href="/en/posts/waymark-ew-ex/">
+        <span class="series-nav-label">Prev in Series</span>
+        <span class="series-nav-title">[Waymark Preset]Endwalker Extremes</span>
+      </a><a class="series-nav-center" href="https://ungeho.netlify.app/en/series/waymark-preset/">
+        <span class="series-nav-label">Series</span>
+        <span class="series-nav-title">Waymark Preset</span>
+      </a><a class="series-nav-link series-nav-next" href="/en/posts/waymark-sb-sv-edensgate/">
+        <span class="series-nav-label">Next in Series</span>
+        <span class="series-nav-title">[Waymark Preset]Edens Gate (Savage)</span>
+      </a></nav>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Series</h2>
+    <ul class="post-tags">
+      <li><a href="https://ungeho.netlify.app/en/series/waymark-preset/">Waymark Preset</a></li>
+    </ul>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Tags</h2>
+    <ul class="post-tags">
+      <li><a href="https://ungeho.netlify.app/en/tags/ffxiv/">FFXIV</a></li>
+      <li><a href="https://ungeho.netlify.app/en/tags/waymarkplugin/">WaymarkPlugin</a></li>
+    </ul>
+  </section>
+<section class="article-footer-section article-related-section">
+  <h2 class="article-footer-heading">Related Posts</h2>
+  <div class="article-related-grid">
+    <a class="article-related-card" href="/en/posts/waymark-criterion-aloalo/">
+      <span class="article-related-series">Waymark Preset</span>
+      <span class="article-related-title">[Waymark Preset]Another Aloalo Island</span>
+      <span class="article-related-meta">FFXIV</span>
+    </a>
+    <a class="article-related-card" href="/en/posts/waymark-criterion-mountrokkon/">
+      <span class="article-related-series">Waymark Preset</span>
+      <span class="article-related-title">[Waymark Preset]Another Mount Rokkon</span>
+      <span class="article-related-meta">FFXIV</span>
+    </a>
+    <a class="article-related-card" href="/en/posts/waymark-criterion-sildihn/">
+      <span class="article-related-series">Waymark Preset</span>
+      <span class="article-related-title">[Waymark Preset]Another Sildihn Subterrane</span>
+      <span class="article-related-meta">FFXIV</span>
+    </a>
+  </div>
+</section>
+
+  <section class="article-footer-section">
+<nav class="paginav">
+  <a class="prev" href="https://ungeho.netlify.app/en/posts/waymark-sb-sv-edensgate/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>[Waymark Preset]Edens Gate (Savage)</span>
+  </a>
+  <a class="next" href="https://ungeho.netlify.app/en/posts/waymark-ew-ex/">
+    <span class="title">Next »</span>
+    <br>
+    <span>[Waymark Preset]Endwalker Extremes</span>
+  </a>
+</nav>
+
+  </section>
+  <section class="article-footer-section">
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share [Waymark Preset]Dawntrail Extremes on x"
+            href="https://x.com/intent/tweet/?text=%5bWaymark%20Preset%5dDawntrail%20Extremes&amp;url=https%3a%2f%2fungeho.netlify.app%2fen%2fposts%2fwaymark-dt-ex%2f&amp;hashtags=FFXIV%2cWaymarkPlugin">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+</section>
+</footer>
+
+    </div>
+<aside class="article-sidebar" aria-label="Article navigation">
+  <div class="article-sidebar-inner">
+    <div class="reading-progress-card">
+      <div class="reading-progress-label">
+        <span>Reading progress</span>
+        <span class="reading-progress-value" data-reading-progress-value>0%</span>
+      </div>
+      <div class="reading-progress-track" aria-hidden="true">
+        <span class="reading-progress-bar" data-reading-progress-bar></span>
+      </div>
+    </div>
+    <div class="article-jump-nav" data-article-jump-nav hidden></div><div class="toc toc-card" data-toc-card>
+    <details open data-toc-details>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#how-to-use-this-article">How to Use This Article</a></li>
+    <li><a href="#how-to-import">How to Import</a></li>
+    <li><a href="#worqor-lar-dor">Worqor Lar Dor</a></li>
+    <li><a href="#recollection">Recollection</a></li>
+    <li><a href="#the-minstrels-ballad-necrons-embrace">The Minstrel&rsquo;s Ballad: Necron&rsquo;s Embrace</a></li>
+  </ul>
+</nav></div>
+    </details>
+</div>
+
+  </div>
+</aside>
+
+  </div>
+</article>
+    </main>
+    
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span>&copy; 2026 <a href="https://ungeho.netlify.app/en/">ungehoBlog</a></span>
+        </div>
+        <div class="footer-meta">
+            <span>A personal blog by someone who loves online games</span>
+            <span>
+                Powered by
+                <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+                <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+            </span>
+        </div>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><script>
+  window.postEnhancementLabels = {
+    nowReading: "\"NOW READING\"",
+    prev: "\"Prev\"",
+    next: "\"Next\"",
+    showMore: "\"Show more\"",
+    showLess: "\"Show less\"",
+    closeImageViewer: "\"Close image viewer\"",
+    close: "\"Close\""
+  };
+</script><script defer crossorigin="anonymous" src="/js/post-enhancements.min.4bd7577f5be3fe7bea935a345114fa02a203a3b1f27ebe80b9186dac37ab7222.js" integrity="sha256-S9dXf1vj/nvqk1o0URT6AqIDo7Hyfr6AuRhtrDerciI="></script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

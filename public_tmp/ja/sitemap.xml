@@ -2,21 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://ungeho.netlify.app/posts/waymark-ew-ex/</loc>
-    <lastmod>2026-04-09T11:40:10+09:00</lastmod>
+    <loc>https://ungeho.netlify.app/posts/waymark-criterion-aloalo/</loc>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
-                href="https://ungeho.netlify.app/en/posts/waymark-ew-ex/"
+                href="https://ungeho.netlify.app/en/posts/waymark-criterion-aloalo/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ja-JP"
-                href="https://ungeho.netlify.app/posts/waymark-ew-ex/"
+                href="https://ungeho.netlify.app/posts/waymark-criterion-aloalo/"
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/categories/</loc>
-    <lastmod>2026-04-09T11:40:10+09:00</lastmod>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -29,7 +29,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/categories/ffxiv/</loc>
-    <lastmod>2026-04-09T11:40:10+09:00</lastmod>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -42,7 +42,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/tags/ffxiv/</loc>
-    <lastmod>2026-04-09T11:40:10+09:00</lastmod>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -55,7 +55,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/posts/</loc>
-    <lastmod>2026-04-09T11:40:10+09:00</lastmod>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -68,7 +68,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/series/</loc>
-    <lastmod>2026-04-09T11:40:10+09:00</lastmod>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -81,7 +81,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/tags/</loc>
-    <lastmod>2026-04-09T11:40:10+09:00</lastmod>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -94,7 +94,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/</loc>
-    <lastmod>2026-04-09T11:40:10+09:00</lastmod>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -107,7 +107,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/series/waymark-preset/</loc>
-    <lastmod>2026-04-09T11:40:10+09:00</lastmod>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -120,7 +120,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/tags/waymarkplugin/</loc>
-    <lastmod>2026-04-09T11:40:10+09:00</lastmod>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -130,6 +130,149 @@
                 rel="alternate"
                 hreflang="ja-JP"
                 href="https://ungeho.netlify.app/tags/waymarkplugin/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/waymark-criterion-mountrokkon/</loc>
+    <lastmod>2026-04-09T14:45:53+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/waymark-criterion-mountrokkon/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/waymark-criterion-mountrokkon/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/waymark-criterion-sildihn/</loc>
+    <lastmod>2026-04-09T14:31:37+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/waymark-criterion-sildihn/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/waymark-criterion-sildihn/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/waymark-dt-sv-hv/</loc>
+    <lastmod>2026-04-09T14:19:09+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/waymark-dt-sv-hv/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/waymark-dt-sv-hv/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/waymark-dt-sv-cr/</loc>
+    <lastmod>2026-04-09T14:05:18+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/waymark-dt-sv-cr/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/waymark-dt-sv-cr/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/waymark-dt-sv-lh/</loc>
+    <lastmod>2026-04-09T13:44:59+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/waymark-dt-sv-lh/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/waymark-dt-sv-lh/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/waymark-ew-sv-anabaseios/</loc>
+    <lastmod>2026-04-09T13:30:15+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/waymark-ew-sv-anabaseios/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/waymark-ew-sv-anabaseios/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/waymark-ew-sv-abyssos/</loc>
+    <lastmod>2026-04-09T13:21:22+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/waymark-ew-sv-abyssos/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/waymark-ew-sv-abyssos/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/waymark-ew-sv-asphodelos/</loc>
+    <lastmod>2026-04-09T13:08:09+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/waymark-ew-sv-asphodelos/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/waymark-ew-sv-asphodelos/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/waymark-sb-sv-edensgate/</loc>
+    <lastmod>2026-04-09T12:53:03+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/waymark-sb-sv-edensgate/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/waymark-sb-sv-edensgate/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/waymark-dt-ex/</loc>
+    <lastmod>2026-04-09T12:35:39+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/waymark-dt-ex/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/waymark-dt-ex/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/waymark-ew-ex/</loc>
+    <lastmod>2026-04-09T11:40:10+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/waymark-ew-ex/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/waymark-ew-ex/"
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/posts/waymark-sb-ex/</loc>
@@ -144,6 +287,9 @@
                 hreflang="ja-JP"
                 href="https://ungeho.netlify.app/posts/waymark-sb-ex/"
                 />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/test-waymark/</loc>
+    <lastmod>2026-04-09T10:22:19+09:00</lastmod>
   </url><url>
     <loc>https://ungeho.netlify.app/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E7%B4%B9%E4%BB%8B/</loc>
     <lastmod>2026-04-06T01:10:00+09:00</lastmod>

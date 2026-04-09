@@ -14,6 +14,9 @@ description = "FFXIV の各コンテンツ向け Splatoon preset を、導入時
 [series."FFXIV Raid Notes"]
 description = "攻略時の補助メモ、座標、設定、ツール運用などを静かに蓄積していくシリーズです。"
 
+[series."Waymark Preset"]
+description = "Waymark Preset Plugin で使えるフィールドマーカープリセットを、導入方法・画像・コードと一緒に見返しやすく整理していくシリーズです。"
+
 [series."数学とプログラミング"]
 description = "図形や数式の面白さを、コードとしてどう扱うかまで含めて整理するシリーズです。"
 

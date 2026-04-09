@@ -6,10 +6,285 @@
     <description>Recent content in WaymarkPlugin on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-JP</language>
-    <lastBuildDate>Thu, 09 Apr 2026 11:40:10 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 09 Apr 2026 14:55:45 +0900</lastBuildDate>
     <atom:link href="https://ungeho.netlify.app/tags/waymarkplugin/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>[Waymark Preset]暁月のフィナーレ-極討滅戦</title>
+      <title>[Waymark Preset]アナザーダンジョン 異聞アロアロ島</title>
+      <link>https://ungeho.netlify.app/posts/waymark-criterion-aloalo/</link>
+      <pubDate>Thu, 09 Apr 2026 14:55:45 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/waymark-criterion-aloalo/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]アナザーダンジョン 異聞六根山</title>
+      <link>https://ungeho.netlify.app/posts/waymark-criterion-mountrokkon/</link>
+      <pubDate>Thu, 09 Apr 2026 14:45:53 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/waymark-criterion-mountrokkon/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]アナザーダンジョン 異聞シラディハ水道</title>
+      <link>https://ungeho.netlify.app/posts/waymark-criterion-sildihn/</link>
+      <pubDate>Thu, 09 Apr 2026 14:31:37 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/waymark-criterion-sildihn/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]至天の座アルカディア零式：ヘビー級</title>
+      <link>https://ungeho.netlify.app/posts/waymark-dt-sv-hv/</link>
+      <pubDate>Thu, 09 Apr 2026 14:19:09 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/waymark-dt-sv-hv/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]至天の座アルカディア零式：クルーザー級</title>
+      <link>https://ungeho.netlify.app/posts/waymark-dt-sv-cr/</link>
+      <pubDate>Thu, 09 Apr 2026 14:05:18 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/waymark-dt-sv-cr/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]至天の座アルカディア零式：ライトヘビー級</title>
+      <link>https://ungeho.netlify.app/posts/waymark-dt-sv-lh/</link>
+      <pubDate>Thu, 09 Apr 2026 13:44:59 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/waymark-dt-sv-lh/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]万魔殿パンデモニウム零式：天獄編</title>
+      <link>https://ungeho.netlify.app/posts/waymark-ew-sv-anabaseios/</link>
+      <pubDate>Thu, 09 Apr 2026 13:30:15 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/waymark-ew-sv-anabaseios/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]万魔殿パンデモニウム零式：煉獄編</title>
+      <link>https://ungeho.netlify.app/posts/waymark-ew-sv-abyssos/</link>
+      <pubDate>Thu, 09 Apr 2026 13:21:22 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/waymark-ew-sv-abyssos/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]万魔殿パンデモニウム零式：辺獄編</title>
+      <link>https://ungeho.netlify.app/posts/waymark-ew-sv-asphodelos/</link>
+      <pubDate>Thu, 09 Apr 2026 13:08:09 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/waymark-ew-sv-asphodelos/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]希望の園エデン零式：再生編</title>
+      <link>https://ungeho.netlify.app/posts/waymark-sb-sv-edensgate/</link>
+      <pubDate>Thu, 09 Apr 2026 12:53:03 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/waymark-sb-sv-edensgate/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]黄金のレガシー 極討滅戦</title>
+      <link>https://ungeho.netlify.app/posts/waymark-dt-ex/</link>
+      <pubDate>Thu, 09 Apr 2026 12:35:39 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/waymark-dt-ex/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; の &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; で利用できるプリセット記事&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピーして導入できる&lt;/li&gt;
+&lt;li&gt;コンテンツごとに画像とコードを見比べながら確認できる&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;https://github.com/Infiziert90/WaymarkPresetPlugin&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[Waymark Preset]暁月のフィナーレ 極討滅戦</title>
       <link>https://ungeho.netlify.app/posts/waymark-ew-ex/</link>
       <pubDate>Thu, 09 Apr 2026 11:40:10 +0900</pubDate>
       <guid>https://ungeho.netlify.app/posts/waymark-ew-ex/</guid>
@@ -34,7 +309,7 @@
 &lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
     </item>
     <item>
-      <title>[Waymark Preset]漆黒のヴィランズ-極討滅戦</title>
+      <title>[Waymark Preset]漆黒のヴィランズ 極討滅戦</title>
       <link>https://ungeho.netlify.app/posts/waymark-sb-ex/</link>
       <pubDate>Thu, 09 Apr 2026 11:20:04 +0900</pubDate>
       <guid>https://ungeho.netlify.app/posts/waymark-sb-ex/</guid>
@@ -57,6 +332,31 @@
 
 &lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Test Waymark</title>
+      <link>https://ungeho.netlify.app/posts/test-waymark/</link>
+      <pubDate>Thu, 09 Apr 2026 10:22:19 +0900</pubDate>
+      <guid>https://ungeho.netlify.app/posts/test-waymark/</guid>
+      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
+  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
+  &lt;div class=&#34;article-summary-body&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt;の&lt;code&gt;Waymark Preset Plugin&lt;/code&gt;のプリセット集&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Waymark Preset Plugin&lt;/code&gt;経由で任意のフィールドマーカーを入手&lt;/li&gt;
+&lt;li&gt;コードブロックからプリセットをコピー&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;a class=&#34;link-card&#34; href=&#34;[/posts/example/]%28https://github.com/Infiziert90/WaymarkPresetPlugin%29&#34;&gt;
+  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
+  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Pluginのリポジトリ&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt;と&lt;code&gt;Waymark Preset Plugin&lt;/code&gt;は導入済みであることを前提とします。&lt;/p&gt;</description>
     </item>
     <item>
       <title>FF14の座標の計算方法と豆知識</title>

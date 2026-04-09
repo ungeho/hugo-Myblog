@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ja" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>[Waymark Preset]アナザーダンジョン 異聞アロアロ島 | ungehoBlog</title>
+<meta name="keywords" content="FFXIV, WaymarkPlugin">
+<meta name="description" content="
+  この記事の内容
+  
+    
+XIVLauncher の Waymark Preset Plugin で利用できるプリセット記事
+コードブロックからプリセットをコピーして導入できる
+コンテンツごとに画像とコードを見比べながら確認できる
+
+
+  
+
+
+
+  Repository
+  Waymark Preset PluginWaymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。→
+
+
+導入方法
+XIVLauncher と Waymark Preset Plugin は導入済みであることを前提とします。">
+<meta name="author" content="ungeho">
+<link rel="canonical" href="https://ungeho.netlify.app/posts/waymark-criterion-aloalo/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.30615bac3ad40c5ac5b55f5884296d354d2a1bd9df97b1629a3cd70dc4d0ab52.css" integrity="sha256-MGFbrDrUDFrFtV9YhCltNU0qG9nfl7FimjzXDcTQq1I=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://ungeho.netlify.app/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ungeho.netlify.app/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ungeho.netlify.app/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ungeho.netlify.app/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ungeho.netlify.app/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="ja" href="https://ungeho.netlify.app/posts/waymark-criterion-aloalo/">
+<link rel="alternate" hreflang="en" href="https://ungeho.netlify.app/en/posts/waymark-criterion-aloalo/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mathRoot = document.querySelector(".post-content") || document.body;
+        renderMathInElement(mathRoot, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ],
+            throwOnError: false,
+            strict: "ignore"
+        });
+    });
+</script>
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.mermaid) {
+            const isDark = document.body.classList.contains("dark");
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: isDark ? "dark" : "base",
+            });
+        }
+    });
+</script>
+
+<meta property="og:title" content="[Waymark Preset]アナザーダンジョン 異聞アロアロ島 | ungehoBlog">
+<meta property="og:description" content=" この記事の内容 XIVLauncher の Waymark Preset Plugin で利用できるプリセット記事 コードブロックからプリセットをコピーして導入できる コンテンツごとに画像とコードを見比べながら確認できる Repository Waymark Preset PluginWaymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。→ 導入方法 XIVLauncher と Waymark Preset Plugin は導入済みであることを前提とします。
+">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ungeho.netlify.app/posts/waymark-criterion-aloalo/">
+<meta property="og:site_name" content="ungehoBlog">
+<meta property="og:image" content="https://ungeho.netlify.app/assets/generated/og-7ee165a31d01425094cf1d3e59785fb3.svg">
+<meta property="article:published_time" content="2026-04-09T14:55:45&#43;09:00"><meta property="article:modified_time" content="2026-04-09T14:55:45&#43;09:00"><meta property="article:tag" content="FFXIV"><meta property="article:tag" content="WaymarkPlugin">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="[Waymark Preset]アナザーダンジョン 異聞アロアロ島 | ungehoBlog">
+<meta name="twitter:description" content=" この記事の内容 XIVLauncher の Waymark Preset Plugin で利用できるプリセット記事 コードブロックからプリセットをコピーして導入できる コンテンツごとに画像とコードを見比べながら確認できる Repository Waymark Preset PluginWaymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。→ 導入方法 XIVLauncher と Waymark Preset Plugin は導入済みであることを前提とします。
+"><meta name="twitter:image" content="https://ungeho.netlify.app/assets/generated/og-7ee165a31d01425094cf1d3e59785fb3.svg">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://ungeho.netlify.app/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "[Waymark Preset]アナザーダンジョン 異聞アロアロ島",
+      "item": "https://ungeho.netlify.app/posts/waymark-criterion-aloalo/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "[Waymark Preset]アナザーダンジョン 異聞アロアロ島",
+  "name": "[Waymark Preset]アナザーダンジョン 異聞アロアロ島",
+  "description": " この記事の内容 XIVLauncher の Waymark Preset Plugin で利用できるプリセット記事 コードブロックからプリセットをコピーして導入できる コンテンツごとに画像とコードを見比べながら確認できる Repository Waymark Preset PluginWaymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。→ 導入方法 XIVLauncher と Waymark Preset Plugin は導入済みであることを前提とします。\n",
+  "keywords": [
+    "FFXIV", "WaymarkPlugin"
+  ],
+  "articleBody": " この記事の内容 XIVLauncher の Waymark Preset Plugin で利用できるプリセット記事 コードブロックからプリセットをコピーして導入できる コンテンツごとに画像とコードを見比べながら確認できる Repository Waymark Preset PluginWaymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。→ 導入方法 XIVLauncher と Waymark Preset Plugin は導入済みであることを前提とします。\nフィールドマーカーの導入方法は？ 任意のコードブロックから導入したいプリセットをコピーする ゲーム内チャットで /pwaymark を入力して Waymark Library を開く Import Options タブを開く Paste a preset here and click \"Import\". と書かれた欄にフォーカスして Ctrl + V Import ボタンをクリックする 導入したフィールドマーカーを設置できるようにするには？ ゲーム内チャットで /pwaymark を入力して Waymark Library を開く 任意のコンテンツ名のタブを開く 任意のプリセット、または Imported をクリックする Preset Info の Copy to slot の隣にあるメニューから、上書きしたいフィールドマーカーのスロット番号を選ぶ Copy to slot ボタンを押す 1ボス 画像を開く ノーマル(1BOSS) JSON{\"Name\":\"1ボス\",\"MapID\":979,\"A\":{\"X\":0.0,\"Y\":0.0,\"Z\":-15.0,\"ID\":0,\"Active\":true},\"B\":{\"X\":15.0,\"Y\":0.0,\"Z\":0.0,\"ID\":1,\"Active\":true},\"C\":{\"X\":0.0,\"Y\":0.0,\"Z\":15.0,\"ID\":2,\"Active\":true},\"D\":{\"X\":-15.0,\"Y\":0.0,\"Z\":0.0,\"ID\":3,\"Active\":true},\"One\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":4,\"Active\":false},\"Two\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":5,\"Active\":false},\"Three\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":6,\"Active\":false},\"Four\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":7,\"Active\":false}}零式(1BOSS) JSON{\"Name\":\"1ボス\",\"MapID\":980,\"A\":{\"X\":0.0,\"Y\":0.0,\"Z\":-10.0,\"ID\":0,\"Active\":true},\"B\":{\"X\":10.0,\"Y\":0.0,\"Z\":0.0,\"ID\":1,\"Active\":true},\"C\":{\"X\":0.0,\"Y\":0.0,\"Z\":10.0,\"ID\":2,\"Active\":true},\"D\":{\"X\":-10.0,\"Y\":0.0,\"Z\":0.0,\"ID\":3,\"Active\":true},\"One\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":4,\"Active\":false},\"Two\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":5,\"Active\":false},\"Three\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":6,\"Active\":false},\"Four\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":7,\"Active\":false}}2ボス 画像を開く ノーマル(2BOSS) JSON{\"Name\":\"2ボス\",\"MapID\":979,\"A\":{\"X\":200.0,\"Y\":-300.0,\"Z\":-12.0,\"ID\":0,\"Active\":true},\"B\":{\"X\":212.0,\"Y\":-300.0,\"Z\":0.0,\"ID\":1,\"Active\":true},\"C\":{\"X\":200.0,\"Y\":-300.0,\"Z\":12.0,\"ID\":2,\"Active\":true},\"D\":{\"X\":188.0,\"Y\":-300.0,\"Z\":0.0,\"ID\":3,\"Active\":true},\"One\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":4,\"Active\":false},\"Two\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":5,\"Active\":false},\"Three\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":6,\"Active\":false},\"Four\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":7,\"Active\":false}}零式(2BOSS) JSON{\"Name\":\"2ボス\",\"MapID\":980,\"A\":{\"X\":200.0,\"Y\":-300.0,\"Z\":-12.0,\"ID\":0,\"Active\":true},\"B\":{\"X\":212.0,\"Y\":-300.0,\"Z\":0.0,\"ID\":1,\"Active\":true},\"C\":{\"X\":200.0,\"Y\":-300.0,\"Z\":12.0,\"ID\":2,\"Active\":true},\"D\":{\"X\":188.0,\"Y\":-300.0,\"Z\":0.0,\"ID\":3,\"Active\":true},\"One\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":4,\"Active\":false},\"Two\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":5,\"Active\":false},\"Three\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":6,\"Active\":false},\"Four\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"ID\":7,\"Active\":false}}3ボス 画像を開く ノーマル(3BOSS) JSON{\"Name\":\"3ボス\",\"MapID\":979,\"A\":{\"X\":-200.0,\"Y\":-200.0,\"Z\":-7.0,\"ID\":0,\"Active\":true},\"B\":{\"X\":-193.0,\"Y\":-200.0,\"Z\":0.0,\"ID\":1,\"Active\":true},\"C\":{\"X\":-200.0,\"Y\":-200.0,\"Z\":7.0,\"ID\":2,\"Active\":true},\"D\":{\"X\":-207.0,\"Y\":-200.0,\"Z\":0.0,\"ID\":3,\"Active\":true},\"One\":{\"X\":-189.3934,\"Y\":-200.0,\"Z\":-10.606602,\"ID\":4,\"Active\":true},\"Two\":{\"X\":-189.3934,\"Y\":-200.0,\"Z\":10.606602,\"ID\":5,\"Active\":true},\"Three\":{\"X\":-210.6066,\"Y\":-200.0,\"Z\":10.606602,\"ID\":6,\"Active\":true},\"Four\":{\"X\":-210.6066,\"Y\":-200.0,\"Z\":-10.606602,\"ID\":7,\"Active\":true}}零式(3BOSS) JSON{\"Name\":\"3ボス\",\"MapID\":980,\"A\":{\"X\":-200.0,\"Y\":-200.0,\"Z\":-7.0,\"ID\":0,\"Active\":true},\"B\":{\"X\":-193.0,\"Y\":-200.0,\"Z\":0.0,\"ID\":1,\"Active\":true},\"C\":{\"X\":-200.0,\"Y\":-200.0,\"Z\":7.0,\"ID\":2,\"Active\":true},\"D\":{\"X\":-207.0,\"Y\":-200.0,\"Z\":0.0,\"ID\":3,\"Active\":true},\"One\":{\"X\":-189.3934,\"Y\":-200.0,\"Z\":-10.606602,\"ID\":4,\"Active\":true},\"Two\":{\"X\":-189.3934,\"Y\":-200.0,\"Z\":10.606602,\"ID\":5,\"Active\":true},\"Three\":{\"X\":-210.6066,\"Y\":-200.0,\"Z\":10.606602,\"ID\":6,\"Active\":true},\"Four\":{\"X\":-210.6066,\"Y\":-200.0,\"Z\":-10.606602,\"ID\":7,\"Active\":true}}",
+  "wordCount" : "5849",
+  "inLanguage": "ja",
+  "datePublished": "2026-04-09T14:55:45+09:00",
+  "dateModified": "2026-04-09T14:55:45+09:00",
+  "author":{
+    "@type": "Person",
+    "name": "ungeho"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ungeho.netlify.app/posts/waymark-criterion-aloalo/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ungehoBlog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ungeho.netlify.app/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header site-header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://ungeho.netlify.app/" accesskey="h" title="ungehoBlog (Alt + H)">ungehoBlog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li class="lang-switch-separator" aria-hidden="true">|</li><li>
+                        <a href="https://ungeho.netlify.app/" class="is-active" title="Japanese"
+                            aria-label="日本語" aria-current="true">日本語</a>
+                    </li><li>
+                        <a href="https://ungeho.netlify.app/en/" class="" title="English"
+                            aria-label="English" >English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://ungeho.netlify.app/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/series/" title="Series">
+                    <span>Series</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ungeho.netlify.app/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"><article class="post-single article-single"><header class="post-header article-hero">
+  <div class="breadcrumbs"><a href="https://ungeho.netlify.app/">ホーム</a>&nbsp;»&nbsp;<a href="https://ungeho.netlify.app/posts/">Posts</a></div>
+
+  <div class="article-hero-inner">
+    <div class="article-hero-copy">
+      <div class="article-taxonomy-row">
+        <a class="article-chip article-chip-series" href="https://ungeho.netlify.app/series/waymark-preset/">Waymark Preset</a>
+        <span class="article-chip">FFXIV</span>
+      </div>
+
+      <h1 class="post-title entry-hint-parent">
+        [Waymark Preset]アナザーダンジョン 異聞アロアロ島
+        <span class="entry-hint" title="Draft">
+          <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+            <path d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+          </svg>
+        </span>
+      </h1>
+      <div class="post-meta article-meta"><span title='2026-04-09 14:55:45 +0900 JST'>2026/04/09</span>&nbsp;·&nbsp;12 分&nbsp;·&nbsp;ungeho&nbsp;|&nbsp;言語:
+<ul class="i18n_list">
+    <li>
+        <a href="https://ungeho.netlify.app/en/posts/waymark-criterion-aloalo/">English</a>
+    </li>
+</ul>
+
+</div>
+    </div>
+  </div>
+</header>
+ 
+
+  <div class="article-layout">
+    <div class="article-main">
+      <div class="post-content"><section class="article-summary-card">
+  <div class="article-summary-label">この記事の内容</div>
+  <div class="article-summary-body">
+    <ul>
+<li><code>XIVLauncher</code> の <code>Waymark Preset Plugin</code> で利用できるプリセット記事</li>
+<li>コードブロックからプリセットをコピーして導入できる</li>
+<li>コンテンツごとに画像とコードを見比べながら確認できる</li>
+</ul>
+
+  </div>
+</section>
+
+<a class="link-card" href="https://github.com/Infiziert90/WaymarkPresetPlugin" target="_blank" rel="noopener noreferrer">
+  <span class="link-card-meta">Repository</span>
+  <span class="link-card-title">Waymark Preset Plugin</span><span class="link-card-desc">Waymark Preset Plugin のリポジトリです。導入前に確認したいときはこちら。</span><span class="link-card-arrow" aria-hidden="true">→</span>
+</a>
+
+<h2 id="導入方法">導入方法<a hidden class="anchor" aria-hidden="true" href="#導入方法">#</a></h2>
+<p><code>XIVLauncher</code> と <code>Waymark Preset Plugin</code> は導入済みであることを前提とします。</p>
+<details class="faq-item" >
+  <summary class="faq-question">フィールドマーカーの導入方法は？</summary>
+  <div class="faq-answer">
+    <ol>
+<li>任意のコードブロックから導入したいプリセットをコピーする</li>
+<li>ゲーム内チャットで <code>/pwaymark</code> を入力して <code>Waymark Library</code> を開く</li>
+<li><code>Import Options</code> タブを開く</li>
+<li><code>Paste a preset here and click &quot;Import&quot;.</code> と書かれた欄にフォーカスして <code>Ctrl + V</code></li>
+<li><code>Import</code> ボタンをクリックする</li>
+</ol>
+
+  </div>
+</details>
+
+<details class="faq-item" >
+  <summary class="faq-question">導入したフィールドマーカーを設置できるようにするには？</summary>
+  <div class="faq-answer">
+    <ol>
+<li>ゲーム内チャットで <code>/pwaymark</code> を入力して <code>Waymark Library</code> を開く</li>
+<li>任意のコンテンツ名のタブを開く</li>
+<li>任意のプリセット、または <code>Imported</code> をクリックする</li>
+<li><code>Preset Info</code> の <code>Copy to slot</code> の隣にあるメニューから、上書きしたいフィールドマーカーのスロット番号を選ぶ</li>
+<li><code>Copy to slot</code> ボタンを押す</li>
+</ol>
+
+  </div>
+</details>
+
+<h2 id="1ボス">1ボス<a hidden class="anchor" aria-hidden="true" href="#1ボス">#</a></h2>
+
+
+<div class="collapse-panel">
+  <details >
+    <summary markdown="span">画像を開く</summary>
+    <div class="collapse-panel-body">
+      <figure class="article-media">
+  <a class="article-media-link" href="/images/posts/waymark/aloalo1.png" data-lightbox-trigger>
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/images/posts/waymark/aloalo1.png" alt="1boss" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="275" height="474" />
+  </a>
+</figure>
+    </div>
+  </details>
+</div>
+
+<h3 id="ノーマル1boss">ノーマル(1BOSS)<a hidden class="anchor" aria-hidden="true" href="#ノーマル1boss">#</a></h3>
+<div class="highlight"><span class="code-language-badge">JSON</span><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;Name&#34;</span><span class="p">:</span><span class="s2">&#34;1ボス&#34;</span><span class="p">,</span><span class="nt">&#34;MapID&#34;</span><span class="p">:</span><span class="mi">979</span><span class="p">,</span><span class="nt">&#34;A&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">-15.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;B&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">15.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;C&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">15.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;D&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-15.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;One&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&#34;Two&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&#34;Three&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&#34;Four&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">}}</span></span></span></code></pre></div><h3 id="零式1boss">零式(1BOSS)<a hidden class="anchor" aria-hidden="true" href="#零式1boss">#</a></h3>
+<div class="highlight"><span class="code-language-badge">JSON</span><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;Name&#34;</span><span class="p">:</span><span class="s2">&#34;1ボス&#34;</span><span class="p">,</span><span class="nt">&#34;MapID&#34;</span><span class="p">:</span><span class="mi">980</span><span class="p">,</span><span class="nt">&#34;A&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">-10.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;B&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">10.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;C&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">10.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;D&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-10.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;One&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&#34;Two&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&#34;Three&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&#34;Four&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">}}</span></span></span></code></pre></div><h2 id="2ボス">2ボス<a hidden class="anchor" aria-hidden="true" href="#2ボス">#</a></h2>
+
+
+<div class="collapse-panel">
+  <details >
+    <summary markdown="span">画像を開く</summary>
+    <div class="collapse-panel-body">
+      <figure class="article-media">
+  <a class="article-media-link" href="/images/posts/waymark/aloalo2.png" data-lightbox-trigger>
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/images/posts/waymark/aloalo2.png" alt="2boss" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="239" height="343" />
+  </a>
+</figure>
+    </div>
+  </details>
+</div>
+
+<h3 id="ノーマル2boss">ノーマル(2BOSS)<a hidden class="anchor" aria-hidden="true" href="#ノーマル2boss">#</a></h3>
+<div class="highlight"><span class="code-language-badge">JSON</span><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;Name&#34;</span><span class="p">:</span><span class="s2">&#34;2ボス&#34;</span><span class="p">,</span><span class="nt">&#34;MapID&#34;</span><span class="p">:</span><span class="mi">979</span><span class="p">,</span><span class="nt">&#34;A&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">200.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-300.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">-12.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;B&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">212.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-300.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;C&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">200.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-300.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">12.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;D&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">188.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-300.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;One&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&#34;Two&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&#34;Three&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&#34;Four&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">}}</span></span></span></code></pre></div><h3 id="零式2boss">零式(2BOSS)<a hidden class="anchor" aria-hidden="true" href="#零式2boss">#</a></h3>
+<div class="highlight"><span class="code-language-badge">JSON</span><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;Name&#34;</span><span class="p">:</span><span class="s2">&#34;2ボス&#34;</span><span class="p">,</span><span class="nt">&#34;MapID&#34;</span><span class="p">:</span><span class="mi">980</span><span class="p">,</span><span class="nt">&#34;A&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">200.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-300.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">-12.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;B&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">212.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-300.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;C&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">200.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-300.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">12.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;D&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">188.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-300.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;One&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&#34;Two&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&#34;Three&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&#34;Four&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">}}</span></span></span></code></pre></div><h2 id="3ボス">3ボス<a hidden class="anchor" aria-hidden="true" href="#3ボス">#</a></h2>
+
+
+<div class="collapse-panel">
+  <details >
+    <summary markdown="span">画像を開く</summary>
+    <div class="collapse-panel-body">
+      <figure class="article-media">
+  <a class="article-media-link" href="/images/posts/waymark/aloalo3.png" data-lightbox-trigger>
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/images/posts/waymark/aloalo3.png" alt="3boss" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="234" height="251" />
+  </a>
+</figure>
+    </div>
+  </details>
+</div>
+
+<h3 id="ノーマル3boss">ノーマル(3BOSS)<a hidden class="anchor" aria-hidden="true" href="#ノーマル3boss">#</a></h3>
+<div class="highlight"><span class="code-language-badge">JSON</span><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;Name&#34;</span><span class="p">:</span><span class="s2">&#34;3ボス&#34;</span><span class="p">,</span><span class="nt">&#34;MapID&#34;</span><span class="p">:</span><span class="mi">979</span><span class="p">,</span><span class="nt">&#34;A&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">-7.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;B&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-193.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;C&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">7.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;D&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-207.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;One&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-189.3934</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">-10.606602</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Two&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-189.3934</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">10.606602</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Three&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-210.6066</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">10.606602</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Four&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-210.6066</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">-10.606602</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}}</span></span></span></code></pre></div><h3 id="零式3boss">零式(3BOSS)<a hidden class="anchor" aria-hidden="true" href="#零式3boss">#</a></h3>
+<div class="highlight"><span class="code-language-badge">JSON</span><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;Name&#34;</span><span class="p">:</span><span class="s2">&#34;3ボス&#34;</span><span class="p">,</span><span class="nt">&#34;MapID&#34;</span><span class="p">:</span><span class="mi">980</span><span class="p">,</span><span class="nt">&#34;A&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">-7.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;B&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-193.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;C&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">7.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;D&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-207.0</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;One&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-189.3934</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">-10.606602</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Two&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-189.3934</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">10.606602</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Three&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-210.6066</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">10.606602</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&#34;Four&#34;</span><span class="p">:{</span><span class="nt">&#34;X&#34;</span><span class="p">:</span><span class="mf">-210.6066</span><span class="p">,</span><span class="nt">&#34;Y&#34;</span><span class="p">:</span><span class="mf">-200.0</span><span class="p">,</span><span class="nt">&#34;Z&#34;</span><span class="p">:</span><span class="mf">-10.606602</span><span class="p">,</span><span class="nt">&#34;ID&#34;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="nt">&#34;Active&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}}</span></span></span></code></pre></div>
+
+      </div><footer class="post-footer article-footer"><section class="article-footer-section article-series-nav-section">
+    <h2 class="article-footer-heading">シリーズ内ナビ</h2>
+    <nav class="series-nav"><a class="series-nav-link series-nav-prev" href="/posts/waymark-criterion-mountrokkon/">
+        <span class="series-nav-label">シリーズ前へ</span>
+        <span class="series-nav-title">[Waymark Preset]アナザーダンジョン 異聞六根山</span>
+      </a><a class="series-nav-center" href="https://ungeho.netlify.app/series/waymark-preset/">
+        <span class="series-nav-label">Series</span>
+        <span class="series-nav-title">Waymark Preset</span>
+      </a><span class="series-nav-placeholder"></span></nav>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Series</h2>
+    <ul class="post-tags">
+      <li><a href="https://ungeho.netlify.app/series/waymark-preset/">Waymark Preset</a></li>
+    </ul>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Tags</h2>
+    <ul class="post-tags">
+      <li><a href="https://ungeho.netlify.app/tags/ffxiv/">FFXIV</a></li>
+      <li><a href="https://ungeho.netlify.app/tags/waymarkplugin/">WaymarkPlugin</a></li>
+    </ul>
+  </section>
+<section class="article-footer-section article-related-section">
+  <h2 class="article-footer-heading">Related Posts</h2>
+  <div class="article-related-grid">
+    <a class="article-related-card" href="/posts/waymark-criterion-mountrokkon/">
+      <span class="article-related-series">Waymark Preset</span>
+      <span class="article-related-title">[Waymark Preset]アナザーダンジョン 異聞六根山</span>
+      <span class="article-related-meta">FFXIV</span>
+    </a>
+    <a class="article-related-card" href="/posts/waymark-criterion-sildihn/">
+      <span class="article-related-series">Waymark Preset</span>
+      <span class="article-related-title">[Waymark Preset]アナザーダンジョン 異聞シラディハ水道</span>
+      <span class="article-related-meta">FFXIV</span>
+    </a>
+    <a class="article-related-card" href="/posts/waymark-dt-sv-hv/">
+      <span class="article-related-series">Waymark Preset</span>
+      <span class="article-related-title">[Waymark Preset]至天の座アルカディア零式：ヘビー級</span>
+      <span class="article-related-meta">FFXIV</span>
+    </a>
+  </div>
+</section>
+
+  <section class="article-footer-section">
+<nav class="paginav">
+  <a class="next" href="https://ungeho.netlify.app/posts/waymark-criterion-mountrokkon/">
+    <span class="title">次へ »</span>
+    <br>
+    <span>[Waymark Preset]アナザーダンジョン 異聞六根山</span>
+  </a>
+</nav>
+
+  </section>
+  <section class="article-footer-section">
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share [Waymark Preset]アナザーダンジョン 異聞アロアロ島 on x"
+            href="https://x.com/intent/tweet/?text=%5bWaymark%20Preset%5d%e3%82%a2%e3%83%8a%e3%82%b6%e3%83%bc%e3%83%80%e3%83%b3%e3%82%b8%e3%83%a7%e3%83%b3%20%e7%95%b0%e8%81%9e%e3%82%a2%e3%83%ad%e3%82%a2%e3%83%ad%e5%b3%b6&amp;url=https%3a%2f%2fungeho.netlify.app%2fposts%2fwaymark-criterion-aloalo%2f&amp;hashtags=FFXIV%2cWaymarkPlugin">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+</section>
+</footer>
+
+    </div>
+<aside class="article-sidebar" aria-label="記事ナビゲーション">
+  <div class="article-sidebar-inner">
+    <div class="reading-progress-card">
+      <div class="reading-progress-label">
+        <span>Reading progress</span>
+        <span class="reading-progress-value" data-reading-progress-value>0%</span>
+      </div>
+      <div class="reading-progress-track" aria-hidden="true">
+        <span class="reading-progress-bar" data-reading-progress-bar></span>
+      </div>
+    </div>
+    <div class="article-jump-nav" data-article-jump-nav hidden></div><div class="toc toc-card" data-toc-card>
+    <details open data-toc-details>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目次</span>
+        </summary>
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#導入方法">導入方法</a></li>
+    <li><a href="#1ボス">1ボス</a>
+      <ul>
+        <li><a href="#ノーマル1boss">ノーマル(1BOSS)</a></li>
+        <li><a href="#零式1boss">零式(1BOSS)</a></li>
+      </ul>
+    </li>
+    <li><a href="#2ボス">2ボス</a>
+      <ul>
+        <li><a href="#ノーマル2boss">ノーマル(2BOSS)</a></li>
+        <li><a href="#零式2boss">零式(2BOSS)</a></li>
+      </ul>
+    </li>
+    <li><a href="#3ボス">3ボス</a>
+      <ul>
+        <li><a href="#ノーマル3boss">ノーマル(3BOSS)</a></li>
+        <li><a href="#零式3boss">零式(3BOSS)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </details>
+</div>
+
+  </div>
+</aside>
+
+  </div>
+</article>
+    </main>
+    
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span>&copy; 2026 <a href="https://ungeho.netlify.app/">ungehoBlog</a></span>
+        </div>
+        <div class="footer-meta">
+            <span>ネトゲが趣味の人の個人ブログ</span>
+            <span>
+                Powered by
+                <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+                <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+            </span>
+        </div>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><script>
+  window.postEnhancementLabels = {
+    nowReading: "\"NOW READING\"",
+    prev: "\"Prev\"",
+    next: "\"Next\"",
+    showMore: "\"続きを見る\"",
+    showLess: "\"たたむ\"",
+    closeImageViewer: "\"画像ビューアを閉じる\"",
+    close: "\"閉じる\""
+  };
+</script><script defer crossorigin="anonymous" src="/js/post-enhancements.min.4bd7577f5be3fe7bea935a345114fa02a203a3b1f27ebe80b9186dac37ab7222.js" integrity="sha256-S9dXf1vj/nvqk1o0URT6AqIDo7Hyfr6AuRhtrDerciI="></script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
