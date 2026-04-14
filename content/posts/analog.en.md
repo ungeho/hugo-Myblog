@@ -1,7 +1,7 @@
 +++
 title = "Is the Real World Really Analog?"
 date = 2026-01-02T18:06:28+09:00
-draft = false
+draft = true
 description = "A short essay on whether the physical world can really be called analog, using the contrast between continuity and discreteness as a guide."
 categories = ["Notes"]
 tags = ["essay", "analog", "continuous", "discrete"]
