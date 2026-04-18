@@ -1,4 +1,12 @@
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const normalizeLabel = (value, fallback) => {
+  if (typeof value !== "string") {
+    return fallback;
+  }
+
+  return value.replace(/^"+|"+$/g, "").trim() || fallback;
+};
+
 const labels = {
   nowReading: "Now Reading",
   prev: "Prev",
@@ -9,6 +17,14 @@ const labels = {
   close: "Close",
   ...(window.postEnhancementLabels || {}),
 };
+
+labels.nowReading = normalizeLabel(labels.nowReading, "Now Reading");
+labels.prev = normalizeLabel(labels.prev, "Prev");
+labels.next = normalizeLabel(labels.next, "Next");
+labels.showMore = normalizeLabel(labels.showMore, "Show more");
+labels.showLess = normalizeLabel(labels.showLess, "Show less");
+labels.closeImageViewer = normalizeLabel(labels.closeImageViewer, "Close image viewer");
+labels.close = normalizeLabel(labels.close, "Close");
 
 const postState = {
   article: null,
