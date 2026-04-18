@@ -1,11 +1,11 @@
 +++
-title = '[Waymark Preset]Another Sildihn Subterrane'
+title = '[FFXIV Waymark Presets]Another Sildihn Subterrane'
 date = 2026-04-09T14:31:38+09:00
 draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]
-series = ["Waymark Preset"]
+series = ["FFXIV Waymark Presets"]
 showtoc = true
 tocopen = true
 math = false

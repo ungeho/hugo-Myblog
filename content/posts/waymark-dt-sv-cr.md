@@ -1,11 +1,11 @@
 +++
-title = '[Waymark Preset]至天の座アルカディア零式：クルーザー級'
+title = '[FFXIV Waymark Presets]至天の座アルカディア零式：クルーザー級'
 date = 2026-04-09T14:05:18+09:00
 draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]
-series = ["Waymark Preset"]
+series = ["FFXIV Waymark Presets"]
 showtoc = true
 tocopen = true
 math = false

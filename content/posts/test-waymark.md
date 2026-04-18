@@ -5,7 +5,7 @@ draft = true
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]
-series = ["Waymark Preset"]
+series = ["FFXIV Waymark Presets"]
 showtoc = true
 tocopen = true
 math = false
@@ -87,4 +87,3 @@ math = false
   "MapID": 0
 }
 ```
-

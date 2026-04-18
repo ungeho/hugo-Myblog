@@ -1,11 +1,11 @@
 +++
-title = '[Waymark Preset]AAC Light-heavyweight Tier (Savage)'
+title = '[FFXIV Waymark Presets]AAC Light-heavyweight Tier (Savage)'
 date = 2026-04-09T13:44:59+09:00
 draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]
-series = ["Waymark Preset"]
+series = ["FFXIV Waymark Presets"]
 showtoc = true
 tocopen = true
 math = false

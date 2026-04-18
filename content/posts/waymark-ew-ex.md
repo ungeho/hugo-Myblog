@@ -1,11 +1,11 @@
 +++
-title = '[Waymark Preset]暁月のフィナーレ 極討滅戦'
+title = '[FFXIV Waymark Presets]暁月のフィナーレ 極討滅戦'
 date = 2026-04-09T11:40:10+09:00
 draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]
-series = ["Waymark Preset"]
+series = ["FFXIV Waymark Presets"]
 showtoc = true
 tocopen = true
 math = false

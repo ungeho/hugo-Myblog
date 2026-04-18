@@ -1,11 +1,11 @@
 +++
-title = '[Waymark Preset] {{ replace .File.ContentBaseName "-" " " | title }}'
+title = '[FFXIV Waymark Presets] {{ replace .File.ContentBaseName "-" " " | title }}'
 date = {{ .Date }}
 draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]
-series = ["Waymark Preset"]
+series = ["FFXIV Waymark Presets"]
 showtoc = true
 tocopen = true
 math = false

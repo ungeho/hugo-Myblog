@@ -1,11 +1,11 @@
 +++
-title = '[Waymark Preset]アナザーダンジョン 異聞六根山'
+title = '[FFXIV Waymark Presets]アナザーダンジョン 異聞六根山'
 date = 2026-04-09T14:45:53+09:00
 draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]
-series = ["Waymark Preset"]
+series = ["FFXIV Waymark Presets"]
 showtoc = true
 tocopen = true
 math = false

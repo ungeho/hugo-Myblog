@@ -1,11 +1,11 @@
 +++
-title = '[Waymark Preset]Edens Gate (Savage)'
+title = '[FFXIV Waymark Presets]Edens Gate (Savage)'
 date = 2026-04-09T12:53:04+09:00
 draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]
-series = ["Waymark Preset"]
+series = ["FFXIV Waymark Presets"]
 showtoc = true
 tocopen = true
 math = false

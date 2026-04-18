@@ -1,11 +1,11 @@
 +++
-title = '[Waymark Preset]Dawntrail Extremes'
+title = '[FFXIV Waymark Presets]Dawntrail Extremes'
 date = 2026-04-09T12:35:39+09:00
 draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]
-series = ["Waymark Preset"]
+series = ["FFXIV Waymark Presets"]
 showtoc = true
 tocopen = true
 math = false

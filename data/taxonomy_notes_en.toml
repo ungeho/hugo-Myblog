@@ -14,8 +14,8 @@ description = "Personal notes and presets for Splatoon in various FFXIV encounte
 [series."FFXIV Raid Notes"]
 description = "A quiet series of raid notes, coordinate helpers, settings, and small utility memos for FFXIV."
 
-[series."Waymark Preset"]
-description = "A series that organizes field marker presets for Waymark Preset Plugin together with import notes, screenshots, and code blocks that are easy to revisit."
+[series."FFXIV Waymark Presets"]
+description = "A series that organizes FFXIV field marker presets for Waymark Preset Plugin together with import notes, screenshots, and code blocks that are easy to revisit."
 
 [series."数学とプログラミング"]
 description = "A series that connects the fun of mathematics with practical ways to think about it in code."

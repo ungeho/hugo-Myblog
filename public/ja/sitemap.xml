@@ -54,6 +54,19 @@
                 href="http://localhost:1313/tags/ffxiv/"
                 />
   </url><url>
+    <loc>http://localhost:1313/series/ffxiv-waymark-presets/</loc>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/series/ffxiv-waymark-presets/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/series/ffxiv-waymark-presets/"
+                />
+  </url><url>
     <loc>http://localhost:1313/posts/</loc>
     <lastmod>2026-04-09T14:55:45+09:00</lastmod>
     <xhtml:link
@@ -104,19 +117,6 @@
                 rel="alternate"
                 hreflang="ja-JP"
                 href="http://localhost:1313/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/series/waymark-preset/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="http://localhost:1313/en/series/waymark-preset/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="http://localhost:1313/series/waymark-preset/"
                 />
   </url><url>
     <loc>http://localhost:1313/tags/waymarkplugin/</loc>

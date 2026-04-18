@@ -1,11 +1,11 @@
 +++
-title = '[Waymark Preset]Abyssos (Savage)'
+title = '[FFXIV Waymark Presets]Abyssos (Savage)'
 date = 2026-04-09T13:21:22+09:00
 draft = false
 description = ""
 categories = ["FFXIV"]
 tags = ["FFXIV", "WaymarkPlugin"]
-series = ["Waymark Preset"]
+series = ["FFXIV Waymark Presets"]
 showtoc = true
 tocopen = true
 math = false
