@@ -565,8 +565,18 @@
     <loc>http://localhost:1313/en/tags/arcadion/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/en/series/arcadion-savage-splatoon/</loc>
+    <loc>http://localhost:1313/en/series/ffxiv-splatoon-presets/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/series/ffxiv-splatoon-presets/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/series/ffxiv-splatoon-presets/"
+                />
   </url><url>
     <loc>http://localhost:1313/en/posts/m12s/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
@@ -663,19 +673,6 @@
   </url><url>
     <loc>http://localhost:1313/en/series/thinking-notes/</loc>
     <lastmod>2026-01-02T18:06:28+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/en/series/ffxiv-splatoon-presets/</loc>
-    <lastmod>2025-12-21T16:08:27+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="http://localhost:1313/series/ffxiv-splatoon-presets/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="http://localhost:1313/en/series/ffxiv-splatoon-presets/"
-                />
   </url><url>
     <loc>http://localhost:1313/en/posts/exdoomtrain/</loc>
     <lastmod>2025-12-21T16:08:27+09:00</lastmod>

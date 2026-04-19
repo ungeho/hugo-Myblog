@@ -16,7 +16,7 @@ math = false
 
 ## 7.4 極 Splatoon Layouts
 
-### Config
+### Configurations
 
 ゲーム内で導入後に`/splatoon`->`Configurationsタブ`で下記の項目を各自設定してください。
 

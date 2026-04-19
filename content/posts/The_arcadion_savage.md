@@ -5,7 +5,7 @@ draft = true
 description = "アルカディア零式の Splatoon Preset をまとめた下書き用メモです。"
 categories = ["FFXIV"]
 tags = ["FFXIV", "Splatoon"]
-series = ["アルカディア零式 Splatoon"]
+series = ["FFXIV Splatoon Presets"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->

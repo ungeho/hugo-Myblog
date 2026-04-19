@@ -598,6 +598,19 @@
     <loc>http://localhost:1313/posts/sample-tech-article/</loc>
     <lastmod>2026-04-04T09:20:00+09:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/series/ffxiv-splatoon-presets/</loc>
+    <lastmod>2026-03-10T00:46:35+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/series/ffxiv-splatoon-presets/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/series/ffxiv-splatoon-presets/"
+                />
+  </url><url>
     <loc>http://localhost:1313/tags/splatoon/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
     <xhtml:link
@@ -610,9 +623,6 @@
                 hreflang="ja-JP"
                 href="http://localhost:1313/tags/splatoon/"
                 />
-  </url><url>
-    <loc>http://localhost:1313/series/%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8F-splatoon/</loc>
-    <lastmod>2026-03-10T00:46:35+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/m12s/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
@@ -705,19 +715,6 @@
                 rel="alternate"
                 hreflang="ja-JP"
                 href="http://localhost:1313/posts/exdoomtrain/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/series/ffxiv-splatoon-presets/</loc>
-    <lastmod>2025-12-21T16:08:27+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="http://localhost:1313/en/series/ffxiv-splatoon-presets/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="http://localhost:1313/series/ffxiv-splatoon-presets/"
                 />
   </url><url>
     <loc>http://localhost:1313/tags/regular-star-polygon/</loc>

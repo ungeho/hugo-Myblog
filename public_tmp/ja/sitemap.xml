@@ -2,21 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://ungeho.netlify.app/posts/waymark-criterion-aloalo/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <loc>https://ungeho.netlify.app/posts/waymark-ultimate/</loc>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
-                href="https://ungeho.netlify.app/en/posts/waymark-criterion-aloalo/"
+                href="https://ungeho.netlify.app/en/posts/waymark-ultimate/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ja-JP"
-                href="https://ungeho.netlify.app/posts/waymark-criterion-aloalo/"
+                href="https://ungeho.netlify.app/posts/waymark-ultimate/"
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/categories/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -29,7 +29,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/categories/ffxiv/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -42,7 +42,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/tags/ffxiv/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -55,7 +55,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/series/ffxiv-waymark-presets/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -68,7 +68,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/posts/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -81,7 +81,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/series/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -94,7 +94,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/tags/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -107,7 +107,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -120,7 +120,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/tags/waymarkplugin/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -130,6 +130,19 @@
                 rel="alternate"
                 hreflang="ja-JP"
                 href="https://ungeho.netlify.app/tags/waymarkplugin/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/waymark-criterion-aloalo/</loc>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/waymark-criterion-aloalo/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/waymark-criterion-aloalo/"
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/posts/waymark-criterion-mountrokkon/</loc>
@@ -585,6 +598,19 @@
     <loc>https://ungeho.netlify.app/posts/sample-tech-article/</loc>
     <lastmod>2026-04-04T09:20:00+09:00</lastmod>
   </url><url>
+    <loc>https://ungeho.netlify.app/series/ffxiv-splatoon-presets/</loc>
+    <lastmod>2026-03-10T00:46:35+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/series/ffxiv-splatoon-presets/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/series/ffxiv-splatoon-presets/"
+                />
+  </url><url>
     <loc>https://ungeho.netlify.app/tags/splatoon/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
     <xhtml:link
@@ -597,9 +623,6 @@
                 hreflang="ja-JP"
                 href="https://ungeho.netlify.app/tags/splatoon/"
                 />
-  </url><url>
-    <loc>https://ungeho.netlify.app/series/%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%87%E3%82%A3%E3%82%A2%E9%9B%B6%E5%BC%8F-splatoon/</loc>
-    <lastmod>2026-03-10T00:46:35+09:00</lastmod>
   </url><url>
     <loc>https://ungeho.netlify.app/posts/m12s/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>
@@ -692,19 +715,6 @@
                 rel="alternate"
                 hreflang="ja-JP"
                 href="https://ungeho.netlify.app/posts/exdoomtrain/"
-                />
-  </url><url>
-    <loc>https://ungeho.netlify.app/series/ffxiv-splatoon-presets/</loc>
-    <lastmod>2025-12-21T16:08:27+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://ungeho.netlify.app/en/series/ffxiv-splatoon-presets/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="https://ungeho.netlify.app/series/ffxiv-splatoon-presets/"
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/tags/regular-star-polygon/</loc>

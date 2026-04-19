@@ -5,11 +5,8 @@ description = "Browse grouped themes that are meant to be read together, from te
 [series."コンピューターで計算する"]
 description = "A series about numerical computing, floating-point errors, and how to reason about calculations on a computer."
 
-[series."アルカディア零式 Splatoon"]
-description = "Splatoon notes for the Arcadion Savage raids, organized so they are easy to revisit before practice."
-
 [series."FFXIV Splatoon Presets"]
-description = "Personal notes and presets for Splatoon in various FFXIV encounters, gathered in one place for quick reference."
+description = "Personal notes and presets for Splatoon in various FFXIV encounters, gathered in one place for quick reference. Arcadion Savage presets are now part of this series as well."
 
 [series."FFXIV Raid Notes"]
 description = "A quiet series of raid notes, coordinate helpers, settings, and small utility memos for FFXIV."
@@ -34,9 +31,6 @@ description = "A series introducing apps I developed with AI assistance, includi
 
 [series."Computing with Numbers"]
 description = "English companion pages for the numerical computing series, covering floating-point arithmetic, interval methods, numerical differentiation, integration, and automatic differentiation."
-
-[series."Arcadion Savage Splatoon"]
-description = "English companion pages for Arcadion Savage Splatoon layouts and setup notes."
 
 [series."Math and Programming"]
 description = "English posts where geometry or mathematical ideas meet implementation."
