@@ -2,6 +2,126 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://ungeho.netlify.app/categories/</loc>
+    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/categories/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/categories/ffxiv/</loc>
+    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/categories/ffxiv/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/categories/ffxiv/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/tags/ffxiv/</loc>
+    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/tags/ffxiv/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/tags/ffxiv/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/series/ffxiv-splatoon-presets/</loc>
+    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/series/ffxiv-splatoon-presets/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/series/ffxiv-splatoon-presets/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/</loc>
+    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/posts/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/series/</loc>
+    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/series/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/tags/splatoon/</loc>
+    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/tags/splatoon/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/tags/splatoon/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/tags/</loc>
+    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/tags/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/</loc>
+    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://ungeho.netlify.app/en/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="https://ungeho.netlify.app/"
+                />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/splatoon-top/</loc>
+    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+  </url><url>
     <loc>https://ungeho.netlify.app/posts/waymark-ultimate/</loc>
     <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
@@ -15,45 +135,6 @@
                 href="https://ungeho.netlify.app/posts/waymark-ultimate/"
                 />
   </url><url>
-    <loc>https://ungeho.netlify.app/categories/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://ungeho.netlify.app/en/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="https://ungeho.netlify.app/categories/"
-                />
-  </url><url>
-    <loc>https://ungeho.netlify.app/categories/ffxiv/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://ungeho.netlify.app/en/categories/ffxiv/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="https://ungeho.netlify.app/categories/ffxiv/"
-                />
-  </url><url>
-    <loc>https://ungeho.netlify.app/tags/ffxiv/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://ungeho.netlify.app/en/tags/ffxiv/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="https://ungeho.netlify.app/tags/ffxiv/"
-                />
-  </url><url>
     <loc>https://ungeho.netlify.app/series/ffxiv-waymark-presets/</loc>
     <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
@@ -65,58 +146,6 @@
                 rel="alternate"
                 hreflang="ja-JP"
                 href="https://ungeho.netlify.app/series/ffxiv-waymark-presets/"
-                />
-  </url><url>
-    <loc>https://ungeho.netlify.app/posts/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://ungeho.netlify.app/en/posts/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="https://ungeho.netlify.app/posts/"
-                />
-  </url><url>
-    <loc>https://ungeho.netlify.app/series/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://ungeho.netlify.app/en/series/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="https://ungeho.netlify.app/series/"
-                />
-  </url><url>
-    <loc>https://ungeho.netlify.app/tags/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://ungeho.netlify.app/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="https://ungeho.netlify.app/tags/"
-                />
-  </url><url>
-    <loc>https://ungeho.netlify.app/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://ungeho.netlify.app/en/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="https://ungeho.netlify.app/"
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/tags/waymarkplugin/</loc>
@@ -597,32 +626,6 @@
   </url><url>
     <loc>https://ungeho.netlify.app/posts/sample-tech-article/</loc>
     <lastmod>2026-04-04T09:20:00+09:00</lastmod>
-  </url><url>
-    <loc>https://ungeho.netlify.app/series/ffxiv-splatoon-presets/</loc>
-    <lastmod>2026-03-10T00:46:35+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://ungeho.netlify.app/en/series/ffxiv-splatoon-presets/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="https://ungeho.netlify.app/series/ffxiv-splatoon-presets/"
-                />
-  </url><url>
-    <loc>https://ungeho.netlify.app/tags/splatoon/</loc>
-    <lastmod>2026-03-10T00:46:35+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://ungeho.netlify.app/en/tags/splatoon/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="https://ungeho.netlify.app/tags/splatoon/"
-                />
   </url><url>
     <loc>https://ungeho.netlify.app/posts/m12s/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>

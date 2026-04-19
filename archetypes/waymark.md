@@ -56,10 +56,7 @@ math = false
 {{< /collapse >}}
 
 ```json
-{
-  "Name": "Content 1",
-  "MapID": 0
-}
+
 ```
 
 ## コンテンツ名 2
@@ -69,10 +66,7 @@ math = false
 {{< /collapse >}}
 
 ```json
-{
-  "Name": "Content 2",
-  "MapID": 0
-}
+
 ```
 
 ## コンテンツ名 3
@@ -82,8 +76,5 @@ math = false
 {{< /collapse >}}
 
 ```json
-{
-  "Name": "Content 3",
-  "MapID": 0
-}
+
 ```

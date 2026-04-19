@@ -510,9 +510,11 @@
 }
 
 .post-content h4 {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 0.55rem;
+    width: fit-content;
+    max-width: 100%;
     padding: 0.18rem 0.85rem 0.22rem 0.2rem;
     border-radius: 999px;
     background: linear-gradient(90deg, color-mix(in srgb, var(--accent-soft) 72%, white), transparent);
@@ -537,9 +539,11 @@
 }
 
 .post-content h5 {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 0.45rem;
+    width: fit-content;
+    max-width: 100%;
     letter-spacing: 0.01em;
 }
 
@@ -552,9 +556,11 @@
 }
 
 .post-content h6 {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 0.4rem;
+    width: fit-content;
+    max-width: 100%;
     font-size: 0.95rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;

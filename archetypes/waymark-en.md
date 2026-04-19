@@ -61,10 +61,7 @@ This template assumes that `XIVLauncher` and `Waymark Preset Plugin` are already
 {{< /collapse >}}
 
 ```json
-{
-  "Name": "Content 1",
-  "MapID": 0
-}
+
 ```
 
 ## Content Name 2
@@ -74,10 +71,7 @@ This template assumes that `XIVLauncher` and `Waymark Preset Plugin` are already
 {{< /collapse >}}
 
 ```json
-{
-  "Name": "Content 2",
-  "MapID": 0
-}
+
 ```
 
 ## Content Name 3
@@ -87,8 +81,5 @@ This template assumes that `XIVLauncher` and `Waymark Preset Plugin` are already
 {{< /collapse >}}
 
 ```json
-{
-  "Name": "Content 3",
-  "MapID": 0
-}
+
 ```
