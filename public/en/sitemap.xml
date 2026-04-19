@@ -2,21 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/en/posts/waymark-criterion-aloalo/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <loc>http://localhost:1313/en/posts/waymark-ultimate/</loc>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja-JP"
-                href="http://localhost:1313/posts/waymark-criterion-aloalo/"
+                href="http://localhost:1313/posts/waymark-ultimate/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
-                href="http://localhost:1313/en/posts/waymark-criterion-aloalo/"
+                href="http://localhost:1313/en/posts/waymark-ultimate/"
                 />
   </url><url>
     <loc>http://localhost:1313/en/categories/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja-JP"
@@ -29,7 +29,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/en/categories/ffxiv/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja-JP"
@@ -42,7 +42,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/en/tags/ffxiv/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja-JP"
@@ -55,7 +55,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/en/series/ffxiv-waymark-presets/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja-JP"
@@ -68,7 +68,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/en/posts/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja-JP"
@@ -81,7 +81,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/en/series/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja-JP"
@@ -94,7 +94,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/en/tags/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja-JP"
@@ -107,7 +107,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/en/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja-JP"
@@ -120,7 +120,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/en/tags/waymarkplugin/</loc>
-    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja-JP"
@@ -130,6 +130,19 @@
                 rel="alternate"
                 hreflang="en-US"
                 href="http://localhost:1313/en/tags/waymarkplugin/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/en/posts/waymark-criterion-aloalo/</loc>
+    <lastmod>2026-04-09T14:55:45+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/posts/waymark-criterion-aloalo/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/posts/waymark-criterion-aloalo/"
                 />
   </url><url>
     <loc>http://localhost:1313/en/posts/waymark-criterion-mountrokkon/</loc>
