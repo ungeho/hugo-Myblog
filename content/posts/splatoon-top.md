@@ -1130,7 +1130,7 @@ public static class CrossOWCExtensions
 }
 ```
 
-### Priority - 検知式波動砲(十字式)
+#### Priority - 検知式波動砲(十字式)
 
 優先度設定が必要です。
 
