@@ -34,6 +34,12 @@ math = false
 
 ---
 
+## Strategy method
+
+基本リリド 検知十字式
+
+---
+
 ## Additional plugins
 
 追加で導入することを推奨するプラグインです。
@@ -66,9 +72,9 @@ https://github.com/paissaheavyindustries/Dalamud-Repo/raw/main/repo.json
 https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/Program%20Loop%20Priority.cs
 ```
 
-#### Configurations
+#### Configurations - サークルプログラム
 
-##### Tethers
+##### Tethers - サークルプログラム
 
 - Tether's AOE color  
   `#1000FF46`
@@ -94,16 +100,16 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 - Detect tether that I'm supposed to pick based on same priority as towers and make it larger  
   **チェックする**
 
-##### Towers
+##### Towers - サークルプログラム
 
 - Tower handling  
   `Start NorthWest`
 
-##### Priority
+##### Priority - サークルプログラム
 
 優先度設定が必要
 
-#### Registered Elements
+#### Registered elements - サークルプログラム
 
 テザーの範囲の境界部分を強調するため、`TetherAOE`の`Thikness`を`8.0`に変更。  
 お好みで
@@ -114,13 +120,482 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 
 ---
 
-### P1 パンクラ無敵タイミング カウントダウン
-
-公式から、パンクラ後の散開の無敵タイミングの為のカウントダウン  
-タンク以外はあってもなくても良い
+### P2 連携プログラムPT
 
 ```url
-https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/Pantokrator%20invincible%20Reminder.cs
+https://github.com/PunishXIV/Splatoon/raw/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/Party%20Synergy.cs
+```
+
+#### Configurations - 連携プログラムPT
+
+- `Decide left/right Function`  
+  **チェックする**
+- Adjustment considering eye distance for biased knock back.  
+  `Furthest from eye adjusts`を**選択する**
+- Adjustment Middle Position for Close knock back  
+  `AdjustmentRight`を**選択する**
+- `Print in chat info about not your adjusts`  
+  **チェックしない**
+- `Explicit position tether`  
+  **チェックする**
+
+#### Priority - 連携プログラムPT
+
+優先度設定が必要
+
+#### Registered Elements - 連携プログラムPT
+
+導入は**必須**です。  
+プレステ散開の位置を処理方に合わせて調整されています。
+
+```json
+{"Elements":{"FarRightCircle":{"Name":"FarRightCircle","type":1,"Enabled":false,"offX":-10.94,"offY":60.14,"offZ":-0.2,"radius":1.0,"color":4278190335,"Filled":true,"fillIntensity":null,"overlayBGColor":0,"overlayTextColor":4278190335,"overlayVOffset":0.0,"overlayFScale":2.0,"overlayPlaceholders":false,"thicc":5.0,"overlayText":"","refActorTargetingYou":0,"refActorNPCNameID":7640,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":false,"refActorCastReverse":false,"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":6,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":true,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":false,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0},"FarRightCross":{"Name":"FarRightCross","type":1,"Enabled":false,"offX":-18.24,"offY":49.78,"offZ":0.0,"radius":1.0,"color":4294967040,"Filled":true,"fillIntensity":null,"overlayBGColor":0,"overlayTextColor":4294967040,"overlayVOffset":0.0,"overlayFScale":2.0,"overlayPlaceholders":false,"thicc":5.0,"overlayText":"","refActorTargetingYou":0,"refActorNPCNameID":7640,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":false,"refActorCastReverse":false,"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":6,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":true,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":false,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0},"FarRightTriangle":{"Name":"FarRightTriangle","type":1,"Enabled":false,"offX":-17.26,"offY":37.96,"offZ":0.0,"radius":1.0,"color":4278255360,"Filled":true,"fillIntensity":null,"overlayBGColor":0,"overlayTextColor":4278255360,"overlayVOffset":0.0,"overlayFScale":2.0,"overlayPlaceholders":false,"thicc":5.0,"overlayText":"","refActorTargetingYou":0,"refActorNPCNameID":7640,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":false,"refActorCastReverse":false,"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":6,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":true,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":false,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0},"FarRightSquare":{"Name":"FarRightSquare","type":1,"Enabled":false,"offX":-11.0,"offY":30.04,"offZ":0.0,"radius":1.0,"color":4294902015,"Filled":true,"fillIntensity":null,"overlayBGColor":0,"overlayTextColor":4294902015,"overlayVOffset":0.0,"overlayFScale":2.0,"overlayPlaceholders":false,"thicc":5.0,"overlayText":"","refActorTargetingYou":0,"refActorNPCNameID":7640,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":false,"refActorCastReverse":false,"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":6,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":true,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":false,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0},"FarLeftSquare":{"Name":"FarLeftSquare","type":1,"Enabled":false,"offX":11.0,"offY":60.12,"offZ":0.0,"radius":1.0,"color":4294902015,"Filled":true,"fillIntensity":null,"overlayBGColor":0,"overlayTextColor":4294902015,"overlayVOffset":0.0,"overlayFScale":2.0,"overlayPlaceholders":false,"thicc":5.0,"overlayText":"","refActorTargetingYou":0,"refActorNPCNameID":7640,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":false,"refActorCastReverse":false,"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":6,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":true,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":false,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0},"FarLeftTriangle":{"Name":"FarLeftTriangle","type":1,"Enabled":false,"offX":17.18,"offY":52.6,"offZ":0.0,"radius":1.0,"color":4278255360,"Filled":true,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4278255360,"overlayVOffset":0.0,"overlayFScale":2.0,"overlayPlaceholders":false,"thicc":5.0,"overlayText":"","refActorTargetingYou":0,"refActorNPCNameID":7640,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":false,"refActorCastReverse":false,"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":6,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":true,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":true,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0},"FarLeftCross":{"Name":"FarLeftCross","type":1,"Enabled":false,"offX":17.46,"offY":38.32,"offZ":0.0,"radius":1.0,"color":4294967040,"Filled":true,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4294967040,"overlayVOffset":0.0,"overlayFScale":2.0,"overlayPlaceholders":false,"thicc":5.0,"overlayText":"","refActorTargetingYou":0,"refActorNPCNameID":7640,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":false,"refActorCastReverse":false,"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":6,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":true,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":false,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0},"FarLeftCircle":{"Name":"FarLeftCircle","type":1,"Enabled":false,"offX":11.0,"offY":29.88,"offZ":0.0,"radius":1.0,"color":4278190335,"Filled":true,"fillIntensity":null,"overlayBGColor":0,"overlayTextColor":4278190335,"overlayVOffset":0.0,"overlayFScale":2.0,"overlayPlaceholders":false,"thicc":5.0,"overlayText":"","refActorTargetingYou":0,"refActorNPCNameID":7640,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":false,"refActorCastReverse":false,"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":6,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":true,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":false,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0}}}
+```
+
+---
+
+### P3 ハローワールド(日本語)
+
+公式のハローワールドのスクリプトを元に、ガイドが日本語に変更されたもの
+
+```C#
+using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.Types;
+using Dalamud.Interface.Colors;
+using ECommons;
+using ECommons.Configuration;
+using ECommons.DalamudServices;
+using ECommons.GameFunctions;
+using ECommons.Hooks;
+using ECommons.ImGuiMethods;
+using ECommons.Logging;
+using Dalamud.Bindings.ImGui;
+using Lumina.Data;
+using Splatoon;
+using Splatoon.SplatoonScripting;
+using Splatoon.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Security.Policy;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol
+{
+    public class Hello_World_JP : SplatoonScript
+    {
+        public override Metadata? Metadata => new(9, "NightmareXIV");
+        public override HashSet<uint> ValidTerritories => [1122];
+        private bool RotPicker = false;
+        private int counter = 0;
+        private List<Element> AvoidAlerts = [];
+        private Config Conf => Controller.GetConfig<Config>();
+
+        private bool IsHelloWorldRunning => FakeParty.Get().Any(x => x.StatusList.Any(z => z.StatusId.EqualsAny(Effects.RedRot, Effects.BlueRot)));
+
+        public class Effects
+        {
+
+            //  Underflow Debugger (3432), Remains = 0.0, Param = 0, Count = 0
+            public const uint NoRedRot = 3432;
+
+            //  _rsv_3433_-1_1_0_0_S74CFC3B0_E74CFC3B0 (3433), Remains = 0.0, Param = 0, Count = 0
+            public const uint NoBlueRot = 3433;
+
+            /// <summary>
+            /// _rsv_3429_-1_1_0_0_S74CFC3B0_E74CFC3B0 (3429), Remains = 15.2, Param = 0, Count = 0
+            /// </summary>
+            public const uint BlueRot = 3429;
+
+            public const uint RedRot = 3526;
+
+            /// <summary>
+            /// Critical Overflow Bug (3525), Remains = 9.2, Param = 0, Count = 0
+            /// </summary>
+            public const uint Defamation = 3525;
+
+            public const uint StackTwoPeople = 3524;
+
+            /// <summary>
+            /// Remote Code Smell (3441), Remains = 8.0, Param = 0, Count = 0<br></br>
+            /// tethers that break when far, must be <10 seconds remaining
+            /// </summary>
+            public const uint UpcomingFarTether = 3441;
+
+            /// <summary>
+            ///   Local Code Smell (3503), Remains = 50.0, Param = 0, Count = 0<br></br>
+            ///   tethers that break when close, must be <10 seconds remaining
+            /// </summary>
+            public const uint UpcomingCloseTether = 3503;
+
+            /// <summary>
+            /// Remote Regression (3530), Remains = 9.6, Param = 0, Count = 0<br></br>
+            /// must be broken first, picks up corresponding rot first
+            /// </summary>
+            public const uint FarTether = 3530;
+
+            /// <summary>
+            ///   Local Regression (3529), Remains = 9.6, Param = 0, Count = 0
+            ///   must be broken second
+            /// </summary>
+            public const uint CloseTether = 3529;
+
+
+        }
+
+        public Vector4 ColorBlueTower = 0xFFFF0000.ToVector4();
+        public Vector4 ColorRedTower = 0xFF0000FF.ToVector4();
+
+        public override void OnSetup()
+        {
+            Controller.RegisterElementFromCode("RedTower", "{\"Name\":\"Red\",\"type\":1,\"Enabled\":false,\"radius\":6.0,\"thicc\":7.0,\"refActorName\":\"*\",\"refActorRequireCast\":true,\"refActorCastId\":[31583],\"includeRotation\":false,\"tether\":true}");
+            Controller.RegisterElementFromCode("BlueTower", "{\"Name\":\"Blue\",\"type\":1,\"Enabled\":false,\"radius\":6.0,\"color\":3372220160,\"thicc\":7.0,\"refActorName\":\"*\",\"refActorRequireCast\":true,\"refActorCastId\":[31584],\"includeRotation\":false,\"tether\":true}");
+            Controller.RegisterElementFromCode("RedTowerSolid", "{\"Name\":\"Red\",\"type\":1,\"Enabled\":false,\"radius\":6.0,\"thicc\":4.0,\"refActorName\":\"*\",\"refActorRequireCast\":true,\"refActorCastId\":[31583],\"includeRotation\":false,\"tether\":false}");
+            Controller.RegisterElementFromCode("BlueTowerSolid", "{\"Name\":\"Blue\",\"type\":1,\"Enabled\":false,\"radius\":6.0,\"color\":3372220160,\"thicc\":4.0,\"refActorName\":\"*\",\"refActorRequireCast\":true,\"refActorCastId\":[31584],\"includeRotation\":false,\"tether\":false}");
+            Controller.RegisterElementFromCode("Reminder", "{\"Name\":\"\",\"type\":1,\"Enabled\":false,\"offZ\":3.5,\"overlayBGColor\":4278190335,\"overlayTextColor\":4294967295,\"overlayFScale\":2.0,\"overlayText\":\"REMINDER\",\"refActorType\":1}");
+
+            Controller.RegisterElementFromCode("DefaPartner", "{\"Name\":\"\",\"type\":1,\"Enabled\":false,\"radius\":0.5,\"color\":4294902015,\"overlayBGColor\":4294902015,\"overlayTextColor\":4294967295,\"overlayPlaceholders\":true,\"overlayText\":\"Defamation\\\\nTaker\",\"refActorObjectID\":11111,\"FillStep\":0.2,\"refActorComparisonType\":2,\"includeRotation\":true,\"Filled\":true}");
+        }
+
+        public override void OnMessage(string Message)
+        {
+            if(Message.Contains(">31599)"))
+            {
+                counter++;
+                PluginLog.Debug("Counter: " + counter);
+            }
+        }
+
+        public override void OnUpdate()
+        {
+            Controller.GetElementByName("DefaPartner").Enabled = false;
+            AvoidAlerts.Each(x => x.Enabled = false);
+
+            try
+            {
+                if(Conf.EnableAvoiders && IsHelloWorldRunning)
+                {
+                    var otherPlayers = FakeParty.Get().Where(x => x.Address != Svc.ClientState.LocalPlayer.Address);
+                    if(HasEffect(Effects.BlueRot))
+                    {
+                        foreach(var x in otherPlayers)
+                        {
+                            if(!x.StatusList.Any(z => z.StatusId.EqualsAny(Effects.BlueRot, Effects.NoBlueRot)))
+                            {
+                                GetAvoidElementByOID(x.EntityId).Enabled = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(!HasEffect(Effects.NoBlueRot))
+                        {
+                            foreach(var x in otherPlayers)
+                            {
+                                if(x.StatusList.Any(z => z.StatusId.EqualsAny(Effects.BlueRot)))
+                                {
+                                    GetAvoidElementByOID(x.EntityId).Enabled = true;
+                                }
+                            }
+                        }
+                    }
+                    if(HasEffect(Effects.RedRot))
+                    {
+                        foreach(var x in otherPlayers)
+                        {
+                            if(!x.StatusList.Any(z => z.StatusId.EqualsAny(Effects.RedRot, Effects.NoRedRot)))
+                            {
+                                GetAvoidElementByOID(x.EntityId).Enabled = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(!HasEffect(Effects.NoRedRot))
+                        {
+                            foreach(var x in otherPlayers)
+                            {
+                                if(x.StatusList.Any(z => z.StatusId.EqualsAny(Effects.RedRot)))
+                                {
+                                    GetAvoidElementByOID(x.EntityId).Enabled = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                e.Log();
+            }
+
+            if((HasEffect(Effects.NoBlueRot) && HasEffect(Effects.NoRedRot)))
+            {
+                RotPicker = false;
+            }
+            if(Svc.Objects.Any(x => x is IBattleChara b && b.CastActionId == 31599))
+            {
+                var isDefamationRed = Svc.Objects.Any(x => x is IPlayerCharacter pc && HasEffect(Effects.Defamation, null, pc) && HasEffect(Effects.RedRot, null, pc));
+                if(HasEffect(Effects.RedRot))
+                {
+                    if(Conf.EnableVisualElementsTowers) TowerRed(false);
+                    if(HasEffect(Effects.Defamation))
+                    {
+                        if(Conf.EnableOverheadHintsGeneric) Reminder("円範囲：赤塔の外側", ImGuiColors.DalamudRed);
+                    }
+                    else
+                    {
+                        if(Conf.EnableOverheadHintsGeneric) Reminder("頭割り：赤塔の内側", ImGuiColors.DalamudRed);
+                    }
+                }
+                else if(HasEffect(Effects.BlueRot))
+                {
+                    if(Conf.EnableVisualElementsTowers) TowerBlue(false);
+                    if(HasEffect(Effects.Defamation))
+                    {
+                        if(Conf.EnableOverheadHintsGeneric) Reminder("円範囲：青塔の外側", ImGuiColors.TankBlue);
+                    }
+                    else
+                    {
+                        if(Conf.EnableOverheadHintsGeneric) Reminder("頭割り：青塔の内側", ImGuiColors.TankBlue);
+                    }
+                }
+                else if(HasEffect(Effects.UpcomingCloseTether, 10f))
+                {
+                    if(counter != 4 && !(HasEffect(Effects.NoBlueRot) && HasEffect(Effects.NoRedRot))) RotPicker = true;
+                    if(counter != 4)
+                    {
+                        var partner = FakeParty.Get().FirstOrDefault(x => x.Address != Svc.ClientState.LocalPlayer.Address && HasEffect(Effects.UpcomingCloseTether, 10f, x));
+                        if(isDefamationRed)
+                        {
+                            if(Conf.EnableVisualElementsTowers) TowerRed(true);
+                            if(Conf.EnableOverheadHintsGeneric) Reminder("赤塔の前で離れる - 円範囲を受ける", ImGuiColors.DalamudRed);
+                        }
+                        else
+                        {
+                            if(Conf.EnableVisualElementsTowers) TowerBlue(true);
+                            if(Conf.EnableOverheadHintsGeneric) Reminder("青塔の前で離れる - 円範囲を受ける", ImGuiColors.TankBlue);
+                        }
+                        if(partner != null)
+                        {
+                            if(Conf.EnableDefamationPartner)
+                            {
+                                Controller.GetElementByName("DefaPartner").Enabled = true;
+                                Controller.GetElementByName("DefaPartner").tether = Conf.EnableDefamationPartnerTether;
+                                Controller.GetElementByName("DefaPartner").refActorObjectID = partner.EntityId;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(isDefamationRed)
+                        {
+                            if(Conf.EnableVisualElementsTowers) TowerBlue(true);
+                            if(Conf.EnableOverheadHintsGeneric) Reminder("青塔の間 - 最後の散開or頭割り", ImGuiColors.TankBlue);
+                        }
+                        else
+                        {
+                            if(Conf.EnableVisualElementsTowers) TowerRed(true);
+                            if(Conf.EnableOverheadHintsGeneric) Reminder("赤塔の間 - 最後の散開or頭割り", ImGuiColors.DalamudRed);
+                        }
+                    }
+                }
+                else if(HasEffect(Effects.UpcomingFarTether, 10))
+                {
+                    if(counter != 4 && !(HasEffect(Effects.NoBlueRot) && HasEffect(Effects.NoRedRot))) RotPicker = true;
+                    if(isDefamationRed)
+                    {
+                        if(Conf.EnableVisualElementsTowers) TowerBlue(true);
+                        if(Conf.EnableOverheadHintsGeneric) Reminder("青塔の間" + (counter == 4 ? " - 最後の頭割り" : " - 頭割り"), ImGuiColors.TankBlue);
+                    }
+                    else
+                    {
+                        if(Conf.EnableVisualElementsTowers) TowerRed(true);
+                        if(Conf.EnableOverheadHintsGeneric) Reminder("赤塔の間" + (counter == 4 ? " - 最後の頭割り" : " - 頭割り"), ImGuiColors.DalamudRed);
+                    }
+                }
+            }
+            else
+            {
+                TowerOff();
+                Reminder(null);
+                if(RotPicker)
+                {
+                    if(Conf.EnableRotPickerReminding) Reminder("デバフをもらう", 0xFF000000.ToVector4());
+                    if(HasEffect(Effects.BlueRot) || HasEffect(Effects.RedRot))
+                    {
+                        RotPicker = false;
+                    }
+                }
+                else
+                {
+                    if(HasEffect(Effects.FarTether))
+                    {
+                        if(Conf.EnableOverheadHintsTether) Reminder("線を切る - 離れる", ImGuiColors.HealerGreen);
+                    }
+                    if(HasEffect(Effects.CloseTether) && !Svc.Objects.Any(x => x is IPlayerCharacter pc && HasEffect(Effects.FarTether)))
+                    {
+                        if(Conf.EnableOverheadHintsTether) Reminder("線を切る - 近づく", ImGuiColors.ParsedBlue);
+                    }
+                }
+            }
+        }
+
+        public override void OnEnable()
+        {
+            TowerOff();
+            Reminder(null);
+            counter = 0;
+            RotPicker = false;
+            Controller.GetElementByName("DefaPartner").Enabled = false;
+            SetupElements();
+            PluginLog.Information("Counter: " + counter);
+        }
+
+        private void SetupElements()
+        {
+            var list = FakeParty.Get().ToArray();
+            PluginLog.Debug($"Party count is {list}");
+            AvoidAlerts.Clear();
+            for(var i = 0; i < list.Length; i++)
+            {
+                AvoidAlerts.Add(Controller.RegisterElementFromCode($"Avoid{i}", "{\"Name\":\"\",\"type\":3,\"Enabled\":false,\"refZ\":1.2,\"radius\":0.0,\"color\":3355473407,\"overlayFScale\":5.0,\"thicc\":25.0,\"refActorObjectID\":12345678,\"refActorComparisonType\":2}".Replace("12345678", $"{list[i].EntityId}")));
+            }
+        }
+
+        public override void OnDirectorUpdate(DirectorUpdateCategory category)
+        {
+            if(category.EqualsAny(DirectorUpdateCategory.Recommence, DirectorUpdateCategory.Wipe, DirectorUpdateCategory.Commence))
+            {
+                OnEnable();
+                if(category != DirectorUpdateCategory.Wipe)
+                {
+                    SetupElements();
+                }
+            }
+        }
+
+        private void TowerRed(bool filled)
+        {
+            Controller.GetElementByName("RedTower").Enabled = true;
+            Controller.GetElementByName("BlueTower").Enabled = false;
+            Controller.GetElementByName("RedTower").color = GradientColor.Get(ColorRedTower, ColorRedTower with { W = 0.5f }, 333).ToUint();
+            Controller.GetElementByName("RedTowerSolid").Enabled = filled;
+            if(filled)
+            {
+                Controller.GetElementByName("RedTowerSolid").Filled = true;
+                Controller.GetElementByName("RedTowerSolid").color = (ColorRedTower with { W = 0.3f }).ToUint();
+            }
+        }
+
+        private void TowerBlue(bool filled)
+        {
+            Controller.GetElementByName("RedTower").Enabled = false;
+            Controller.GetElementByName("BlueTower").Enabled = true;
+            Controller.GetElementByName("BlueTower").color = GradientColor.Get(ColorBlueTower, ColorBlueTower with { W = 0.5f }, 333).ToUint();
+            Controller.GetElementByName("BlueTowerSolid").Enabled = filled;
+            if(filled)
+            {
+                Controller.GetElementByName("BlueTowerSolid").Filled = true;
+                Controller.GetElementByName("BlueTowerSolid").color = (ColorBlueTower with { W = 0.3f }).ToUint();
+            }
+        }
+
+        private void TowerOff()
+        {
+            Controller.GetElementByName("RedTower").Enabled = false;
+            Controller.GetElementByName("BlueTower").Enabled = false;
+        }
+
+        private static bool HasEffect(uint effect, float? remainingTile = null, IBattleChara? obj = null)
+        {
+            return (obj ?? Svc.ClientState.LocalPlayer).StatusList.Any(x => x.StatusId == effect && (remainingTile == null || x.RemainingTime < remainingTile));
+        }
+
+        private void Reminder(string? text, Vector4? color = null)
+        {
+            if(Controller.TryGetElementByName("Reminder", out var e))
+            {
+                if(text == null)
+                {
+                    e.Enabled = false;
+                }
+                else
+                {
+                    e.Enabled = true;
+                    e.overlayText = text;
+                }
+                if(color != null)
+                {
+                    e.overlayBGColor = color.Value.ToUint();
+                }
+            }
+        }
+
+        private Element? GetAvoidElementByOID(uint oid)
+        {
+            foreach(var e in AvoidAlerts)
+            {
+                if(e.refActorObjectID == oid)
+                {
+                    return e;
+                }
+            }
+            return null;
+        }
+
+        public override void OnSettingsDraw()
+        {
+            ImGui.Checkbox($"Highlight players contacting with which will result debuff to spread", ref Conf.EnableAvoiders);
+            ImGui.Checkbox($"Display your defamation partner", ref Conf.EnableDefamationPartner);
+            ImGui.SameLine();
+            ImGui.Checkbox($"Tether to partner", ref Conf.EnableDefamationPartnerTether);
+            ImGui.Checkbox($"Enable visual elements for towers", ref Conf.EnableVisualElementsTowers);
+            ImGui.Checkbox($"Enable general mechanic overhead hints", ref Conf.EnableOverheadHintsGeneric);
+            ImGui.Checkbox($"Enable rot picking overhead reminder", ref Conf.EnableRotPickerReminding);
+            ImGui.Checkbox($"Enable tether break overhead reminder", ref Conf.EnableOverheadHintsTether);
+        }
+    }
+
+    public class Config : IEzConfig
+    {
+        public bool EnableAvoiders = true;
+        public bool EnableDefamationPartner = true;
+        public bool EnableDefamationPartnerTether = false;
+        public bool EnableVisualElementsTowers = true;
+        public bool EnableOverheadHintsGeneric = true;
+        public bool EnableOverheadHintsTether = true;
+        public bool EnableRotPickerReminding = true;
+    }
+}
+```
+
+#### Configuration - ハローワールド
+
+- `Highlight players constanting with which will result debuff to spread`  
+  **チェックする**
+- `Display your defamation partner`  
+  **チェックする**
+  - `Tether to partner`  
+    **チェックしない**
+- `Enable visual elements for towers`  
+  **チェックする**
+- `Enable general mechanic overhead hints`  
+  **チェックする**
+- `Enable rot picking overhead reminder`  
+  **チェックする**
+- `Enable tether break overhead reminder`  
+  **チェックする**
+
+#### Registered Elements - ハローワールド
+
+塔の塗りつぶしを少し薄く変更  
+お好みで
+
+```json
+{"Elements":{"RedTower":{"Name":"Red","type":1,"Enabled":true,"offX":0.0,"offY":0.0,"offZ":0.0,"radius":6.0,"color":3321889023,"Filled":true,"fillIntensity":0.2,"overlayBGColor":1879048192,"overlayTextColor":3372220415,"overlayVOffset":0.0,"overlayFScale":1.0,"overlayPlaceholders":false,"thicc":7.0,"overlayText":"","refActorName":"*","refActorTargetingYou":0,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":true,"refActorCastReverse":false,"refActorCastId":[31583],"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":0,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":false,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":true,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0},"BlueTower":{"Name":"Blue","type":1,"Enabled":false,"offX":0.0,"offY":0.0,"offZ":0.0,"radius":6.0,"color":3372220160,"Filled":true,"fillIntensity":0.2,"overlayBGColor":1879048192,"overlayTextColor":3372220415,"overlayVOffset":0.0,"overlayFScale":1.0,"overlayPlaceholders":false,"thicc":7.0,"overlayText":"","refActorName":"*","refActorTargetingYou":0,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":true,"refActorCastReverse":false,"refActorCastId":[31584],"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":0,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":false,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":true,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0},"RedTowerSolid":{"Name":"Red","type":1,"Enabled":false,"offX":0.0,"offY":0.0,"offZ":0.0,"radius":6.0,"color":3355443455,"Filled":true,"fillIntensity":null,"overlayBGColor":1879048192,"overlayTextColor":3372220415,"overlayVOffset":0.0,"overlayFScale":1.0,"overlayPlaceholders":false,"thicc":4.0,"overlayText":"","refActorName":"*","refActorTargetingYou":0,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":true,"refActorCastReverse":false,"refActorCastId":[31583],"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":0,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":false,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":false,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0}}}
 ```
 
 ---
