@@ -129,15 +129,15 @@ https://github.com/PunishXIV/Splatoon/raw/main/SplatoonScripts/Duties/Endwalker/
 
 #### Configurations - 連携プログラムPT
 
-- `Decide left/right Function`  
+- Decide left/right Function  
   **チェックする**
 - Adjustment considering eye distance for biased knock back.  
   `Furthest from eye adjusts`を**選択する**
 - Adjustment Middle Position for Close knock back  
   `AdjustmentRight`を**選択する**
-- `Print in chat info about not your adjusts`  
+- Print in chat info about not your adjusts  
   **チェックしない**
-- `Explicit position tether`  
+- Explicit position tether  
   **チェックする**
 
 #### Priority - 連携プログラムPT
