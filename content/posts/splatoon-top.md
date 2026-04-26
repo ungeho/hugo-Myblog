@@ -108,7 +108,8 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 
 #### Priority - サークルプログラム
 
-優先度設定が必要
+優先度設定が必要  
+上から`H1,MT,ST,D1,D2,D3,D4,H2`
 
 #### Registered elements - サークルプログラム
 
@@ -142,7 +143,8 @@ https://github.com/PunishXIV/Splatoon/raw/main/SplatoonScripts/Duties/Endwalker/
 
 #### Priority - 連携プログラムPT
 
-優先度設定が必要
+優先度設定が必要  
+上から`H1,MT,D1,D3,D4,D2,ST,H2`
 
 #### Registered Elements - 連携プログラムPT
 
@@ -1132,7 +1134,8 @@ public static class CrossOWCExtensions
 
 #### Priority - 検知式波動砲(十字式)
 
-優先度設定が必要です。
+優先度設定が必要。  
+上から`MT,ST,H1,H2,D1,D2,D3,D4`
 
 ---
 
