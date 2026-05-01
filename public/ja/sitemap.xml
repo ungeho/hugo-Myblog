@@ -2,6 +2,129 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/categories/</loc>
+    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/categories/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/categories/ffxiv/</loc>
+    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/categories/ffxiv/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/categories/ffxiv/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/tags/ffxiv/</loc>
+    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/tags/ffxiv/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/tags/ffxiv/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/series/ffxiv-splatoon-presets/</loc>
+    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/series/ffxiv-splatoon-presets/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/series/ffxiv-splatoon-presets/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/posts/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/series/</loc>
+    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/series/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/tags/splatoon/</loc>
+    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/tags/splatoon/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/tags/splatoon/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/tags/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="http://localhost:1313/en/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-JP"
+                href="http://localhost:1313/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/posts/splatoon-no/</loc>
+    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/splatoon-top/</loc>
+    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/posts/waymark-ultimate/</loc>
     <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
@@ -15,45 +138,6 @@
                 href="http://localhost:1313/posts/waymark-ultimate/"
                 />
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="http://localhost:1313/en/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="http://localhost:1313/categories/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/categories/ffxiv/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="http://localhost:1313/en/categories/ffxiv/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="http://localhost:1313/categories/ffxiv/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/tags/ffxiv/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="http://localhost:1313/en/tags/ffxiv/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="http://localhost:1313/tags/ffxiv/"
-                />
-  </url><url>
     <loc>http://localhost:1313/series/ffxiv-waymark-presets/</loc>
     <lastmod>2026-04-19T15:21:44+09:00</lastmod>
     <xhtml:link
@@ -65,58 +149,6 @@
                 rel="alternate"
                 hreflang="ja-JP"
                 href="http://localhost:1313/series/ffxiv-waymark-presets/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="http://localhost:1313/en/posts/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="http://localhost:1313/posts/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/series/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="http://localhost:1313/en/series/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="http://localhost:1313/series/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="http://localhost:1313/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="http://localhost:1313/tags/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2026-04-19T15:21:44+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="http://localhost:1313/en/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="http://localhost:1313/"
                 />
   </url><url>
     <loc>http://localhost:1313/tags/waymarkplugin/</loc>
@@ -597,32 +629,6 @@
   </url><url>
     <loc>http://localhost:1313/posts/sample-tech-article/</loc>
     <lastmod>2026-04-04T09:20:00+09:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/series/ffxiv-splatoon-presets/</loc>
-    <lastmod>2026-03-10T00:46:35+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="http://localhost:1313/en/series/ffxiv-splatoon-presets/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="http://localhost:1313/series/ffxiv-splatoon-presets/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/tags/splatoon/</loc>
-    <lastmod>2026-03-10T00:46:35+09:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="http://localhost:1313/en/tags/splatoon/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ja-JP"
-                href="http://localhost:1313/tags/splatoon/"
-                />
   </url><url>
     <loc>http://localhost:1313/posts/m12s/</loc>
     <lastmod>2026-03-10T00:46:35+09:00</lastmod>

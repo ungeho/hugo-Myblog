@@ -6,8 +6,22 @@
     <description>Recent content in FFXIV on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-JP</language>
-    <lastBuildDate>Sun, 19 Apr 2026 15:21:44 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 01 May 2026 17:02:50 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/ffxiv/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>極エヌオー討滅戦</title>
+      <link>http://localhost:1313/posts/splatoon-no/</link>
+      <pubDate>Fri, 01 May 2026 17:02:50 +0900</pubDate>
+      <guid>http://localhost:1313/posts/splatoon-no/</guid>
+      <description>極エヌオー討滅戦のSplatoonレイアウト</description>
+    </item>
+    <item>
+      <title>絶オメガ検証戦</title>
+      <link>http://localhost:1313/posts/splatoon-top/</link>
+      <pubDate>Sun, 19 Apr 2026 15:51:01 +0900</pubDate>
+      <guid>http://localhost:1313/posts/splatoon-top/</guid>
+      <description>絶オメガ検証戦のSplatoonレイアウト</description>
+    </item>
     <item>
       <title>[FFXIV Waymark Presets] 絶レイド</title>
       <link>http://localhost:1313/posts/waymark-ultimate/</link>
