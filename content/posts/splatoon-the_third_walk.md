@@ -14,13 +14,14 @@ tocopen = false
 math = false
 +++
 
+> [!WARNING] 未完成のレイアウト
+> このレイアウトは未完成です。  
+> 確認できた攻撃のみレイアウトを作成しています。  
+> ※特に、最後のボスではレイアウトが表示されない攻撃が多くあります。
+
 ---
 
 ## Layout
-
-> [!CAUTION] 未完成のレイアウト
-> 確認できた攻撃のみレイアウトを作成しています。  
-> ※特に、最後のボスではレイアウトが表示されない攻撃が多くあります。
 
 ```json
 ~Lv2~{"Name":"Shantotto the Demon","Group":"Windust: the Third Walk","ZoneLockH":[1368],"ElementsL":[{"Name":"エンピリカルリサーチ","type":3,"refY":40.0,"radius":6.0,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":14778,"refActorRequireCast":true,"refActorCastId":[50206,50207,50208,50209],"refActorUseCastTime":true,"refActorCastTimeMax":3.5,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"onlyVisible":true},{"Name":"すり潰しクエイク","type":3,"refY":14.0,"radius":6.0,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":14778,"refActorRequireCast":true,"refActorCastId":[50196],"refActorCastTimeMax":3.5,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"onlyUnTargetable":true,"IsDead":false},{"Name":"寄らばブリザド","type":1,"radius":10.0,"fillIntensity":0.3,"thicc":4.0,"refActorNPCID":14778,"refActorRequireCast":true,"refActorCastId":[50203],"refActorCastTimeMax":3.5,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"onlyTargetable":true,"IsDead":false},{"Name":"瓦礫落下(小円)","type":1,"radius":8.0,"fillIntensity":0.3,"thicc":4.0,"refActorNPCID":14778,"refActorRequireCast":true,"refActorCastId":[50188],"refActorUseCastTime":true,"refActorCastTimeMin":2.7,"refActorCastTimeMax":4.2,"refActorComparisonType":4,"includeRotation":true,"onlyUnTargetable":true,"IsDead":false},{"Name":"瓦礫落下(円)","type":1,"radius":12.0,"fillIntensity":0.3,"thicc":4.0,"refActorNPCID":14778,"refActorRequireCast":true,"refActorCastId":[50189],"refActorUseCastTime":true,"refActorCastTimeMin":2.7,"refActorCastTimeMax":4.2,"refActorComparisonType":4,"includeRotation":true,"onlyUnTargetable":true,"IsDead":false},{"Name":"瓦礫落下(小直線)","type":3,"refY":25.0,"radius":3.0,"fillIntensity":0.3,"thicc":4.0,"refActorNPCID":14778,"refActorRequireCast":true,"refActorCastId":[50190],"refActorUseCastTime":true,"refActorCastTimeMin":2.7,"refActorCastTimeMax":4.2,"refActorComparisonType":4,"includeRotation":true,"onlyUnTargetable":true,"IsDead":false},{"Name":"瓦礫落下(直線)","type":3,"refY":35.0,"radius":5.0,"fillIntensity":0.3,"thicc":4.0,"refActorNPCID":14778,"refActorRequireCast":true,"refActorCastId":[50191],"refActorUseCastTime":true,"refActorCastTimeMin":2.7,"refActorCastTimeMax":4.2,"refActorComparisonType":4,"includeRotation":true,"onlyUnTargetable":true,"IsDead":false}]}
