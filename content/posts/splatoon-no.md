@@ -20,9 +20,12 @@ math = false
 
 極エヌオー討滅戦のフィールドマーカー
 
-```json
-{"Name":"Imported","MapID":1116,"A":{"X":100.0,"Y":0.0,"Z":89.0,"ID":0,"Active":true},"B":{"X":111.0,"Y":0.0,"Z":100.0,"ID":1,"Active":true},"C":{"X":100.0,"Y":0.0,"Z":111.0,"ID":2,"Active":true},"D":{"X":89.0,"Y":0.0,"Z":100.0,"ID":3,"Active":true},"One":{"X":92.22183,"Y":0.0,"Z":92.22183,"ID":4,"Active":true},"Two":{"X":107.77817,"Y":0.0,"Z":92.22183,"ID":5,"Active":true},"Three":{"X":107.77817,"Y":0.0,"Z":107.77817,"ID":6,"Active":true},"Four":{"X":92.22183,"Y":0.0,"Z":107.77817,"ID":7,"Active":true}}
-```
+{{< linkcard
+  url="/posts/waymark-dt-ex/"
+  title="[FFXIV Waymark Presets] 黄金のレガシー 極討滅戦"
+  desc="黄金のレガシー 極討滅戦のフィールドマーカー"
+  meta="Related"
+/>}}
 
 ---
 
