@@ -31,6 +31,10 @@ math = false
 
 ## Script
 
+> [!CAUTION] AIにより生成されたテスト不十分のスクリプト
+> リプレイでの動作確認のみ行っており、実運用では問題が発生する可能性があります。  
+> そのため、スクリプトと同様の役割を持つレイアウトを併用できるよう残しています。
+
 ### 混沌の激流 (EX7 Chaotic Torrent Orbs)
 
 基本的に設定不要  
@@ -467,8 +471,9 @@ internal class EX7_Chaotic_Torrent_Orbs : SplatoonScript
 
 ### 無の追跡(EX7 Void Pursuit)
 
-2回目の追跡対象に自身が選出された場合、玉の位置を基準に90度反時計回りの位置へ誘導します。  
-設定は不要
+設定不要  
+  
+2回目の追跡対象に自身が選出された場合、玉の位置を基準に90度反時計回りの位置へ誘導します。
 
 ```C#
 using Dalamud.Game.ClientState.Objects.SubKinds;
