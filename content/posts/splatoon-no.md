@@ -514,6 +514,8 @@ internal class EX7_Void_Pursuit : SplatoonScript
     private readonly Dictionary<string, OrbRecord> _playerToOrb = [];
     private string _followSourcePlayerName = "";
     private long _followTetherMs = 0;
+    private bool _guideSuppressed = false;
+    private long _guideSuppressedMs = 0;
 
     public override void OnSetup()
     {
@@ -547,14 +549,31 @@ internal class EX7_Void_Pursuit : SplatoonScript
             if (IsSelfTether(source, target))
             {
                 OffAll();
-                ClearState();
-                DebugLog("Self tether switched to 404, hiding guide");
+                ClearFollowState();
+                _guideSuppressed = true;
+                _guideSuppressedMs = Environment.TickCount64;
+                DebugLog("Self tether switched to 404, suppressing guide");
                 return;
             }
 
+            if (IsGuideSuppressed())
+            {
+                DebugLog("Guide suppressed, ignoring 404 tether");
+                return;
+            }
+
+            ClearExpiredGuideSuppression();
             RecordOrbChaseTether(source, target);
             return;
         }
+
+        if (IsGuideSuppressed())
+        {
+            DebugLog("Guide suppressed, ignoring tether");
+            return;
+        }
+
+        ClearExpiredGuideSuppression();
 
         if (data3 == PlayerFollowTetherData3)
             RecordPlayerFollowTether(source, target);
@@ -563,6 +582,11 @@ internal class EX7_Void_Pursuit : SplatoonScript
     public override void OnUpdate()
     {
         OffAll();
+
+        if (IsGuideSuppressed())
+            return;
+
+        ClearExpiredGuideSuppression();
 
         if (string.IsNullOrEmpty(_followSourcePlayerName))
             return;
@@ -604,6 +628,7 @@ internal class EX7_Void_Pursuit : SplatoonScript
             ImGuiEx.Text($"Follow source player: {_followSourcePlayerName}");
             ImGuiEx.Text($"Tracked orb count: {_playerToOrb.Count}");
             ImGuiEx.Text($"Follow tether age ms: {(Environment.TickCount64 - _followTetherMs)}");
+            ImGuiEx.Text($"Guide suppressed: {_guideSuppressed}");
         }
     }
 
@@ -686,9 +711,32 @@ internal class EX7_Void_Pursuit : SplatoonScript
 
     private void ClearState()
     {
+        ClearFollowState();
+        ClearGuideSuppression();
+    }
+
+    private void ClearFollowState()
+    {
         _playerToOrb.Clear();
         _followSourcePlayerName = "";
         _followTetherMs = 0;
+    }
+
+    private void ClearGuideSuppression()
+    {
+        _guideSuppressed = false;
+        _guideSuppressedMs = 0;
+    }
+
+    private bool IsGuideSuppressed()
+    {
+        return _guideSuppressed && Environment.TickCount64 - _guideSuppressedMs <= TetherMemoryMs;
+    }
+
+    private void ClearExpiredGuideSuppression()
+    {
+        if (_guideSuppressed && Environment.TickCount64 - _guideSuppressedMs > TetherMemoryMs)
+            ClearGuideSuppression();
     }
 
     private void PruneOldOrbRecords()
