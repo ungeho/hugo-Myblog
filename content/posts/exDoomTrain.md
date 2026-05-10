@@ -1,5 +1,5 @@
 +++
-title = '7.4極 Splatoon Layout'
+title = '極グラシャラボラス討滅戦'
 date = 2025-12-21T16:08:27+09:00
 draft = false
 description = "7.4 極向けの Splatoon Layout と使用メモです。"
@@ -14,7 +14,7 @@ tocopen = true
 math = false
 +++
 
-## 7.4 極 Splatoon Layouts
+## 極グラシャラボラス
 
 ### Configurations
 

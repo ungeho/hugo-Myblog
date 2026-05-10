@@ -1,5 +1,5 @@
 +++
-title = 'ヘビー級零式1層SplatoonLayout'
+title = 'ヘビー級零式1層'
 date = 2026-01-07T23:07:30+09:00
 draft = false
 description = "至天の座アルカディア零式ライトヘビー級1層向けの Splatoon Layout とスクリプト導入メモです。"
