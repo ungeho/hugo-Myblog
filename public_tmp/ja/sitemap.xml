@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ungeho.netlify.app/categories/</loc>
-    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/categories/ffxiv/</loc>
-    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -29,7 +29,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/tags/ffxiv/</loc>
-    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -42,7 +42,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/series/ffxiv-splatoon-presets/</loc>
-    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -55,7 +55,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/posts/</loc>
-    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -68,7 +68,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/series/</loc>
-    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -81,7 +81,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/tags/splatoon/</loc>
-    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -94,7 +94,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/tags/</loc>
-    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -107,7 +107,7 @@
                 />
   </url><url>
     <loc>https://ungeho.netlify.app/</loc>
-    <lastmod>2026-04-19T15:51:01+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -118,6 +118,12 @@
                 hreflang="ja-JP"
                 href="https://ungeho.netlify.app/"
                 />
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/splatoon-the_third_walk/</loc>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
+  </url><url>
+    <loc>https://ungeho.netlify.app/posts/splatoon-no/</loc>
+    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
   </url><url>
     <loc>https://ungeho.netlify.app/posts/splatoon-top/</loc>
     <lastmod>2026-04-19T15:51:01+09:00</lastmod>

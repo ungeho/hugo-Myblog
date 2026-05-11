@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/categories/ffxiv/</loc>
-    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -29,7 +29,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/tags/ffxiv/</loc>
-    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -42,7 +42,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/series/ffxiv-splatoon-presets/</loc>
-    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -55,7 +55,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -68,7 +68,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/series/</loc>
-    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -81,7 +81,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/tags/splatoon/</loc>
-    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -94,7 +94,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -107,7 +107,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2026-05-01T17:02:50+09:00</lastmod>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -118,6 +118,9 @@
                 hreflang="ja-JP"
                 href="http://localhost:1313/"
                 />
+  </url><url>
+    <loc>http://localhost:1313/posts/splatoon-the_third_walk/</loc>
+    <lastmod>2026-05-02T11:50:30+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/splatoon-no/</loc>
     <lastmod>2026-05-01T17:02:50+09:00</lastmod>

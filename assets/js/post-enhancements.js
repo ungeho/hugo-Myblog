@@ -501,6 +501,101 @@ const wrapTables = () => {
     table.parentNode.insertBefore(wrapper, table);
     wrapper.appendChild(table);
   });
+
+  setupScrollableTables();
+};
+
+const updateScrollableTableState = (wrapper) => {
+  const isOverflowing = wrapper.scrollWidth - wrapper.clientWidth > 10;
+  wrapper.classList.toggle("is-overflowing", isOverflowing);
+  wrapper.classList.toggle("is-scrolled-start", wrapper.scrollLeft > 10);
+  wrapper.classList.toggle(
+    "is-scrolled-end",
+    wrapper.scrollLeft + wrapper.clientWidth >= wrapper.scrollWidth - 10,
+  );
+};
+
+const setupScrollableTables = () => {
+  document.querySelectorAll(".table-scroll").forEach((wrapper) => {
+    updateScrollableTableState(wrapper);
+
+    if (wrapper.dataset.dragScrollReady === "true") {
+      return;
+    }
+
+    wrapper.dataset.dragScrollReady = "true";
+
+    let pointerId = null;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let dragMoved = false;
+
+    wrapper.addEventListener(
+      "scroll",
+      () => {
+        wrapper.classList.add("is-interacted");
+        updateScrollableTableState(wrapper);
+      },
+      { passive: true },
+    );
+
+    wrapper.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "touch" || event.button !== 0) {
+        return;
+      }
+
+      if (!wrapper.classList.contains("is-overflowing")) {
+        return;
+      }
+
+      pointerId = event.pointerId;
+      startX = event.clientX;
+      startScrollLeft = wrapper.scrollLeft;
+      dragMoved = false;
+      wrapper.classList.add("is-dragging");
+      wrapper.setPointerCapture(pointerId);
+    });
+
+    wrapper.addEventListener("pointermove", (event) => {
+      if (pointerId !== event.pointerId) {
+        return;
+      }
+
+      const deltaX = event.clientX - startX;
+      if (Math.abs(deltaX) > 4) {
+        dragMoved = true;
+        wrapper.classList.add("is-interacted");
+      }
+
+      if (!dragMoved) {
+        return;
+      }
+
+      wrapper.scrollLeft = startScrollLeft - deltaX;
+      updateScrollableTableState(wrapper);
+    });
+
+    const stopDrag = (event) => {
+      if (pointerId !== event.pointerId) {
+        return;
+      }
+
+      if (wrapper.hasPointerCapture(pointerId)) {
+        wrapper.releasePointerCapture(pointerId);
+      }
+
+      pointerId = null;
+      wrapper.classList.remove("is-dragging");
+      updateScrollableTableState(wrapper);
+    };
+
+    wrapper.addEventListener("pointerup", stopDrag);
+    wrapper.addEventListener("pointercancel", stopDrag);
+    wrapper.addEventListener("lostpointercapture", () => {
+      pointerId = null;
+      wrapper.classList.remove("is-dragging");
+    });
+  });
 };
 
 const setupTocAutoOpen = () => {
@@ -569,6 +664,7 @@ const scheduleResizeUpdates = () => {
     rebuildSections();
     setupTocAutoOpen();
     setupHeadingObserver();
+    setupScrollableTables();
     runScrollUpdates();
     postState.resizeTicking = false;
   });

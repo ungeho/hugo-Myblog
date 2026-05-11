@@ -1280,9 +1280,91 @@
     margin-inline: auto;
     max-width: 100%;
     overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-gutter: stable;
+    scrollbar-width: auto;
+    scrollbar-color: rgba(193, 152, 171, 0.92) rgba(235, 225, 230, 0.96);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     background: var(--surface-strong);
+    cursor: default;
+    box-shadow:
+        inset 0 -1px 0 color-mix(in srgb, var(--border) 72%, transparent),
+        inset 0 -18px 18px -18px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.table-scroll.is-overflowing {
+    cursor: grab;
+    padding-bottom: 4px;
+    box-shadow:
+        inset 0 -1px 0 color-mix(in srgb, var(--border) 72%, transparent),
+        inset 0 -18px 18px -18px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.table-scroll.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+}
+
+.table-scroll.is-overflowing.is-scrolled-end {
+    box-shadow:
+        inset 0 -1px 0 color-mix(in srgb, var(--border) 72%, transparent),
+        inset 0 -18px 18px -18px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.table-scroll::-webkit-scrollbar {
+    height: 16px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+    background: rgba(235, 225, 230, 0.96);
+    border-radius: 999px;
+    margin: 8px 12px 10px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        180deg,
+        rgba(221, 166, 190, 0.98),
+        rgba(193, 142, 166, 0.98)
+    );
+    border-radius: 999px;
+    border: 3px solid rgba(235, 225, 230, 0.96);
+    min-width: 52px;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, white 10%, transparent);
+}
+
+.table-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(228, 174, 198, 1),
+        rgba(204, 150, 175, 1)
+    );
+}
+
+.dark .table-scroll {
+    scrollbar-color: rgba(148, 123, 116, 0.96) rgba(54, 56, 62, 0.98);
+}
+
+.dark .table-scroll::-webkit-scrollbar-track {
+    background: rgba(54, 56, 62, 0.98);
+}
+
+.dark .table-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        180deg,
+        rgba(168, 138, 129, 0.98),
+        rgba(124, 101, 95, 0.98)
+    );
+    border-color: rgba(54, 56, 62, 0.98);
+}
+
+.dark .table-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(184, 153, 144, 1),
+        rgba(139, 114, 107, 1)
+    );
 }
 
 .post-content > table,
