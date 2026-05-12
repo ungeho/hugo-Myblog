@@ -1249,16 +1249,22 @@ internal class TOP_P5_Hello_World_Near_Far : SplatoonScript
         {
             Show("NearOwner", nearOwner);
 
-            var closest = party
+            var closest1 = party
                 .Where(x => !SamePlayer(x, nearOwner))
                 .OrderBy(x => Distance2D(x, nearOwner))
-                .Take(2)
-                .ToList();
+                .FirstOrDefault();
 
-            if(closest.Count > 0)
-                Show("NearClosest1", closest[0]);
-            if(closest.Count > 1)
-                Show("NearClosest2", closest[1]);
+            Show("NearClosest1", closest1);
+
+            if(closest1 != null)
+            {
+                var closest2 = party
+                    .Where(x => !SamePlayer(x, closest1) && !SamePlayer(x, nearOwner))
+                    .OrderBy(x => Distance2D(x, closest1))
+                    .FirstOrDefault();
+
+                Show("NearClosest2", closest2);
+            }
         }
 
         if(farOwner != null)
@@ -2651,9 +2657,22 @@ internal unsafe class Cosmo_Meteor_Adjuster_Priority : SplatoonScript
 }
 ```
 
+#### Priority
+
+上から`D3,D4,H2,D2,ST,D1,H1,MT`
+
 #### Configuration
 
-優先度入れ替えにチェック（あとでちゃんと記述）
+優先度順に、D3へフレアマーカーが付与されなかった場合は「東 → 南 → 西」の順で誘導されます。  
+D3へフレアマーカーが付与された場合は、D3を北へ固定したうえで、「東 → 西」の順で誘導されます。  
+
+基本的には優先度順に従うことで自然な処理になりますが、フレアマーカー対象者が「H1（西）・D3（北）・MT（北西）」となった場合のみ、西のH1が東、北西のMTが西へ誘導される不自然な配置になります。  
+
+そのため、D3へフレアマーカーが付与された際に、H1とMTの優先度を入れ替えるオプションを追加しています。  
+基本的に**チェックすることを推奨**します。
+
+- StackSouth D3/H1/MT:swap H1 and MT  
+    **チェックする**
 
 ---
 
