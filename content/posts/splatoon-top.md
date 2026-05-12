@@ -65,10 +65,807 @@ https://github.com/paissaheavyindustries/Dalamud-Repo/raw/main/repo.json
 
 ### P1 サークルプログラム
 
-公式から、サークルプログラムのスクリプト
+公式の「サークルプログラム」スクリプトをベースに、自身が担当するテザーについても、優先度設定に基づいて太く表示されるよう調整しています。  
+また、各種表示も変更しています。  
 
-```url
-https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/Program%20Loop%20Priority.cs
+```c#
+using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.Types;
+using Dalamud.Interface.Colors;
+using ECommons;
+using ECommons.Configuration;
+using ECommons.DalamudServices;
+using ECommons.GameFunctions;
+using ECommons.Hooks;
+using ECommons.ImGuiMethods;
+using ECommons.MathHelpers;
+using ECommons.Schedulers;
+using Dalamud.Bindings.ImGui;
+using Splatoon.SplatoonScripting;
+using Splatoon.SplatoonScripting.Priority;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Numerics;
+
+using ECommons.DalamudServices.Legacy;
+
+namespace SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol;
+
+public unsafe class TOP_P1_Program_Loop_Priority_With_Self_Priority : SplatoonScript
+{
+    private const uint ProgramLoopCast = 31491;
+    private const uint PantokratorCast = 31501;
+    private const uint PantokratorFlameThrowerCast = 32368;
+    private const uint PantokratorStatus1 = 0xBBC;
+    private const uint PantokratorStatus2 = 0xBBD;
+    private const uint PantokratorStatus3 = 0xBBE;
+    private const uint PantokratorStatus4 = 0xD7B;
+
+    public override HashSet<uint> ValidTerritories => [1122];
+    public override Metadata Metadata => new(19, "NightmareXIV, damolitionn, kudry");
+    private Config Conf => Controller.GetConfig<Config>();
+    private HashSet<uint> TetheredPlayers = [];
+    private List<uint> Towers = [];
+    private List<uint> TowerOrder = [];
+    private List<uint> TetherOrder = [];
+    private string NewPlayer = "";
+    private uint myTether = 0;
+    private DateTime programLoopPriorityDisplayUntil = DateTime.MinValue;
+
+    public override void OnSetup()
+    {
+        SetupElements();
+    }
+
+    private void SetupElements()
+    {
+        Controller.Clear();
+        Controller.RegisterElement("dbg1", new(1) { Enabled = false, refActorComparisonType = 2, overlayVOffset = 1, radius = 3f, color = Conf.TowerColor1.ToUint() });
+        Controller.RegisterElement("dbg2", new(1) { Enabled = false, refActorComparisonType = 2, overlayVOffset = 1, radius = 3f, color = Conf.TowerColor1.ToUint() });
+        Controller.RegisterElementFromCode("TetherAOE1", "{\"Name\":\"\",\"type\":1,\"Enabled\":false,\"radius\":14.0,\"Donut\":1.0,\"color\":3372155125,\"fillIntensity\":0.6857143,\"thicc\":4.0,\"refActorObjectID\":268635045,\"refActorComparisonType\":2,\"onlyTargetable\":true}");
+        Controller.RegisterElementFromCode("TetherAOE2", "{\"Name\":\"\",\"type\":1,\"Enabled\":false,\"radius\":14.0,\"Donut\":1.0,\"color\":3372155125,\"fillIntensity\":0.6857143,\"thicc\":4.0,\"refActorObjectID\":268635045,\"refActorComparisonType\":2,\"onlyTargetable\":true}");
+        Controller.RegisterElement("Tether1", new(2) { thicc = 5f, radius = 0f });
+        Controller.RegisterElement("Tether2", new(2) { thicc = 5f, radius = 0f });
+        Controller.RegisterElement("SelfTetherReminder", new(1) { Enabled = false, refActorType = 1, radius = 0, overlayVOffset = 2f, overlayTextColor = ImGuiColors.DalamudWhite.ToUint() });
+        Controller.RegisterElement("SelfTower", new(1) { Enabled = false, refActorComparisonType = 2, radius = 3f, thicc = 7f, Filled = false, fillIntensity = 0f, overlayText = "Take tower", overlayTextColor = 0xFF000000, tether = true, overlayBGColor = ImGuiColors.ParsedPink.ToUint() });
+        Controller.RegisterElementFromCode("SelfPairPriority", "{\"Enabled\":false,\"Name\":\"\",\"refX\":100.0,\"refY\":100.0,\"radius\":0.0,\"overlayBGColor\":3355443200,\"overlayTextColor\":3355508527,\"overlayVOffset\":2.0,\"overlayFScale\":3.0,\"thicc\":1.0,\"overlayText\":\"Priority 2\"}");
+        Controller.TryRegisterLayoutFromCode("Proximity", "~Lv2~{\"Enabled\":false,\"Name\":\"Proximity\",\"Group\":\"\",\"ZoneLockH\":[1122],\"ElementsL\":[{\"Name\":\"\",\"type\":1,\"radius\":0.0,\"color\":4278129920,\"thicc\":4.0,\"refActorPlaceholder\":[\"<2>\",\"<3>\",\"<4>\",\"<5>\",\"<6>\",\"<7>\",\"<8>\"],\"refActorComparisonType\":5,\"tether\":true}],\"MaxDistance\":15.2,\"UseDistanceLimit\":true,\"DistanceLimitType\":1}", out _);
+        Controller.RegisterElementFromCode("SafeNorth", "{\"Enabled\":false,\"Name\":\"\",\"refX\":100.0,\"refY\":84.0,\"radius\":4.0,\"color\":4278190080,\"Filled\":false,\"fillIntensity\":0.0,\"thicc\":5.0}");
+        Controller.RegisterElementFromCode("SafeSouth", "{\"Enabled\":false,\"Name\":\"\",\"refX\":100.0,\"refY\":116.0,\"radius\":4.0,\"color\":4278190080,\"Filled\":false,\"fillIntensity\":0.0,\"thicc\":5.0}");
+        Controller.RegisterElementFromCode("SafeWest", "{\"Enabled\":false,\"Name\":\"\",\"refX\":84.0,\"refY\":100.0,\"radius\":4.0,\"color\":4278190080,\"Filled\":false,\"fillIntensity\":0.0,\"thicc\":5.0}");
+        Controller.RegisterElementFromCode("SafeEast", "{\"Enabled\":false,\"Name\":\"\",\"refX\":116.0,\"refY\":100.0,\"radius\":4.0,\"color\":4278190080,\"Filled\":false,\"fillIntensity\":0.0,\"thicc\":5.0}");
+    }
+
+    public override void OnUpdate()
+    {
+        if (TetherOrder.Count == 8)
+        {
+            UpdateTethers();
+        }
+        UpdateSelfPairPriority();
+    }
+
+    public override void OnTetherCreate(uint source, uint target, uint data2, uint data3, uint data5)
+    {
+        if (IsOmega(target, out _))
+        {
+            TetheredPlayers.Add(source);
+            //UpdateTethers();
+        }
+    }
+
+    public override void OnTetherRemoval(uint source, uint data2, uint data3, uint data5)
+    {
+        TetheredPlayers.Remove(source);
+        //UpdateTethers();
+    }
+
+    private void UpdateTethers()
+    {
+        var tetheredPlayers = TetheredPlayers.ToArray();
+        if (Controller.Scene == 2 && tetheredPlayers.Length >= 2)
+        {
+            var omega = GetOmega();
+            if (Conf.Debug && Conf.Towers != TowerStartPoint.Disable_towers)
+            {
+                var cTowers = Towers.TakeLast(2).ToArray();
+                if (cTowers.Length == 2)
+                {
+                    {
+                        if (Controller.TryGetElementByName("dbg1", out var e))
+                        {
+                            e.Enabled = true;
+                            e.refActorObjectID = cTowers[0];
+                            e.overlayText = Conf.Debug ? $"{GetTowerAngle(cTowers[0].GetObject().Position.ToVector2())}" : "";
+                        }
+                    }
+                    {
+                        if (Controller.TryGetElementByName("dbg2", out var e))
+                        {
+                            e.Enabled = true;
+                            e.refActorObjectID = cTowers[1];
+                            e.overlayText = Conf.Debug ? $"{GetTowerAngle(cTowers[1].GetObject().Position.ToVector2())}" : "";
+                        }
+                    }
+                }
+            }
+
+            {
+                if (Controller.TryGetElementByName("SelfTetherReminder", out var e))
+                {
+                    if (IsTakingCurrentTether(Svc.ClientState.LocalPlayer.EntityId))
+                    {
+                        e.Enabled = true;
+                        myTether = 0;
+
+                        if (Conf.DisplayTetherSafeSpots)
+                        {
+                            SwitchTetherSafeSpots(true);
+                            var currentTowers = GetCurrentTowers();
+                            if (currentTowers.Length == 2)
+                            {
+                                { if (Controller.TryGetElementByName($"Safe{MathHelper.GetCardinalDirection(new(100, 100), currentTowers[0].GetObject().Position.ToVector2())}", out var s)) { s.Enabled = false; } }
+                                { if (Controller.TryGetElementByName($"Safe{MathHelper.GetCardinalDirection(new(100, 100), currentTowers[1].GetObject().Position.ToVector2())}", out var s)) { s.Enabled = false; } }
+                            }
+                        }
+                        else
+                        {
+                            SwitchTetherSafeSpots(false);
+                        }
+
+                        if (tetheredPlayers.Contains(Svc.ClientState.LocalPlayer.EntityId))
+                        {
+                            e.overlayBGColor = Conf.ValidTetherColor.ToUint();
+                            e.overlayTextColor = Conf.OverlayTextColor.ToUint();
+                            e.overlayFScale = 1;
+                            e.overlayText = "Tether";
+                            if (Conf.UseProximity && Controller.TryGetLayoutByName("Proximity", out var l))
+                            {
+                                l.ElementsL[0].color = Conf.ProximityColor.ToUint();
+                                l.Enabled = true;
+                            }
+
+                            if (Conf.DisplayTetherSafeSpots && Conf.TetherSafeSpotEnableDetect)
+                            {
+                                var SafeSpots = Enum.GetValues<CardinalDirection>().Select(x => Controller.GetElementByName($"Safe{x}")).Where(x => x != null && x.Enabled).OrderBy(x => GetTowerAngle(new Vector2(x.refX, x.refY))).ToArray();
+
+                                if (SafeSpots.Length == 2)
+                                {
+                                    var pair = GetPairNumber(TowerOrder, GetTetherMechanicStep());
+                                    if (pair.Count() == 2)
+                                    {
+                                        var players = Conf.PriorityData.GetPlayers(player => pair.Any(pairMember => pairMember == player.IGameObject.EntityId));
+
+                                        if (players == null) return;
+
+                                        if (players[0].IGameObject.EntityId == Svc.ClientState.LocalPlayer.EntityId)
+                                        {
+                                            SafeSpots[0].tether = true;
+                                        }
+                                        else
+                                        {
+                                            SafeSpots[1].tether = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            e.overlayBGColor = GradientColor.Get(Conf.InvalidTetherColor1, Conf.InvalidTetherColor2, 500).ToUint();
+                            e.overlayTextColor = Conf.OverlayTextColor.ToUint();
+                            e.overlayFScale = Conf.InvalidOverlayScale;
+                            e.overlayText = "!!! PICK UP TETHER !!!";
+                            if (Conf.EnlargeMyTether)
+                            {
+                                myTether = GetMyTetherToPick(tetheredPlayers);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        myTether = 0;
+                        if (Controller.TryGetLayoutByName("Proximity", out var l))
+                        {
+                            l.Enabled = false;
+                        }
+                        e.Enabled = false;
+                        SwitchTetherSafeSpots(false);
+                    }
+                }
+            }
+            {
+                if (Controller.TryGetElementByName("TetherAOE1", out var e))
+                {
+                    e.Enabled = IsTakingCurrentTether(tetheredPlayers[0]) || tetheredPlayers[0] == myTether || Conf.ShowAOEAlways;
+                    e.refActorObjectID = tetheredPlayers[0];
+                    e.radius = 14f;
+                    e.Donut = 1f;
+                    e.color = Conf.TetherAOECol.ToUint();
+                    e.fillIntensity = 0.6857143f;
+                    e.thicc = 4f;
+                }
+            }
+            {
+                if (Controller.TryGetElementByName("Tether1", out var e))
+                {
+                    e.Enabled = true;
+                    e.SetRefPosition(omega.Position);
+                    e.SetOffPosition(tetheredPlayers[0].GetObject().Position);
+                    e.thicc = tetheredPlayers[0] == myTether ? 12f : 5f;
+                    e.overlayText = tetheredPlayers[0] == myTether ? "Pick this tether" : "";
+                    e.color = (IsTakingCurrentTether(tetheredPlayers[0]) ? Conf.ValidTetherColor : GradientColor.Get(Conf.InvalidTetherColor1, Conf.InvalidTetherColor2, 500)).ToUint();
+                }
+            }
+            {
+                if (Controller.TryGetElementByName("TetherAOE2", out var e))
+                {
+                    e.Enabled = IsTakingCurrentTether(tetheredPlayers[1]) || tetheredPlayers[1] == myTether || Conf.ShowAOEAlways;
+                    e.refActorObjectID = tetheredPlayers[1];
+                    e.radius = 14f;
+                    e.Donut = 1f;
+                    e.color = Conf.TetherAOECol.ToUint();
+                    e.fillIntensity = 0.6857143f;
+                    e.thicc = 4f;
+                }
+            }
+            {
+                if (Controller.TryGetElementByName("Tether2", out var e))
+                {
+                    e.Enabled = true;
+                    e.SetRefPosition(omega.Position);
+                    e.SetOffPosition(tetheredPlayers[1].GetObject().Position);
+                    e.thicc = tetheredPlayers[1] == myTether ? 12f : 5f;
+                    e.overlayText = tetheredPlayers[1] == myTether ? "Pick this tether" : "";
+                    e.color = (IsTakingCurrentTether(tetheredPlayers[1]) ? Conf.ValidTetherColor : GradientColor.Get(Conf.InvalidTetherColor1, Conf.InvalidTetherColor2, 500)).ToUint();
+                }
+            }
+            {
+                if (Conf.Towers != TowerStartPoint.Disable_towers && Controller.TryGetElementByName("SelfTower", out var e))
+                {
+                    if (IsTakingCurrentTower(Svc.ClientState.LocalPlayer.EntityId))
+                    {
+                        e.Enabled = true;
+                        e.color = GradientColor.Get(Conf.TowerColor1, Conf.TowerColor2).ToUint();
+                        e.Filled = false;
+                        e.fillIntensity = 0f;
+                        e.overlayBGColor = e.color;
+                        e.overlayTextColor = Conf.OverlayTextColor.ToUint();
+                        var currentTowers = GetCurrentTowers();
+                        if (currentTowers.Length == 2)
+                        {
+                            var players = Conf.PriorityData.GetPlayers(player => IsTakingCurrentTower(player.IGameObject.EntityId));
+
+                            if (players == null) return;
+
+                            if (players[0].IGameObject.EntityId == Svc.ClientState.LocalPlayer.EntityId)
+                            {
+                                e.refActorObjectID = currentTowers[0];
+
+                            }
+                            else
+                            {
+                                e.refActorObjectID = currentTowers[1];
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        e.Enabled = false;
+                    }
+                }
+            }
+        }
+        else
+        {
+            Controller.GetElementByName("TetherAOE1").Enabled = false;
+            Controller.GetElementByName("TetherAOE2").Enabled = false;
+            Controller.GetElementByName("Tether1").Enabled = false;
+            Controller.GetElementByName("Tether2").Enabled = false;
+            Controller.GetElementByName("SelfTetherReminder").Enabled = false;
+            Controller.GetElementByName("SelfPairPriority").Enabled = false;
+            Controller.GetElementByName("dbg1").Enabled = false;
+            Controller.GetElementByName("dbg2").Enabled = false;
+            if (Controller.TryGetLayoutByName("Proximity", out var l)) { l.Enabled = false; }
+            SwitchTetherSafeSpots(false);
+        }
+    }
+
+    private void SwitchTetherSafeSpots(bool enabled)
+    {
+        {
+            if (Controller.TryGetElementByName("SafeNorth", out var e))
+            {
+                e.Enabled = enabled;
+                e.tether = false;
+                e.Filled = false;
+                e.fillIntensity = 0f;
+                if (enabled) e.color = Conf.TetherSafeSpotColor.ToUint();
+            }
+        }
+        {
+            if (Controller.TryGetElementByName("SafeSouth", out var e))
+            {
+                e.Enabled = enabled;
+                e.tether = false;
+                e.Filled = false;
+                e.fillIntensity = 0f;
+                if (enabled) e.color = Conf.TetherSafeSpotColor.ToUint();
+            }
+        }
+        {
+            if (Controller.TryGetElementByName("SafeWest", out var e))
+            {
+                e.Enabled = enabled;
+                e.tether = false;
+                e.Filled = false;
+                e.fillIntensity = 0f;
+                if (enabled) e.color = Conf.TetherSafeSpotColor.ToUint();
+            }
+        }
+        {
+            if (Controller.TryGetElementByName("SafeEast", out var e))
+            {
+                e.Enabled = enabled;
+                e.tether = false;
+                e.Filled = false;
+                e.fillIntensity = 0f;
+                if (enabled) e.color = Conf.TetherSafeSpotColor.ToUint();
+            }
+        }
+    }
+
+    private uint[] GetCurrentTowers()
+    {
+        return GetPairNumber(Towers, GetCurrentMechanicStep()).OrderBy(x => GetTowerAngle(x.GetObject().Position.ToVector2())).ToArray();
+    }
+
+    private uint GetMyTetherToPick(uint[] tetheredPlayers)
+    {
+        var localPlayer = Svc.ClientState.LocalPlayer;
+        if (localPlayer == null || tetheredPlayers.Contains(localPlayer.EntityId))
+        {
+            return 0;
+        }
+
+        var pair = GetPairNumber(TowerOrder, GetTetherMechanicStep()).ToArray();
+        if (pair.Length != 2 || !pair.Contains(localPlayer.EntityId))
+        {
+            return 0;
+        }
+
+        var incorrectTethers = tetheredPlayers.Where(player => !pair.Contains(player)).ToArray();
+        if (incorrectTethers.Length == 1)
+        {
+            return incorrectTethers[0];
+        }
+
+        if (incorrectTethers.Length != 2)
+        {
+            return 0;
+        }
+
+        var players = Conf.PriorityData.GetPlayers(player => pair.Any(pairMember => pairMember == player.IGameObject.EntityId))?.ToArray();
+        if (players == null || players.Length != 2)
+        {
+            return 0;
+        }
+
+        var orderedTethers = OrderTethersByConfiguredAngle(incorrectTethers);
+        var priorityIndex = players[0].IGameObject.EntityId == localPlayer.EntityId ? 0 : 1;
+        return orderedTethers.Length > priorityIndex ? orderedTethers[priorityIndex] : 0;
+    }
+
+    private uint[] OrderTethersByConfiguredAngle(uint[] tetheredPlayers)
+    {
+        return tetheredPlayers
+            .OrderBy(player => GetTowerAngle(player.GetObject().Position.ToVector2()))
+            .ToArray();
+    }
+
+    private float GetTowerAngle(Vector2 x)
+    {
+        var firstTower =
+            Conf.Towers == TowerStartPoint.Start_NorthEast ? 45 :
+            Conf.Towers == TowerStartPoint.Start_SouthEast ? 45 + 90 :
+            Conf.Towers == TowerStartPoint.Start_SouthWest ? 45 + 90 * 2 :
+            Conf.Towers == TowerStartPoint.Start_NorthWest ? 45 + 90 * 3 : throw new Exception("There is a problem in GetTowerAngle function");
+        return (MathHelper.GetRelativeAngle(new(100f, 100f), x) + 360 - firstTower) % 360;
+    }
+
+    private bool IsTakingCurrentTether(uint p)
+    {
+        var step = GetCurrentMechanicStep();
+        return GetPairNumber(TetherOrder, step).Contains(p);
+    }
+
+    private bool IsTakingCurrentTower(uint p)
+    {
+        var step = GetCurrentMechanicStep();
+        return GetPairNumber(TowerOrder, step).Contains(p);
+    }
+
+    public override void OnObjectCreation(nint newObjectPtr)
+    {
+        new TickScheduler(delegate
+        {
+            var obj = Svc.Objects.FirstOrDefault(x => x.Address == newObjectPtr);
+            if (obj != null)
+            {
+                if (obj.ObjectKind == Dalamud.Game.ClientState.Objects.Enums.ObjectKind.EventObj)
+                {
+                    //PluginLog.Information($"Event obj spawn: {obj} {obj.DataId}");
+                }
+                if (obj.DataId == 2013244 && GetOmega() != null)
+                {
+                    Towers.Add(obj.EntityId);
+                    if (TowerOrder.Count == 0)
+                    {
+                        GetPlayersWithNumber(1).Each(x => TowerOrder.Add(x.EntityId));
+                        GetPlayersWithNumber(2).Each(x => TowerOrder.Add(x.EntityId));
+                        GetPlayersWithNumber(3).Each(x => TowerOrder.Add(x.EntityId));
+                        GetPlayersWithNumber(4).Each(x => TowerOrder.Add(x.EntityId));
+                        GetPlayersWithNumber(3).Each(x => TetherOrder.Add(x.EntityId));
+                        GetPlayersWithNumber(4).Each(x => TetherOrder.Add(x.EntityId));
+                        GetPlayersWithNumber(1).Each(x => TetherOrder.Add(x.EntityId));
+                        GetPlayersWithNumber(2).Each(x => TetherOrder.Add(x.EntityId));
+                    }
+                }
+            }
+        });
+    }
+
+    public override void OnMessage(string Message)
+    {
+        if (Message.Contains($"{ProgramLoopCast} (7695>{ProgramLoopCast})")) //starts casting program loop
+        {
+            Reset();
+            programLoopPriorityDisplayUntil = DateTime.Now.AddSeconds(40);
+        }
+    }
+
+    public override void OnStartingCast(uint source, uint castId)
+    {
+        if (castId == PantokratorCast || castId == PantokratorFlameThrowerCast)
+        {
+            programLoopPriorityDisplayUntil = DateTime.MinValue;
+            if (Controller.TryGetElementByName("SelfPairPriority", out var e))
+            {
+                e.Enabled = false;
+            }
+        }
+    }
+
+    public override void OnDirectorUpdate(DirectorUpdateCategory category)
+    {
+        if (category.EqualsAny(DirectorUpdateCategory.Commence, DirectorUpdateCategory.Recommence, DirectorUpdateCategory.Wipe))
+        {
+            Reset();
+        }
+    }
+
+    private void Reset()
+    {
+        programLoopPriorityDisplayUntil = DateTime.MinValue;
+        TetheredPlayers.Clear();
+        UpdateTethers();
+        Controller.GetElementByName("SelfPairPriority").Enabled = false;
+        Towers.Clear();
+        TowerOrder.Clear();
+        TetherOrder.Clear();
+    }
+
+    private int GetCurrentMechanicStep()
+    {
+        if (GetPlayersWithNumber(1).Any()) return 1;
+        if (GetPlayersWithNumber(2).Any()) return 2;
+        if (GetPlayersWithNumber(3).Any()) return 3;
+        if (GetPlayersWithNumber(4).Any()) return 4;
+        return 0;
+    }
+
+    private int GetTetherMechanicStep()
+    {
+        if (GetPlayersWithNumber(1).Any()) return 3;
+        if (GetPlayersWithNumber(2).Any()) return 4;
+        if (GetPlayersWithNumber(3).Any()) return 1;
+        if (GetPlayersWithNumber(4).Any()) return 2;
+        return 0;
+    }
+
+    private IEnumerable<IPlayerCharacter> GetPlayersWithNumber(int n)
+    {
+        var debuff = GetDebuffByNumber(n);
+        foreach (var x in Svc.Objects)
+        {
+            if (x is IPlayerCharacter p && p.StatusList.Any(z => z.StatusId == debuff))
+            {
+                yield return (IPlayerCharacter)x;
+            }
+        }
+    }
+
+    private int GetDebuffByNumber(int n)
+    {
+        if (n == 1) return 3004;
+        if (n == 2) return 3005;
+        if (n == 3) return 3006;
+        if (n == 4) return 3451;
+        throw new Exception($"Invalid GetDebuffByNumber query {n}");
+    }
+
+    private IBattleChara? GetOmega()
+    {
+        return Svc.Objects.FirstOrDefault(x => x is IBattleChara o && o.NameId == 7695 && o.IsTargetable()) as IBattleChara;
+    }
+
+    private bool IsOmega(uint oid, [NotNullWhen(true)] out IBattleChara? omega)
+    {
+        if (oid.TryGetObject(out var obj) && obj is IBattleChara o && o.NameId == 7695)
+        {
+            omega = o;
+            return true;
+        }
+        omega = null;
+        return false;
+    }
+
+    public override void OnSettingsDraw()
+    {
+        ImGuiEx.Text("TOP P1 - Program Loop Priority");
+        ImGui.Separator();
+
+        ImGuiEx.Text($"Tethers:");
+        ImGui.ColorEdit4("Tether's AOE color", ref Conf.TetherAOECol, ImGuiColorEditFlags.NoInputs);
+        ImGui.ColorEdit4("Valid tether color", ref Conf.ValidTetherColor, ImGuiColorEditFlags.NoInputs);
+        ImGui.ColorEdit4("##Invalid1", ref Conf.InvalidTetherColor1, ImGuiColorEditFlags.NoInputs);
+        ImGui.SameLine();
+        ImGui.ColorEdit4("Invalid tether colors", ref Conf.InvalidTetherColor2, ImGuiColorEditFlags.NoInputs);
+        ImGui.SetNextItemWidth(100f);
+        ImGui.SliderFloat("Invalid tether reminder size", ref Conf.InvalidOverlayScale.ValidateRange(1, 5), 1, 5);
+        ImGui.ColorEdit4("Invalid tether reminder color", ref Conf.OverlayTextColor, ImGuiColorEditFlags.NoInputs);
+        ImGui.Checkbox($"Display AOE under incorrect tether", ref Conf.ShowAOEAlways);
+        ImGui.Checkbox($"Tether AOE proximity detector", ref Conf.UseProximity);
+        if (Conf.UseProximity)
+        {
+            ImGui.SameLine();
+            ImGui.ColorEdit4("Proximity tether color", ref Conf.ProximityColor, ImGuiColorEditFlags.NoInputs);
+        }
+        ImGui.Checkbox($"Display tether drop spots when it's my order to take it", ref Conf.DisplayTetherSafeSpots);
+        if (Conf.DisplayTetherSafeSpots)
+        {
+            ImGui.Checkbox($"Detect my designated spot based on same priority as towers", ref Conf.TetherSafeSpotEnableDetect);
+            ImGui.ColorEdit4("Safe spot indicator color", ref Conf.TetherSafeSpotColor, ImGuiColorEditFlags.NoInputs);
+        }
+        ImGui.Checkbox($"Detect tether that I'm supposed to pick up from the same start direction as towers and make it larger", ref Conf.EnlargeMyTether);
+
+
+        ImGui.Separator();
+
+        ImGuiEx.Text($"Towers:");
+        ImGui.SetNextItemWidth(200f);
+        ImGuiEx.EnumCombo($"Tower handling", ref Conf.Towers);
+
+        ImGuiEx.Text($"P1 Program Loop priority from North going Clockwise:");
+        if (ImGui.Button("Configure for NAUR"))
+        {
+            Conf.Towers = TowerStartPoint.Start_NorthWest;
+            //h2 r2 m2 t2 t1 m1 r1 h1
+            Conf.PriorityData.PriorityLists =
+            [
+                new()
+                {
+                    IsRole = true,
+                    List =
+                    [
+                        new() { Role = RolePosition.H2},
+                        new() { Role = RolePosition.R2},
+                        new() { Role = RolePosition.M2},
+                        new() { Role = RolePosition.T2},
+                        new() { Role = RolePosition.T1},
+                        new() { Role = RolePosition.M1},
+                        new() { Role = RolePosition.R1},
+                        new() { Role = RolePosition.H1}
+                    ]
+                }
+            ];
+        }
+        ImGui.SameLine();
+        if (ImGui.Button("Configure for LPDU"))
+        {
+            Conf.Towers = TowerStartPoint.Start_NorthWest;
+            //m1 m2 t1 t2 r1 r2 h1 h2
+            Conf.PriorityData.PriorityLists =
+            [
+                new()
+                {
+                    IsRole = true,
+                    List =
+                    [
+                        new() { Role = RolePosition.M1},
+                        new() { Role = RolePosition.M2},
+                        new() { Role = RolePosition.T1},
+                        new() { Role = RolePosition.T2},
+                        new() { Role = RolePosition.R1},
+                        new() { Role = RolePosition.R2},
+                        new() { Role = RolePosition.H1},
+                        new() { Role = RolePosition.H2}
+                    ]
+                }
+            ];
+        }
+        Conf.PriorityData.Draw();
+
+        ImGui.ColorEdit4("Primary tower color", ref Conf.TowerColor1, ImGuiColorEditFlags.NoInputs);
+        ImGui.SameLine();
+        ImGui.ColorEdit4("Secondary tower color", ref Conf.TowerColor2, ImGuiColorEditFlags.NoInputs);
+
+        ImGui.Separator();
+
+        SetupElements();
+
+
+        ImGui.Separator();
+
+        if (ImGui.CollapsingHeader("Debug"))
+        {
+            ImGui.Checkbox($"Debug info", ref Conf.Debug);
+
+            foreach (var x in TetheredPlayers)
+            {
+                ImGuiEx.Text($"Tether Player: {x} {x.GetObject()}");
+            }
+            ImGui.Separator();
+            TetherOrder.Each(x => ImGuiEx.Text($"Tether order: {x.GetObject()}"));
+            TowerOrder.Each(x => ImGuiEx.Text($"Tower order: {x.GetObject()}"));
+            ImGuiEx.Text($"GetCurrentMechanicStep() {GetCurrentMechanicStep()}");
+            ImGuiEx.Text($"GetTetherMechanicStep() {GetTetherMechanicStep()}");
+            Towers.Each(x => ImGuiEx.Text($"Towers: {x.GetObject()?.Position.ToString() ?? "unk position"}"));
+        }
+    }
+
+    private void UpdateSelfPairPriority()
+    {
+        if (!Controller.TryGetElementByName("SelfPairPriority", out var e))
+        {
+            return;
+        }
+
+        if (DateTime.Now > programLoopPriorityDisplayUntil || IsPantokratorActive())
+        {
+            e.Enabled = false;
+            return;
+        }
+
+        var priority = GetSelfPairPriority();
+        if (priority == 0)
+        {
+            e.Enabled = false;
+            return;
+        }
+
+        e.Enabled = true;
+        e.refX = 100f;
+        e.refY = 100f;
+        e.overlayText = $"Priority {priority}";
+    }
+
+    private int GetSelfPairPriority()
+    {
+        var localPlayer = Svc.ClientState.LocalPlayer;
+        if (localPlayer == null)
+        {
+            return 0;
+        }
+
+        var number = GetPlayerNumber(localPlayer);
+        if (number == 0)
+        {
+            return 0;
+        }
+
+        var pair = GetPlayersWithNumber(number).ToList();
+        if (pair.Count != 2)
+        {
+            return 0;
+        }
+
+        var players = Conf.PriorityData.GetPlayers(player => pair.Any(pairMember => pairMember.EntityId == player.IGameObject.EntityId))?.ToList();
+        if (players == null || players.Count != 2)
+        {
+            return 0;
+        }
+
+        var index = players.FindIndex(player => player.IGameObject.EntityId == localPlayer.EntityId);
+        return index >= 0 ? index + 1 : 0;
+    }
+
+    private int GetPlayerNumber(IPlayerCharacter player)
+    {
+        for (var i = 1; i <= 4; i++)
+        {
+            var debuff = GetDebuffByNumber(i);
+            if (player.StatusList.Any(status => status.StatusId == debuff))
+            {
+                return i;
+            }
+        }
+
+        return 0;
+    }
+
+    private bool IsPantokratorActive()
+    {
+        if (Svc.Objects.OfType<IBattleChara>().Any(x => x.CastActionId == PantokratorCast || x.CastActionId == PantokratorFlameThrowerCast))
+        {
+            return true;
+        }
+
+        return Svc.Objects.OfType<IPlayerCharacter>().Any(HasPantokratorStatus);
+    }
+
+    private static bool HasPantokratorStatus(IPlayerCharacter player)
+    {
+        return player.StatusList.Any(status => status.StatusId == PantokratorStatus1
+            || status.StatusId == PantokratorStatus2
+            || status.StatusId == PantokratorStatus3
+            || status.StatusId == PantokratorStatus4);
+    }
+
+    public class Config : IEzConfig
+    {
+        public Vector4 TetherAOECol = 0xFF00E4C8u.ToVector4();
+        public Vector4 TowerColor1 = 0x23FF00FFu.ToVector4();
+        public Vector4 TowerColor2 = 0x23FF00FFu.ToVector4();
+        public Vector4 ValidTetherColor = 0x00FFFFFFu.ToVector4();
+        public Vector4 InvalidTetherColor1 = 0xFFB500FFu.ToVector4();
+        public Vector4 InvalidTetherColor2 = 0xFF0000FFu.ToVector4();
+        public Vector4 OverlayTextColor = 0xFF000000u.ToVector4();
+        public bool UseProximity = false;
+        public Vector4 ProximityColor = ImGuiColors.ParsedBlue;
+        public float InvalidOverlayScale = 2f;
+        public bool ShowAOEAlways = false;
+        public Direction MyDirection = Direction.Clockwise;
+        public bool Debug = false;
+        public TowerStartPoint Towers = TowerStartPoint.Start_NorthEast;
+        public bool DisplayTetherSafeSpots = true;
+        public bool TetherSafeSpotEnableDetect = true;
+        public Vector4 TetherSafeSpotColor = 0xFF000000u.ToVector4();
+        public bool EnlargeMyTether = true;
+        public PriorityData PriorityData = new();
+    }
+
+    public enum Direction { Clockwise, Counter_clockwise }
+    public enum TowerStartPoint { Disable_towers, Start_NorthEast, Start_SouthEast, Start_SouthWest, Start_NorthWest }
+
+    internal static IEnumerable<T> GetPairNumber<T>(IEnumerable<T> e, int n)
+    {
+        var s = e.ToArray();
+        if (n == 1 && s.Length >= 2)
+        {
+            yield return s[0];
+            yield return s[1];
+        }
+        if (n == 2 && s.Length >= 4)
+        {
+            yield return s[2];
+            yield return s[3];
+        }
+        if (n == 3 && s.Length >= 6)
+        {
+            yield return s[4];
+            yield return s[5];
+        }
+        if (n == 4 && s.Length >= 8)
+        {
+            yield return s[6];
+            yield return s[7];
+        }
+    }
+}
 ```
 
 #### Configurations - サークルプログラム
@@ -76,7 +873,7 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 ##### Tethers - サークルプログラム
 
 - Tether's AOE color  
-  `#1000FF46`
+  `#FF00E4C8`
 - Valid tether color  
   `#00FFFFFF`
 - Invalid tether color  
@@ -109,14 +906,715 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 優先度設定が必要  
 上から`H1,MT,ST,D1,D2,D3,D4,H2`
 
-#### Registered elements - サークルプログラム
+---
 
-テザーの範囲の境界部分を強調するため、`TetherAOE`の`Thikness`を`8.0`に変更。  
-お好みで
+### P1 パントクラトル
 
-```json
-{"Elements":{"TetherAOE1":{"Name":"","type":1,"Enabled":false,"offX":0.0,"offY":0.0,"offZ":0.0,"radius":15.0,"color":1308557312,"Filled":true,"fillIntensity":0.6,"overlayBGColor":1879048192,"overlayTextColor":3372220415,"overlayVOffset":0.0,"overlayFScale":1.0,"overlayPlaceholders":false,"thicc":8.0,"overlayText":"","refActorObjectID":0,"refActorTargetingYou":0,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":false,"refActorCastReverse":false,"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":2,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":false,"onlyTargetable":true,"onlyUnTargetable":false,"onlyVisible":false,"tether":false,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0},"TetherAOE2":{"Name":"","type":1,"Enabled":false,"offX":0.0,"offY":0.0,"offZ":0.0,"radius":15.0,"color":1308557312,"Filled":true,"fillIntensity":0.6,"overlayBGColor":1879048192,"overlayTextColor":3372220415,"overlayVOffset":0.0,"overlayFScale":1.0,"overlayPlaceholders":false,"thicc":8.0,"overlayText":"","refActorObjectID":0,"refActorTargetingYou":0,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":false,"refActorCastReverse":false,"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":2,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":false,"onlyTargetable":true,"onlyUnTargetable":false,"onlyVisible":false,"tether":false,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0},"Tether1":{"Name":"","type":2,"Enabled":false,"refX":0.0,"refY":0.0,"refZ":0.0,"offX":0.0,"offY":0.0,"offZ":0.0,"radius":0.0,"color":3355443455,"Filled":true,"fillIntensity":null,"overlayBGColor":1879048192,"overlayTextColor":3372220415,"overlayVOffset":0.0,"overlayFScale":1.0,"overlayPlaceholders":false,"thicc":5.0,"overlayText":"","refActorName":"","refActorTargetingYou":0,"refActorNamePlateIconID":0,"refActorComparisonAnd":false,"refActorRequireCast":false,"refActorCastReverse":false,"refActorUseCastTime":false,"refActorCastTimeMin":0.0,"refActorCastTimeMax":0.0,"refActorUseOvercast":false,"refTargetYou":false,"refActorRequireBuff":false,"refActorRequireAllBuffs":false,"refActorRequireBuffsInvert":false,"refActorUseBuffTime":false,"refActorUseBuffParam":false,"refActorBuffTimeMin":0.0,"refActorBuffTimeMax":0.0,"refActorObjectLife":false,"TargetAlteration":0,"refActorComparisonType":0,"refActorType":0,"includeHitbox":false,"includeOwnHitbox":false,"includeRotation":false,"onlyTargetable":false,"onlyUnTargetable":false,"onlyVisible":false,"tether":false,"ExtraTetherLength":0.0,"LineEndA":0,"LineEndB":0,"AdditionalRotation":0.0,"LineAddHitboxLengthX":false,"LineAddHitboxLengthY":false,"LineAddHitboxLengthZ":false,"LineAddHitboxLengthXA":false,"LineAddHitboxLengthYA":false,"LineAddHitboxLengthZA":false,"LineAddPlayerHitboxLengthX":false,"LineAddPlayerHitboxLengthY":false,"LineAddPlayerHitboxLengthZ":false,"LineAddPlayerHitboxLengthXA":false,"LineAddPlayerHitboxLengthYA":false,"LineAddPlayerHitboxLengthZA":false,"FaceMe":false,"LimitDistance":false,"LimitDistanceInvert":false,"DistanceSourceX":0.0,"DistanceSourceY":0.0,"DistanceSourceZ":0.0,"DistanceMin":0.0,"DistanceMax":0.0,"UseDistanceSourcePlaceholder":false,"LimitRotation":false,"refActorTether":false,"refActorTetherTimeMin":0.0,"refActorTetherTimeMax":0.0,"refActorTetherParam1":null,"refActorTetherParam2":null,"refActorTetherParam3":null,"refActorIsTetherSource":null,"refActorIsTetherInvert":false,"refActorIsTetherLive":false,"refActorUseTransformation":false,"mechanicType":0,"refMark":false,"refMarkID":0,"faceplayer":"<1>","FaceInvert":false,"FillStep":0.5,"LegacyFill":false,"RenderEngineKind":0,"Conditional":false,"RotationOverride":false,"IsCapturing":false,"Nodraw":false,"UseHitboxRadius":false,"MapEffectInvert":false,"MapEffectAnd":false,"UseCastRotation":false,"UseCastPosition":false,"UseCastTarget":false,"IsDead":null,"Enumeration":0}}}
+パントクラトルの優先度ガイド  
+優先度設定が必要
+
+```c#
+using Dalamud.Bindings.ImGui;
+using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.Types;
+using ECommons;
+using ECommons.Configuration;
+using ECommons.DalamudServices;
+using ECommons.GameHelpers;
+using ECommons.ImGuiMethods;
+using Splatoon.SplatoonScripting;
+using Splatoon.SplatoonScripting.Priority;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol;
+
+internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
+{
+    private const uint PantokratorCast = 31501;
+    private const uint FlameThrowerCast = 32368;
+    private const uint Status1 = 0xBBC;
+    private const uint Status2 = 0xBBD;
+    private const uint Status3 = 0xBBE;
+    private const uint Status4 = 0xD7B;
+    private const float CenterX = 100f;
+    private const float CenterZ = 100f;
+    private const float InitialDistance = 10f;
+    private const float FlameGuideDistance = 10f;
+    private const uint GuideColor = 4278255360;
+    private const int InitialGuideDelayMs = 2200;
+    private const int InitialGuideDurationMs = 4500;
+    private const int FlameGuideDelayMs = 1800;
+    private const int FlameGuideDurationMs = 3500;
+    private const float SameAxisTolerance = 5f;
+
+    private readonly List<CastRecord> _flameCasts = [];
+    private float? _pantokratorAngle = null;
+    private float? _firstFlameAngle = null;
+    private int _flameDirection = 0;
+    private long _pantokratorStartedAt = 0;
+    private long _firstFlameStartedAt = 0;
+    private long _secondFlameStartedAt = 0;
+    private string _lastEvent = "";
+    private string _lastSkipReason = "";
+    private string _lastGuide = "";
+
+    private Config C => Controller.GetConfig<Config>();
+
+    public override HashSet<uint>? ValidTerritories => [1122];
+    public override Metadata? Metadata => new(1, "kudry + Codex");
+
+    public override void OnSetup()
+    {
+        Controller.RegisterElementFromCode("Guide", $$"""
+        {
+            "Name":"",
+            "type":0,
+            "Enabled":false,
+            "refX":100.0,
+            "refY":100.0,
+            "refZ":0.0,
+            "radius":1.0,
+            "color":{{GuideColor}},
+            "Filled":false,
+            "fillIntensity":0.2,
+            "overlayBGColor":1879048192,
+            "overlayTextColor":3372220415,
+            "thicc":8.0,
+            "overlayText":"",
+            "tether":true
+        }
+        """);
+        Controller.RegisterElementFromCode("PreGuide", $$"""
+        {
+            "Name":"",
+            "type":0,
+            "Enabled":false,
+            "refX":100.0,
+            "refY":100.0,
+            "refZ":0.0,
+            "radius":2.0,
+            "color":{{GuideColor}},
+            "Filled":false,
+            "fillIntensity":0.2,
+            "overlayBGColor":1879048192,
+            "overlayTextColor":3372220415,
+            "thicc":8.0,
+            "overlayText":"",
+            "tether":true
+        }
+        """);
+        Controller.RegisterElementFromCode("RotationText", """
+        {
+            "Name":"",
+            "type":0,
+            "Enabled":false,
+            "refX":100.0,
+            "refY":100.0,
+            "refZ":0.0,
+            "radius":0.0,
+            "overlayBGColor":3355443200,
+            "overlayTextColor":3355508527,
+            "overlayVOffset":2.5,
+            "overlayFScale":3.0,
+            "thicc":1.0,
+            "overlayText":"",
+            "tether":false
+        }
+        """);
+    }
+
+    public override void OnStartingCast(uint source, uint castId)
+    {
+        if (castId == PantokratorCast)
+        {
+            ResetState();
+            _pantokratorAngle = GetCastAngle(source);
+            _pantokratorStartedAt = Environment.TickCount64;
+            _lastEvent = $"31501 angle={FormatAngle(_pantokratorAngle)}";
+            return;
+        }
+
+        if (castId != FlameThrowerCast)
+        {
+            return;
+        }
+
+        RecordFlameCast(source);
+    }
+
+    public override void OnUpdate()
+    {
+        ScanActiveCasts();
+        OffGuide();
+
+        var player = GetBasePlayer();
+        if (player == null)
+        {
+            _lastSkipReason = "No base player";
+            return;
+        }
+
+        if (!TryGetMyStatusNumber(player, out var number))
+        {
+            _lastSkipReason = "Base player has no Pantokrator number status";
+            return;
+        }
+
+        var pairPriorityIndex = GetPairPriorityIndex(player, number);
+        if (pairPriorityIndex < 0)
+        {
+            _lastSkipReason = "Could not resolve pair priority";
+            return;
+        }
+
+        var position = ResolveGuidePosition(number, pairPriorityIndex);
+        if (position != null)
+        {
+            _lastSkipReason = "";
+            MoveGuide("Guide", position.Value);
+            return;
+        }
+
+        var prePosition = ResolvePreGuidePosition(number, pairPriorityIndex);
+        if (prePosition != null)
+        {
+            _lastSkipReason = "";
+            MoveGuide("PreGuide", prePosition.Value);
+            UpdateRotationText();
+            return;
+        }
+
+        UpdateRotationText();
+        _lastSkipReason = "Could not resolve guide position";
+    }
+
+    public override void OnReset()
+    {
+        ResetState();
+        OffGuide();
+    }
+
+    public override void OnSettingsDraw()
+    {
+        ImGuiEx.Text("TOP P1 Pantokrator initial position priority");
+        ImGuiEx.Text("In each debuff pair, higher priority goes North/East and lower priority goes South/West.");
+        C.PriorityData.Draw();
+
+        ImGui.Separator();
+        ImGui.SetNextItemWidth(220);
+        if (ImGui.BeginCombo("Script Override", string.IsNullOrEmpty(C.BasePlayerOverride) ? "No Override" : C.BasePlayerOverride))
+        {
+            if (ImGui.Selectable("No Override", string.IsNullOrEmpty(C.BasePlayerOverride)))
+            {
+                C.BasePlayerOverride = "";
+            }
+
+            foreach (var player in Svc.Objects.OfType<IPlayerCharacter>().OrderBy(x => x.Name.ToString()))
+            {
+                var name = player.Name.ToString();
+                if (ImGui.Selectable(name, C.BasePlayerOverride == name))
+                {
+                    C.BasePlayerOverride = name;
+                }
+            }
+
+            ImGui.EndCombo();
+        }
+
+        ImGui.Checkbox("Debug", ref C.Debug);
+        if (C.Debug)
+        {
+            var player = GetBasePlayer();
+            ImGuiEx.Text($"Base player: {player?.Name.ToString() ?? "None"}");
+            if (player != null && TryGetMyStatusNumber(player, out var number))
+            {
+                var pairPriority = GetPairPriorityIndex(player, number);
+                ImGuiEx.Text($"Base player debuff number: {number}");
+                ImGuiEx.Text($"Same debuff players in priority list: {CountPriorityPlayersWithNumber(number)}");
+                ImGuiEx.Text($"Base player pair priority: {(pairPriority < 0 ? "Unknown" : (pairPriority + 1).ToString())}");
+            }
+            ImGuiEx.Text($"31501 angle: {FormatAngle(_pantokratorAngle)}");
+            ImGuiEx.Text($"First 32368 angle: {FormatAngle(_firstFlameAngle)}");
+            ImGuiEx.Text($"32368 direction: {(_flameDirection > 0 ? "Clockwise" : _flameDirection < 0 ? "Counter-clockwise" : "Unknown")}");
+            ImGuiEx.Text($"32368 axes: {string.Join(", ", _flameCasts.Select(x => FormatAngle(x.Angle)))}");
+            ImGuiEx.Text($"31501 age ms: {GetPantokratorAgeMs()}");
+            ImGuiEx.Text($"First 32368 age ms: {GetFirstFlameAgeMs()}");
+            ImGuiEx.Text($"Second 32368 age ms: {GetSecondFlameAgeMs()}");
+            ImGuiEx.Text($"Last guide: {(string.IsNullOrEmpty(_lastGuide) ? "None" : _lastGuide)}");
+            ImGuiEx.Text($"Last event: {_lastEvent}");
+            ImGuiEx.Text($"Last skip reason: {(string.IsNullOrEmpty(_lastSkipReason) ? "None" : _lastSkipReason)}");
+        }
+    }
+
+    private void ScanActiveCasts()
+    {
+        foreach (var caster in Svc.Objects.OfType<IBattleChara>())
+        {
+            if (caster.CastActionId == PantokratorCast && _pantokratorAngle == null)
+            {
+                _pantokratorAngle = GetCastAngle(caster);
+                _pantokratorStartedAt = Environment.TickCount64;
+                _lastEvent = $"31501 scan angle={FormatAngle(_pantokratorAngle)}";
+            }
+
+            if (caster.CastActionId == FlameThrowerCast)
+            {
+                RecordFlameCast(caster);
+            }
+        }
+    }
+
+    private void RecordFlameCast(uint source)
+    {
+        if (source.GetObject() is not IBattleChara caster)
+        {
+            return;
+        }
+
+        RecordFlameCast(caster);
+    }
+
+    private void RecordFlameCast(IBattleChara caster)
+    {
+        if (_flameCasts.Any(x => x.Source == caster.EntityId))
+        {
+            return;
+        }
+
+        float? angle = GetCastAngle(caster);
+        float? axisAngle = null;
+        if (angle.HasValue)
+        {
+            axisAngle = NormalizeAxisAngle(angle.Value);
+        }
+
+        if (axisAngle != null && _flameCasts.Any(x => x.Angle != null && GetAxisDistance(x.Angle.Value, axisAngle.Value) <= SameAxisTolerance))
+        {
+            return;
+        }
+
+        _flameCasts.Add(new(caster.EntityId, axisAngle, Environment.TickCount64));
+        _lastEvent = $"32368 #{_flameCasts.Count} angle={FormatAngle(angle)} axis={FormatAngle(axisAngle)}";
+
+        if (_flameCasts.Count == 1)
+        {
+            _firstFlameAngle = axisAngle;
+            _firstFlameStartedAt = Environment.TickCount64;
+            _flameDirection = 0;
+            return;
+        }
+
+        if (_flameCasts.Count == 2 && _firstFlameAngle != null && axisAngle != null)
+        {
+            _secondFlameStartedAt = Environment.TickCount64;
+            _flameDirection = GetClockwiseDirection(_firstFlameAngle.Value, axisAngle.Value);
+        }
+    }
+
+    private Vector3? ResolveGuidePosition(int number, int pairPriorityIndex)
+    {
+        if (_firstFlameAngle != null && IsFlameGuideWindow() && _flameDirection != 0)
+        {
+            return null;
+        }
+
+        if (_firstFlameAngle != null)
+        {
+            return null;
+        }
+
+        if (_pantokratorAngle == null)
+        {
+            return null;
+        }
+
+        if (!IsInitialGuideWindow())
+        {
+            return null;
+        }
+
+        var useNorthSouth = ShouldUseNorthSouth(_pantokratorAngle.Value, _firstFlameAngle);
+        var highPriority = pairPriorityIndex == 0;
+
+        if (useNorthSouth)
+        {
+            var angle = highPriority ? 0f : 180f;
+            _lastGuide = $"Initial angle={angle:0.0}";
+            return PositionFromAngle(angle, InitialDistance);
+        }
+
+        {
+            var angle = highPriority ? 90f : 270f;
+            _lastGuide = $"Initial angle={angle:0.0}";
+            return PositionFromAngle(angle, InitialDistance);
+        }
+    }
+
+    private Vector3? ResolvePreGuidePosition(int number, int pairPriorityIndex)
+    {
+        if (_firstFlameAngle != null && IsFlamePreGuideWindow())
+        {
+            return ResolveAxisPreGuidePosition(pairPriorityIndex);
+        }
+
+        return null;
+    }
+
+    private Vector3? ResolveAxisPreGuidePosition(int pairPriorityIndex)
+    {
+        if (_firstFlameAngle == null)
+        {
+            return null;
+        }
+
+        var highPriority = pairPriorityIndex == 0;
+        var angle = GetPriorityNinetyDegreeAngle(highPriority);
+
+        _lastGuide = $"Pre angle={angle:0.0}";
+        return PositionFromAngle(angle, FlameGuideDistance);
+    }
+
+    private void UpdateRotationText()
+    {
+        if (!Controller.TryGetElementByName("RotationText", out var element))
+        {
+            return;
+        }
+
+        if (_flameDirection == 0 || !IsRotationTextWindow())
+        {
+            element.Enabled = false;
+            return;
+        }
+
+        element.Enabled = true;
+        element.overlayText = _flameDirection > 0 ? "CW" : "CCW";
+    }
+
+    private float GetPriorityNinetyDegreeAngle(bool highPriority)
+    {
+        var firstFlameAngle = _firstFlameAngle ?? 0f;
+        var useNorthSouth = ShouldUseNorthSouth(_pantokratorAngle ?? firstFlameAngle, _firstFlameAngle);
+        var targetAngle = useNorthSouth
+            ? (highPriority ? 0f : 180f)
+            : (highPriority ? 90f : 270f);
+
+        var clockwiseCandidate = NormalizeAngle(firstFlameAngle + 90f);
+        var counterClockwiseCandidate = NormalizeAngle(firstFlameAngle - 90f);
+        return GetAngleDistance(clockwiseCandidate, targetAngle) <= GetAngleDistance(counterClockwiseCandidate, targetAngle)
+            ? clockwiseCandidate
+            : counterClockwiseCandidate;
+    }
+
+    private static bool ShouldUseNorthSouth(float pantokratorAngle, float? firstFlameAngle)
+    {
+        if (firstFlameAngle != null && IsNearCardinal(firstFlameAngle.Value, 0f, 20f))
+        {
+            return false;
+        }
+
+        if (firstFlameAngle != null && IsNearCardinal(firstFlameAngle.Value, 180f, 20f))
+        {
+            return false;
+        }
+
+        if (IsNearCardinal(pantokratorAngle, 315f, 25f) || IsNearCardinal(pantokratorAngle, 135f, 25f))
+        {
+            return true;
+        }
+
+        return true;
+    }
+
+    private int GetPairPriorityIndex(IPlayerCharacter player, int number)
+    {
+        var priorityPlayers = C.PriorityData.GetPlayers(priority => priority.IGameObject is IPlayerCharacter)?.ToList();
+        if (priorityPlayers == null)
+        {
+            return -1;
+        }
+
+        var pair = priorityPlayers
+            .Where(priority => priority.IGameObject is IPlayerCharacter candidate && HasNumberStatus(candidate, number))
+            .ToList();
+
+        if (pair.Count != 2)
+        {
+            return -1;
+        }
+
+        return pair.FindIndex(priority => priority.IGameObject.EntityId == player.EntityId);
+    }
+
+    private int CountPriorityPlayersWithNumber(int number)
+    {
+        var priorityPlayers = C.PriorityData.GetPlayers(priority => priority.IGameObject is IPlayerCharacter)?.ToList();
+        if (priorityPlayers == null)
+        {
+            return 0;
+        }
+
+        return priorityPlayers.Count(priority => priority.IGameObject is IPlayerCharacter candidate && HasNumberStatus(candidate, number));
+    }
+
+    private IPlayerCharacter? GetBasePlayer()
+    {
+        if (!string.IsNullOrEmpty(C.BasePlayerOverride))
+        {
+            var overridePlayer = Svc.Objects
+                .OfType<IPlayerCharacter>()
+                .FirstOrDefault(x => string.Equals(x.Name.ToString(), C.BasePlayerOverride, StringComparison.OrdinalIgnoreCase));
+
+            if (overridePlayer != null)
+            {
+                return overridePlayer;
+            }
+        }
+
+        return Player.Object;
+    }
+
+    private static bool TryGetMyStatusNumber(IPlayerCharacter player, out int number)
+    {
+        if (HasStatus(player, Status1))
+        {
+            number = 1;
+            return true;
+        }
+
+        if (HasStatus(player, Status2))
+        {
+            number = 2;
+            return true;
+        }
+
+        if (HasStatus(player, Status3))
+        {
+            number = 3;
+            return true;
+        }
+
+        if (HasStatus(player, Status4))
+        {
+            number = 4;
+            return true;
+        }
+
+        number = 0;
+        return false;
+    }
+
+    private static bool HasStatus(IPlayerCharacter player, uint statusId)
+    {
+        return player.StatusList.Any(x => x.StatusId == statusId);
+    }
+
+    private static bool HasNumberStatus(IPlayerCharacter player, int number)
+    {
+        return number switch
+        {
+            1 => HasStatus(player, Status1),
+            2 => HasStatus(player, Status2),
+            3 => HasStatus(player, Status3),
+            4 => HasStatus(player, Status4),
+            _ => false,
+        };
+    }
+
+    private bool IsInitialGuideWindow()
+    {
+        var age = GetPantokratorAgeMs();
+        return age >= InitialGuideDelayMs && age <= InitialGuideDelayMs + InitialGuideDurationMs;
+    }
+
+    private bool IsFlameGuideWindow()
+    {
+        var age = GetSecondFlameAgeMs();
+        return age >= FlameGuideDelayMs && age <= FlameGuideDelayMs + FlameGuideDurationMs;
+    }
+
+    private bool IsFlamePreGuideWindow()
+    {
+        var age = _secondFlameStartedAt == 0 ? GetFirstFlameAgeMs() : GetSecondFlameAgeMs();
+        if (age < 0)
+        {
+            return false;
+        }
+
+        return _secondFlameStartedAt == 0 || age <= FlameGuideDelayMs + FlameGuideDurationMs;
+    }
+
+    private bool IsRotationTextWindow()
+    {
+        var age = GetSecondFlameAgeMs();
+        return age >= 0 && age <= FlameGuideDelayMs + FlameGuideDurationMs;
+    }
+
+    private long GetPantokratorAgeMs()
+    {
+        return _pantokratorStartedAt == 0 ? -1 : Environment.TickCount64 - _pantokratorStartedAt;
+    }
+
+    private long GetFirstFlameAgeMs()
+    {
+        return _firstFlameStartedAt == 0 ? -1 : Environment.TickCount64 - _firstFlameStartedAt;
+    }
+
+    private long GetSecondFlameAgeMs()
+    {
+        return _secondFlameStartedAt == 0 ? -1 : Environment.TickCount64 - _secondFlameStartedAt;
+    }
+
+    private static int GetClockwiseDirection(float firstAngle, float secondAngle)
+    {
+        var diff = NormalizeAxisDelta(secondAngle - firstAngle);
+        return diff >= 0f ? 1 : -1;
+    }
+
+    private static float? GetCastAngle(uint source)
+    {
+        if (source.GetObject() is not IBattleChara caster)
+        {
+            return null;
+        }
+
+        return GetCastAngle(caster);
+    }
+
+    private static float? GetCastAngle(IBattleChara caster)
+    {
+        var distanceFromCenter = MathF.Sqrt(MathF.Pow(caster.Position.X - CenterX, 2f) + MathF.Pow(caster.Position.Z - CenterZ, 2f));
+        return distanceFromCenter > 1.5f
+            ? PositionToAngle(caster.Position)
+            : RotationToAngle(caster.Rotation);
+    }
+
+    private static float RotationToAngle(float rotation)
+    {
+        return NormalizeAngle(rotation * 180f / MathF.PI);
+    }
+
+    private static float PositionToAngle(Vector3 position)
+    {
+        return NormalizeAngle(MathF.Atan2(position.X - CenterX, CenterZ - position.Z) * 180f / MathF.PI);
+    }
+
+    private static Vector3 PositionFromAngle(float angle, float distance)
+    {
+        var radians = NormalizeAngle(angle) * MathF.PI / 180f;
+        return new Vector3(
+            CenterX + MathF.Sin(radians) * distance,
+            0f,
+            CenterZ - MathF.Cos(radians) * distance);
+    }
+
+    private static bool IsNearCardinal(float angle, float target, float tolerance)
+    {
+        var diff = MathF.Abs(NormalizeAngle(angle - target));
+        return MathF.Min(diff, 360f - diff) <= tolerance;
+    }
+
+    private static float GetAngleDistance(float a, float b)
+    {
+        var diff = MathF.Abs(NormalizeAngle(a - b));
+        return MathF.Min(diff, 360f - diff);
+    }
+
+    private static float GetAxisDistance(float a, float b)
+    {
+        return MathF.Abs(NormalizeAxisDelta(a - b));
+    }
+
+    private static float NormalizeAngle(float angle)
+    {
+        angle %= 360f;
+        return angle < 0 ? angle + 360f : angle;
+    }
+
+    private static float NormalizeAxisAngle(float angle)
+    {
+        var normalized = NormalizeAngle(angle);
+        return normalized >= 180f ? normalized - 180f : normalized;
+    }
+
+    private static float NormalizeAxisDelta(float angle)
+    {
+        angle %= 180f;
+        if (angle > 90f)
+        {
+            angle -= 180f;
+        }
+        else if (angle < -90f)
+        {
+            angle += 180f;
+        }
+
+        return angle;
+    }
+
+    private static string FormatAngle(float? angle)
+    {
+        return angle == null ? "None" : $"{angle.Value:0.0}";
+    }
+
+    private void MoveGuide(string name, Vector3 position)
+    {
+        var element = Controller.GetElementByName(name);
+        element.Enabled = true;
+        element.refX = position.X;
+        element.refY = position.Z;
+        element.refZ = position.Y;
+    }
+
+    private void OffGuide()
+    {
+        if (Controller.TryGetElementByName("Guide", out var element))
+        {
+            element.Enabled = false;
+        }
+
+        if (Controller.TryGetElementByName("PreGuide", out var preElement))
+        {
+            preElement.Enabled = false;
+        }
+
+        if (Controller.TryGetElementByName("RotationText", out var rotationElement))
+        {
+            rotationElement.Enabled = false;
+        }
+    }
+
+    private void ResetState()
+    {
+        _flameCasts.Clear();
+        _pantokratorAngle = null;
+        _firstFlameAngle = null;
+        _flameDirection = 0;
+        _pantokratorStartedAt = 0;
+        _firstFlameStartedAt = 0;
+        _secondFlameStartedAt = 0;
+        _lastEvent = "";
+        _lastSkipReason = "";
+        _lastGuide = "";
+    }
+
+    private readonly record struct CastRecord(uint Source, float? Angle, long StartedAt);
+
+    public class Config : IEzConfig
+    {
+        public bool Debug = false;
+        public string BasePlayerOverride = "";
+        public PriorityData PriorityData = new();
+    }
+}
 ```
+
+#### Priority - パントクラトル
+
+上から`H1,MT,ST,D1,D2,D3,D4,H2`
 
 ---
 
