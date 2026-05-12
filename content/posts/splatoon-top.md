@@ -2931,7 +2931,7 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 
 ### P5 オメガ 安置ガイド
 
-公式アkラ、P5 オメガ 安置ガイドスクリプト
+公式から、P5 オメガ 安置ガイドスクリプト
 
 ```url
 https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/P5_Dynamis_Omega_Safe_Guide.cs
