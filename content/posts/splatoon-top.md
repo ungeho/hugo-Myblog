@@ -4182,356 +4182,431 @@ D3へフレアマーカーが付与された場合は、D3を北へ固定した�
 - StackSouth D3/H1/MT:swap H1 and MT  
     **チェックする**
 
-<!-- ---
+---
 
-### P6 マジックナンバー LB
+### P6 波動砲：リミッターカット
 
-LB自動使用スクリプトです。  
-使用するには、ロール設定が必要です。  
-対応ジョブは、ナイト、戦士、暗黒騎士、ガンブレイカー、白魔道士、占星術師、学者、賢者です。  
-リマインダー表示はレイアウトで行っています。
+波動砲：リミッターカットのガイドスクリプト  
+設定不要
 
 ```c#
 using Dalamud.Game.ClientState.Objects.SubKinds;
-using Dalamud.Bindings.ImGui;
+using Dalamud.Game.ClientState.Objects.Types;
+using ECommons;
 using ECommons.Configuration;
 using ECommons.DalamudServices;
-using ECommons.DalamudServices.Legacy;
 using ECommons.GameFunctions;
-using ECommons.GameHelpers;
 using ECommons.ImGuiMethods;
-using ECommons.Logging;
-using FFXIVClientStructs.FFXIV.Client.Game;
+using Dalamud.Bindings.ImGui;
 using Splatoon.SplatoonScripting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol;
 
-internal unsafe class TOP_P6_Magic_Number_LB : SplatoonScript
+internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 {
-    private const uint TopTerritory = 1122;
-    private const uint MagicNumberCast = 31670;
-    private const uint MagicNumberStatus = 0xDCC;
-    private const uint DefaultTankLb3ActionId = 199;
-    private const uint DefaultHealerLb3ActionId = 208;
-    private static readonly LbRole[] RoleOptions = { LbRole.None, LbRole.MT, LbRole.ST, LbRole.H1, LbRole.H2 };
+    private const uint LimiterCutCast = 31660;
+    private const uint WaveCannonSourceCast = 31661;
+    private const uint LimiterCutWaveCannonCast = 31663;
+    private const uint WaveCannonNpcDataId = 0x2FE0;
+    private const float CenterX = 100f;
+    private const float CenterZ = 100f;
+    private const float OuterRadius = 24f;
+    private const float FirstGuideRadius = 8f;
+    private const float GuideRadius = 16f;
+    private const float HalfOctant = 0.5f;
+    private const int FirstGuideDelayMs = 9700;
+    private const int FirstDistance16DelayMs = 2500;
+    private const int Distance16StepDelayMs = 1700;
+    private const int FirstPreviewLeadMs = 3000;
+    private const int PreviewLeadMs = 1000;
+    private const uint GuideColor = 4278255360;
+    private const uint PreviewGuideColor = 4278255615;
 
-    public override HashSet<uint>? ValidTerritories => null;
+    private readonly List<int> _waveCannonIndices = [];
+    private List<GuideStep> _guideSteps = [];
+    private bool _limiterCutActive = false;
+    private bool _waveCannonCastStarted = false;
+    private bool _sequenceStarted = false;
+    private int _limiterCutWaveCannonCount = 0;
+    private int _sequenceId = 0;
+    private long _limiterCutStartedAt = 0;
+    private int? _firstIndex = null;
+    private int? _rotationDirection = null;
+    private Config C => Controller.GetConfig<Config>();
+
+    public override HashSet<uint>? ValidTerritories => [1122];
     public override Metadata? Metadata => new(1, "kudry + Codex");
 
-    private Config Conf => Controller.GetConfig<Config>();
-    private int _magicNumberCastCount = 0;
-    private bool _waitingForFirstHealerLb = false;
-    private bool _waitingForSecondHealerLb = false;
-    private bool _usedFirstLb = false;
-    private bool _usedSecondLb = false;
-    private long _lastCastStartedAt = 0;
-    private long _lastStatusCheckAt = 0;
-    private string _lastEvent = "Ready";
-    private string _lastAttempt = "None";
-    private string _lastPlannedLb = "None";
-    private int _plannedLbCount = 0;
-    private long _lastPlannedLbAt = 0;
-    private bool? _lastUseResult = null;
+    public override void OnSetup()
+    {
+        Controller.RegisterElementFromCode("Guide", """
+        {
+            "Name":"",
+            "type":0,
+            "Enabled":false,
+            "refX":100.0,
+            "refY":100.0,
+            "refZ":0.0,
+            "radius":1.0,
+            "color":4278255360,
+            "Filled":false,
+            "fillIntensity":0.2,
+            "overlayBGColor":1879048192,
+            "overlayTextColor":3372220415,
+            "thicc":8.0,
+            "overlayText":"",
+            "tether":true
+        }
+        """);
+        Controller.RegisterElementFromCode("PreviewGuide", """
+        {
+            "Name":"",
+            "type":0,
+            "Enabled":false,
+            "refX":100.0,
+            "refY":100.0,
+            "refZ":0.0,
+            "radius":1.0,
+            "color":4278255615,
+            "Filled":false,
+            "fillIntensity":0.2,
+            "overlayBGColor":1879048192,
+            "overlayTextColor":3372220415,
+            "thicc":8.0,
+            "overlayText":"",
+            "tether":true
+        }
+        """);
+    }
 
     public override void OnStartingCast(uint source, uint castId)
     {
-        if(castId != MagicNumberCast || Conf.SelectedRole == LbRole.None)
-            return;
-
-        if(Conf.AutomationOnlyInTop && Svc.ClientState.TerritoryType != TopTerritory)
+        if(castId == LimiterCutCast)
         {
-            DebugLog($"Ignoring cast {castId}; current territory is {Svc.ClientState.TerritoryType}");
+            ResetState();
+            OffPreviewGuide();
+            _limiterCutActive = true;
+            _limiterCutStartedAt = Environment.TickCount64;
+            MoveGuide(new Vector3(CenterX, 0f, CenterZ));
             return;
         }
 
-        _magicNumberCastCount++;
-        _lastCastStartedAt = Environment.TickCount64;
-        _lastEvent = $"Magic Number cast #{_magicNumberCastCount} started by {source.GetObject()?.Name ?? "Unknown"}";
-        DebugLog(_lastEvent);
+        if(!_limiterCutActive) return;
 
-        if(_magicNumberCastCount == 1)
+        if(castId == WaveCannonSourceCast)
         {
-            if(Conf.SelectedRole == LbRole.MT)
-                TryUseLimitBreak("MT: first Magic Number cast");
-            else if(Conf.SelectedRole == LbRole.H1)
-                StartHealerWait(first: true);
+            RecordWaveCannonSource(source);
+            ScanWaveCannonSources();
+            TryStartGuideSequence();
+            return;
         }
-        else if(_magicNumberCastCount == 2)
+
+        if(castId == LimiterCutWaveCannonCast)
         {
-            if(Conf.SelectedRole == LbRole.ST)
-                TryUseLimitBreak("ST: second Magic Number cast");
-            else if(Conf.SelectedRole == LbRole.H2)
-                StartHealerWait(first: false);
+            _limiterCutWaveCannonCount++;
+            _waveCannonCastStarted = true;
+            TryStartGuideSequence();
         }
     }
 
     public override void OnUpdate()
     {
-        if(Conf.SelectedRole == LbRole.None)
-            return;
+        if(!_limiterCutActive) return;
 
-        if(Conf.AutomationOnlyInTop && Svc.ClientState.TerritoryType != TopTerritory)
-            return;
+        ScanWaveCannonSources();
+        TryStartGuideSequence();
+        UpdateGuideByTimeline();
+    }
 
-        if(!_waitingForFirstHealerLb && !_waitingForSecondHealerLb)
-            return;
-
-        if(Environment.TickCount64 - _lastStatusCheckAt < 100)
-            return;
-
-        _lastStatusCheckAt = Environment.TickCount64;
-
-        var statusCount = CountPartyMembersWithMagicNumber();
-        var partyCount = GetParty().Count;
-        _lastEvent = $"Waiting status 0xDCC: {statusCount}/{partyCount}";
-
-        if(!AllPartyMembersHaveMagicNumber())
-            return;
-
-        if(_waitingForFirstHealerLb && !_usedFirstLb)
-            TryUseLimitBreak("H1: all party members have 0xDCC after first cast");
-        else if(_waitingForSecondHealerLb && !_usedSecondLb)
-            TryUseLimitBreak("H2: all party members have 0xDCC after second cast");
-
-        _waitingForFirstHealerLb = false;
-        _waitingForSecondHealerLb = false;
+    private void ScanWaveCannonSources()
+    {
+        foreach(var npc in Svc.Objects.OfType<IBattleChara>())
+        {
+            if(IsWaveCannonNpc(npc) && npc.CastActionId == WaveCannonSourceCast)
+            {
+                RecordWaveCannonSource(npc);
+            }
+        }
     }
 
     public override void OnReset()
     {
-        ClearState();
+        ResetState();
+        OffGuide();
+        OffPreviewGuide();
     }
 
     public override void OnSettingsDraw()
     {
-        DrawRoleCombo();
-
-        ImGui.Checkbox("Automation only in TOP", ref Conf.AutomationOnlyInTop);
-        ImGui.Checkbox("DebugPrint", ref Conf.DebugPrint);
-
-        ImGui.Separator();
-        ImGuiEx.Text("Debug LB Button");
-        ImGui.SameLine();
-        if(ImGui.Button("Use selected LB action"))
-            TryUseLimitBreak("Manual debug button", markAutomatedUse: false);
-
-        ImGui.Checkbox("Use job-specific LB3 action ID", ref Conf.UseJobSpecificActionId);
-
-        ImGui.SetNextItemWidth(120);
-        var tankLb = (int)Conf.FallbackTankLb3ActionId;
-        if(ImGui.InputInt("Fallback Tank LB3 Action ID", ref tankLb))
-            Conf.FallbackTankLb3ActionId = Math.Max(0, tankLb);
-
-        ImGui.SetNextItemWidth(120);
-        var healerLb = (int)Conf.FallbackHealerLb3ActionId;
-        if(ImGui.InputInt("Fallback Healer LB3 Action ID", ref healerLb))
-            Conf.FallbackHealerLb3ActionId = Math.Max(0, healerLb);
-
-        if(ImGui.Button("Reset internal state"))
-            ClearState();
+        ImGui.Checkbox("Debug", ref C.Debug);
 
         if(ImGui.CollapsingHeader("Debug"))
         {
-            var party = GetParty();
-            ImGuiEx.Text($"Selected role: {Conf.SelectedRole}");
-            ImGuiEx.Text($"Current territory: {Svc.ClientState.TerritoryType}");
-            ImGuiEx.Text($"Magic Number cast count: {_magicNumberCastCount}");
-            ImGuiEx.Text($"Waiting H1/H2: {_waitingForFirstHealerLb}/{_waitingForSecondHealerLb}");
-            ImGuiEx.Text($"Party status 0xDCC: {CountPartyMembersWithMagicNumber()}/{party.Count}");
-            ImGuiEx.Text($"Last cast age ms: {GetAgeMs(_lastCastStartedAt)}");
-            ImGuiEx.Text($"Last event: {_lastEvent}");
-            ImGuiEx.Text($"Planned LB count: {_plannedLbCount}");
-            ImGuiEx.Text($"Last planned LB: {_lastPlannedLb}");
-            ImGuiEx.Text($"Last planned LB age ms: {GetAgeMs(_lastPlannedLbAt)}");
-            ImGuiEx.Text($"Last attempt: {_lastAttempt}");
-            ImGuiEx.Text($"Last UseAction result: {(_lastUseResult?.ToString() ?? "None")}");
-            ImGuiEx.Text($"Selected action id: {GetSelectedActionId()}");
-            ImGuiEx.Text($"Local job row id: {Player.Object?.ClassJob.RowId.ToString() ?? "None"}");
+            ImGuiEx.Text($"Limiter cut active: {_limiterCutActive}");
+            ImGuiEx.Text($"31663 started: {_waveCannonCastStarted}");
+            ImGuiEx.Text($"31663 count: {_limiterCutWaveCannonCount}");
+            ImGuiEx.Text($"Sequence started: {_sequenceStarted}");
+            ImGuiEx.Text($"Elapsed ms: {GetElapsedMs()}");
+            ImGuiEx.Text($"Current step: {GetCurrentStepIndex()}");
+            ImGuiEx.Text($"First index: {(_firstIndex?.ToString() ?? "None")}");
+            ImGuiEx.Text($"Direction: {GetDirectionText()}");
+            ImGuiEx.Text($"31661 indices: {string.Join(", ", _waveCannonIndices)}");
         }
     }
 
-    private void DrawRoleCombo()
+    private void RecordWaveCannonSource(uint source)
     {
-        ImGui.SetNextItemWidth(160);
-        if(ImGui.BeginCombo("LB Role", Conf.SelectedRole.ToString()))
+        if(source.GetObject() is not IBattleChara npc) return;
+
+        RecordWaveCannonSource(npc);
+    }
+
+    private void RecordWaveCannonSource(IBattleChara npc)
+    {
+        var index = GetOctantIndex(npc.Position);
+        if(_waveCannonIndices.Contains(index)) return;
+
+        _waveCannonIndices.Add(index);
+        _firstIndex ??= index;
+
+        if(_rotationDirection == null && _waveCannonIndices.Count >= 2)
         {
-            foreach(var role in RoleOptions)
+            _rotationDirection = GetRotationDirection(_waveCannonIndices[0], _waveCannonIndices[1]);
+        }
+    }
+
+    private static bool IsWaveCannonNpc(IBattleChara npc)
+    {
+        var distanceFromCenter = Math.Sqrt(Math.Pow(npc.Position.X - CenterX, 2) + Math.Pow(npc.Position.Z - CenterZ, 2));
+        return npc.DataId == WaveCannonNpcDataId || Math.Abs(distanceFromCenter - OuterRadius) <= 3f;
+    }
+
+    private void TryStartGuideSequence()
+    {
+        if(_sequenceStarted || _firstIndex == null || _rotationDirection == null) return;
+        if(!_waveCannonCastStarted && _waveCannonIndices.Count < 2) return;
+
+        _sequenceStarted = true;
+        _sequenceId++;
+        _guideSteps = BuildGuideSteps(_firstIndex.Value, _rotationDirection.Value);
+        UpdateGuideByTimeline();
+    }
+
+    private void UpdateGuideByTimeline()
+    {
+        if(!_limiterCutActive) return;
+
+        if(!_sequenceStarted)
+        {
+            MoveGuide(new Vector3(CenterX, 0f, CenterZ));
+            OffPreviewGuide();
+            return;
+        }
+
+        UpdatePreviewGuideByTimeline();
+
+        var stepIndex = GetCurrentStepIndex();
+        if(stepIndex < 0)
+        {
+            MoveGuide(new Vector3(CenterX, 0f, CenterZ));
+            return;
+        }
+
+        if(stepIndex >= _guideSteps.Count)
+        {
+            OffGuide();
+            OffPreviewGuide();
+            return;
+        }
+
+        var step = _guideSteps[stepIndex];
+        MoveGuide(PositionFromIndex(step.Index, step.Distance));
+    }
+
+    private static List<GuideStep> BuildGuideSteps(int firstIndex, int direction)
+    {
+        var oppositeFirstIndex = NormalizeIndex(firstIndex - direction);
+        return
+        [
+            new(oppositeFirstIndex, FirstGuideRadius),
+            new(oppositeFirstIndex, GuideRadius),
+            new(oppositeFirstIndex + direction * HalfOctant, GuideRadius),
+            new(oppositeFirstIndex + direction, GuideRadius),
+            new(oppositeFirstIndex + direction * 1.5f, GuideRadius),
+            new(oppositeFirstIndex + direction * 2f, GuideRadius),
+        ];
+    }
+
+    private static int GetRotationDirection(int firstIndex, int secondIndex)
+    {
+        var diff = NormalizeIndex(secondIndex - firstIndex);
+        return diff <= 4 ? 1 : -1;
+    }
+
+    private static int GetOctantIndex(Vector3 position)
+    {
+        var degrees = Math.Atan2(position.X - CenterX, CenterZ - position.Z) * 180.0 / Math.PI;
+        var index = (int)Math.Round(degrees / 45.0);
+        return NormalizeIndex(index);
+    }
+
+    private static Vector3 PositionFromIndex(float index, float distance)
+    {
+        var radians = NormalizeIndex(index) * Math.PI / 4.0;
+        return new Vector3(
+            CenterX + (float)Math.Sin(radians) * distance,
+            0f,
+            CenterZ - (float)Math.Cos(radians) * distance);
+    }
+
+    private void MoveGuide(Vector3 position)
+    {
+        var element = Controller.GetElementByName("Guide");
+        element.refX = position.X;
+        element.refY = position.Z;
+        element.refZ = position.Y;
+        element.radius = 1f;
+        element.thicc = 8f;
+        element.tether = true;
+        element.color = GuideColor;
+        element.Enabled = true;
+    }
+
+    private void MovePreviewGuide(Vector3 position)
+    {
+        var element = Controller.GetElementByName("PreviewGuide");
+        element.refX = position.X;
+        element.refY = position.Z;
+        element.refZ = position.Y;
+        element.radius = 1f;
+        element.thicc = 8f;
+        element.tether = true;
+        element.color = PreviewGuideColor;
+        element.Enabled = true;
+    }
+
+    private void OffGuide()
+    {
+        Controller.GetElementByName("Guide").Enabled = false;
+    }
+
+    private void OffPreviewGuide()
+    {
+        Controller.GetElementByName("PreviewGuide").Enabled = false;
+    }
+
+    private void ResetState()
+    {
+        _sequenceId++;
+        _waveCannonIndices.Clear();
+        _guideSteps.Clear();
+        _limiterCutActive = false;
+        _waveCannonCastStarted = false;
+        _sequenceStarted = false;
+        _limiterCutWaveCannonCount = 0;
+        _limiterCutStartedAt = 0;
+        _firstIndex = null;
+        _rotationDirection = null;
+    }
+
+    private string GetDirectionText()
+    {
+        return _rotationDirection switch
+        {
+            1 => "Clockwise",
+            -1 => "Counterclockwise",
+            _ => "Unknown",
+        };
+    }
+
+    private int GetCurrentStepIndex()
+    {
+        var elapsed = GetElapsedMs();
+        if(elapsed < FirstGuideDelayMs) return -1;
+        if(_guideSteps.Count > 0 && elapsed >= GetStepStartMs(_guideSteps.Count)) return _guideSteps.Count;
+
+        for(var i = _guideSteps.Count - 1; i >= 0; i--)
+        {
+            if(elapsed >= GetStepStartMs(i))
             {
-                if(ImGui.Selectable(role.ToString(), Conf.SelectedRole == role))
-                {
-                    Conf.SelectedRole = role;
-                    DebugLog($"Role changed to {role}");
-                }
+                return i;
             }
-
-            ImGui.EndCombo();
-        }
-    }
-
-    private void StartHealerWait(bool first)
-    {
-        if(first)
-        {
-            _waitingForFirstHealerLb = true;
-            _lastEvent = "H1 waiting for all party members to receive 0xDCC";
-        }
-        else
-        {
-            _waitingForSecondHealerLb = true;
-            _lastEvent = "H2 waiting for all party members to receive 0xDCC";
         }
 
-        DebugLog(_lastEvent);
+        return -1;
     }
 
-    private bool TryUseLimitBreak(string reason, bool markAutomatedUse = true)
+    private void UpdatePreviewGuideByTimeline()
     {
-        var actionId = GetSelectedActionId();
-        _lastAttempt = $"{reason}, action={actionId}, role={Conf.SelectedRole}";
-        RecordPlannedLimitBreak(reason, actionId);
+        var elapsed = GetElapsedMs();
+        var nextStepIndex = GetNextStepIndex(elapsed);
 
-        if(actionId == 0)
+        if(nextStepIndex < 0)
         {
-            _lastUseResult = false;
-            DebugLog($"{_lastAttempt}: skipped because action id is 0");
-            return false;
+            OffPreviewGuide();
+            return;
         }
 
-        var result = ActionManager.Instance()->UseAction(ActionType.Action, actionId);
-        _lastUseResult = result;
+        var leadMs = nextStepIndex == 0 ? FirstPreviewLeadMs : PreviewLeadMs;
+        var stepStartMs = GetStepStartMs(nextStepIndex);
 
-        if(markAutomatedUse && result)
+        if(elapsed < stepStartMs - leadMs || elapsed >= stepStartMs)
         {
-            if(_magicNumberCastCount <= 1)
-                _usedFirstLb = true;
-            else
-                _usedSecondLb = true;
+            OffPreviewGuide();
+            return;
         }
 
-        DebugLog($"{_lastAttempt}: UseAction result={result}");
-        return result;
+        var step = _guideSteps[nextStepIndex];
+        MovePreviewGuide(PositionFromIndex(step.Index, step.Distance));
     }
 
-    private void RecordPlannedLimitBreak(string reason, uint actionId)
+    private int GetNextStepIndex(long elapsed)
     {
-        _plannedLbCount++;
-        _lastPlannedLbAt = Environment.TickCount64;
-        _lastPlannedLb = $"{reason}, action={actionId}, castAgeMs={GetAgeMs(_lastCastStartedAt)}, party0xDCC={CountPartyMembersWithMagicNumber()}/{GetParty().Count}";
-        DebugLog($"Would use LB now: {_lastPlannedLb}");
-    }
-
-    private uint GetSelectedActionId()
-    {
-        if(Conf.UseJobSpecificActionId)
+        for(var i = 0; i < _guideSteps.Count; i++)
         {
-            var jobActionId = GetCurrentJobLimitBreak3ActionId();
-            if(jobActionId != 0)
-                return jobActionId;
+            if(elapsed < GetStepStartMs(i))
+            {
+                return i;
+            }
         }
 
-        return Conf.SelectedRole switch
-        {
-            LbRole.MT or LbRole.ST => (uint)Conf.FallbackTankLb3ActionId,
-            LbRole.H1 or LbRole.H2 => (uint)Conf.FallbackHealerLb3ActionId,
-            _ => 0
-        };
+        return -1;
     }
 
-    private static uint GetCurrentJobLimitBreak3ActionId()
+    private static int GetStepStartMs(int stepIndex)
     {
-        return Player.Object?.ClassJob.RowId switch
-        {
-            19 => 199,   // PLD: Last Bastion
-            21 => 4240,  // WAR: Land Waker
-            32 => 4241,  // DRK: Dark Force
-            37 => 17105, // GNB: Gunmetal Soul
-            24 => 208,   // WHM: Pulse of Life
-            28 => 4247,  // SCH: Angel Feathers
-            33 => 4248,  // AST: Astral Stasis
-            40 => 24859, // SGE: Techne Makre
-            _ => 0
-        };
+        if(stepIndex <= 0) return FirstGuideDelayMs;
+
+        return FirstGuideDelayMs + FirstDistance16DelayMs + (stepIndex - 1) * Distance16StepDelayMs;
     }
 
-    private List<IPlayerCharacter> GetParty()
+    private long GetElapsedMs()
     {
-        return Svc.Objects
-            .OfType<IPlayerCharacter>()
-            .ToList();
+        return _limiterCutStartedAt == 0 ? 0 : Environment.TickCount64 - _limiterCutStartedAt;
     }
 
-    private bool AllPartyMembersHaveMagicNumber()
+    private static int NormalizeIndex(int index)
     {
-        var party = GetParty();
-        return party.Count >= Conf.RequiredPartyCount && party.All(HasMagicNumberStatus);
+        return (index % 8 + 8) % 8;
     }
 
-    private int CountPartyMembersWithMagicNumber()
+    private static float NormalizeIndex(float index)
     {
-        return GetParty().Count(HasMagicNumberStatus);
+        return (index % 8f + 8f) % 8f;
     }
 
-    private static bool HasMagicNumberStatus(IPlayerCharacter player)
-    {
-        return player.StatusList.Any(x => x.StatusId == MagicNumberStatus);
-    }
-
-    private static long GetAgeMs(long startedAt)
-    {
-        return startedAt == 0 ? 0 : Environment.TickCount64 - startedAt;
-    }
-
-    private void ClearState()
-    {
-        _magicNumberCastCount = 0;
-        _waitingForFirstHealerLb = false;
-        _waitingForSecondHealerLb = false;
-        _usedFirstLb = false;
-        _usedSecondLb = false;
-        _lastCastStartedAt = 0;
-        _lastStatusCheckAt = 0;
-        _lastEvent = "Ready";
-        _lastAttempt = "None";
-        _lastPlannedLb = "None";
-        _plannedLbCount = 0;
-        _lastPlannedLbAt = 0;
-        _lastUseResult = null;
-    }
-
-    private void DebugLog(string message)
-    {
-        if(Conf.DebugPrint)
-            DuoLog.Information($"[TOP P6 Magic Number LB] {message}");
-    }
+    private readonly record struct GuideStep(float Index, float Distance);
 
     public class Config : IEzConfig
     {
-        public LbRole SelectedRole = LbRole.None;
-        public bool AutomationOnlyInTop = true;
-        public bool DebugPrint = true;
-        public bool UseJobSpecificActionId = true;
-        public int FallbackTankLb3ActionId = (int)DefaultTankLb3ActionId;
-        public int FallbackHealerLb3ActionId = (int)DefaultHealerLb3ActionId;
-        public int RequiredPartyCount = 8;
-    }
-
-    public enum LbRole
-    {
-        None,
-        MT,
-        ST,
-        H1,
-        H2
+        public bool Debug = false;
     }
 }
 ```
-
-#### Configuration - マジックナンバー LBスクリプト
-
-LBの使用順は MT -> H1 -> ST -> H2 を想定しています。 -->
 
 ## Layout
 
