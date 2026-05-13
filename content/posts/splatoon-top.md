@@ -903,6 +903,13 @@ public unsafe class TOP_P1_Program_Loop_Priority_With_Self_Priority : SplatoonSc
 優先度設定が必要  
 上から`H1,MT,ST,D1,D2,D3,D4,H2`
 
+#### tower color
+
+- Primary tower color  
+  `23FF00FF`
+- Secondary tower color  
+  `#23FF00FF`
+
 ---
 
 ### P1 パントクラトル
@@ -1703,6 +1710,7 @@ using ECommons;
 using ECommons.Configuration;
 using ECommons.DalamudServices;
 using ECommons.GameFunctions;
+using ECommons.GameHelpers;
 using ECommons.Hooks;
 using ECommons.ImGuiMethods;
 using ECommons.Logging;
@@ -1810,11 +1818,14 @@ namespace SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol
             Controller.GetElementByName("DefaPartner").Enabled = false;
             AvoidAlerts.Each(x => x.Enabled = false);
 
+            var localPlayer = Player.Object;
+            if(localPlayer == null) return;
+
             try
             {
                 if(Conf.EnableAvoiders && IsHelloWorldRunning)
                 {
-                    var otherPlayers = FakeParty.Get().Where(x => x.Address != Svc.ClientState.LocalPlayer.Address);
+                    var otherPlayers = FakeParty.Get().Where(x => x.Address != localPlayer.Address);
                     if(HasEffect(Effects.BlueRot))
                     {
                         foreach(var x in otherPlayers)
@@ -1904,7 +1915,7 @@ namespace SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol
                     if(counter != 4 && !(HasEffect(Effects.NoBlueRot) && HasEffect(Effects.NoRedRot))) RotPicker = true;
                     if(counter != 4)
                     {
-                        var partner = FakeParty.Get().FirstOrDefault(x => x.Address != Svc.ClientState.LocalPlayer.Address && HasEffect(Effects.UpcomingCloseTether, 10f, x));
+                        var partner = FakeParty.Get().FirstOrDefault(x => x.Address != localPlayer.Address && HasEffect(Effects.UpcomingCloseTether, 10f, x));
                         if(isDefamationRed)
                         {
                             if(Conf.EnableVisualElementsTowers) TowerRed(true);
@@ -1970,7 +1981,7 @@ namespace SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol
                 {
                     if(HasEffect(Effects.FarTether))
                     {
-                        if(Conf.EnableOverheadHintsTether) Reminder("線を切る - 離れる", ImGuiColors.HealerGreen);
+                        if(Conf.EnableOverheadHintsTether) Reminder("線を切る- 離れる", ImGuiColors.HealerGreen);
                     }
                     if(HasEffect(Effects.CloseTether) && !Svc.Objects.Any(x => x is IPlayerCharacter pc && HasEffect(Effects.FarTether)))
                     {
@@ -2048,7 +2059,8 @@ namespace SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol
 
         private static bool HasEffect(uint effect, float? remainingTile = null, IBattleChara? obj = null)
         {
-            return (obj ?? Svc.ClientState.LocalPlayer).StatusList.Any(x => x.StatusId == effect && (remainingTile == null || x.RemainingTime < remainingTile));
+            var target = obj ?? Player.Object;
+            return target != null && target.StatusList.Any(x => x.StatusId == effect && (remainingTile == null || x.RemainingTime < remainingTile));
         }
 
         private void Reminder(string? text, Vector4? color = null)
