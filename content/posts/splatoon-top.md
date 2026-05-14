@@ -19,7 +19,7 @@ math = false
 > 今後しばらくは問題のある更新やその修正を含め、細かく更新されます。  
 > 
 > 最終フェーズまでの暫定版は完成しました。  
-> 実戦による調整は全てのフェーズで未完了です。
+> **実戦による調整は全てのフェーズで未完了**です。
 
 ---
 
@@ -38,7 +38,29 @@ math = false
 
 ## Strategy method
 
-基本リリド 検知十字式
+基本リリド 検知十字式  
+
+### 他の攻略法で処理を行う場合
+
+**基本リリド 検知十字式で処理する場合は、この項目を無視して問題ありません。**  
+すべてリリド（検知Ast式）で処理する場合は、以下のように導入してください。  
+
+> [!TIP] 検知Ast式
+> 
+> - Script  
+>   - P3 検知式波動砲 (十字式)  
+>     **導入しない**
+>   - P3 検知式波動砲（Ast式）  
+>     公式のリポジトリから導入
+> - レイアウト
+>   - P3 検知 [十字式] - 初期散開
+>     `Configurations` を `Default Configuration` に設定
+
+#### P3 検知式波動砲（Ast式）のスクリプト
+
+```url
+https://github.com/PunishXIV/Splatoon/raw/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/Oversampled%20Wave%20Cannon.cs
+```
 
 ---
 
@@ -4621,7 +4643,8 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 > 2. **Configurations** タブを開く  
 > 3. **Select Zone...** を選択  
 > 4. **1122 次元の狭間** を選択  
-> 5. `Default Configuration`を全て **自身のロール** に変更
+> 5. `Default Configuration`を全て **自身のロール** に変更  
+>     ※ **自身のロール** がない場合は`Default Configuration`を選択
 
 ```json
 ~Lv2~{"Name":"P1 サークルプログラム 塔 配置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[2],"ElementsL":[{"Name":"塔 - 北","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayFScale":2.0,"thicc":3.0,"overlayText":"北 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":87.6,"DistanceMax":6.0},{"Name":"塔 - 東","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"東 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":112.4,"DistanceSourceY":100.0,"DistanceMax":6.0},{"Name":"塔 - 南","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3370974976,"overlayFScale":2.0,"thicc":3.0,"overlayText":"南 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":112.4,"DistanceMax":6.0},{"Name":"塔 - 西","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3369992447,"overlayFScale":2.0,"thicc":3.0,"overlayText":"西 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":87.6,"DistanceSourceY":100.0,"DistanceMax":6.0},{"Name":"Induced AOE / 靠近AOE","type":1,"Enabled":false,"radius":3.0,"color":4278255612,"fillIntensity":0.2,"overlayBGColor":3472883712,"overlayTextColor":4278255615,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":3.0,"refActorComparisonType":7,"includeRotation":true,"FaceMe":true,"refActorVFXPath":"vfx/lockon/eff/lockon5_t0h.avfx","refActorVFXMax":3000}]}
