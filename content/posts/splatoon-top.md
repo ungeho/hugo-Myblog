@@ -76,6 +76,17 @@ math = false
 https://github.com/PunishXIV/Splatoon/raw/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/Oversampled%20Wave%20Cannon.cs
 ```
 
+#### P3 検知式波動砲(Ast式)のスクリプトの設定
+
+検知式波動砲(Ast)のスクリプト設定はMirage様の絶オメガまとめが参考になると思います。  
+
+{{< linkcard
+  url="https://exatrines.github.io/SplatoonWorkspace/Endwalker/TOP/Presets/P3_Final_Omega/#p3_3"
+  title="検知式波砲(Ast式設定)"
+  desc="検知式波動砲(Ast) スクリプト設定"
+  meta="Related"
+/>}}
+
 ---
 
 ## Additional plugins
