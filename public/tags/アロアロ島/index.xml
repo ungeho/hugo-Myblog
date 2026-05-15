@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>アロアロ島 on ungehoBlog</title>
+    <link>http://localhost:1313/tags/%E3%82%A2%E3%83%AD%E3%82%A2%E3%83%AD%E5%B3%B6/</link>
+    <description>Recent content in アロアロ島 on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <lastBuildDate>Fri, 15 May 2026 14:28:55 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E3%82%A2%E3%83%AD%E3%82%A2%E3%83%AD%E5%B3%B6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>異聞アロアロ島(零式)</title>
+      <link>http://localhost:1313/posts/splatoon-aloaloisland/</link>
+      <pubDate>Fri, 15 May 2026 14:28:55 +0900</pubDate>
+      <guid>http://localhost:1313/posts/splatoon-aloaloisland/</guid>
+      <description>異聞アロアロ島のSplatoonレイアウト</description>
+    </item>
+  </channel>
+</rss>

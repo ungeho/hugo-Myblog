@@ -6,20 +6,230 @@
     <description>Recent content in Tags on ungehoBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-JP</language>
-    <lastBuildDate>Sat, 02 May 2026 11:50:30 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 15 May 2026 14:28:55 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Another</title>
+      <link>http://localhost:1313/tags/another/</link>
+      <pubDate>Fri, 15 May 2026 14:28:55 +0900</pubDate>
+      <guid>http://localhost:1313/tags/another/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Criterion</title>
+      <link>http://localhost:1313/tags/criterion/</link>
+      <pubDate>Fri, 15 May 2026 14:28:55 +0900</pubDate>
+      <guid>http://localhost:1313/tags/criterion/</guid>
+      <description></description>
+    </item>
     <item>
       <title>FFXIV</title>
       <link>http://localhost:1313/tags/ffxiv/</link>
-      <pubDate>Sat, 02 May 2026 11:50:30 +0900</pubDate>
+      <pubDate>Fri, 15 May 2026 14:28:55 +0900</pubDate>
       <guid>http://localhost:1313/tags/ffxiv/</guid>
       <description></description>
     </item>
     <item>
       <title>Splatoon</title>
       <link>http://localhost:1313/tags/splatoon/</link>
-      <pubDate>Sat, 02 May 2026 11:50:30 +0900</pubDate>
+      <pubDate>Fri, 15 May 2026 14:28:55 +0900</pubDate>
       <guid>http://localhost:1313/tags/splatoon/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>アロアロ島</title>
+      <link>http://localhost:1313/tags/%E3%82%A2%E3%83%AD%E3%82%A2%E3%83%AD%E5%B3%B6/</link>
+      <pubDate>Fri, 15 May 2026 14:28:55 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E3%82%A2%E3%83%AD%E3%82%A2%E3%83%AD%E5%B3%B6/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>異聞</title>
+      <link>http://localhost:1313/tags/%E7%95%B0%E8%81%9E/</link>
+      <pubDate>Fri, 15 May 2026 14:28:55 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E7%95%B0%E8%81%9E/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>異聞零式</title>
+      <link>http://localhost:1313/tags/%E7%95%B0%E8%81%9E%E9%9B%B6%E5%BC%8F/</link>
+      <pubDate>Fri, 15 May 2026 14:28:55 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E7%95%B0%E8%81%9E%E9%9B%B6%E5%BC%8F/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>六根山</title>
+      <link>http://localhost:1313/tags/%E5%85%AD%E6%A0%B9%E5%B1%B1/</link>
+      <pubDate>Fri, 15 May 2026 14:22:31 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E5%85%AD%E6%A0%B9%E5%B1%B1/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>シラディハ</title>
+      <link>http://localhost:1313/tags/%E3%82%B7%E3%83%A9%E3%83%87%E3%82%A3%E3%83%8F/</link>
+      <pubDate>Fri, 15 May 2026 14:20:18 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E3%82%B7%E3%83%A9%E3%83%87%E3%82%A3%E3%83%8F/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>DD</title>
+      <link>http://localhost:1313/tags/dd/</link>
+      <pubDate>Fri, 15 May 2026 14:09:04 +0900</pubDate>
+      <guid>http://localhost:1313/tags/dd/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>オルトエウレカ</title>
+      <link>http://localhost:1313/tags/%E3%82%AA%E3%83%AB%E3%83%88%E3%82%A8%E3%82%A6%E3%83%AC%E3%82%AB/</link>
+      <pubDate>Fri, 15 May 2026 14:09:04 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E3%82%AA%E3%83%AB%E3%83%88%E3%82%A8%E3%82%A6%E3%83%AC%E3%82%AB/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ディープダンジョン</title>
+      <link>http://localhost:1313/tags/%E3%83%87%E3%82%A3%E3%83%BC%E3%83%97%E3%83%80%E3%83%B3%E3%82%B8%E3%83%A7%E3%83%B3/</link>
+      <pubDate>Fri, 15 May 2026 14:09:04 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E3%83%87%E3%82%A3%E3%83%BC%E3%83%97%E3%83%80%E3%83%B3%E3%82%B8%E3%83%A7%E3%83%B3/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ピルグリム</title>
+      <link>http://localhost:1313/tags/%E3%83%94%E3%83%AB%E3%82%B0%E3%83%AA%E3%83%A0/</link>
+      <pubDate>Fri, 15 May 2026 14:09:04 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E3%83%94%E3%83%AB%E3%82%B0%E3%83%AA%E3%83%A0/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ミハシラ</title>
+      <link>http://localhost:1313/tags/%E3%83%9F%E3%83%8F%E3%82%B7%E3%83%A9/</link>
+      <pubDate>Fri, 15 May 2026 14:09:04 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E3%83%9F%E3%83%8F%E3%82%B7%E3%83%A9/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>死者</title>
+      <link>http://localhost:1313/tags/%E6%AD%BB%E8%80%85/</link>
+      <pubDate>Fri, 15 May 2026 14:09:04 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E6%AD%BB%E8%80%85/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Eureka</title>
+      <link>http://localhost:1313/tags/eureka/</link>
+      <pubDate>Fri, 15 May 2026 14:04:46 +0900</pubDate>
+      <guid>http://localhost:1313/tags/eureka/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>エウレカ</title>
+      <link>http://localhost:1313/tags/%E3%82%A8%E3%82%A6%E3%83%AC%E3%82%AB/</link>
+      <pubDate>Fri, 15 May 2026 14:04:46 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E3%82%A8%E3%82%A6%E3%83%AC%E3%82%AB/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>FRU</title>
+      <link>http://localhost:1313/tags/fru/</link>
+      <pubDate>Fri, 15 May 2026 13:48:02 +0900</pubDate>
+      <guid>http://localhost:1313/tags/fru/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>絶</title>
+      <link>http://localhost:1313/tags/%E7%B5%B6/</link>
+      <pubDate>Fri, 15 May 2026 13:48:02 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E7%B5%B6/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>絶もうひとつの未来</title>
+      <link>http://localhost:1313/tags/%E7%B5%B6%E3%82%82%E3%81%86%E3%81%B2%E3%81%A8%E3%81%A4%E3%81%AE%E6%9C%AA%E6%9D%A5/</link>
+      <pubDate>Fri, 15 May 2026 13:48:02 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E7%B5%B6%E3%82%82%E3%81%86%E3%81%B2%E3%81%A8%E3%81%A4%E3%81%AE%E6%9C%AA%E6%9D%A5/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>DSR</title>
+      <link>http://localhost:1313/tags/dsr/</link>
+      <pubDate>Fri, 15 May 2026 13:32:40 +0900</pubDate>
+      <guid>http://localhost:1313/tags/dsr/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>絶竜詩戦争</title>
+      <link>http://localhost:1313/tags/%E7%B5%B6%E7%AB%9C%E8%A9%A9%E6%88%A6%E4%BA%89/</link>
+      <pubDate>Fri, 15 May 2026 13:32:40 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E7%B5%B6%E7%AB%9C%E8%A9%A9%E6%88%A6%E4%BA%89/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ucob</title>
+      <link>http://localhost:1313/tags/ucob/</link>
+      <pubDate>Fri, 15 May 2026 13:09:22 +0900</pubDate>
+      <guid>http://localhost:1313/tags/ucob/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>絶バハムート</title>
+      <link>http://localhost:1313/tags/%E7%B5%B6%E3%83%90%E3%83%8F%E3%83%A0%E3%83%BC%E3%83%88/</link>
+      <pubDate>Fri, 15 May 2026 13:09:22 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E7%B5%B6%E3%83%90%E3%83%8F%E3%83%A0%E3%83%BC%E3%83%88/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>UMU</title>
+      <link>http://localhost:1313/tags/umu/</link>
+      <pubDate>Fri, 15 May 2026 13:01:29 +0900</pubDate>
+      <guid>http://localhost:1313/tags/umu/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>絶アルテマウェポン</title>
+      <link>http://localhost:1313/tags/%E7%B5%B6%E3%82%A2%E3%83%AB%E3%83%86%E3%83%9E%E3%82%A6%E3%82%A7%E3%83%9D%E3%83%B3/</link>
+      <pubDate>Fri, 15 May 2026 13:01:29 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E7%B5%B6%E3%82%A2%E3%83%AB%E3%83%86%E3%83%9E%E3%82%A6%E3%82%A7%E3%83%9D%E3%83%B3/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Enuo</title>
+      <link>http://localhost:1313/tags/enuo/</link>
+      <pubDate>Fri, 01 May 2026 17:02:50 +0900</pubDate>
+      <guid>http://localhost:1313/tags/enuo/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Extreme</title>
+      <link>http://localhost:1313/tags/extreme/</link>
+      <pubDate>Fri, 01 May 2026 17:02:50 +0900</pubDate>
+      <guid>http://localhost:1313/tags/extreme/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>エヌオー</title>
+      <link>http://localhost:1313/tags/%E3%82%A8%E3%83%8C%E3%82%AA%E3%83%BC/</link>
+      <pubDate>Fri, 01 May 2026 17:02:50 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E3%82%A8%E3%83%8C%E3%82%AA%E3%83%BC/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>極</title>
+      <link>http://localhost:1313/tags/%E6%A5%B5/</link>
+      <pubDate>Fri, 01 May 2026 17:02:50 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E6%A5%B5/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>TOP</title>
+      <link>http://localhost:1313/tags/top/</link>
+      <pubDate>Sun, 19 Apr 2026 15:51:01 +0900</pubDate>
+      <guid>http://localhost:1313/tags/top/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>絶オメガ</title>
+      <link>http://localhost:1313/tags/%E7%B5%B6%E3%82%AA%E3%83%A1%E3%82%AC/</link>
+      <pubDate>Sun, 19 Apr 2026 15:51:01 +0900</pubDate>
+      <guid>http://localhost:1313/tags/%E7%B5%B6%E3%82%AA%E3%83%A1%E3%82%AC/</guid>
       <description></description>
     </item>
     <item>
@@ -324,13 +534,6 @@
       <description></description>
     </item>
     <item>
-      <title>DSR</title>
-      <link>http://localhost:1313/tags/dsr/</link>
-      <pubDate>Thu, 01 Feb 2024 05:09:18 +0900</pubDate>
-      <guid>http://localhost:1313/tags/dsr/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Preparation</title>
       <link>http://localhost:1313/tags/preparation/</link>
       <pubDate>Thu, 01 Feb 2024 05:09:18 +0900</pubDate>
@@ -349,6 +552,20 @@
       <link>http://localhost:1313/tags/test/</link>
       <pubDate>Mon, 22 Jan 2024 19:01:13 +0900</pubDate>
       <guid>http://localhost:1313/tags/test/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>エウレカ諸島</title>
+      <link>http://localhost:1313/tags/%E3%82%A8%E3%82%A6%E3%83%AC%E3%82%AB%E8%AB%B8%E5%B3%B6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/%E3%82%A8%E3%82%A6%E3%83%AC%E3%82%AB%E8%AB%B8%E5%B3%B6/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ピルグリムトラバース</title>
+      <link>http://localhost:1313/tags/%E3%83%94%E3%83%AB%E3%82%B0%E3%83%AA%E3%83%A0%E3%83%88%E3%83%A9%E3%83%90%E3%83%BC%E3%82%B9/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/%E3%83%94%E3%83%AB%E3%82%B0%E3%83%AA%E3%83%A0%E3%83%88%E3%83%A9%E3%83%90%E3%83%BC%E3%82%B9/</guid>
       <description></description>
     </item>
   </channel>

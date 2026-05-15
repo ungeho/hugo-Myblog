@@ -4,7 +4,7 @@ date = 2026-05-01T17:02:50+09:00
 draft = false
 description = "極エヌオー討滅戦のSplatoonレイアウト"
 categories = ["FFXIV"]
-tags = ["FFXIV","Splatoon"]
+tags = ["FFXIV","Splatoon","エヌオー","Enuo","極","Extreme"]
 series = ["FFXIV Splatoon Presets"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true

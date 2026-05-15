@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>エヌオー on ungehoBlog</title>
+    <link>http://localhost:1313/tags/%E3%82%A8%E3%83%8C%E3%82%AA%E3%83%BC/</link>
+    <description>Recent content in エヌオー on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <lastBuildDate>Fri, 01 May 2026 17:02:50 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E3%82%A8%E3%83%8C%E3%82%AA%E3%83%BC/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>極エヌオー討滅戦</title>
+      <link>http://localhost:1313/posts/splatoon-no/</link>
+      <pubDate>Fri, 01 May 2026 17:02:50 +0900</pubDate>
+      <guid>http://localhost:1313/posts/splatoon-no/</guid>
+      <description>極エヌオー討滅戦のSplatoonレイアウト</description>
+    </item>
+  </channel>
+</rss>

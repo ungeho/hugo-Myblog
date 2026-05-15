@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>FRU on ungehoBlog</title>
+    <link>http://localhost:1313/tags/fru/</link>
+    <description>Recent content in FRU on ungehoBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <lastBuildDate>Fri, 15 May 2026 13:48:02 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/fru/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>絶もう一つの未来</title>
+      <link>http://localhost:1313/posts/splatoon-fru/</link>
+      <pubDate>Fri, 15 May 2026 13:48:02 +0900</pubDate>
+      <guid>http://localhost:1313/posts/splatoon-fru/</guid>
+      <description>絶もう一つの未来のSplatoonレイアウト</description>
+    </item>
+  </channel>
+</rss>

@@ -4,7 +4,7 @@ date = 2026-04-19T15:51:01+09:00
 draft = false
 description = "絶オメガ検証戦のSplatoonレイアウト"
 categories = ["FFXIV"]
-tags = ["FFXIV","Splatoon"]
+tags = ["FFXIV","Splatoon","TOP","絶オメガ","絶"]
 series = ["FFXIV Splatoon Presets"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
