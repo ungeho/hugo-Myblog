@@ -72,6 +72,8 @@ math = false
 
 #### P3 検知式波動砲（Ast式）のスクリプト
 
+公式のスクリプト
+
 ```url
 https://github.com/PunishXIV/Splatoon/raw/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/Oversampled%20Wave%20Cannon.cs
 ```
