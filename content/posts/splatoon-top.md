@@ -40,6 +40,20 @@ math = false
 
 基本リリド 検知十字式  
 
+{{< linkcard
+  url="https://jp.finalfantasyxiv.com/lodestone/character/34120564/blog/5178791/"
+  title="◆絶オメガマクロ◆カンペ付き"
+  desc="リリド 絶オメガマクロ"
+  meta="Related"
+/>}}
+
+{{< linkcard
+  url="https://www.youtube.com/watch?v=3E6KprobQuo"
+  title="【十字式】絶オメガ検証戦　P3 検知式波動砲 ｰパターン集ｰ"
+  desc="検知式波動砲 十字式"
+  meta="Related"
+/>}}
+
 ### 他の攻略法で処理を行う場合
 
 **基本リリド 検知十字式で処理する場合は、この項目を無視して問題ありません。**  
@@ -85,7 +99,8 @@ https://github.com/paissaheavyindustries/Dalamud-Repo/raw/main/repo.json
 ### P1 サークルプログラム
 
 公式の「サークルプログラム」スクリプトをベースに、自身が担当するテザーについても、優先度設定に基づいて太く表示されるよう調整しています。  
-また、各種表示も変更しています。  
+役割がない時の誘導ガイドも追加しています。  
+また、各種表示も視認性向上のために変更しています。  
 
 ```c#
 using Dalamud.Game.ClientState.Objects.SubKinds;
@@ -155,6 +170,7 @@ public unsafe class TOP_P1_Program_Loop_Priority_With_Self_Priority : SplatoonSc
         Controller.RegisterElementFromCode("SafeSouth", "{\"Enabled\":false,\"Name\":\"\",\"refX\":100.0,\"refY\":116.0,\"radius\":4.0,\"color\":4278190080,\"Filled\":false,\"fillIntensity\":0.0,\"thicc\":5.0}");
         Controller.RegisterElementFromCode("SafeWest", "{\"Enabled\":false,\"Name\":\"\",\"refX\":84.0,\"refY\":100.0,\"radius\":4.0,\"color\":4278190080,\"Filled\":false,\"fillIntensity\":0.0,\"thicc\":5.0}");
         Controller.RegisterElementFromCode("SafeEast", "{\"Enabled\":false,\"Name\":\"\",\"refX\":116.0,\"refY\":100.0,\"radius\":4.0,\"color\":4278190080,\"Filled\":false,\"fillIntensity\":0.0,\"thicc\":5.0}");
+        Controller.RegisterElementFromCode("NonRoleSafeSpot", "{\"Name\":\"\",\"type\":0,\"Enabled\":false,\"refX\":100.0,\"refY\":100.0,\"radius\":0.8,\"color\":4278255360,\"Filled\":false,\"fillIntensity\":0.0,\"thicc\":8.0,\"tether\":true}");
     }
 
     public override void OnUpdate()
@@ -377,6 +393,7 @@ public unsafe class TOP_P1_Program_Loop_Priority_With_Self_Priority : SplatoonSc
                     }
                 }
             }
+            UpdateNonRoleSafeSpot();
         }
         else
         {
@@ -388,9 +405,112 @@ public unsafe class TOP_P1_Program_Loop_Priority_With_Self_Priority : SplatoonSc
             Controller.GetElementByName("SelfPairPriority").Enabled = false;
             Controller.GetElementByName("dbg1").Enabled = false;
             Controller.GetElementByName("dbg2").Enabled = false;
+            Controller.GetElementByName("NonRoleSafeSpot").Enabled = false;
             if (Controller.TryGetLayoutByName("Proximity", out var l)) { l.Enabled = false; }
             SwitchTetherSafeSpots(false);
         }
+    }
+
+    private void UpdateNonRoleSafeSpot()
+    {
+        if (!Controller.TryGetElementByName("NonRoleSafeSpot", out var e))
+        {
+            return;
+        }
+
+        var localPlayer = Svc.ClientState.LocalPlayer;
+        if (localPlayer == null
+            || Conf.Towers == TowerStartPoint.Disable_towers
+            || IsTakingCurrentTether(localPlayer.EntityId)
+            || IsTakingCurrentTower(localPlayer.EntityId))
+        {
+            e.Enabled = false;
+            return;
+        }
+
+        var currentTowers = GetCurrentTowers();
+        if (currentTowers.Length != 2)
+        {
+            e.Enabled = false;
+            return;
+        }
+
+        var candidates = GetNonRoleSafeSpotCandidates(currentTowers);
+        if (candidates.Length == 0)
+        {
+            e.Enabled = false;
+            return;
+        }
+
+        var currentPosition = localPlayer.Position.ToVector2();
+        var safeSpot = candidates.OrderBy(candidate => Vector2.DistanceSquared(currentPosition, candidate)).First();
+        e.Enabled = true;
+        e.refX = safeSpot.X;
+        e.refY = safeSpot.Y;
+        e.radius = 0.8f;
+        e.color = 0xFF00FF00;
+        e.thicc = 8f;
+        e.Filled = false;
+        e.fillIntensity = 0f;
+        e.tether = true;
+    }
+
+    private Vector2[] GetNonRoleSafeSpotCandidates(uint[] currentTowers)
+    {
+        var directions = currentTowers
+            .Select(tower => MathHelper.GetCardinalDirection(new(100, 100), tower.GetObject().Position.ToVector2()))
+            .Distinct()
+            .ToArray();
+
+        if (directions.Length != 2)
+        {
+            return [];
+        }
+
+        var first = directions[0];
+        var second = directions[1];
+
+        if (AreOpposite(first, second))
+        {
+            return directions.Select(GetTowerSideSafeSpot).ToArray();
+        }
+
+        return [GetBetweenTowersSafeSpot(first, second)];
+    }
+
+    private static bool AreOpposite(CardinalDirection first, CardinalDirection second)
+    {
+        return (first == CardinalDirection.North && second == CardinalDirection.South)
+            || (first == CardinalDirection.South && second == CardinalDirection.North)
+            || (first == CardinalDirection.East && second == CardinalDirection.West)
+            || (first == CardinalDirection.West && second == CardinalDirection.East);
+    }
+
+    private static Vector2 GetTowerSideSafeSpot(CardinalDirection direction)
+    {
+        return direction switch
+        {
+            CardinalDirection.North => new(100f, 91f),
+            CardinalDirection.East => new(109f, 100f),
+            CardinalDirection.South => new(100f, 109f),
+            CardinalDirection.West => new(91f, 100f),
+            _ => new(100f, 100f),
+        };
+    }
+
+    private static Vector2 GetBetweenTowersSafeSpot(CardinalDirection first, CardinalDirection second)
+    {
+        if (HasDirections(first, second, CardinalDirection.North, CardinalDirection.East)) return new(107.071f, 92.928f);
+        if (HasDirections(first, second, CardinalDirection.East, CardinalDirection.South)) return new(107.071f, 107.071f);
+        if (HasDirections(first, second, CardinalDirection.South, CardinalDirection.West)) return new(92.928f, 107.071f);
+        if (HasDirections(first, second, CardinalDirection.West, CardinalDirection.North)) return new(92.928f, 92.928f);
+        return new(100f, 100f);
+    }
+
+    private static bool HasDirections(CardinalDirection first, CardinalDirection second, CardinalDirection expectedFirst, CardinalDirection expectedSecond)
+    {
+        return (first == expectedFirst && second == expectedSecond)
+            || (first == expectedSecond && second == expectedFirst);
     }
 
     private void SwitchTetherSafeSpots(bool enabled)
@@ -1679,6 +1799,388 @@ https://github.com/PunishXIV/Splatoon/raw/main/SplatoonScripts/Duties/Endwalker/
 
 ---
 
+### P2 連携プログラムLB
+
+連携プログラムLBの取得テザー、誘導先の表示スクリプト
+
+```c#
+using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.Types;
+using Dalamud.Bindings.ImGui;
+using ECommons;
+using ECommons.Configuration;
+using ECommons.DalamudServices;
+using ECommons.GameFunctions;
+using ECommons.Hooks;
+using ECommons.ImGuiMethods;
+using ECommons.MathHelpers;
+using Splatoon.SplatoonScripting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+using ECommons.DalamudServices.Legacy;
+
+namespace SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol;
+
+public class TOP_P2_Limitless_Synergy_LB_Tether : SplatoonScript
+{
+    private const uint LimitlessSynergyCast = 31544;
+    private const uint OmegaMBladeDanceCast = 31540;
+    private const uint OmegaFBladeDanceCast = 31541;
+    private const uint OmegaMNameId = 7633;
+    private const uint OmegaFNameId = 7634;
+    private const float CenterX = 100f;
+    private const float CenterZ = 100f;
+    private const float TetherSourceDistance = 22f;
+    private const float TetherSourceDistanceTolerance = 5f;
+    private const float DropAdditionalRotation = 5.2359877f;
+    private const uint TakenTetherColor = 3372220160;
+    private const uint UntakenTetherColor = 3355508735;
+    private const uint DropColor = 3355508509;
+
+    public override Metadata? Metadata => new(1, "kudry + Codex");
+    public override HashSet<uint> ValidTerritories => [1122];
+
+    private readonly Dictionary<uint, uint> _tethers = [];
+    private bool _allowed = false;
+    private Config Conf => Controller.GetConfig<Config>();
+
+    public override void OnSetup()
+    {
+        Controller.RegisterElement("TetherLine", new(2) { Enabled = false, radius = 0f, thicc = 8f, color = UntakenTetherColor });
+        Controller.RegisterElementFromCode("DropGuide", """
+        {
+            "Name":"",
+            "type":1,
+            "Enabled":false,
+            "offY":10.0,
+            "radius":0.5,
+            "color":3355508509,
+            "Filled":false,
+            "fillIntensity":0.5,
+            "thicc":8.0,
+            "refActorObjectID":0,
+            "refActorComparisonType":2,
+            "includeRotation":true,
+            "AdditionalRotation":5.2359877,
+            "tether":true
+        }
+        """);
+    }
+
+    public override void OnMessage(string Message)
+    {
+        if (Message.Contains($"(7635>{LimitlessSynergyCast})"))
+        {
+            ResetState();
+            _allowed = true;
+        }
+    }
+
+    public override void OnTetherCreate(uint source, uint target, uint data2, uint data3, uint data5)
+    {
+        if (!_allowed || Conf.Assignment == TetherAssignment.None)
+            return;
+
+        var normalizedTether = NormalizeTether(source, target);
+        if (normalizedTether == null)
+            return;
+
+        var (sourceObjId, targetObjId) = normalizedTether.Value;
+        if (!IsAssignedTetherSource(sourceObjId))
+            return;
+
+        _tethers[sourceObjId] = targetObjId;
+    }
+
+    public override void OnTetherRemoval(uint source, uint data2, uint data3, uint data5)
+    {
+        _tethers.Remove(source);
+        var pair = _tethers.FirstOrDefault(x => x.Value == source);
+        if (pair.Key != 0)
+            _tethers.Remove(pair.Key);
+    }
+
+    public override void OnUpdate()
+    {
+        OffAll();
+
+        if (!_allowed || Conf.Assignment == TetherAssignment.None)
+            return;
+
+        var tether = GetAssignedTether();
+        if (tether == null)
+            return;
+
+        var (source, target) = tether.Value;
+        if (source.GetObject() is not IBattleChara)
+            return;
+
+        var basePlayer = GetBasePlayer();
+        var hasTether = basePlayer != null && IsPlayerObject(target, basePlayer);
+
+        UpdateTetherLine(source, target, hasTether);
+        UpdateDropGuide(source);
+    }
+
+    public override void OnDirectorUpdate(DirectorUpdateCategory category)
+    {
+        if (category.EqualsAny(DirectorUpdateCategory.Wipe, DirectorUpdateCategory.Commence, DirectorUpdateCategory.Recommence))
+        {
+            ResetState();
+            OffAll();
+        }
+    }
+
+    public override void OnReset()
+    {
+        ResetState();
+        OffAll();
+    }
+
+    public override void OnSettingsDraw()
+    {
+        ImGuiEx.Text("TOP P2 - Limitless Synergy LB Tether");
+        ImGui.SetNextItemWidth(160f);
+        ImGuiEx.EnumCombo("Assignment", ref Conf.Assignment);
+
+        ImGui.SetNextItemWidth(220f);
+        if (ImGui.BeginCombo("Script Override", string.IsNullOrEmpty(Conf.BasePlayerOverride) ? "No Override" : Conf.BasePlayerOverride))
+        {
+            if (ImGui.Selectable("No Override", string.IsNullOrEmpty(Conf.BasePlayerOverride)))
+                Conf.BasePlayerOverride = "";
+
+            foreach (var player in Svc.Objects.OfType<IPlayerCharacter>())
+            {
+                var name = player.Name.ToString();
+                if (ImGui.Selectable(name, Conf.BasePlayerOverride == name))
+                    Conf.BasePlayerOverride = name;
+            }
+
+            ImGui.EndCombo();
+        }
+
+        ImGui.Checkbox("Debug", ref Conf.Debug);
+
+        if (ImGui.CollapsingHeader("Debug"))
+        {
+            ImGuiEx.Text($"Allowed: {_allowed}");
+            ImGuiEx.Text($"Assignment: {Conf.Assignment}");
+            ImGuiEx.Text($"Base player: {(GetBasePlayer() == null ? "None" : GetBasePlayer().Name.ToString())}");
+            ImGuiEx.Text($"Recorded tethers: {_tethers.Count}");
+
+            foreach (var tether in _tethers)
+            {
+                var source = tether.Key.GetObject();
+                var target = tether.Value.GetObject();
+                ImGuiEx.Text($"Source: {source} angle {GetSourceAngleText(tether.Key)} -> Target: {target}");
+            }
+
+            foreach (var source in Svc.Objects.OfType<IBattleChara>().Where(IsPotentialTetherSource))
+            {
+                ImGuiEx.Text($"Potential: {source} angle {GetSourceAngle(source.Position):0.0} assignment {GetSourceAssignment(source.Position)}");
+            }
+        }
+    }
+
+    private (uint Source, uint Target)? GetAssignedTether()
+    {
+        foreach (var tether in _tethers)
+        {
+            if (IsAssignedTetherSource(tether.Key))
+                return (tether.Key, tether.Value);
+        }
+
+        return null;
+    }
+
+    private (uint Source, uint Target)? NormalizeTether(uint first, uint second)
+    {
+        if (IsAssignedTetherSource(first))
+            return (first, second);
+
+        if (IsAssignedTetherSource(second))
+            return (second, first);
+
+        if (IsPotentialTetherSource(first))
+            return (first, second);
+
+        if (IsPotentialTetherSource(second))
+            return (second, first);
+
+        return null;
+    }
+
+    private bool IsAssignedTetherSource(uint source)
+    {
+        if (source.GetObject() is not IBattleChara sourceObj)
+            return false;
+
+        if (!IsPotentialTetherSource(sourceObj))
+            return false;
+
+        return GetSourceAssignment(sourceObj.Position) == Conf.Assignment;
+    }
+
+    private static bool IsPotentialTetherSource(uint source)
+    {
+        return source.GetObject() is IBattleChara sourceObj && IsPotentialTetherSource(sourceObj);
+    }
+
+    private static bool IsPotentialTetherSource(IBattleChara source)
+    {
+        var distance = Vector2.Distance(new Vector2(CenterX, CenterZ), source.Position.ToVector2());
+        var isKnownOmega = source.NameId == OmegaMNameId || source.NameId == OmegaFNameId;
+        var isBladeDanceCaster = source.CastActionId == OmegaMBladeDanceCast || source.CastActionId == OmegaFBladeDanceCast;
+        return (isKnownOmega || isBladeDanceCaster) && Math.Abs(distance - TetherSourceDistance) <= TetherSourceDistanceTolerance;
+    }
+
+    private IPlayerCharacter? GetBasePlayer()
+    {
+        if (!string.IsNullOrEmpty(Conf.BasePlayerOverride))
+        {
+            var overridePlayer = Svc.Objects
+                .OfType<IPlayerCharacter>()
+                .FirstOrDefault(x => string.Equals(x.Name.ToString(), Conf.BasePlayerOverride, StringComparison.OrdinalIgnoreCase));
+
+            if (overridePlayer != null)
+                return overridePlayer;
+        }
+
+        return Svc.ClientState.LocalPlayer;
+    }
+
+    private static bool IsPlayerObject(uint objectId, IPlayerCharacter player)
+    {
+        if (objectId == player.EntityId)
+            return true;
+
+        return objectId.GetObject() is IPlayerCharacter targetPlayer
+            && string.Equals(targetPlayer.Name.ToString(), player.Name.ToString(), StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static TetherAssignment GetSourceAssignment(Vector3 position)
+    {
+        var roundedAngle = RoundToNearest45(GetSourceAngle(position));
+        return roundedAngle switch
+        {
+            90 or 135 or 180 or -135 => TetherAssignment.MT,
+            45 or 0 or -45 or -90 => TetherAssignment.ST,
+            _ => TetherAssignment.None,
+        };
+    }
+
+    private static float GetSourceAngle(Vector3 position)
+    {
+        var degrees = MathF.Atan2(CenterZ - position.Z, position.X - CenterX) * 180f / MathF.PI;
+        return NormalizeAngle(degrees);
+    }
+
+    private static int RoundToNearest45(float degrees)
+    {
+        var rounded = (int)MathF.Round(degrees / 45f) * 45;
+        return (int)NormalizeAngle(rounded);
+    }
+
+    private static float NormalizeAngle(float degrees)
+    {
+        while (degrees > 180f) degrees -= 360f;
+        while (degrees <= -180f) degrees += 360f;
+        return degrees;
+    }
+
+    private static string GetSourceAngleText(uint source)
+    {
+        if (source.GetObject() is not IBattleChara sourceObj)
+            return "Unknown";
+
+        return $"{GetSourceAngle(sourceObj.Position):0.0} / {RoundToNearest45(GetSourceAngle(sourceObj.Position))}";
+    }
+
+    private void UpdateTetherLine(uint source, uint target, bool hasTether)
+    {
+        if (!Controller.TryGetElementByName("TetherLine", out var element))
+            return;
+
+        var sourceObj = source.GetObject();
+        var targetObj = target.GetObject();
+        if (sourceObj == null || targetObj == null)
+            return;
+
+        element.Enabled = true;
+        element.SetRefPosition(sourceObj.Position);
+        element.SetOffPosition(targetObj.Position);
+        element.color = hasTether ? TakenTetherColor : UntakenTetherColor;
+        element.thicc = 8f;
+        element.overlayText = "";
+    }
+
+    private void UpdateDropGuide(uint source)
+    {
+        if (!Controller.TryGetElementByName("DropGuide", out var element))
+            return;
+
+        element.Enabled = true;
+        element.refActorObjectID = source;
+        element.color = DropColor;
+        element.thicc = 8f;
+        element.radius = 0.5f;
+        element.tether = true;
+        element.includeRotation = true;
+        element.AdditionalRotation = DropAdditionalRotation;
+    }
+
+    private void OffAll()
+    {
+        Controller.GetRegisteredElements().Each(x => x.Value.Enabled = false);
+    }
+
+    private void ResetState()
+    {
+        _tethers.Clear();
+        _allowed = false;
+    }
+
+    public class Config : IEzConfig
+    {
+        public TetherAssignment Assignment = TetherAssignment.None;
+        public string BasePlayerOverride = "";
+        public bool Debug = false;
+    }
+
+    public enum TetherAssignment
+    {
+        None,
+        MT,
+        ST,
+    }
+}
+```
+
+#### Configuration
+
+- Assignment  
+  ロールを選択  
+  タンク以外は`None`
+  - `MT`  
+  - `ST`  
+  - `None`  
+
+---
+
+### P2 MF Target Enforcer
+
+公式から、オメガM/Fの誤ターゲットを補正するスクリプト  
+設定不要（任意導入）
+
+```url
+https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/MF%20Target%20Enforcer.cs
+```
+
+---
+
 ### P3 コロッサスブロー
 
 公式から、コロッサスブローのガイドスクリプト
@@ -2174,7 +2676,7 @@ namespace SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol
 ### P3 検知式波動砲 (十字式)
 
 AIに作成させた十字処理での検知式波動砲のスクリプト  
-リリドで採用されてるast式?が必要な場合は公式のリポジトリを参照してください。
+リリドで採用されてるAst式が必要な場合は公式のリポジトリを参照してください。
 
 ```c#
 using Dalamud.Game.ClientState.Objects.SubKinds;
@@ -4647,6 +5149,7 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 >     ※ **自身のロール** がない場合は`Default Configuration`を選択
 
 ```json
+~Lv2~{"Name":"P1 サークルプログラム 番号","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":40.0,"Match":"オメガは「サークルプログラム」の構え。"}],"ElementsL":[{"Name":"1st me","type":1,"offZ":2.76,"radius":0.0,"color":4294965504,"overlayBGColor":4294965504,"overlayTextColor":3355443200,"thicc":5.0,"overlayText":"1st","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3004],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"1st","type":1,"radius":0.0,"color":4294965504,"overlayBGColor":4294965504,"overlayTextColor":3355443200,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":5.0,"overlayText":"1","refActorRequireBuff":true,"refActorBuffId":[3004],"refActorComparisonType":1,"onlyVisible":true},{"Name":"2nd me","type":1,"offZ":2.76,"radius":0.0,"color":3364749567,"overlayBGColor":3364749567,"thicc":5.0,"overlayText":"2nd","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3005],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"2nd","type":1,"radius":0.0,"color":3364749567,"overlayBGColor":3364749567,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":5.0,"overlayText":"2","refActorRequireBuff":true,"refActorBuffId":[3005],"refActorComparisonType":1,"onlyVisible":true},{"Name":"3rd me","type":1,"offZ":2.76,"radius":0.0,"color":3372156928,"overlayBGColor":3372156928,"thicc":5.0,"overlayText":"3rd","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3rd","type":1,"radius":0.0,"color":3372156928,"overlayBGColor":3372156928,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":5.0,"overlayText":"3","refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":1,"onlyVisible":true},{"Name":"4th me","type":1,"offZ":2.76,"radius":0.0,"color":3359113471,"overlayBGColor":3359113471,"thicc":5.0,"overlayText":"4th","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3451],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"4th","type":1,"radius":0.0,"color":3359113471,"overlayBGColor":3359113471,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":5.0,"overlayText":"4","refActorRequireBuff":true,"refActorBuffId":[3451],"refActorComparisonType":1,"onlyVisible":true}]}
 ~Lv2~{"Name":"P1 サークルプログラム 塔 配置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[2],"ElementsL":[{"Name":"塔 - 北","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayFScale":2.0,"thicc":3.0,"overlayText":"北 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":87.6,"DistanceMax":6.0},{"Name":"塔 - 東","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"東 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":112.4,"DistanceSourceY":100.0,"DistanceMax":6.0},{"Name":"塔 - 南","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3370974976,"overlayFScale":2.0,"thicc":3.0,"overlayText":"南 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":112.4,"DistanceMax":6.0},{"Name":"塔 - 西","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3369992447,"overlayFScale":2.0,"thicc":3.0,"overlayText":"西 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":87.6,"DistanceSourceY":100.0,"DistanceMax":6.0},{"Name":"Induced AOE / 靠近AOE","type":1,"Enabled":false,"radius":3.0,"color":4278255612,"fillIntensity":0.2,"overlayBGColor":3472883712,"overlayTextColor":4278255615,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":3.0,"refActorComparisonType":7,"includeRotation":true,"FaceMe":true,"refActorVFXPath":"vfx/lockon/eff/lockon5_t0h.avfx","refActorVFXMax":3000}]}
 ~Lv2~{"Name":"P1 サークルプログラム テザー 配置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[2],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":36.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":9.0}],"ElementsL":[{"Name":"塔 - 北","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"北 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":87.6,"DistanceMax":6.0,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"線 - 北","refX":100.0,"refY":87.6,"radius":2.5,"Donut":0.5,"color":3355639552,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayFScale":2.0,"thicc":4.0,"overlayText":"北 - Tether"},{"Name":"塔 - 東","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"東 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":112.4,"DistanceSourceY":100.0,"DistanceMax":6.0,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"線 - 東","refX":112.4,"refY":100.0,"radius":2.5,"Donut":0.5,"color":3355639552,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508725,"overlayFScale":2.0,"thicc":4.0,"overlayText":"東 - Tether"},{"Name":"塔 - 南","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"南 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":112.4,"DistanceMax":6.0,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"線 - 南","refX":100.0,"refY":112.4,"radius":2.5,"Donut":0.5,"color":3355639552,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3372218624,"overlayFScale":2.0,"thicc":4.0,"overlayText":"南 - Tether"},{"Name":"塔 - 西","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"西 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":87.6,"DistanceSourceY":100.0,"DistanceMax":6.0,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"線 - 西","refX":87.6,"refY":100.0,"radius":2.5,"Donut":0.5,"color":3355639552,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3372024063,"overlayFScale":2.0,"thicc":4.0,"overlayText":"西 - Tether"}]}
 ~Lv2~{"Name":"P1 サークルプログラム 塔 予告-通知","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":40.0,"Match":"オメガは「サークルプログラム」の構え。"}],"ElementsL":[{"Name":"Tower Reminder","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":2684354560,"overlayTextColor":4278253567,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":0.0,"overlayText":">>> !!! TOWER !!! <<<","refActorRequireBuff":true,"refActorBuffId":[3456],"refActorUseBuffTime":true,"refActorBuffTimeMax":11.0,"refActorComparisonType":1,"refActorType":1,"onlyVisible":true},{"Name":"Tower 予告","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":2684354560,"overlayTextColor":4278253567,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":0.0,"overlayText":"NEXT -> TOWER","refActorRequireBuff":true,"refActorBuffId":[3456],"refActorUseBuffTime":true,"refActorBuffTimeMin":11.0,"refActorBuffTimeMax":17.0,"refActorComparisonType":1,"refActorType":1,"onlyVisible":true}]}
@@ -4658,7 +5161,7 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 ~Lv2~{"Name":"P1 サークルプログラム 線 通知3 (刻印5s以下)","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ConditionalAnd":true,"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":5.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":27.0}],"ElementsL":[{"Name":"notサークルプログラム","type":1,"refActorRequireBuff":true,"refActorBuffId":[1624,1704,3456],"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"and 刻印(5s↓)","type":1,"refActorRequireBuff":true,"refActorBuffId":[2483,2485,2534],"refActorUseBuffTime":true,"refActorBuffTimeMax":5.0,"refActorType":1,"Conditional":true,"Nodraw":true},{"Name":"Tether Reminder","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":2684354560,"overlayTextColor":4278255383,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":0.0,"overlayText":">>> !!! TETHER !!! <<<","refActorUseBuffTime":true,"refActorBuffTimeMax":11.0,"refActorComparisonType":1,"refActorType":1,"onlyVisible":true}]}
 ~Lv2~{"Name":"P1 サークルプログラム 線 通知4 (刻印5s以下)","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ConditionalAnd":true,"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":5.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":36.0}],"ElementsL":[{"Name":"notサークルプログラム","type":1,"refActorRequireBuff":true,"refActorBuffId":[1624,1704,3456],"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"and 刻印(5s↓)","type":1,"refActorRequireBuff":true,"refActorBuffId":[2483,2485,2534],"refActorUseBuffTime":true,"refActorBuffTimeMax":5.0,"refActorType":1,"Conditional":true,"Nodraw":true},{"Name":"Tether Reminder","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":2684354560,"overlayTextColor":4278255383,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":0.0,"overlayText":">>> !!! TETHER !!! <<<","refActorUseBuffTime":true,"refActorBuffTimeMax":11.0,"refActorComparisonType":1,"refActorType":1,"onlyVisible":true}]}
 ~Lv2~{"Name":"P1 サークルプログラム 線 通知3-4 (刻印なし)","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ConditionalAnd":true,"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":18.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":27.0}],"ElementsL":[{"Name":"notサークルプログラム","type":1,"refActorRequireBuff":true,"refActorBuffId":[1624,1704,3456],"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"and not刻印","type":1,"refActorRequireBuff":true,"refActorBuffId":[2483,2485,2534],"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"Tether Reminder","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":2684354560,"overlayTextColor":4278255383,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":0.0,"overlayText":">>> !!! TETHER !!! <<<","refActorUseBuffTime":true,"refActorBuffTimeMax":11.0,"refActorComparisonType":1,"refActorType":1,"onlyVisible":true}]}
-~Lv2~{"Name":"P1 サークルプログラム 初期位置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":10.0,"Match":"オメガは「サークルプログラム」の構え。"}],"ElementsL":[{"Name":"3","type":1,"refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3","refX":100.0,"refY":105.0,"radius":1.0,"color":3356032768,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"3以外","type":1,"refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3以外","refX":100.0,"refY":112.5,"refZ":-5.456968E-12,"radius":1.0,"color":3356032768,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]}
+~Lv2~{"Name":"P1 サークルプログラム 初期位置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":10.0,"Match":"オメガは「サークルプログラム」の構え。"}],"ElementsL":[{"Name":"3","type":1,"refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3","refX":100.0,"refY":105.0,"radius":1.0,"color":3356032768,"Filled":false,"fillIntensity":0.5,"thicc":8.0,"tether":true},{"Name":"3以外","type":1,"refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3以外","refX":100.0,"refY":112.5,"refZ":-5.456968E-12,"radius":1.0,"color":3356032768,"Filled":false,"fillIntensity":0.5,"thicc":8.0,"tether":true}]}
 ~Lv2~{"Name":"P1 サークルプログラム1_CD13","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":5.0}],"ElementsL":[{"Name":"13","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":3.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"13","refActorType":1}]}
 ~Lv2~{"Name":"P1 サークルプログラム1_CD12","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":6.0}],"ElementsL":[{"Name":"12","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":3.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"12","refActorType":1}]}
 ~Lv2~{"Name":"P1 サークルプログラム1_CD11","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":7.0}],"ElementsL":[{"Name":"11","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":3.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"11","refActorType":1}]}
@@ -4790,11 +5293,11 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 ~Lv2~{"Enabled":false,"Name":"P2 KB spots close","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[3],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":12.0,"MatchIntl":{"En":"You suffer the effect of Mid Glitch.","Jp":"「グリッチ：ミドル」の効果。"},"MatchDelay":14.0}],"ElementsL":[{"Name":"Bottom","type":1,"offY":15.5,"radius":1.0,"color":4278255615,"overlayBGColor":4278190080,"overlayTextColor":4278252031,"thicc":5.0,"overlayText":"Right","refActorDataID":15713,"refActorComparisonType":3,"includeRotation":true,"onlyVisible":true},{"Name":"Left","type":1,"offX":2.5,"offY":13.0,"radius":1.0,"color":4278190335,"overlayBGColor":4278190080,"overlayTextColor":4278190335,"thicc":5.0,"overlayText":"Left","refActorDataID":15713,"refActorComparisonType":3,"includeRotation":true,"onlyVisible":true},{"Name":"Right","type":1,"Enabled":false,"offX":-2.5,"offY":13.0,"radius":1.0,"color":4278255615,"overlayBGColor":4278190080,"overlayTextColor":4278252031,"thicc":5.0,"overlayText":"Right","refActorDataID":15713,"refActorComparisonType":3,"includeRotation":true,"onlyVisible":true}]}
 ~Lv2~{"Name":"P2 Optical unit finder - line","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":7.3,"Match":"(7635>31550)","MatchDelay":12.7}],"ElementsL":[{"Name":"","type":3,"refY":35.0,"offY":65.0,"radius":8.0,"color":4294966272,"fillIntensity":0.5,"overlayBGColor":0,"overlayTextColor":4278190080,"overlayFScale":7.0,"thicc":5.0,"overlayText":"EYE","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":3,"offY":35.0,"radius":8.0,"color":4244635903,"fillIntensity":0.5,"overlayBGColor":0,"overlayTextColor":4278190080,"overlayFScale":7.0,"thicc":5.0,"overlayText":"EYE","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"Circle with tether","type":1,"Enabled":false,"offY":27.04,"radius":5.0,"color":4294967040,"overlayBGColor":0,"overlayTextColor":4278190080,"overlayFScale":7.0,"thicc":5.0,"overlayText":"EYE","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true,"tether":true}]}
 ~Lv2~{"Name":"P2 Optical unit finder - early beam","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":20.0,"Match":"(7635>31550)","MatchDelay":5.0}],"ElementsL":[{"Name":"","type":3,"refY":25.0,"refZ":20.0,"offY":25.0,"radius":2.0,"color":3372220160,"overlayBGColor":0,"overlayTextColor":4278190080,"overlayFScale":7.0,"thicc":5.0,"overlayText":"EYE","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":3,"refX":-25.0,"refZ":20.0,"offX":-25.0,"radius":2.0,"color":3372220160,"overlayBGColor":0,"overlayTextColor":4278190080,"overlayFScale":7.0,"thicc":5.0,"overlayText":"EYE","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true,"AdditionalRotation":1.5707964}]}
-~Lv2~{"Name":"P2 連携プログラムLB C集合","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":10.0,"Match":"(7635>31545)"}],"ElementsL":[{"Name":"","refX":100.0,"refY":106.5,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508503,"overlayFScale":2.0,"thicc":4.0,"overlayText":"集合","tether":true}]}
+~Lv2~{"Name":"P2 連携プログラムLB C集合","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":10.0,"Match":"(7635>31545)"}],"ElementsL":[{"Name":"","refX":100.0,"refY":106.5,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508503,"overlayFScale":2.0,"thicc":8.0,"overlayText":"集合","tether":true}]}
 ~Lv2~{"Name":"P2 Optimized Sagittarius Arrow","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ElementsL":[{"Name":"","type":3,"refY":45.0,"radius":5.0,"color":4278190335,"fillIntensity":0.1,"thicc":5.0,"refActorNPCNameID":7633,"refActorRequireCast":true,"refActorCastId":[31539],"refActorComparisonType":6,"includeRotation":true}]}
 ~Lv2~{"Enabled":false,"Name":"P2 Playstation new toolbox - Close","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[3],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":13.0,"MatchIntl":{"En":"You suffer the effect of Mid Glitch.","Jp":"「グリッチ：ミドル」の効果。"},"MatchDelay":3.0}],"ElementsL":[{"Name":" right","type":1,"offX":-11.0,"offY":40.0,"radius":1.0,"color":4294967040,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4294967040,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" right","type":1,"offX":-11.0,"offY":60.0,"radius":1.0,"color":4294902015,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4294902015,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" right","type":1,"offX":-11.0,"offY":30.0,"radius":1.0,"color":4278190335,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4278190335,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" right","type":1,"offX":-11.0,"offY":50.0,"radius":1.0,"color":4278255360,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4278255360,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" left","type":1,"offX":11.0,"offY":40.0,"radius":1.0,"color":4294967040,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4294967040,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" left","type":1,"offX":11.0,"offY":60.0,"radius":1.0,"color":4294902015,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4294902015,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" left","type":1,"offX":11.0,"offY":30.0,"radius":1.0,"color":4278190335,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4278190335,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" left","type":1,"offX":11.0,"offY":50.0,"radius":1.0,"color":4278255360,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4278255360,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true}]}
 ~Lv2~{"Enabled":false,"Name":"P2 Playstation new toolbox - far (right flip)","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[3],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":13.0,"MatchIntl":{"En":"You suffer the effect of Remote Glitch.","Jp":"「グリッチ：ファー」の効果。"},"MatchDelay":3.0}],"ElementsL":[{"Name":" right","type":1,"offX":-12.0,"offY":60.0,"radius":1.0,"color":4278190335,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4278190335,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" right","type":1,"offX":-18.5,"offY":40.0,"radius":1.0,"color":4294967040,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4294967040,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" right","type":1,"offX":-18.5,"offY":50.0,"radius":1.0,"color":4278255360,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4278255360,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" right","type":1,"offX":-12.0,"offY":30.0,"radius":1.0,"color":4294902015,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4294902015,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" left","type":1,"offX":12.0,"offY":30.0,"radius":1.0,"color":4278190335,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4278190335,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" left","type":1,"offX":18.5,"offY":40.0,"radius":1.0,"color":4294967040,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4294967040,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" left","type":1,"offX":18.5,"offY":50.0,"radius":1.0,"color":4278255360,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4278255360,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":" left","type":1,"offX":12.0,"offY":60.0,"radius":1.0,"color":4294902015,"Filled":false,"fillIntensity":0.39215687,"overlayBGColor":0,"overlayTextColor":4294902015,"overlayFScale":2.0,"thicc":5.0,"overlayText":"","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true}]}
-~Lv2~{"Name":"P2 ブレードダンス","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"e2297f23-e833-4a52-addc-26868e62ca38","Name":"MT","Elements":[{"Name":"オメガM Tether","type":1,"radius":0.0,"color":3370188544,"fillIntensity":0.5,"thicc":8.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31540],"refActorComparisonType":4,"tether":true},{"Name":"オメガM 捨て位置1","type":1,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31540],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":5.2359877},{"Name":"オメガM 捨て位置2","type":1,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31540],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":1.0471976},{"Name":"オメガF Tether","type":1,"Enabled":false,"radius":0.0,"color":3372155131,"fillIntensity":0.5,"thicc":8.0,"refActorNPCID":7634,"refActorRequireCast":true,"refActorCastId":[31541],"refActorComparisonType":4,"tether":true},{"Name":"オメガF 捨て位置1","type":1,"Enabled":false,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7634,"refActorRequireCast":true,"refActorCastId":[31541],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":5.2359877},{"Name":"オメガF 捨て位置2","type":1,"Enabled":false,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7634,"refActorRequireCast":true,"refActorCastId":[31541],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":1.0471976}]},{"Guid":"d8f58a18-3c5e-4701-be66-2257e06484af","Name":"ST","Elements":[{"Name":"オメガM Tether","type":1,"Enabled":false,"radius":0.0,"color":3370188544,"fillIntensity":0.5,"thicc":8.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31540],"refActorComparisonType":4,"tether":true},{"Name":"オメガM 捨て位置1","type":1,"Enabled":false,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31540],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":5.2359877},{"Name":"オメガM 捨て位置2","type":1,"Enabled":false,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31540],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":1.0471976},{"Name":"オメガF Tether","type":1,"radius":0.0,"color":3372155131,"fillIntensity":0.5,"thicc":8.0,"refActorNPCID":7634,"refActorRequireCast":true,"refActorCastId":[31541],"refActorComparisonType":4,"tether":true},{"Name":"オメガF 捨て位置1","type":1,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7634,"refActorRequireCast":true,"refActorCastId":[31541],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":5.2359877},{"Name":"オメガF 捨て位置2","type":1,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7634,"refActorRequireCast":true,"refActorCastId":[31541],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":1.0471976}]}],"ElementsL":[{"Name":"オメガM Tether","type":1,"Enabled":false,"radius":0.0,"color":3370188544,"fillIntensity":0.5,"thicc":8.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31540],"refActorComparisonType":4,"tether":true},{"Name":"オメガM 捨て位置1","type":1,"Enabled":false,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31540],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":5.2359877},{"Name":"オメガM 捨て位置2","type":1,"Enabled":false,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31540],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":1.0471976},{"Name":"オメガF Tether","type":1,"Enabled":false,"radius":0.0,"color":3372155131,"fillIntensity":0.5,"thicc":8.0,"refActorNPCID":7634,"refActorRequireCast":true,"refActorCastId":[31541],"refActorComparisonType":4,"tether":true},{"Name":"オメガF 捨て位置1","type":1,"Enabled":false,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7634,"refActorRequireCast":true,"refActorCastId":[31541],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":5.2359877},{"Name":"オメガF 捨て位置2","type":1,"Enabled":false,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7634,"refActorRequireCast":true,"refActorCastId":[31541],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":1.0471976}]}
+~Lv2~{"Enabled":false,"Name":"P2 ブレードダンス","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ElementsL":[{"Name":"オメガM Tether","type":1,"radius":0.0,"color":3370188544,"fillIntensity":0.5,"thicc":8.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31540],"refActorComparisonType":4,"tether":true},{"Name":"オメガM 捨て位置1","type":1,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31540],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":5.2359877},{"Name":"オメガF Tether","type":1,"radius":0.0,"color":3372155131,"fillIntensity":0.5,"thicc":8.0,"refActorNPCID":7634,"refActorRequireCast":true,"refActorCastId":[31541],"refActorComparisonType":4,"tether":true},{"Name":"オメガF 捨て位置1","type":1,"offY":10.0,"radius":0.5,"color":3355508509,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7634,"refActorRequireCast":true,"refActorCastId":[31541],"refActorUseCastTime":true,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":5.2359877}]}
 ~Lv2~{"Name":"P2 ブレードダンス_CD8","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(7633>31540)"}],"ElementsL":[{"Name":"8","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"8","refActorType":1}]}
 ~Lv2~{"Name":"P2 ブレードダンス_CD7","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(7633>31540)","MatchDelay":1.0}],"ElementsL":[{"Name":"7","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"7","refActorType":1}]}
 ~Lv2~{"Name":"P2 ブレードダンス_CD6","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(7633>31540)","MatchDelay":2.0}],"ElementsL":[{"Name":"6","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"6","refActorType":1}]}
@@ -4813,7 +5316,7 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 ~Lv2~{"Name":"P2 ブレードダンス_CD0.2","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":0.1,"Match":"(7633>31540)","MatchDelay":7.8}],"ElementsL":[{"Name":"0.2","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443400,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.2","refActorType":1}]}
 ~Lv2~{"Name":"P2 ブレードダンス_CD0.1","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":0.1,"Match":"(7633>31540)","MatchDelay":7.9}],"ElementsL":[{"Name":"0.1","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443400,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.1","refActorType":1}]}
 ~Lv2~{"Name":"P2 ブレードダンス_Go","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":2.0,"Match":"(7633>31540)","MatchDelay":7.0}],"ElementsL":[{"Name":"Go","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3356425984,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Go","refActorRequireBuff":true,"refActorBuffId":[56,126,200,493,657,695,934,2090,2123,2882,2940,3415,4162,2882],"refActorType":1}]}
-~Lv2~{"Name":"P2 シールドバッシュ","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"a6015c21-36b9-48cf-abd9-d1ffd317317f","Name":"MT","Elements":[{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"シールドコンボS 近1","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1100,"refActorComparisonType":4},{"Name":"シールドコンボS 近2","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1101,"refActorComparisonType":4},{"Name":"シールドコンボS MT","type":1,"offX":3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayFScale":2.0,"thicc":4.0,"overlayText":"MT","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true,"tether":true},{"Name":"シールドコンボS ST","type":1,"Enabled":false,"offX":-3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"ST","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS タンク以外","type":1,"Enabled":false,"offY":22.0,"radius":2.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"タンク以外","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true}]},{"Guid":"4cc3c954-2c1f-4abe-a886-8c836f07adbe","Name":"ST","Elements":[{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"シールドコンボS 近1","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1100,"refActorComparisonType":4},{"Name":"シールドコンボS 近2","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1101,"refActorComparisonType":4},{"Name":"シールドコンボS MT","type":1,"Enabled":false,"offX":3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayFScale":2.0,"thicc":4.0,"overlayText":"MT","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS ST","type":1,"offX":-3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"ST","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true,"tether":true},{"Name":"シールドコンボS タンク以外","type":1,"Enabled":false,"offY":22.0,"radius":2.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"タンク以外","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true}]},{"Guid":"2a6e1960-6394-4e7a-862a-958f95376e05","Name":"DPS and Healer","Elements":[{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"シールドコンボS 近1","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1100,"refActorComparisonType":4},{"Name":"シールドコンボS 近2","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1101,"refActorComparisonType":4},{"Name":"シールドコンボS MT","type":1,"Enabled":false,"offX":3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayFScale":2.0,"thicc":4.0,"overlayText":"MT","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS ST","type":1,"Enabled":false,"offX":-3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"ST","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS タンク以外","type":1,"offY":22.0,"radius":2.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"タンク以外","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true,"tether":true}]}],"ElementsL":[{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"シールドコンボS 近1","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1100,"refActorComparisonType":4},{"Name":"シールドコンボS 近2","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1101,"refActorComparisonType":4},{"Name":"シールドコンボS MT","type":1,"offX":3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayFScale":2.0,"thicc":4.0,"overlayText":"MT","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS ST","type":1,"offX":-3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"ST","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS タンク以外","type":1,"offY":22.0,"radius":2.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"タンク以外","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true}]}
+~Lv2~{"Name":"P2 シールドバッシュ","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"a6015c21-36b9-48cf-abd9-d1ffd317317f","Name":"MT","Elements":[{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"シールドコンボS 近1","type":1,"radius":4.0,"Donut":1.0,"color":3355503359,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1100,"refActorComparisonType":4},{"Name":"シールドコンボS 近2","type":1,"radius":4.0,"Donut":1.0,"color":3355503359,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1101,"refActorComparisonType":4},{"Name":"シールドコンボS MT","type":1,"offX":3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayFScale":2.0,"thicc":4.0,"overlayText":"MT","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true,"tether":true},{"Name":"シールドコンボS ST","type":1,"Enabled":false,"offX":-3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"ST","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS タンク以外","type":1,"Enabled":false,"offY":22.0,"radius":2.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"タンク以外","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true}]},{"Guid":"4cc3c954-2c1f-4abe-a886-8c836f07adbe","Name":"ST","Elements":[{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"シールドコンボS 近1","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1100,"refActorComparisonType":4},{"Name":"シールドコンボS 近2","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1101,"refActorComparisonType":4},{"Name":"シールドコンボS MT","type":1,"Enabled":false,"offX":3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayFScale":2.0,"thicc":4.0,"overlayText":"MT","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS ST","type":1,"offX":-3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"ST","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true,"tether":true},{"Name":"シールドコンボS タンク以外","type":1,"Enabled":false,"offY":22.0,"radius":2.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"タンク以外","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true}]},{"Guid":"2a6e1960-6394-4e7a-862a-958f95376e05","Name":"DPS and Healer","Elements":[{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"シールドコンボS 近1","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1100,"refActorComparisonType":4},{"Name":"シールドコンボS 近2","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1101,"refActorComparisonType":4},{"Name":"シールドコンボS MT","type":1,"Enabled":false,"offX":3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayFScale":2.0,"thicc":4.0,"overlayText":"MT","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS ST","type":1,"Enabled":false,"offX":-3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"ST","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS タンク以外","type":1,"offY":22.0,"radius":2.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"タンク以外","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true,"tether":true}]}],"ElementsL":[{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"シールドコンボS 近1","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1100,"refActorComparisonType":4},{"Name":"シールドコンボS 近2","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1101,"refActorComparisonType":4},{"Name":"シールドコンボS MT","type":1,"offX":3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayFScale":2.0,"thicc":4.0,"overlayText":"MT","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS ST","type":1,"offX":-3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"ST","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS タンク以外","type":1,"offY":22.0,"radius":2.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"タンク以外","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true}]}
 ~Lv2~{"Name":"P2 パイルピッチ","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"a6015c21-36b9-48cf-abd9-d1ffd317317f","Name":"MT","Elements":[{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorUseCastTime":true,"refActorCastTimeMin":5.0,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"シールドコンボS キャスト中","type":1,"radius":4.6,"Donut":0.4,"color":3372220160,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorUseCastTime":true,"refActorCastTimeMin":5.0,"refActorCastTimeMax":8.0,"refActorUseOvercast":true,"TargetAlteration":1100,"refActorComparisonType":4},{"Name":"回避","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":1.5,"thicc":0.0,"overlayText":"逃げて","refActorPlaceholder":["<t1>","<t2>"],"refActorRequireBuff":true,"refActorBuffId":[2534],"refActorUseBuffTime":true,"refActorBuffTimeMin":3.0,"refActorBuffTimeMax":7.0,"refActorComparisonType":5,"refActorType":1},{"Name":"参加","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3372213760,"overlayFScale":1.5,"thicc":0.0,"overlayText":"中央","refActorPlaceholder":["<t1>","<t2>"],"refActorRequireBuff":true,"refActorBuffId":[2534],"refActorRequireAllBuffs":true,"refActorRequireBuffsInvert":true,"refActorBuffTimeMin":3.0,"refActorBuffTimeMax":7.0,"refActorComparisonType":5,"refActorType":1}]},{"Guid":"4cc3c954-2c1f-4abe-a886-8c836f07adbe","Name":"ST","Elements":[{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"シールドコンボS 近1","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1100,"refActorComparisonType":4},{"Name":"シールドコンボS 近2","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1101,"refActorComparisonType":4},{"Name":"シールドコンボS MT","type":1,"Enabled":false,"offX":3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayFScale":2.0,"thicc":4.0,"overlayText":"MT","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS ST","type":1,"offX":-3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"ST","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true,"tether":true},{"Name":"シールドコンボS タンク以外","type":1,"Enabled":false,"offY":22.0,"radius":2.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"タンク以外","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true}]},{"Guid":"2a6e1960-6394-4e7a-862a-958f95376e05","Name":"DPS and Healer","Elements":[{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"シールドコンボS 近1","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1100,"refActorComparisonType":4},{"Name":"シールドコンボS 近2","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1101,"refActorComparisonType":4},{"Name":"シールドコンボS MT","type":1,"Enabled":false,"offX":3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayFScale":2.0,"thicc":4.0,"overlayText":"MT","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS ST","type":1,"Enabled":false,"offX":-3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"ST","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS タンク以外","type":1,"offY":22.0,"radius":2.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"タンク以外","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true,"tether":true}]}],"ElementsL":[{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"シールドコンボS 近1","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1100,"refActorComparisonType":4},{"Name":"シールドコンボS 近2","type":1,"radius":5.0,"color":3355503359,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"TargetAlteration":1101,"refActorComparisonType":4},{"Name":"シールドコンボS MT","type":1,"offX":3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayFScale":2.0,"thicc":4.0,"overlayText":"MT","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS ST","type":1,"offX":-3.0,"offY":15.0,"radius":1.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"ST","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true},{"Name":"シールドコンボS タンク以外","type":1,"offY":22.0,"radius":2.0,"color":3355508521,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"overlayFScale":2.0,"thicc":4.0,"overlayText":"タンク以外","refActorNPCID":7633,"refActorRequireCast":true,"refActorCastId":[31527],"refActorComparisonType":4,"includeRotation":true}]}
 ~Lv2~{"Name":"P2 シールドバッシュ_CD5","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":0.6,"Match":"(7633>31527)"}],"ElementsL":[{"Name":"5","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"5","refActorType":1}]}
 ~Lv2~{"Name":"P2 シールドバッシュ_CD4","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(7633>31527)","MatchDelay":0.6}],"ElementsL":[{"Name":"4","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"4","refActorType":1}]}
