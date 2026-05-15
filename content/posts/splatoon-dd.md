@@ -34,6 +34,18 @@ githubからの移植です。
 
 ---
 
+## Additional plugins
+
+追加で導入することを推奨するプラグインです。
+
+### Palace Pal
+
+罠の位置を表示するプラグイン
+
+```url
+https://love.puni.sh/ment.json
+```
+
 ## Layout
 
 [死者やミハシラで表示される敵回し用のレイアウトの使い方は、こちらを参照にしてください。](https://github.com/ungeho/MyDalamudPresets/blob/main/splatoon/DeepDungeon/Turning_Enemies%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E3%81%AE%E8%A3%9C%E8%B6%B3.md)
