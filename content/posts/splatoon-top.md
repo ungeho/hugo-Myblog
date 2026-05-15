@@ -82,7 +82,7 @@ https://github.com/PunishXIV/Splatoon/raw/main/SplatoonScripts/Duties/Endwalker/
 
 {{< linkcard
   url="https://exatrines.github.io/SplatoonWorkspace/Endwalker/TOP/Presets/P3_Final_Omega/#p3_3"
-  title="検知式波砲(Ast式設定)"
+  title="検知式波砲(Ast式)設定"
   desc="検知式波動砲(Ast) スクリプト設定"
   meta="Related"
 />}}
