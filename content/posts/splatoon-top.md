@@ -5582,5 +5582,3 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 - [FF14 Splatoon 絶オメガで便利なレイアウトとスクリプトまとめ - 光のツーラー](https://tooleroflight.blog.jp/archives/24065980.html)  
 - [絶オメガ検証戦 Splatoonプリセット まとめ - Mirage](https://exatrines.github.io/SplatoonWorkspace/Endwalker/TOP/)  
 - スクリプト・レイアウト・設定作成者様  
-- リプレイ提供者様  
-- 攻略立案者様
