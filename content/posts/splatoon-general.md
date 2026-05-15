@@ -27,6 +27,8 @@ githubからの移植です。
 
 ## Layout
 
+現在では役に立たないレイアウトから、今でも有用なレイアウトまで、さまざまなものが含まれています。
+
 ### General
 
 #### Cardinals
@@ -51,7 +53,7 @@ githubからの移植です。
 #### GeneralLayout
 
 自身のキャラクターのHitBoxと自身を中心とした6mの範囲を表示  
-6m範囲表示は、不可視範囲を含む散開距離の多くが6mであることや、ヒーラーの攻撃詠唱時間＝GCDだった時代における、滑り撃ちがギリギリ可能な足元設置AoEの目安として非常に役立ちました。
+過去には6m範囲表示は、不可視範囲を含む散開距離の多くが6mであることや、ヒーラーの攻撃詠唱時間＝GCDだった時代における、滑り撃ちがギリギリ可能な足元設置AoEの目安として非常に役立ちました。
 
 ```json
 ~Lv2~{"Name":"General","Group":"Buttle Jobs","DCond":1,"ElementsL":[{"Name":"6mAoE","type":1,"radius":6.0,"color":3355508515,"Filled":false,"thicc":0.2,"refActorType":1},{"Name":"HitBox","type":1,"radius":0.0,"color":3355508515,"Filled":false,"fillIntensity":0.5,"thicc":2.2,"refActorType":1}]}
