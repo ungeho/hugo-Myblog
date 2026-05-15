@@ -4,8 +4,8 @@ date = 2026-05-15T14:00:00+09:00
 draft = false
 description = "ディアデム諸島のSplatoonレイアウト"
 categories = ["FFXIV"]
-tags = ["FFXIV","Splatoon"]
-series = ["FFXIV Splatoon Presets","ディアデム諸島"]
+tags = ["FFXIV","Splatoon","ディアデム諸島","diadem"]
+series = ["FFXIV Splatoon Presets"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
 # 目次を開いた状態にする <!-- omit in toc -->
