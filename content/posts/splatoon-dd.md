@@ -4,7 +4,7 @@ date = 2026-05-15T14:09:04+09:00
 draft = false
 description = "ディープダンジョンのSplatoonレイアウト"
 categories = ["FFXIV"]
-tags = ["FFXIV","Splatoon","DD","ディープダンジョン","死者","ミハシラ","オルトエウレカ","ピルグリム"]
+tags = ["FFXIV","Splatoon","DD","ディープダンジョン","死者の宮殿","アメノミハシラ","オルトエウレカ","ピルグリムトラバース"]
 series = ["FFXIV Splatoon Presets"]
 # 目次を付与するオプション <!-- omit in toc -->
 showtoc = true
