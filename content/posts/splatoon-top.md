@@ -2688,6 +2688,7 @@ namespace SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol
 ```
 
 ---
+---
 
 ### P3 検知式波動砲 (十字式)
 
@@ -3243,7 +3244,7 @@ public static class CrossOWCExtensions
 #### Priority - 検知式波動砲(十字式)
 
 優先度設定が必要  
-上から`MT,ST,H1,H2,D1,D2,D3,D4`
+上から`MT,ST,H1,H2,D1,D2,D3,D4`  
 
 ---
 
@@ -4286,6 +4287,7 @@ internal unsafe class P6_MultiScript : SplatoonScript
 | Wave Cannon Spread Marker  | North     | South | West | East | SouthWest | EastSouth | NorthWest | NorthEast |
 | Cosmo Dive Spread Marker   | NorthWest | South | West | East | SouthWest | EastSouth | North     | NorthEast |
 
+---
 ---
 
 ### P6 コスモメテオ
@@ -5565,5 +5567,5 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 - [Splatoon公式（Presets）](https://github.com/PunishXIV/Splatoon/tree/main/Presets/Endwalker/Duties/Ultimate%20-%20The%20Omega%20Protocol)  
 - [Splatoon公式（Scripts）](https://github.com/PunishXIV/Splatoon/tree/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol)  
 - [FF14 Splatoon 絶オメガで便利なレイアウトとスクリプトまとめ - 光のツーラー](https://tooleroflight.blog.jp/archives/24065980.html)  
-- [絶オメガ検証戦 Splatoonプリセット まとめ](https://exatrines.github.io/SplatoonWorkspace/Endwalker/TOP/)  
-- その他、スクリプト・レイアウト・設定作成者様、攻略立案者様  
+- [絶オメガ検証戦 Splatoonプリセット まとめ - Mirage](https://exatrines.github.io/SplatoonWorkspace/Endwalker/TOP/)  
+- その他、スクリプト・レイアウト・設定作成者様  
