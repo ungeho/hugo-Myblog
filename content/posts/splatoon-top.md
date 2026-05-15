@@ -2180,7 +2180,9 @@ public class TOP_P2_Limitless_Synergy_LB_Tether : SplatoonScript
 
 ---
 
-### P2 MF Target Enforcer : MF Target Enforcer
+### P2 MF Target Enforcer
+
+**MF Target Enforcer**  
 
 公式から、オメガM/Fの誤ターゲットを補正するスクリプト  
 設定不要（任意導入）
