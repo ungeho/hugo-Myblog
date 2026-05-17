@@ -1112,6 +1112,36 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
     private const int FlameGuideDelayMs = 1800;
     private const int FlameGuideDurationMs = 3500;
     private const float SameAxisTolerance = 5f;
+    private static readonly string[] PriorityLayoutElements =
+    [
+        "PriorityHighText",
+        "PriorityHighEastArrow",
+        "PriorityHighNorthArrow",
+        "PriorityLowText",
+        "PriorityLowWestArrow",
+        "PriorityLowSouthArrow",
+    ];
+    private static readonly string[] RotationLayoutElements =
+    [
+        "RotationCwText",
+        "RotationCwArrow1",
+        "RotationCwArrow2",
+        "RotationCwArrow3",
+        "RotationCwArrow4",
+        "RotationCwArrow5",
+        "RotationCwArrow6",
+        "RotationCwArrow7",
+        "RotationCwArrow8",
+        "RotationCcwText",
+        "RotationCcwArrow1",
+        "RotationCcwArrow2",
+        "RotationCcwArrow3",
+        "RotationCcwArrow4",
+        "RotationCcwArrow5",
+        "RotationCcwArrow6",
+        "RotationCcwArrow7",
+        "RotationCcwArrow8",
+    ];
 
     private readonly List<CastRecord> _flameCasts = [];
     private float? _pantokratorAngle = null;
@@ -1120,6 +1150,7 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
     private long _pantokratorStartedAt = 0;
     private long _firstFlameStartedAt = 0;
     private long _secondFlameStartedAt = 0;
+    private long _directionResolvedAt = 0;
     private string _lastEvent = "";
     private string _lastSkipReason = "";
     private string _lastGuide = "";
@@ -1131,42 +1162,93 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
 
     public override void OnSetup()
     {
-        Controller.RegisterElementFromCode("Guide", $$"""
+        Controller.RegisterElementFromCode("PriorityHighText", """
         {
             "Name":"",
-            "type":0,
+            "type":1,
             "Enabled":false,
-            "refX":100.0,
-            "refY":100.0,
-            "refZ":0.0,
-            "radius":1.0,
-            "color":{{GuideColor}},
+            "radius":0.0,
             "Filled":false,
-            "fillIntensity":0.2,
-            "overlayBGColor":1879048192,
-            "overlayTextColor":3372220415,
-            "thicc":8.0,
-            "overlayText":"",
-            "tether":true
+            "fillIntensity":0.345,
+            "overlayBGColor":3355443200,
+            "overlayTextColor":3355508731,
+            "overlayVOffset":3.4,
+            "overlayFScale":3.0,
+            "thicc":0.0,
+            "overlayText":"北 or 東",
+            "refActorType":1
         }
         """);
-        Controller.RegisterElementFromCode("PreGuide", $$"""
+        Controller.RegisterElementFromCode("PriorityHighEastArrow", """
         {
             "Name":"",
-            "type":0,
+            "type":3,
             "Enabled":false,
-            "refX":100.0,
-            "refY":100.0,
-            "refZ":0.0,
-            "radius":2.0,
-            "color":{{GuideColor}},
+            "refX":3.0,
+            "radius":0.0,
+            "color":3355508725,
+            "fillIntensity":0.345,
+            "thicc":12.0,
+            "refActorType":1,
+            "LineEndA":1
+        }
+        """);
+        Controller.RegisterElementFromCode("PriorityHighNorthArrow", """
+        {
+            "Name":"",
+            "type":3,
+            "Enabled":false,
+            "refY":-3.0,
+            "radius":0.0,
+            "fillIntensity":0.345,
+            "thicc":12.0,
+            "refActorType":1,
+            "LineEndA":1
+        }
+        """);
+        Controller.RegisterElementFromCode("PriorityLowText", """
+        {
+            "Name":"",
+            "type":1,
+            "Enabled":false,
+            "radius":0.0,
             "Filled":false,
-            "fillIntensity":0.2,
-            "overlayBGColor":1879048192,
-            "overlayTextColor":3372220415,
-            "thicc":8.0,
-            "overlayText":"",
-            "tether":true
+            "fillIntensity":0.345,
+            "overlayBGColor":3355443200,
+            "overlayTextColor":3372218624,
+            "overlayVOffset":3.4,
+            "overlayFScale":3.0,
+            "thicc":0.0,
+            "overlayText":"南 or 西",
+            "refActorType":1
+        }
+        """);
+        Controller.RegisterElementFromCode("PriorityLowWestArrow", """
+        {
+            "Name":"",
+            "type":3,
+            "Enabled":false,
+            "refX":-3.0,
+            "radius":0.0,
+            "color":3372155131,
+            "fillIntensity":0.345,
+            "thicc":12.0,
+            "refActorType":1,
+            "LineEndA":1
+        }
+        """);
+        Controller.RegisterElementFromCode("PriorityLowSouthArrow", """
+        {
+            "Name":"",
+            "type":3,
+            "Enabled":false,
+            "refY":3.0,
+            "radius":0.0,
+            "color":3372217088,
+            "fillIntensity":0.345,
+            "thicc":12.0,
+            "refActorType":1,
+            "LineEndA":1
         }
         """);
         Controller.RegisterElementFromCode("RotationText", """
@@ -1187,6 +1269,7 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
             "tether":false
         }
         """);
+        RegisterRotationLayoutElements();
     }
 
     public override void OnStartingCast(uint source, uint castId)
@@ -1233,19 +1316,10 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
             return;
         }
 
-        var position = ResolveGuidePosition(number, pairPriorityIndex);
-        if (position != null)
+        if (IsPriorityLayoutWindow())
         {
             _lastSkipReason = "";
-            MoveGuide("Guide", position.Value);
-            return;
-        }
-
-        var prePosition = ResolvePreGuidePosition(number, pairPriorityIndex);
-        if (prePosition != null)
-        {
-            _lastSkipReason = "";
-            MoveGuide("PreGuide", prePosition.Value);
+            ShowPriorityLayout(pairPriorityIndex == 0);
             UpdateRotationText();
             return;
         }
@@ -1314,6 +1388,9 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
 
     private void ScanActiveCasts()
     {
+        List<IBattleChara> pantokratorCasters = [];
+        List<IBattleChara> flameCasters = [];
+
         foreach (var caster in Svc.Objects.OfType<IBattleChara>())
         {
             if (caster.CastActionId == PantokratorCast && _pantokratorAngle == null)
@@ -1323,11 +1400,20 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
                 _lastEvent = $"31501 scan angle={FormatAngle(_pantokratorAngle)}";
             }
 
+            if (caster.CastActionId == PantokratorCast)
+            {
+                pantokratorCasters.Add(caster);
+            }
+
             if (caster.CastActionId == FlameThrowerCast)
             {
+                flameCasters.Add(caster);
                 RecordFlameCast(caster);
             }
         }
+
+        TryResolveFlameDirectionFromActiveCasts(pantokratorCasters, flameCasters);
+        ResolveFlameDirectionFallback();
     }
 
     private void RecordFlameCast(uint source)
@@ -1373,8 +1459,64 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
         if (_flameCasts.Count == 2 && _firstFlameAngle != null && axisAngle != null)
         {
             _secondFlameStartedAt = Environment.TickCount64;
-            _flameDirection = GetClockwiseDirection(_firstFlameAngle.Value, axisAngle.Value);
         }
+    }
+
+    private void TryResolveFlameDirectionFromActiveCasts(List<IBattleChara> pantokratorCasters, List<IBattleChara> flameCasters)
+    {
+        if (_flameDirection != 0 || pantokratorCasters.Count < 2 || flameCasters.Count < 2)
+        {
+            return;
+        }
+
+        foreach (var pantokratorCaster in pantokratorCasters)
+        {
+            var pantokratorRotation = RotationToDegrees(pantokratorCaster.Rotation);
+            foreach (var flameCaster in flameCasters)
+            {
+                var flameRotation = RotationToDegrees(flameCaster.Rotation);
+                if (MathF.Abs(pantokratorRotation - flameRotation) >= 40f)
+                {
+                    continue;
+                }
+
+                SetFlameDirection(pantokratorRotation > flameRotation ? 1 : -1, $"rotation 31501={pantokratorRotation:0.0} 32368={flameRotation:0.0}");
+                return;
+            }
+        }
+    }
+
+    private void SetFlameDirection(int direction, string reason)
+    {
+        if (direction == 0 || _flameDirection != 0)
+        {
+            return;
+        }
+
+        _flameDirection = direction;
+        if (_directionResolvedAt == 0)
+        {
+            _directionResolvedAt = Environment.TickCount64;
+        }
+
+        _lastEvent = $"Direction {(_flameDirection > 0 ? "CW" : "CCW")} {reason}";
+    }
+
+    private void ResolveFlameDirectionFallback()
+    {
+        if (_flameDirection != 0 || _flameCasts.Count < 2)
+        {
+            return;
+        }
+
+        var firstAngle = _flameCasts[0].Angle;
+        var secondAngle = _flameCasts[1].Angle;
+        if (firstAngle == null || secondAngle == null)
+        {
+            return;
+        }
+
+        SetFlameDirection(GetClockwiseDirection(firstAngle.Value, secondAngle.Value), "axis fallback");
     }
 
     private Vector3? ResolveGuidePosition(int number, int pairPriorityIndex)
@@ -1442,19 +1584,12 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
 
     private void UpdateRotationText()
     {
-        if (!Controller.TryGetElementByName("RotationText", out var element))
-        {
-            return;
-        }
-
         if (_flameDirection == 0 || !IsRotationTextWindow())
         {
-            element.Enabled = false;
             return;
         }
 
-        element.Enabled = true;
-        element.overlayText = _flameDirection > 0 ? "CW" : "CCW";
+        ShowRotationLayout(_flameDirection > 0);
     }
 
     private float GetPriorityNinetyDegreeAngle(bool highPriority)
@@ -1612,8 +1747,13 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
 
     private bool IsRotationTextWindow()
     {
-        var age = GetSecondFlameAgeMs();
+        var age = GetDirectionAgeMs();
         return age >= 0 && age <= FlameGuideDelayMs + FlameGuideDurationMs;
+    }
+
+    private bool IsPriorityLayoutWindow()
+    {
+        return _pantokratorStartedAt != 0 && _directionResolvedAt == 0;
     }
 
     private long GetPantokratorAgeMs()
@@ -1629,6 +1769,11 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
     private long GetSecondFlameAgeMs()
     {
         return _secondFlameStartedAt == 0 ? -1 : Environment.TickCount64 - _secondFlameStartedAt;
+    }
+
+    private long GetDirectionAgeMs()
+    {
+        return _directionResolvedAt == 0 ? -1 : Environment.TickCount64 - _directionResolvedAt;
     }
 
     private static int GetClockwiseDirection(float firstAngle, float secondAngle)
@@ -1657,7 +1802,12 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
 
     private static float RotationToAngle(float rotation)
     {
-        return NormalizeAngle(rotation * 180f / MathF.PI);
+        return NormalizeAngle(RotationToDegrees(rotation));
+    }
+
+    private static float RotationToDegrees(float rotation)
+    {
+        return rotation * 180f / MathF.PI;
     }
 
     private static float PositionToAngle(Vector3 position)
@@ -1732,6 +1882,120 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
         element.refZ = position.Y;
     }
 
+    private void ShowPriorityLayout(bool highPriority)
+    {
+        foreach (var name in PriorityLayoutElements)
+        {
+            if (Controller.TryGetElementByName(name, out var element))
+            {
+                element.Enabled = name.StartsWith(highPriority ? "PriorityHigh" : "PriorityLow", StringComparison.Ordinal);
+            }
+        }
+
+        _lastGuide = highPriority ? "Priority 1 N/E" : "Priority 2 S/W";
+    }
+
+    private void ShowRotationLayout(bool clockwise)
+    {
+        foreach (var name in RotationLayoutElements)
+        {
+            if (Controller.TryGetElementByName(name, out var element))
+            {
+                element.Enabled = name.StartsWith(clockwise ? "RotationCw" : "RotationCcw", StringComparison.Ordinal);
+            }
+        }
+
+        _lastGuide = clockwise ? "Clockwise" : "Counter Clockwise";
+    }
+
+    private void RegisterRotationLayoutElements()
+    {
+        Controller.RegisterElementFromCode("RotationCwText", """
+        {
+            "Name":"",
+            "type":1,
+            "Enabled":false,
+            "radius":0.0,
+            "Filled":false,
+            "fillIntensity":0.5,
+            "overlayBGColor":3355443200,
+            "overlayTextColor":3355508484,
+            "overlayFScale":2.0,
+            "thicc":0.0,
+            "overlayText":"Clock Wise",
+            "refActorNPCID":7695,
+            "refActorComparisonType":4,
+            "onlyTargetable":true,
+            "onlyVisible":true
+        }
+        """);
+        RegisterRotationArrow("RotationCwArrow1", 2.0f, null, 1.6383f, 1.14715f, 3355508484, false);
+        RegisterRotationArrow("RotationCwArrow2", 1.41421f, 1.41421f, 0.3473f, 1.96962f, 3355508484, false);
+        RegisterRotationArrow("RotationCwArrow3", null, 2.0f, -1.14715f, 1.6383f, 3355508484, false);
+        RegisterRotationArrow("RotationCwArrow4", -1.41421f, 1.41421f, -1.96962f, 0.3473f, 3355508484, false);
+        RegisterRotationArrow("RotationCwArrow5", -2.0f, null, -1.6383f, -1.14715f, 3355508484, false);
+        RegisterRotationArrow("RotationCwArrow6", -1.41421f, -1.41421f, -0.3473f, -1.96962f, 3355508484, false);
+        RegisterRotationArrow("RotationCwArrow7", null, -2.0f, 1.14715f, -1.6383f, 3355508484, false);
+        RegisterRotationArrow("RotationCwArrow8", 1.41421f, -1.41421f, 1.96962f, -0.3473f, 3355508484, false);
+
+        Controller.RegisterElementFromCode("RotationCcwText", """
+        {
+            "Name":"",
+            "type":1,
+            "Enabled":false,
+            "radius":0.0,
+            "Filled":false,
+            "fillIntensity":0.5,
+            "overlayBGColor":3355443200,
+            "overlayTextColor":3355508700,
+            "overlayFScale":2.0,
+            "thicc":0.0,
+            "overlayText":"Counter Clock Wise",
+            "refActorNPCID":7695,
+            "refActorComparisonType":4,
+            "onlyTargetable":true,
+            "onlyVisible":true
+        }
+        """);
+        RegisterRotationArrow("RotationCcwArrow1", 2.0f, null, 1.6383f, 1.14715f, 3355508712, true);
+        RegisterRotationArrow("RotationCcwArrow2", 1.41421f, 1.41421f, 0.3473f, 1.96962f, 3355508712, true);
+        RegisterRotationArrow("RotationCcwArrow3", null, 2.0f, -1.14715f, 1.6383f, 3355508712, true);
+        RegisterRotationArrow("RotationCcwArrow4", -1.41421f, 1.41421f, -1.96962f, 0.3473f, 3355508712, true);
+        RegisterRotationArrow("RotationCcwArrow5", -2.0f, null, -1.6383f, -1.14715f, 3355508712, true);
+        RegisterRotationArrow("RotationCcwArrow6", -1.41421f, -1.41421f, -0.3473f, -1.96962f, 3355508712, true);
+        RegisterRotationArrow("RotationCcwArrow7", null, -2.0f, 1.14715f, -1.6383f, 3355508712, true);
+        RegisterRotationArrow("RotationCcwArrow8", 1.41421f, -1.41421f, 1.96962f, -0.3473f, 3355508712, true);
+    }
+
+    private void RegisterRotationArrow(string name, float? refX, float? refY, float offX, float offY, uint color, bool lineEndA)
+    {
+        var refXProperty = refX == null ? "" : $@"""refX"":{refX.Value:0.#####},";
+        var refYProperty = refY == null ? "" : $@"""refY"":{refY.Value:0.#####},";
+        var lineEndProperty = lineEndA ? @"""LineEndA"":1" : @"""LineEndB"":1";
+
+        Controller.RegisterElementFromCode(name, $$"""
+        {
+            "Name":"",
+            "type":3,
+            "Enabled":false,
+            {{refXProperty}}
+            {{refYProperty}}
+            "offX":{{offX:0.#####}},
+            "offY":{{offY:0.#####}},
+            "radius":0.0,
+            "color":{{color}},
+            "Filled":false,
+            "fillIntensity":0.5,
+            "thicc":8.0,
+            "refActorNPCID":7695,
+            "refActorComparisonType":4,
+            "onlyTargetable":true,
+            "onlyVisible":true,
+            {{lineEndProperty}}
+        }
+        """);
+    }
+
     private void OffGuide()
     {
         if (Controller.TryGetElementByName("Guide", out var element))
@@ -1748,6 +2012,22 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
         {
             rotationElement.Enabled = false;
         }
+
+        foreach (var name in PriorityLayoutElements)
+        {
+            if (Controller.TryGetElementByName(name, out var priorityElement))
+            {
+                priorityElement.Enabled = false;
+            }
+        }
+
+        foreach (var name in RotationLayoutElements)
+        {
+            if (Controller.TryGetElementByName(name, out var rotationLayoutElement))
+            {
+                rotationLayoutElement.Enabled = false;
+            }
+        }
     }
 
     private void ResetState()
@@ -1759,6 +2039,7 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
         _pantokratorStartedAt = 0;
         _firstFlameStartedAt = 0;
         _secondFlameStartedAt = 0;
+        _directionResolvedAt = 0;
         _lastEvent = "";
         _lastSkipReason = "";
         _lastGuide = "";
@@ -5200,7 +5481,7 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 >     ※ **自身のロール** がない場合は`Default Configuration`を選択
 
 ```json
-~Lv2~{"Name":"P1 サークルプログラム 番号","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":40.0,"Match":"オメガは「サークルプログラム」の構え。"}],"ElementsL":[{"Name":"1st me","type":1,"offZ":2.76,"radius":0.0,"color":4294965504,"overlayBGColor":4294965504,"overlayTextColor":3355443200,"thicc":5.0,"overlayText":"1st","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3004],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"1st","type":1,"radius":0.0,"color":4294965504,"overlayBGColor":4294965504,"overlayTextColor":3355443200,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":5.0,"overlayText":"1","refActorRequireBuff":true,"refActorBuffId":[3004],"refActorComparisonType":1,"onlyVisible":true},{"Name":"2nd me","type":1,"offZ":2.76,"radius":0.0,"color":3364749567,"overlayBGColor":3364749567,"thicc":5.0,"overlayText":"2nd","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3005],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"2nd","type":1,"radius":0.0,"color":3364749567,"overlayBGColor":3364749567,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":5.0,"overlayText":"2","refActorRequireBuff":true,"refActorBuffId":[3005],"refActorComparisonType":1,"onlyVisible":true},{"Name":"3rd me","type":1,"offZ":2.76,"radius":0.0,"color":3372156928,"overlayBGColor":3372156928,"thicc":5.0,"overlayText":"3rd","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3rd","type":1,"radius":0.0,"color":3372156928,"overlayBGColor":3372156928,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":5.0,"overlayText":"3","refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":1,"onlyVisible":true},{"Name":"4th me","type":1,"offZ":2.76,"radius":0.0,"color":3359113471,"overlayBGColor":3359113471,"thicc":5.0,"overlayText":"4th","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3451],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"4th","type":1,"radius":0.0,"color":3359113471,"overlayBGColor":3359113471,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":5.0,"overlayText":"4","refActorRequireBuff":true,"refActorBuffId":[3451],"refActorComparisonType":1,"onlyVisible":true}]}
+~Lv2~{"Name":"P1 サークルプログラム 番号","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":40.0,"Match":"オメガは「サークルプログラム」の構え。"}],"ElementsL":[{"Name":"1st me","type":1,"offZ":2.76,"radius":0.0,"color":4294965504,"overlayBGColor":4294965504,"overlayTextColor":3355443200,"thicc":5.0,"overlayText":"1st","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3004],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"1st","type":1,"radius":0.0,"color":4294965504,"fillIntensity":0.39215687,"overlayBGColor":4294965504,"overlayTextColor":3355443200,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":0.0,"overlayText":"1","refActorRequireBuff":true,"refActorBuffId":[3004],"refActorComparisonType":1,"onlyVisible":true},{"Name":"2nd me","type":1,"offZ":2.76,"radius":0.0,"color":3364749567,"overlayBGColor":3364749567,"thicc":5.0,"overlayText":"2nd","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3005],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"2nd","type":1,"radius":0.0,"color":3364749567,"fillIntensity":0.5,"overlayBGColor":3364749567,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":0.0,"overlayText":"2","refActorRequireBuff":true,"refActorBuffId":[3005],"refActorComparisonType":1,"onlyVisible":true},{"Name":"3rd me","type":1,"offZ":2.76,"radius":0.0,"color":3372156928,"overlayBGColor":3372156928,"thicc":5.0,"overlayText":"3rd","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3rd","type":1,"radius":0.0,"color":3372156928,"fillIntensity":0.5,"overlayBGColor":3372156928,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":0.0,"overlayText":"3","refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":1,"onlyVisible":true},{"Name":"4th me","type":1,"offZ":2.76,"radius":0.0,"color":3359113471,"overlayBGColor":3359113471,"thicc":5.0,"overlayText":"4th","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3451],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"4th","type":1,"radius":0.0,"color":3359113471,"fillIntensity":0.5,"overlayBGColor":3359113471,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":0.0,"overlayText":"4","refActorRequireBuff":true,"refActorBuffId":[3451],"refActorComparisonType":1,"onlyVisible":true}]}
 ~Lv2~{"Name":"P1 サークルプログラム 塔 配置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[2],"ElementsL":[{"Name":"塔 - 北","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayFScale":2.0,"thicc":3.0,"overlayText":"北 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":87.6,"DistanceMax":6.0},{"Name":"塔 - 東","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"東 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":112.4,"DistanceSourceY":100.0,"DistanceMax":6.0},{"Name":"塔 - 南","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3370974976,"overlayFScale":2.0,"thicc":3.0,"overlayText":"南 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":112.4,"DistanceMax":6.0},{"Name":"塔 - 西","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3369992447,"overlayFScale":2.0,"thicc":3.0,"overlayText":"西 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":87.6,"DistanceSourceY":100.0,"DistanceMax":6.0},{"Name":"Induced AOE / 靠近AOE","type":1,"Enabled":false,"radius":3.0,"color":4278255612,"fillIntensity":0.2,"overlayBGColor":3472883712,"overlayTextColor":4278255615,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":3.0,"refActorComparisonType":7,"includeRotation":true,"FaceMe":true,"refActorVFXPath":"vfx/lockon/eff/lockon5_t0h.avfx","refActorVFXMax":3000}]}
 ~Lv2~{"Name":"P1 サークルプログラム テザー 配置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[2],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":36.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":9.0}],"ElementsL":[{"Name":"塔 - 北","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"北 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":87.6,"DistanceMax":6.0,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"線 - 北","refX":100.0,"refY":87.6,"radius":2.5,"Donut":0.5,"color":3355639552,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayFScale":2.0,"thicc":4.0,"overlayText":"北 - Tether"},{"Name":"塔 - 東","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"東 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":112.4,"DistanceSourceY":100.0,"DistanceMax":6.0,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"線 - 東","refX":112.4,"refY":100.0,"radius":2.5,"Donut":0.5,"color":3355639552,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508725,"overlayFScale":2.0,"thicc":4.0,"overlayText":"東 - Tether"},{"Name":"塔 - 南","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"南 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":112.4,"DistanceMax":6.0,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"線 - 南","refX":100.0,"refY":112.4,"radius":2.5,"Donut":0.5,"color":3355639552,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3372218624,"overlayFScale":2.0,"thicc":4.0,"overlayText":"南 - Tether"},{"Name":"塔 - 西","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"西 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":87.6,"DistanceSourceY":100.0,"DistanceMax":6.0,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"線 - 西","refX":87.6,"refY":100.0,"radius":2.5,"Donut":0.5,"color":3355639552,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3372024063,"overlayFScale":2.0,"thicc":4.0,"overlayText":"西 - Tether"}]}
 ~Lv2~{"Name":"P1 サークルプログラム 塔 予告-通知","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":40.0,"Match":"オメガは「サークルプログラム」の構え。"}],"ElementsL":[{"Name":"Tower Reminder","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":2684354560,"overlayTextColor":4278253567,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":0.0,"overlayText":">>> !!! TOWER !!! <<<","refActorRequireBuff":true,"refActorBuffId":[3456],"refActorUseBuffTime":true,"refActorBuffTimeMax":11.0,"refActorComparisonType":1,"refActorType":1,"onlyVisible":true},{"Name":"Tower 予告","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":2684354560,"overlayTextColor":4278253567,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":0.0,"overlayText":"NEXT -> TOWER","refActorRequireBuff":true,"refActorBuffId":[3456],"refActorUseBuffTime":true,"refActorBuffTimeMin":11.0,"refActorBuffTimeMax":17.0,"refActorComparisonType":1,"refActorType":1,"onlyVisible":true}]}
@@ -5212,7 +5493,7 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 ~Lv2~{"Name":"P1 サークルプログラム 線 通知3 (刻印5s以下)","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ConditionalAnd":true,"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":5.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":27.0}],"ElementsL":[{"Name":"notサークルプログラム","type":1,"refActorRequireBuff":true,"refActorBuffId":[1624,1704,3456],"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"and 刻印(5s↓)","type":1,"refActorRequireBuff":true,"refActorBuffId":[2483,2485,2534],"refActorUseBuffTime":true,"refActorBuffTimeMax":5.0,"refActorType":1,"Conditional":true,"Nodraw":true},{"Name":"Tether Reminder","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":2684354560,"overlayTextColor":4278255383,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":0.0,"overlayText":">>> !!! TETHER !!! <<<","refActorUseBuffTime":true,"refActorBuffTimeMax":11.0,"refActorComparisonType":1,"refActorType":1,"onlyVisible":true}]}
 ~Lv2~{"Name":"P1 サークルプログラム 線 通知4 (刻印5s以下)","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ConditionalAnd":true,"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":5.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":36.0}],"ElementsL":[{"Name":"notサークルプログラム","type":1,"refActorRequireBuff":true,"refActorBuffId":[1624,1704,3456],"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"and 刻印(5s↓)","type":1,"refActorRequireBuff":true,"refActorBuffId":[2483,2485,2534],"refActorUseBuffTime":true,"refActorBuffTimeMax":5.0,"refActorType":1,"Conditional":true,"Nodraw":true},{"Name":"Tether Reminder","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":2684354560,"overlayTextColor":4278255383,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":0.0,"overlayText":">>> !!! TETHER !!! <<<","refActorUseBuffTime":true,"refActorBuffTimeMax":11.0,"refActorComparisonType":1,"refActorType":1,"onlyVisible":true}]}
 ~Lv2~{"Name":"P1 サークルプログラム 線 通知3-4 (刻印なし)","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ConditionalAnd":true,"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":18.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":27.0}],"ElementsL":[{"Name":"notサークルプログラム","type":1,"refActorRequireBuff":true,"refActorBuffId":[1624,1704,3456],"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"and not刻印","type":1,"refActorRequireBuff":true,"refActorBuffId":[2483,2485,2534],"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"Tether Reminder","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":2684354560,"overlayTextColor":4278255383,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":0.0,"overlayText":">>> !!! TETHER !!! <<<","refActorUseBuffTime":true,"refActorBuffTimeMax":11.0,"refActorComparisonType":1,"refActorType":1,"onlyVisible":true}]}
-~Lv2~{"Name":"P1 サークルプログラム 初期位置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":10.0,"Match":"オメガは「サークルプログラム」の構え。"}],"ElementsL":[{"Name":"3","type":1,"refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3","refX":100.0,"refY":105.0,"radius":1.0,"color":3356032768,"Filled":false,"fillIntensity":0.5,"thicc":8.0,"tether":true},{"Name":"3以外","type":1,"refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3以外","refX":100.0,"refY":112.5,"refZ":-5.456968E-12,"radius":1.0,"color":3356032768,"Filled":false,"fillIntensity":0.5,"thicc":8.0,"tether":true}]}
+~Lv2~{"Name":"P1 サークルプログラム 初期位置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"e4cb1b9f-a048-46df-9d8d-5eedc9dc91df","Name":"2(南東)集合","Elements":[{"Name":"3","type":1,"refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3","type":1,"offX":2.12132,"offY":2.12132,"radius":0.5,"color":3356032768,"Filled":false,"fillIntensity":0.5,"thicc":8.0,"refActorNPCID":7695,"refActorComparisonType":4,"onlyTargetable":true,"onlyVisible":true,"tether":true},{"Name":"3以外","type":1,"refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3以外","type":1,"offX":7.99031,"offY":7.99031,"radius":0.5,"color":3356032768,"Filled":false,"fillIntensity":0.5,"thicc":8.0,"refActorNPCID":7695,"refActorComparisonType":4,"onlyTargetable":true,"onlyVisible":true,"tether":true}]}],"DefaultConfigurationName":"C(南)集合","DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":10.0,"Match":"オメガは「サークルプログラム」の構え。"}],"ElementsL":[{"Name":"3","type":1,"refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3","refX":100.0,"refY":105.0,"radius":1.0,"color":3356032768,"Filled":false,"fillIntensity":0.5,"thicc":8.0,"tether":true},{"Name":"3以外","type":1,"refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3以外","refX":100.0,"refY":112.5,"refZ":-5.456968E-12,"radius":1.0,"color":3356032768,"Filled":false,"fillIntensity":0.5,"thicc":8.0,"tether":true}]}
 ~Lv2~{"Name":"P1 サークルプログラム1_CD13","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":5.0}],"ElementsL":[{"Name":"13","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":3.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"13","refActorType":1}]}
 ~Lv2~{"Name":"P1 サークルプログラム1_CD12","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":6.0}],"ElementsL":[{"Name":"12","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":3.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"12","refActorType":1}]}
 ~Lv2~{"Name":"P1 サークルプログラム1_CD11","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":7.0}],"ElementsL":[{"Name":"11","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":3.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"11","refActorType":1}]}
@@ -5290,10 +5571,10 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 ~Lv2~{"Name":"P1 サークルプログラム4_CD0.2","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":0.1,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":44.8}],"ElementsL":[{"Name":"0.2","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443400,"overlayVOffset":3.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.2","refActorType":1}]}
 ~Lv2~{"Name":"P1 サークルプログラム4_CD0.1","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":0.1,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":44.9}],"ElementsL":[{"Name":"0.1","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443400,"overlayVOffset":3.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.1","refActorType":1}]}
 ~Lv2~{"Name":"P1 パントクラトル 円周","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ElementsL":[{"Name":"円周 - ボス近捨て","type":4,"radius":3.0,"Donut":1.5,"coneAngleMin":31,"coneAngleMax":149,"color":3355508540,"Filled":false,"fillIntensity":0.0,"thicc":8.0,"refActorNPCID":7695,"refActorRequireCast":true,"refActorCastId":[32368],"refActorUseCastTime":true,"refActorCastTimeMin":1.6,"refActorCastTimeMax":3.7,"refActorComparisonType":4,"includeRotation":true},{"Name":"円周 - 頭割り組","type":4,"radius":10.5,"Donut":1.5,"coneAngleMin":31,"coneAngleMax":149,"color":3371433728,"Filled":false,"fillIntensity":0.0,"thicc":8.0,"refActorNPCID":7695,"refActorRequireCast":true,"refActorCastId":[32368],"refActorUseCastTime":true,"refActorCastTimeMin":1.6,"refActorCastTimeMax":3.7,"refActorComparisonType":4,"includeRotation":true},{"Name":"円周 - 外捨て","type":4,"radius":17.5,"Donut":1.5,"coneAngleMin":30,"coneAngleMax":150,"color":3372155125,"Filled":false,"fillIntensity":0.0,"thicc":8.0,"refActorNPCID":7695,"refActorRequireCast":true,"refActorCastId":[32368],"refActorUseCastTime":true,"refActorCastTimeMin":1.6,"refActorCastTimeMax":3.7,"refActorComparisonType":4,"includeRotation":true}]}
-~Lv2~{"Name":"P1 パントクラトル 火炎放射","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ElementsL":[{"Name":"0-1.6","type":4,"radius":20.8,"coneAngleMin":-30,"coneAngleMax":30,"color":3355508725,"fillIntensity":0.05,"thicc":4.0,"refActorNPCID":7695,"refActorRequireCast":true,"refActorCastId":[32368],"refActorUseCastTime":true,"refActorCastTimeMax":1.6,"refActorComparisonType":4,"includeRotation":true},{"Name":"1.6-3.7","type":4,"radius":20.8,"coneAngleMin":-30,"coneAngleMax":30,"fillIntensity":0.3,"thicc":4.0,"refActorNPCID":7695,"refActorRequireCast":true,"refActorCastId":[32368],"refActorUseCastTime":true,"refActorCastTimeMin":1.6,"refActorCastTimeMax":3.7,"refActorComparisonType":4,"includeRotation":true}]}
+~Lv2~{"Name":"P1 パントクラトル 火炎放射","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ElementsL":[{"Name":"0-1.6","type":4,"Enabled":false,"radius":20.8,"coneAngleMin":-30,"coneAngleMax":30,"color":3355508725,"fillIntensity":0.05,"thicc":4.0,"refActorNPCID":7695,"refActorRequireCast":true,"refActorCastId":[32368],"refActorUseCastTime":true,"refActorCastTimeMax":1.6,"refActorComparisonType":4,"includeRotation":true},{"Name":"1.6-3.7","type":4,"radius":20.8,"coneAngleMin":-30,"coneAngleMax":30,"fillIntensity":0.3,"thicc":4.0,"refActorNPCID":7695,"refActorRequireCast":true,"refActorCastId":[32368],"refActorUseCastTime":true,"refActorCastTimeMin":1.6,"refActorCastTimeMax":3.7,"refActorComparisonType":4,"includeRotation":true}]}
 ~Lv2~{"Name":"P1 パントクラトル 高出力波動砲P","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ElementsL":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3372220160,"overlayFScale":1.2,"thicc":0.0,"overlayText":"Stack","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5},{"Name":"6","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"6","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":5.0,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"refActorType":1},{"Name":"5","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"5","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":4.0,"refActorBuffTimeMax":5.0,"refActorComparisonType":5,"refActorType":1},{"Name":"4","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"4","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":3.0,"refActorBuffTimeMax":4.0,"refActorComparisonType":5,"refActorType":1},{"Name":"3","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"3","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":2.0,"refActorBuffTimeMax":3.0,"refActorComparisonType":5,"refActorType":1},{"Name":"2","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508735,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"2","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":1.0,"refActorBuffTimeMax":2.0,"refActorComparisonType":5,"refActorType":1},{"Name":"1","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"1","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.9,"refActorBuffTimeMax":1.0,"refActorComparisonType":5,"refActorType":1},{"Name":"0.9","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.9","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.8,"refActorBuffTimeMax":0.9,"refActorComparisonType":5,"refActorType":1},{"Name":"0.8","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.8","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.7,"refActorBuffTimeMax":0.8,"refActorComparisonType":5,"refActorType":1},{"Name":"0.7","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.7","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.6,"refActorBuffTimeMax":0.7,"refActorComparisonType":5,"refActorType":1},{"Name":"0.6","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.6","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.5,"refActorBuffTimeMax":0.6,"refActorComparisonType":5,"refActorType":1},{"Name":"0.5","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.5","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.4,"refActorBuffTimeMax":0.5,"refActorComparisonType":5,"refActorType":1},{"Name":"0.4","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.4","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.3,"refActorBuffTimeMax":0.4,"refActorComparisonType":5,"refActorType":1},{"Name":"0.3","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.3","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.2,"refActorBuffTimeMax":0.3,"refActorComparisonType":5,"refActorType":1},{"Name":"0.2","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.2","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.1,"refActorBuffTimeMax":0.2,"refActorComparisonType":5,"refActorType":1},{"Name":"0.1","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.1","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMax":0.1,"refActorComparisonType":5,"refActorType":1}]}
 ~Lv2~{"Name":"P1 パントクラトル 誘導ミサイルP(開幕)","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":7.0,"Match":"オメガは「パントクラトル」の構え。","MatchDelay":4.7}],"ElementsL":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayFScale":1.2,"thicc":0.1,"overlayText":"Spread","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":6.0,"refActorBuffTimeMax":13.0,"refActorComparisonType":5,"refActorType":1},{"Name":"AoE<1>","type":1,"radius":5.0,"color":3356032768,"Filled":false,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":4.0,"refActorPlaceholder":["<1>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":6.0,"refActorBuffTimeMax":13.0,"refActorComparisonType":5},{"Name":"AoE<2-8>","type":1,"radius":5.0,"color":3356032768,"fillIntensity":0.2,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":4.0,"refActorPlaceholder":["<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":6.0,"refActorBuffTimeMax":13.0,"refActorComparisonType":5},{"Name":"13","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"13","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":12.0,"refActorBuffTimeMax":13.0,"refActorComparisonType":5,"refActorType":1},{"Name":"12","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"12","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":11.0,"refActorBuffTimeMax":12.0,"refActorComparisonType":5,"refActorType":1},{"Name":"11","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"11","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":10.0,"refActorBuffTimeMax":11.0,"refActorComparisonType":5,"refActorType":1},{"Name":"10","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"10","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":9.0,"refActorBuffTimeMax":10.0,"refActorComparisonType":5,"refActorType":1},{"Name":"9","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3356425984,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"9","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":8.0,"refActorBuffTimeMax":9.0,"refActorComparisonType":5,"refActorType":1},{"Name":"8","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"8","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":7.0,"refActorBuffTimeMax":8.0,"refActorComparisonType":5,"refActorType":1},{"Name":"7","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"7","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":6.0,"refActorBuffTimeMax":7.0,"refActorComparisonType":5,"refActorType":1}]}
-~Lv2~{"Name":"P1 パントクラトル 誘導ミサイルP","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ElementsL":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayFScale":1.2,"thicc":0.1,"overlayText":"Spread","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"refActorType":1},{"Name":"AoE<1>","type":1,"radius":5.0,"color":3356032768,"Filled":false,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":4.0,"refActorPlaceholder":["<1>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5},{"Name":"AoE<2-8>","type":1,"radius":5.0,"color":3356032768,"fillIntensity":0.2,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":4.0,"refActorPlaceholder":["<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5},{"Name":"6","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"6","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":5.0,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"refActorType":1},{"Name":"5","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"5","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":4.0,"refActorBuffTimeMax":5.0,"refActorComparisonType":5,"refActorType":1},{"Name":"4","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"4","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":3.0,"refActorBuffTimeMax":4.0,"refActorComparisonType":5,"refActorType":1},{"Name":"3","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"3","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":2.0,"refActorBuffTimeMax":3.0,"refActorComparisonType":5,"refActorType":1},{"Name":"2","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508735,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"2","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":1.0,"refActorBuffTimeMax":2.0,"refActorComparisonType":5,"refActorType":1},{"Name":"1","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"1","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.9,"refActorBuffTimeMax":1.0,"refActorComparisonType":5,"refActorType":1},{"Name":"0.9","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.9","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.8,"refActorBuffTimeMax":0.9,"refActorComparisonType":5,"refActorType":1},{"Name":"0.8","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.8","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.7,"refActorBuffTimeMax":0.8,"refActorComparisonType":5,"refActorType":1},{"Name":"0.7","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.7","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.6,"refActorBuffTimeMax":0.7,"refActorComparisonType":5,"refActorType":1},{"Name":"0.6","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.6","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.5,"refActorBuffTimeMax":0.6,"refActorComparisonType":5,"refActorType":1},{"Name":"0.5","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.5","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.4,"refActorBuffTimeMax":0.5,"refActorComparisonType":5,"refActorType":1},{"Name":"0.4","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.4","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.3,"refActorBuffTimeMax":0.4,"refActorComparisonType":5,"refActorType":1},{"Name":"0.3","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.3","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.2,"refActorBuffTimeMax":0.3,"refActorComparisonType":5,"refActorType":1},{"Name":"0.2","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.2","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.1,"refActorBuffTimeMax":0.2,"refActorComparisonType":5,"refActorType":1},{"Name":"0.1","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.1","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMax":0.1,"refActorComparisonType":5,"refActorType":1}]}
+~Lv2~{"Name":"P1 パントクラトル 誘導ミサイルP","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ElementsL":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"thicc":0.1,"overlayText":"Spread","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"refActorType":1},{"Name":"AoE<2-8>","type":1,"Enabled":false,"radius":5.0,"color":3356032768,"fillIntensity":0.2,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":4.0,"refActorPlaceholder":["<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5},{"Name":"AoE<1>","type":1,"Enabled":false,"radius":5.0,"color":3356032768,"Filled":false,"fillIntensity":0.1,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":4.0,"refActorPlaceholder":["<1>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5},{"Name":"AoE<1-8>","type":1,"radius":4.0,"Donut":1.0,"color":3356032768,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":4.0,"refActorPlaceholder":["<2>","<3>","<4>","<5>","<6>","<7>","<8>","<1>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5},{"Name":"6","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"6","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":5.0,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"refActorType":1},{"Name":"5","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"5","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":4.0,"refActorBuffTimeMax":5.0,"refActorComparisonType":5,"refActorType":1},{"Name":"4","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"4","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":3.0,"refActorBuffTimeMax":4.0,"refActorComparisonType":5,"refActorType":1},{"Name":"3","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"3","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":2.0,"refActorBuffTimeMax":3.0,"refActorComparisonType":5,"refActorType":1},{"Name":"2","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508735,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"2","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":1.0,"refActorBuffTimeMax":2.0,"refActorComparisonType":5,"refActorType":1},{"Name":"1","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"1","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.9,"refActorBuffTimeMax":1.0,"refActorComparisonType":5,"refActorType":1},{"Name":"0.9","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.9","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.8,"refActorBuffTimeMax":0.9,"refActorComparisonType":5,"refActorType":1},{"Name":"0.8","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.8","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.7,"refActorBuffTimeMax":0.8,"refActorComparisonType":5,"refActorType":1},{"Name":"0.7","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.7","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.6,"refActorBuffTimeMax":0.7,"refActorComparisonType":5,"refActorType":1},{"Name":"0.6","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.6","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.5,"refActorBuffTimeMax":0.6,"refActorComparisonType":5,"refActorType":1},{"Name":"0.5","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.5","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.4,"refActorBuffTimeMax":0.5,"refActorComparisonType":5,"refActorType":1},{"Name":"0.4","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.4","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.3,"refActorBuffTimeMax":0.4,"refActorComparisonType":5,"refActorType":1},{"Name":"0.3","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.3","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.2,"refActorBuffTimeMax":0.3,"refActorComparisonType":5,"refActorType":1},{"Name":"0.2","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.2","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMin":0.1,"refActorBuffTimeMax":0.2,"refActorComparisonType":5,"refActorType":1},{"Name":"0.1","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"overlayText":"0.1","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3424,3495,3496,3497],"refActorUseBuffTime":true,"refActorBuffTimeMax":0.1,"refActorComparisonType":5,"refActorType":1}]}
 ~Lv2~{"Name":"P1 パントクラトル 高出力波動砲P AoE","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ElementsL":[{"Name":"<1>","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"refActorPlaceholder":["<1>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"AoE <1>","type":3,"refY":20.0,"radius":3.0,"color":3370974976,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"includeRotation":true,"onlyTargetable":true,"onlyVisible":true,"FaceMe":true},{"Name":"<2>","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"refActorPlaceholder":["<2>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"AoE <2>","type":3,"refY":20.0,"radius":3.0,"color":3370974976,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"includeRotation":true,"onlyTargetable":true,"onlyVisible":true,"FaceMe":true,"faceplayer":"<2>"},{"Name":"<3>","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"refActorPlaceholder":["<3>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"AoE <3>","type":3,"refY":20.0,"radius":3.0,"color":3370974976,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"includeRotation":true,"onlyTargetable":true,"onlyVisible":true,"FaceMe":true,"faceplayer":"<3>"},{"Name":"<4>","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"refActorPlaceholder":["<4>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"AoE <4>","type":3,"refY":20.0,"radius":3.0,"color":3370974976,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"includeRotation":true,"onlyTargetable":true,"onlyVisible":true,"FaceMe":true,"faceplayer":"<4>"},{"Name":"<5>","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"refActorPlaceholder":["<5>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"AoE <5>","type":3,"refY":20.0,"radius":3.0,"color":3370974976,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"includeRotation":true,"onlyTargetable":true,"onlyVisible":true,"FaceMe":true,"faceplayer":"<5>"},{"Name":"<6>","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"refActorPlaceholder":["<6>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"AoE <6>","type":3,"refY":20.0,"radius":3.0,"color":3370974976,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"includeRotation":true,"onlyTargetable":true,"onlyVisible":true,"FaceMe":true,"faceplayer":"<6>"},{"Name":"<7>","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"refActorPlaceholder":["<7>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"AoE <7>","type":3,"refY":20.0,"radius":3.0,"color":3370974976,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"includeRotation":true,"onlyTargetable":true,"onlyVisible":true,"FaceMe":true,"faceplayer":"<7>"},{"Name":"<8>","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.5,"overlayFScale":3.0,"thicc":0.0,"refActorPlaceholder":["<8>"],"refActorRequireBuff":true,"refActorBuffId":[3507,3508,3509,3510],"refActorUseBuffTime":true,"refActorBuffTimeMax":6.0,"refActorComparisonType":5,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"AoE <8>","type":3,"refY":20.0,"radius":3.0,"color":3370974976,"fillIntensity":0.1,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"includeRotation":true,"onlyTargetable":true,"onlyVisible":true,"FaceMe":true,"faceplayer":"<8>"}]}
 ~Lv2~{"Name":"P1 パントクラトル 後_散開","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"97737092-97f4-418b-8d86-7d9f06b2979b","Name":"Tank","Elements":[{"Name":"Tank","refX":100.0,"refY":86.3,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3370974976,"thicc":4.0,"overlayText":"Tank","tether":true},{"Name":"H1","Enabled":false,"refX":97.24363,"refY":109.61262,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H2","Enabled":false,"refX":102.92372,"refY":109.56305,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D1","Enabled":false,"refX":92.33956,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D2","Enabled":false,"refX":107.66044,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D3","Enabled":false,"refX":90.03805,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D4","Enabled":false,"refX":109.96195,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]},{"Guid":"3211016b-a189-4f0a-ba4f-227fef31e6c3","Name":"H1","Elements":[{"Name":"Tank","Enabled":false,"refX":100.0,"refY":86.3,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H1","refX":97.24363,"refY":109.61262,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":102.92372,"refY":109.56305,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D1","Enabled":false,"refX":92.33956,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D2","Enabled":false,"refX":107.66044,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D3","Enabled":false,"refX":90.03805,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D4","Enabled":false,"refX":109.96195,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]},{"Guid":"b861edcc-77f4-468b-afdc-32137f99eac6","Name":"H2","Elements":[{"Name":"Tank","Enabled":false,"refX":100.0,"refY":86.3,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H1","Enabled":false,"refX":97.24363,"refY":109.61262,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H2","refX":102.92372,"refY":109.56305,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3356425984,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.33956,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D2","Enabled":false,"refX":107.66044,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D3","Enabled":false,"refX":90.03805,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D4","Enabled":false,"refX":109.96195,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]},{"Guid":"c57e4b2d-875a-4b10-b2ab-899fd2d0507e","Name":"D1","Elements":[{"Name":"Tank","Enabled":false,"refX":100.0,"refY":86.3,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H1","Enabled":false,"refX":97.24363,"refY":109.61262,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H2","Enabled":false,"refX":102.92372,"refY":109.56305,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D1","refX":92.33956,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.66044,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D3","Enabled":false,"refX":90.03805,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D4","Enabled":false,"refX":109.96195,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]},{"Guid":"b47c327b-7b5f-4d4b-8fd2-9c809650792e","Name":"D2","Elements":[{"Name":"Tank","Enabled":false,"refX":100.0,"refY":86.3,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H1","Enabled":false,"refX":97.24363,"refY":109.61262,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H2","Enabled":false,"refX":102.92372,"refY":109.56305,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D1","Enabled":false,"refX":92.33956,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D2","refX":107.66044,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":90.03805,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D4","Enabled":false,"refX":109.96195,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]},{"Guid":"d7e50361-51ad-4246-85df-460c625d37e1","Name":"D3","Elements":[{"Name":"Tank","Enabled":false,"refX":100.0,"refY":86.3,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H1","Enabled":false,"refX":97.24363,"refY":109.61262,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H2","Enabled":false,"refX":102.92372,"refY":109.56305,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D1","Enabled":false,"refX":92.33956,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D2","Enabled":false,"refX":107.66044,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D3","refX":90.03805,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355506687,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":109.96195,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]},{"Guid":"f0e03b6b-6364-454e-8f3d-c5e49165eb5d","Name":"D4","Elements":[{"Name":"Tank","Enabled":false,"refX":100.0,"refY":86.3,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H1","Enabled":false,"refX":97.24363,"refY":109.61262,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H2","Enabled":false,"refX":102.92372,"refY":109.56305,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D1","Enabled":false,"refX":92.33956,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D2","Enabled":false,"refX":107.66044,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D3","Enabled":false,"refX":90.03805,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D4","refX":109.96195,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"overlayTextColor":3355508223,"thicc":4.0,"overlayText":"D4","tether":true}]}],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":15.0,"Match":"オメガは「パントクラトル」の構え。","MatchDelay":38.0}],"ElementsL":[{"Name":"Tank","Enabled":false,"refX":100.0,"refY":86.3,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H1","Enabled":false,"refX":97.24363,"refY":109.61262,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H2","Enabled":false,"refX":102.92372,"refY":109.56305,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D1","Enabled":false,"refX":92.33956,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D2","Enabled":false,"refX":107.66044,"refY":106.42788,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D3","Enabled":false,"refX":90.03805,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"D4","Enabled":false,"refX":109.96195,"refY":99.12844,"radius":1.0,"color":3355508496,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]}
 ~Lv2~{"Name":"P1 波動砲 タンク範囲","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":5.0,"Match":"vfx/lockon/eff/lockon5_t0h.avfx spawned on"}],"ElementsL":[{"Name":"not 被魔法ダメージ増加<1-8>","type":1,"refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[60,494,658,1138,2091,2941,3414,3516],"refActorBuffTimeMax":11.0,"refActorComparisonType":5,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"t1","type":4,"radius":20.5,"coneAngleMin":-60,"coneAngleMax":60,"color":3372154983,"fillIntensity":0.08,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"includeRotation":true,"onlyVisible":true,"FaceMe":true,"faceplayer":"<t2>"},{"Name":"t2","type":4,"radius":20.5,"coneAngleMin":-60,"coneAngleMax":60,"color":3372154983,"fillIntensity":0.08,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"includeRotation":true,"onlyVisible":true,"FaceMe":true,"faceplayer":"<t1>"}]}
