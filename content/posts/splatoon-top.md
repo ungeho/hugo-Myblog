@@ -1105,6 +1105,11 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
     private const uint Status2 = 0xBBD;
     private const uint Status3 = 0xBBE;
     private const uint Status4 = 0xD7B;
+    private const uint FirstTargetStatus = 3004;
+    private const uint SecondTargetStatus = 3005;
+    private const uint ThirdTargetStatus = 3006;
+    private const uint FourthTargetStatus = 3451;
+    private static readonly uint[] GuidedMissileStatuses = [3424, 3495, 3496, 3497];
     private const float CenterX = 100f;
     private const float CenterZ = 100f;
     private const float InitialDistance = 10f;
@@ -1156,6 +1161,8 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
     private long _firstFlameStartedAt = 0;
     private long _secondFlameStartedAt = 0;
     private long _directionResolvedAt = 0;
+    private long _missileDroppedAt = 0;
+    private MissileTarget _missileTarget = MissileTarget.None;
     private string _lastEvent = "";
     private string _lastSkipReason = "";
     private string _lastGuide = "";
@@ -1274,6 +1281,22 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
             "tether":false
         }
         """);
+        Controller.RegisterElementFromCode("GuidedMissileCount", """
+        {
+            "Name":"",
+            "type":1,
+            "Enabled":false,
+            "radius":0.0,
+            "fillIntensity":0.5,
+            "overlayBGColor":3355443200,
+            "overlayTextColor":3355508583,
+            "overlayVOffset":3.5,
+            "overlayFScale":2.5,
+            "thicc":0.0,
+            "overlayText":"4/4",
+            "refActorType":1
+        }
+        """);
         RegisterRotationLayoutElements();
     }
 
@@ -1300,6 +1323,7 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
     {
         ScanActiveCasts();
         OffGuide();
+        UpdateGuidedMissileCount();
 
         if (_directionResolvedAt != 0)
         {
@@ -1353,6 +1377,7 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
         C.PriorityData.Draw();
 
         ImGui.Separator();
+        ImGui.Checkbox("Display guided missile count", ref C.DisplayGuidedMissileCount);
         ImGui.SetNextItemWidth(220);
         if (ImGui.BeginCombo("Script Override", string.IsNullOrEmpty(C.BasePlayerOverride) ? "No Override" : C.BasePlayerOverride))
         {
@@ -1392,6 +1417,8 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
             ImGuiEx.Text($"31501 age ms: {GetPantokratorAgeMs()}");
             ImGuiEx.Text($"First 32368 age ms: {GetFirstFlameAgeMs()}");
             ImGuiEx.Text($"Second 32368 age ms: {GetSecondFlameAgeMs()}");
+            ImGuiEx.Text($"Missile target: {_missileTarget}");
+            ImGuiEx.Text($"Missile dropped age ms: {GetMissileDroppedAgeMs()}");
             ImGuiEx.Text($"Last guide: {(string.IsNullOrEmpty(_lastGuide) ? "None" : _lastGuide)}");
             ImGuiEx.Text($"Last event: {_lastEvent}");
             ImGuiEx.Text($"Last skip reason: {(string.IsNullOrEmpty(_lastSkipReason) ? "None" : _lastSkipReason)}");
@@ -1769,6 +1796,12 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
         return _pantokratorStartedAt != 0 && _directionResolvedAt == 0;
     }
 
+    private bool IsPantokratorDisplayGuardActive()
+    {
+        var age = GetPantokratorAgeMs();
+        return age >= 0 && age <= PantokratorDisplayGuardMs;
+    }
+
     private long GetPantokratorAgeMs()
     {
         return _pantokratorStartedAt == 0 ? -1 : Environment.TickCount64 - _pantokratorStartedAt;
@@ -1787,6 +1820,11 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
     private long GetDirectionAgeMs()
     {
         return _directionResolvedAt == 0 ? -1 : Environment.TickCount64 - _directionResolvedAt;
+    }
+
+    private long GetMissileDroppedAgeMs()
+    {
+        return _missileDroppedAt == 0 ? -1 : Environment.TickCount64 - _missileDroppedAt;
     }
 
     private static int GetClockwiseDirection(float firstAngle, float secondAngle)
@@ -1921,6 +1959,127 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
         _lastGuide = clockwise ? "Clockwise" : "Counter Clockwise";
     }
 
+    private void UpdateGuidedMissileCount()
+    {
+        if (!C.DisplayGuidedMissileCount || !Controller.TryGetElementByName("GuidedMissileCount", out var element))
+        {
+            ResetMissileCountState();
+            return;
+        }
+
+        var player = GetBasePlayer();
+        if (player == null || !IsPantokratorDisplayGuardActive())
+        {
+            ResetMissileCountState();
+            return;
+        }
+
+        var currentTarget = GetMissileTarget(player);
+        var missileRemaining = GetGuidedMissileRemaining(player);
+        if (currentTarget != MissileTarget.None && missileRemaining != null)
+        {
+            _missileTarget = currentTarget;
+            _missileDroppedAt = 0;
+            var activeText = GetActiveMissileCountText(currentTarget, missileRemaining.Value);
+            if (activeText == null)
+            {
+                element.Enabled = false;
+                return;
+            }
+
+            element.Enabled = true;
+            element.overlayText = activeText;
+            return;
+        }
+
+        if (_missileTarget == MissileTarget.None || missileRemaining != null)
+        {
+            element.Enabled = false;
+            return;
+        }
+
+        if (_missileDroppedAt == 0)
+        {
+            _missileDroppedAt = Environment.TickCount64;
+        }
+
+        var postDropText = GetPostDropMissileCountText(_missileTarget, GetMissileDroppedAgeMs());
+        if (postDropText == null)
+        {
+            ResetMissileCountState();
+            return;
+        }
+
+        element.Enabled = true;
+        element.overlayText = postDropText;
+    }
+
+    private void ResetMissileCountState()
+    {
+        _missileTarget = MissileTarget.None;
+        _missileDroppedAt = 0;
+    }
+
+    private static string? GetActiveMissileCountText(MissileTarget target, float remaining)
+    {
+        return target switch
+        {
+            MissileTarget.First => remaining > 2f ? "4/4" : "3/4",
+            MissileTarget.Second or MissileTarget.Third => remaining <= 2f ? "3/5" : remaining <= 4f ? "4/5" : remaining <= 6f ? "5/5" : null,
+            MissileTarget.Fourth => remaining <= 2f ? "1/3" : remaining <= 4f ? "2/3" : remaining <= 6f ? "3/3" : null,
+            _ => null,
+        };
+    }
+
+    private static string? GetPostDropMissileCountText(MissileTarget target, long age)
+    {
+        return target switch
+        {
+            MissileTarget.First => age < 2000 ? "2/4" : age < 4000 ? "1/4" : age < 6000 ? "0/4" : null,
+            MissileTarget.Second or MissileTarget.Third => age < 2000 ? "2/5" : age < 4000 ? "1/5" : age < 6000 ? "0/5" : null,
+            MissileTarget.Fourth => age < 2000 ? "0/3" : null,
+            _ => null,
+        };
+    }
+
+    private static MissileTarget GetMissileTarget(IPlayerCharacter player)
+    {
+        if (HasStatus(player, FirstTargetStatus))
+        {
+            return MissileTarget.First;
+        }
+
+        if (HasStatus(player, SecondTargetStatus))
+        {
+            return MissileTarget.Second;
+        }
+
+        if (HasStatus(player, ThirdTargetStatus))
+        {
+            return MissileTarget.Third;
+        }
+
+        if (HasStatus(player, FourthTargetStatus))
+        {
+            return MissileTarget.Fourth;
+        }
+
+        return MissileTarget.None;
+    }
+
+    private static float? GetGuidedMissileRemaining(IPlayerCharacter player)
+    {
+        foreach (var status in player.StatusList)
+        {
+            if (GuidedMissileStatuses.Contains(status.StatusId))
+            {
+                return status.RemainingTime;
+            }
+        }
+
+        return null;
+    }
+
     private void RegisterRotationLayoutElements()
     {
         Controller.RegisterElementFromCode("RotationCwText", """
@@ -2026,6 +2185,11 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
             rotationElement.Enabled = false;
         }
 
+        if (Controller.TryGetElementByName("GuidedMissileCount", out var missileCountElement))
+        {
+            missileCountElement.Enabled = false;
+        }
+
         foreach (var name in PriorityLayoutElements)
         {
             if (Controller.TryGetElementByName(name, out var priorityElement))
@@ -2053,6 +2217,7 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
         _firstFlameStartedAt = 0;
         _secondFlameStartedAt = 0;
         _directionResolvedAt = 0;
+        ResetMissileCountState();
         _lastEvent = "";
         _lastSkipReason = "";
         _lastGuide = "";
@@ -2060,9 +2225,19 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
 
     private readonly record struct CastRecord(uint Source, float? Angle, long StartedAt);
 
+    private enum MissileTarget
+    {
+        None,
+        First,
+        Second,
+        Third,
+        Fourth,
+    }
+
     public class Config : IEzConfig
     {
         public bool Debug = false;
+        public bool DisplayGuidedMissileCount = true;
         public string BasePlayerOverride = "";
         public PriorityData PriorityData = new();
     }
@@ -2072,6 +2247,11 @@ internal class TOP_P1_Pantokrator_Initial_Position_Priority : SplatoonScript
 #### Priority - パントクラトル
 
 上から`H1,MT,ST,D1,D2,D3,D4,H2`
+
+#### Configuration - パンクラトル
+
+- Display guided missile count  
+  チェックを外すことで散開処理中に設置する足元AoEのカウントダウンを非表示に出来ます。
 
 ---
 
