@@ -3779,7 +3779,6 @@ public static class CrossOWCExtensions
 
 公式から、優先度設定が必要  
 頭割り位置を表示  
-（D1とD2以外は不要かもしれません。）  
 
 ```url
 https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/BSOD%20Adjuster.cs
@@ -5731,7 +5730,7 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 > **Configuration** の設定が必要なレイアウトが含まれています。  
 > 導入後、**Configuration** から **ロールを選択** してください。  
 >
-> 1. ゲーム内チャットで **/splatoon** と入力  
+> 1. ゲーム内チャットで **/splatoon** と入力   
 > 2. **Configurations** タブを開く  
 > 3. **Select Zone...** を選択  
 > 4. **1122 次元の狭間** を選択  
