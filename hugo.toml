@@ -3,7 +3,7 @@ languageCode = "ja"
 defaultContentLanguage = "ja"
 defaultContentLanguageInSubdir = false
 hasCJKLanguage = true
-title = 'ungehoBlog'
+title = 'KudryBlog'
 theme = 'PaperMod'
 
 [taxonomies]
@@ -17,9 +17,9 @@ buildFuture = false
 buildExpired = false
 
 [params]
-    title = 'ungehoBlog'
-    description = 'ungeho'
-    author = 'ungeho'
+    title = 'KudryBlog'
+    description = 'Kudry'
+    author = 'Kudry'
     DateFormat = "2006/01/02"
     defaultTheme = 'auto'
     displayFullLangName = true
@@ -47,7 +47,7 @@ buildExpired = false
 
     [params.profileMode]
         enabled = true
-        title = "Ungeho"
+        title = "Kudry"
         subtitle = "ネトゲ大好きおたく"
         lead = "ゲームのこと、気になったこと、あとで見返したいメモを、やわらかく整理して残していく場所です。"
         imageUrl = "profile.png"
@@ -83,10 +83,10 @@ home = ["HTML", "RSS", "JSON"]
   [languages.ja]
     languageCode = "ja-JP"
     languageName = "日本語"
-    title = "ungehoBlog"
+    title = "KudryBlog"
     weight = 1
     [languages.ja.params]
-      description = "ungeho"
+      description = "Kudry"
       languageAltTitle = "Japanese"
       footerTagline = "ネトゲが趣味の人の個人ブログ"
       [languages.ja.params.profileMode]
@@ -131,7 +131,7 @@ home = ["HTML", "RSS", "JSON"]
   [languages.en]
     languageCode = "en-US"
     languageName = "English"
-    title = "ungehoBlog"
+    title = "KudryBlog"
     weight = 2
     [languages.en.params]
       description = "A personal blog by someone who loves online games."
