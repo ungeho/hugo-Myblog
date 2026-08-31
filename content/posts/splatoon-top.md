@@ -4094,11 +4094,765 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 
 **Exasquares**  
 
-公式から、コスモアローのAoEを表示するスクリプト
+公式のコスモアローのスクリプトに、ガイド表示を追加したもの。
 
-```url
-https://raw.githubusercontent.com/PunishXIV/Splatoon/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/Exasquares.cs
+```C#
+using Dalamud.Game.ClientState.Objects.Types;
+using Dalamud.Interface.Colors;
+using ECommons;
+using ECommons.Configuration;
+using ECommons.DalamudServices;
+using ECommons.Hooks;
+using ECommons.Hooks.ActionEffectTypes;
+using ECommons.Logging;
+using ECommons.MathHelpers;
+using ECommons.Schedulers;
+using ECommons.Throttlers;
+using Dalamud.Bindings.ImGui;
+using Splatoon.SplatoonScripting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
+
+using ECommons.DalamudServices.Legacy;
+
+namespace SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol
+{
+    public class Exasquares : SplatoonScript
+    {
+        public override HashSet<uint> ValidTerritories => [1122];
+        public override Metadata? Metadata => new(6, "NightmareXIV, kudry");
+        private TickScheduler? sch;
+        private TickScheduler? doTask;
+        private bool mechanicResolved = false;
+        private int exaflareCount = 0;
+        private bool roleGuideActive = false;
+        private bool exaflareTimelineActive = false;
+        private bool currentPatternIsOut = false;
+        private bool waitingForExaflareCastEnd = false;
+        private long exaflareCastEndedAt = 0;
+        private string? activeRoleGuide;
+        private string? activeRangeLayout;
+        private Config C => Controller.GetConfig<Config>();
+        private int EffectiveExaflareCount => C.DebugMode
+            ? C.DebugOccurrenceOverride switch
+            {
+                DebugExaflareOverride.First => 1,
+                DebugExaflareOverride.Second => 2,
+                _ => exaflareCount
+            }
+            : exaflareCount;
+        private bool IsFirstExaflare => EffectiveExaflareCount == 1;
+        private bool IsSecondExaflare => EffectiveExaflareCount == 2;
+
+        private static readonly ExaflareRole[] RoleOptions =
+        [
+            ExaflareRole.None,
+            ExaflareRole.MT,
+            ExaflareRole.ST,
+            ExaflareRole.H1,
+            ExaflareRole.H2,
+            ExaflareRole.D1,
+            ExaflareRole.D2,
+            ExaflareRole.D3,
+            ExaflareRole.D4
+        ];
+
+        private static readonly string[] MtGuideNames =
+        [
+            "外Start 詠唱中1回目 MT",
+            "外Start 詠唱後2-3回目 MT",
+            "外Start 詠唱後4回目 MT",
+            "外Start 詠唱後5回目 MT",
+            "外Start 詠唱後6回目 MT"
+        ];
+
+        private static readonly string[] MtInnerGuideNames =
+        [
+            "内Start 詠唱中1回目 MT",
+            "内Start 詠唱後2-3回目 MT",
+            "内Start 詠唱後4-5回目 MT",
+            "内Start 詠唱後6回目 MT",
+            "内Start 詠唱後7回目 MT"
+        ];
+
+        private static readonly string[] StInnerGuideNames =
+        [
+            "内Start 詠唱中1回目 ST",
+            "内Start 詠唱後2-3回目 ST",
+            "内Start 詠唱後4-5回目 ST",
+            "内Start 詠唱後6回目 ST",
+            "内Start 詠唱後7回目 ST"
+        ];
+
+        private static readonly string[] D1InnerGuideNames =
+        [
+            "内Start 1回目 D1",
+            "内Start 2-3回目 D1",
+            "内Start 4-6回目 D1",
+            "内Start 7回目 D1"
+        ];
+
+        private static readonly string[] H1SecondInnerGuideNames =
+        [
+            "内Start 詠唱中1回目 H1",
+            "内Start 詠唱後2-3回目 H1",
+            "内Start 詠唱後4-5回目 H1",
+            "内Start 詠唱後6回目 H1",
+            "内Start 詠唱後7回目 H1"
+        ];
+
+        private static readonly string[] H2SecondInnerGuideNames =
+        [
+            "内Start 詠唱中1回目 H2",
+            "内Start 詠唱後2-3回目 H2",
+            "内Start 詠唱後4-5回目 H2",
+            "内Start 詠唱後6回目 H2",
+            "内Start 詠唱後7回目 H2"
+        ];
+
+        private static readonly string[] D3SecondInnerGuideNames =
+        [
+            "内Start 1回目 D3",
+            "内Start 2-3回目 D3",
+            "内Start 4-6回目 D3",
+            "内Start 7回目 D3"
+        ];
+
+        private static readonly string[] D4SecondInnerGuideNames =
+        [
+            "内Start 1回目 D4",
+            "内Start 2-3回目 D4",
+            "内Start 4-6回目 D4",
+            "内Start 7回目 D4"
+        ];
+
+        private static readonly string[] D2SecondInnerGuideNames =
+        [
+            "内Start 1回目 D2",
+            "内Start 2-3回目 D2",
+            "内Start 4-6回目 D2",
+            "内Start 7回目 D2"
+        ];
+
+        private static readonly string[] StGuideNames =
+        [
+            "外Start 詠唱中1回目 ST",
+            "外Start 詠唱後2-3回目 ST",
+            "外Start 詠唱後4回目 ST",
+            "外Start 詠唱後5回目 ST",
+            "外Start 詠唱後6回目 ST"
+        ];
+
+        private static readonly string[] D1GuideNames =
+        [
+            "外Start 1, 4, 6 回目 D1",
+            "外Start 2-3, 5 回目 D1"
+        ];
+
+        private static readonly string[] D1GuideTimeline =
+        [
+            D1GuideNames[0],
+            D1GuideNames[1],
+            D1GuideNames[0],
+            D1GuideNames[1],
+            D1GuideNames[0]
+        ];
+
+        private static readonly string[] H1SecondGuideNames =
+        [
+            "外Start 詠唱中1回目 H1",
+            "外Start 詠唱後2-3回目 H1",
+            "外Start 詠唱後4回目 H1",
+            "外Start 詠唱後5回目 H1",
+            "外Start 詠唱後6回目 H1"
+        ];
+
+        private static readonly string[] H2SecondGuideNames =
+        [
+            "外Start 詠唱中1回目 H2",
+            "外Start 詠唱後2-3回目 H2",
+            "外Start 詠唱後4回目 H2",
+            "外Start 詠唱後5回目 H2",
+            "外Start 詠唱後6回目 H2"
+        ];
+
+        private static readonly string[] D3SecondGuideNames =
+        [
+            "外Start 1, 4, 6 回目 D3",
+            "外Start 2-3, 5 回目 D3"
+        ];
+
+        private static readonly string[] D3SecondGuideTimeline =
+        [
+            D3SecondGuideNames[0],
+            D3SecondGuideNames[1],
+            D3SecondGuideNames[0],
+            D3SecondGuideNames[1],
+            D3SecondGuideNames[0]
+        ];
+
+        private static readonly string[] D4SecondGuideNames =
+        [
+            "外Start 1, 4, 6 回目 D4",
+            "外Start 2-3, 5 回目 D4"
+        ];
+
+        private static readonly string[] D4SecondGuideTimeline =
+        [
+            D4SecondGuideNames[0],
+            D4SecondGuideNames[1],
+            D4SecondGuideNames[0],
+            D4SecondGuideNames[1],
+            D4SecondGuideNames[0]
+        ];
+
+        private static readonly string[] D2SecondGuideNames =
+        [
+            "外Start 1, 4, 6 回目 D2",
+            "外Start 2-3, 5 回目 D2"
+        ];
+
+        private static readonly string[] D2SecondGuideTimeline =
+        [
+            D2SecondGuideNames[0],
+            D2SecondGuideNames[1],
+            D2SecondGuideNames[0],
+            D2SecondGuideNames[1],
+            D2SecondGuideNames[0]
+        ];
+
+        public override void OnSetup()
+        {
+            var exasquaresIn = "~Lv2~{\"Name\":\"P6 - 1\",\"Group\":\"TOP\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"\",\"type\":2,\"refX\":107.5,\"refY\":80.0,\"refZ\":9.5366886E-07,\"offX\":107.5,\"offY\":120.0,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":92.5,\"refY\":80.0,\"refZ\":9.5366886E-07,\"offX\":92.5,\"offY\":120.0,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":92.5,\"refZ\":9.5366886E-07,\"offX\":120.0,\"offY\":92.5,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":107.5,\"refZ\":9.5366886E-07,\"offX\":120.0,\"offY\":107.5,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":8.2,\"FireOnce\":true}]}\n~Lv2~{\"Name\":\"P6 - 2\",\"Group\":\"TOP\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"\",\"type\":2,\"refX\":110.0,\"refY\":80.0,\"refZ\":9.5366886E-07,\"offX\":110.0,\"offY\":120.0,\"radius\":5.0,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":90.0,\"refY\":80.0,\"refZ\":9.5366886E-07,\"offX\":90.0,\"offY\":120.0,\"radius\":5.0,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":110.0,\"refZ\":9.5366886E-07,\"offX\":120.0,\"offY\":110.0,\"radius\":5.0,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":90.0,\"refZ\":9.5366886E-07,\"offX\":120.0,\"offY\":90.0,\"radius\":5.0,\"color\":1677721855,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":10.2,\"FireOnce\":true}]}\n~Lv2~{\"Name\":\"P6 - 3\",\"Group\":\"TOP\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":100.0,\"refZ\":-5.456968E-12,\"offX\":120.0,\"offY\":100.0,\"offZ\":-5.456968E-12,\"radius\":5.0,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":100.0,\"refY\":80.0,\"refZ\":-5.456968E-12,\"offX\":100.0,\"offY\":120.0,\"offZ\":-5.456968E-12,\"radius\":5.0,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":82.5,\"refY\":80.0,\"refZ\":9.5366886E-07,\"offX\":82.5,\"offY\":120.0,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":82.5,\"refZ\":9.5366886E-07,\"offX\":120.0,\"offY\":82.5,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":117.5,\"refZ\":9.5366886E-07,\"offX\":120.0,\"offY\":117.5,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":117.5,\"refY\":80.0,\"refZ\":9.5366886E-07,\"offX\":117.5,\"offY\":120.0,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":12.2,\"FireOnce\":true}]}\n~Lv2~{\"Name\":\"P6 - 4\",\"Group\":\"TOP\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":100.0,\"refZ\":-5.456968E-12,\"offX\":120.0,\"offY\":100.0,\"offZ\":-5.456968E-12,\"radius\":5.0,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":100.0,\"refY\":80.0,\"refZ\":-5.456968E-12,\"offX\":100.0,\"offY\":120.0,\"offZ\":-5.456968E-12,\"radius\":5.0,\"color\":1677721855,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":14.2,\"FireOnce\":true}]}\n~Lv2~{\"Name\":\"P6 - 5\",\"Group\":\"TOP\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"\",\"type\":2,\"refX\":107.5,\"refY\":80.0,\"refZ\":9.5366886E-07,\"offX\":107.5,\"offY\":120.0,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":92.5,\"refY\":80.0,\"refZ\":9.5366886E-07,\"offX\":92.5,\"offY\":120.0,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":92.5,\"refZ\":9.5366886E-07,\"offX\":120.0,\"offY\":92.5,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":107.5,\"refZ\":9.5366886E-07,\"offX\":120.0,\"offY\":107.5,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":16.2,\"FireOnce\":true}]}\n~Lv2~{\"Name\":\"P6 - 6\",\"Group\":\"TOP\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"\",\"type\":2,\"refX\":112.5,\"refY\":80.0,\"refZ\":9.5366886E-07,\"offX\":112.5,\"offY\":120.0,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":87.5,\"refY\":80.0,\"refZ\":9.5366886E-07,\"offX\":87.5,\"offY\":120.0,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":87.5,\"refZ\":9.5366886E-07,\"offX\":120.0,\"offY\":87.5,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":112.5,\"refZ\":9.5366886E-07,\"offX\":120.0,\"offY\":112.5,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":18.2,\"FireOnce\":true}]}\n~Lv2~{\"Name\":\"P6 - 7\",\"Group\":\"TOP\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"\",\"type\":2,\"refX\":82.5,\"refY\":80.0,\"refZ\":9.5366886E-07,\"offX\":82.5,\"offY\":120.0,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":82.5,\"refZ\":9.5366886E-07,\"offX\":120.0,\"offY\":82.5,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":80.0,\"refY\":117.5,\"refZ\":9.5366886E-07,\"offX\":120.0,\"offY\":117.5,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1},{\"Name\":\"\",\"type\":2,\"refX\":117.5,\"refY\":80.0,\"refZ\":9.5366886E-07,\"offX\":117.5,\"offY\":120.0,\"radius\":2.5,\"color\":1677721855,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":20.2,\"FireOnce\":true}]}".Split("\n");
+
+            var exasquaresOut = "~Lv2~{\"Name\":\"P6  1\",\"Group\":\"\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"1\",\"type\":2,\"refX\":120.23772,\"refY\":92.5,\"refZ\":-5.456968E-12,\"offX\":79.745346,\"offY\":92.5,\"offZ\":-5.456968E-12,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"2\",\"type\":2,\"refX\":120.0,\"refY\":107.5,\"refZ\":-3.8147027E-06,\"offX\":80.0,\"offY\":107.5,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"3\",\"type\":2,\"refX\":92.41275,\"refY\":120.50941,\"refZ\":7.629389E-06,\"offX\":92.4778,\"offY\":79.78934,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"4\",\"type\":2,\"refX\":107.498146,\"refY\":120.37131,\"refZ\":3.8146918E-06,\"offX\":107.49135,\"offY\":79.92043,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":8.2,\"FireOnce\":true}]}\n~Lv2~{\"Name\":\"P6  2\",\"Group\":\"\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"1\",\"type\":2,\"refX\":120.0,\"refY\":97.5,\"refZ\":-5.456968E-12,\"offX\":80.0,\"offY\":97.5,\"offZ\":-5.456968E-12,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"2\",\"type\":2,\"refX\":120.0,\"refY\":102.5,\"refZ\":-3.8147027E-06,\"offX\":80.0,\"offY\":102.5,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"3\",\"type\":2,\"refX\":97.5,\"refY\":120.50941,\"refZ\":7.629389E-06,\"offX\":97.5,\"offY\":79.78934,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"4\",\"type\":2,\"refX\":102.5,\"refY\":120.37131,\"refZ\":3.8146918E-06,\"offX\":102.5,\"offY\":79.92043,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"1\",\"type\":2,\"refX\":120.23772,\"refY\":92.5,\"refZ\":-5.456968E-12,\"offX\":79.745346,\"offY\":92.5,\"offZ\":-5.456968E-12,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"2\",\"type\":2,\"refX\":120.0,\"refY\":107.5,\"refZ\":-3.8147027E-06,\"offX\":80.0,\"offY\":107.5,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"3\",\"type\":2,\"refX\":92.41275,\"refY\":120.50941,\"refZ\":7.629389E-06,\"offX\":92.4778,\"offY\":79.78934,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"4\",\"type\":2,\"refX\":107.498146,\"refY\":120.37131,\"refZ\":3.8146918E-06,\"offX\":107.49135,\"offY\":79.92043,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":10.2,\"FireOnce\":true}]}\n~Lv2~{\"Name\":\"P6   3\",\"Group\":\"\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"1\",\"type\":2,\"refX\":120.23772,\"refY\":87.5,\"refZ\":-5.456968E-12,\"offX\":79.745346,\"offY\":87.5,\"offZ\":-5.456968E-12,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"2\",\"type\":2,\"refX\":120.0,\"refY\":112.5,\"refZ\":-3.8147027E-06,\"offX\":80.0,\"offY\":112.5,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"3\",\"type\":2,\"refX\":87.5,\"refY\":120.50941,\"refZ\":7.629389E-06,\"offX\":87.5,\"offY\":79.78934,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"4\",\"type\":2,\"refX\":112.5,\"refY\":120.20232,\"refZ\":-3.8146973E-06,\"offX\":112.5,\"offY\":79.734604,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"2\",\"type\":2,\"refX\":120.0,\"refY\":102.5,\"refZ\":-3.8147027E-06,\"offX\":80.0,\"offY\":102.5,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"1\",\"type\":2,\"refX\":120.0,\"refY\":97.5,\"refZ\":-5.456968E-12,\"offX\":80.0,\"offY\":97.5,\"offZ\":-5.456968E-12,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"3\",\"type\":2,\"refX\":97.5,\"refY\":120.50941,\"refZ\":7.629389E-06,\"offX\":97.5,\"offY\":79.78934,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"4\",\"type\":2,\"refX\":102.5,\"refY\":120.37131,\"refZ\":3.8146918E-06,\"offX\":102.5,\"offY\":79.92043,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":12.2,\"FireOnce\":true}]}\n~Lv2~{\"Name\":\"P6   4\",\"Group\":\"\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"1\",\"type\":2,\"refX\":120.0,\"refY\":82.5,\"refZ\":-3.8146973E-06,\"offX\":80.002525,\"offY\":82.5,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"2\",\"type\":2,\"refX\":120.0,\"refY\":117.5,\"refZ\":-3.8147027E-06,\"offX\":80.0,\"offY\":117.5,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"3\",\"type\":2,\"refX\":82.5,\"refY\":120.50941,\"refZ\":7.629389E-06,\"offX\":82.5,\"offY\":79.78934,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"4\",\"type\":2,\"refX\":117.5,\"refY\":120.0,\"refZ\":-3.8146973E-06,\"offX\":117.5,\"offY\":80.0,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"1\",\"type\":2,\"refX\":120.23772,\"refY\":92.5,\"refZ\":-5.456968E-12,\"offX\":79.745346,\"offY\":92.5,\"offZ\":-5.456968E-12,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"2\",\"type\":2,\"refX\":120.0,\"refY\":107.5,\"refZ\":-3.8147027E-06,\"offX\":80.0,\"offY\":107.5,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"3\",\"type\":2,\"refX\":92.41275,\"refY\":120.50941,\"refZ\":7.629389E-06,\"offX\":92.4778,\"offY\":79.78934,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"4\",\"type\":2,\"refX\":107.498146,\"refY\":120.37131,\"refZ\":3.8146918E-06,\"offX\":107.49135,\"offY\":79.92043,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":14.2,\"FireOnce\":true}]}\n~Lv2~{\"Name\":\"P6   5\",\"Group\":\"\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"1\",\"type\":2,\"refX\":120.23772,\"refY\":87.5,\"refZ\":-5.456968E-12,\"offX\":79.745346,\"offY\":87.5,\"offZ\":-5.456968E-12,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"2\",\"type\":2,\"refX\":120.0,\"refY\":112.5,\"refZ\":-3.8147027E-06,\"offX\":80.0,\"offY\":112.5,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"3\",\"type\":2,\"refX\":87.5,\"refY\":120.50941,\"refZ\":7.629389E-06,\"offX\":87.5,\"offY\":79.78934,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"4\",\"type\":2,\"refX\":112.5,\"refY\":120.20232,\"refZ\":-3.8146973E-06,\"offX\":112.5,\"offY\":79.734604,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":16.2,\"FireOnce\":true}]}\n~Lv2~{\"Name\":\"P6  6\",\"Group\":\"\",\"ZoneLockH\":[1122],\"DCond\":5,\"ElementsL\":[{\"Name\":\"1\",\"type\":2,\"refX\":120.0,\"refY\":82.5,\"refZ\":-3.8146973E-06,\"offX\":80.002525,\"offY\":82.5,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"2\",\"type\":2,\"refX\":120.0,\"refY\":117.5,\"refZ\":-3.8147027E-06,\"offX\":80.0,\"offY\":117.5,\"offZ\":3.8146918E-06,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"3\",\"type\":2,\"refX\":82.5,\"refY\":120.50941,\"refZ\":7.629389E-06,\"offX\":82.5,\"offY\":79.78934,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1},{\"Name\":\"4\",\"type\":2,\"refX\":117.5,\"refY\":120.0,\"refZ\":-3.8146973E-06,\"offX\":117.5,\"offY\":80.0,\"radius\":2.5,\"color\":838861055,\"FillStep\":0.1}],\"UseTriggers\":true,\"Triggers\":[{\"Type\":2,\"Duration\":2.0,\"Match\":\"(12256>31651)\",\"MatchDelay\":18.2,\"FireOnce\":true}]}".Split("\n");
+
+            for(var i = 0; i < exasquaresIn.Length; i++)
+            {
+                var layoutCode = exasquaresIn[i].Replace("\"UseTriggers\":true", "\"UseTriggers\":false");
+                if(!Controller.TryRegisterLayoutFromCode($"In{i}", layoutCode, out _)) PluginLog.Error("Error");
+            }
+
+            for(var i = 0; i < exasquaresOut.Length; i++)
+            {
+                var layoutCode = exasquaresOut[i].Replace("\"UseTriggers\":true", "\"UseTriggers\":false");
+                if(!Controller.TryRegisterLayoutFromCode($"Out{i}", layoutCode, out _)) PluginLog.Error("Error");
+            }
+
+            Controller.RegisterElementFromCode(MtGuideNames[0], """{"Name":"外Start 詠唱中1回目 MT","type":0,"Enabled":false,"refX":90.59548,"refY":90.59548,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(MtGuideNames[1], """{"Name":"外Start 詠唱後2-3回目 MT","type":0,"Enabled":false,"refX":89.3934,"refY":89.3934,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(MtGuideNames[2], """{"Name":"外Start 詠唱後4回目 MT","type":0,"Enabled":false,"refX":94.27687,"refY":90.84108,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(MtGuideNames[3], """{"Name":"外Start 詠唱後5回目 MT","type":0,"Enabled":false,"refX":100.0,"refY":89.2,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(MtGuideNames[4], """{"Name":"外Start 詠唱後6回目 MT","type":0,"Enabled":false,"refX":100.0,"refY":91.0,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(MtInnerGuideNames[0], """{"Name":"内Start 詠唱中1回目 MT","type":0,"Enabled":false,"refX":94.34315,"refY":94.34315,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(MtInnerGuideNames[1], """{"Name":"内Start 詠唱後2-3回目 MT","type":0,"Enabled":false,"refX":95.61594,"refY":95.61594,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(MtInnerGuideNames[2], """{"Name":"内Start 詠唱後4-5回目 MT","type":0,"Enabled":false,"refX":94.27687,"refY":90.84108,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(MtInnerGuideNames[3], """{"Name":"内Start 詠唱後6回目 MT","type":0,"Enabled":false,"refX":100.0,"refY":89.2,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(MtInnerGuideNames[4], """{"Name":"内Start 詠唱後7回目 MT","type":0,"Enabled":false,"refX":100.0,"refY":91.0,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(StInnerGuideNames[0], """{"Name":"内Start 詠唱中1回目 ST","type":0,"Enabled":false,"refX":105.65685,"refY":105.65685,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(StInnerGuideNames[1], """{"Name":"内Start 詠唱後2-3回目 ST","type":0,"Enabled":false,"refX":104.38406,"refY":104.38406,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(StInnerGuideNames[2], """{"Name":"内Start 詠唱後4-5回目 ST","type":0,"Enabled":false,"refX":105.72313,"refY":109.15892,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(StInnerGuideNames[3], """{"Name":"内Start 詠唱後6回目 ST","type":0,"Enabled":false,"refX":100.0,"refY":110.8,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(StInnerGuideNames[4], """{"Name":"内Start 詠唱後7回目 ST","type":0,"Enabled":false,"refX":100.0,"refY":109.0,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D1InnerGuideNames[0], """{"Name":"内Start 1回目 D1","type":0,"Enabled":false,"refX":94.34315,"refY":105.65685,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D1InnerGuideNames[1], """{"Name":"内Start 2-3回目 D1","type":0,"Enabled":false,"refX":95.61594,"refY":104.38406,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D1InnerGuideNames[2], """{"Name":"内Start 4-6回目 D1","type":0,"Enabled":false,"refX":89.3934,"refY":110.6066,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D1InnerGuideNames[3], """{"Name":"内Start 7回目 D1","type":0,"Enabled":false,"refX":90.59548,"refY":109.40452,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H1SecondInnerGuideNames[0], """{"Name":"内Start 詠唱中1回目 H1","type":0,"Enabled":false,"refX":94.34315,"refY":105.65685,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H1SecondInnerGuideNames[1], """{"Name":"内Start 詠唱後2-3回目 H1","type":0,"Enabled":false,"refX":95.61594,"refY":104.38406,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H1SecondInnerGuideNames[2], """{"Name":"内Start 詠唱後4-5回目 H1","type":0,"Enabled":false,"refX":90.84108,"refY":105.72313,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H1SecondInnerGuideNames[3], """{"Name":"内Start 詠唱後6回目 H1","type":0,"Enabled":false,"refX":89.2,"refY":100.0,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H1SecondInnerGuideNames[4], """{"Name":"内Start 詠唱後7回目 H1","type":0,"Enabled":false,"refX":91.0,"refY":100.0,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H2SecondInnerGuideNames[0], """{"Name":"内Start 詠唱中1回目 H2","type":0,"Enabled":false,"refX":105.65685,"refY":94.34315,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H2SecondInnerGuideNames[1], """{"Name":"内Start 詠唱後2-3回目 H2","type":0,"Enabled":false,"refX":104.38406,"refY":95.61594,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H2SecondInnerGuideNames[2], """{"Name":"内Start 詠唱後4-5回目 H2","type":0,"Enabled":false,"refX":109.15892,"refY":94.27687,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H2SecondInnerGuideNames[3], """{"Name":"内Start 詠唱後6回目 H2","type":0,"Enabled":false,"refX":110.8,"refY":100.0,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H2SecondInnerGuideNames[4], """{"Name":"内Start 詠唱後7回目 H2","type":0,"Enabled":false,"refX":109.0,"refY":100.0,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D3SecondInnerGuideNames[0], """{"Name":"内Start 1回目 D3","type":0,"Enabled":false,"refX":94.34315,"refY":94.34315,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D3SecondInnerGuideNames[1], """{"Name":"内Start 2-3回目 D3","type":0,"Enabled":false,"refX":95.61594,"refY":95.61594,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D3SecondInnerGuideNames[2], """{"Name":"内Start 4-6回目 D3","type":0,"Enabled":false,"refX":89.3934,"refY":89.3934,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D3SecondInnerGuideNames[3], """{"Name":"内Start 7回目 D3","type":0,"Enabled":false,"refX":90.59548,"refY":90.59548,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D4SecondInnerGuideNames[0], """{"Name":"内Start 1回目 D4","type":0,"Enabled":false,"refX":105.65685,"refY":94.34315,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D4SecondInnerGuideNames[1], """{"Name":"内Start 2-3回目 D4","type":0,"Enabled":false,"refX":104.38406,"refY":95.61594,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D4SecondInnerGuideNames[2], """{"Name":"内Start 4-6回目 D4","type":0,"Enabled":false,"refX":110.6066,"refY":89.3934,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D4SecondInnerGuideNames[3], """{"Name":"内Start 7回目 D4","type":0,"Enabled":false,"refX":109.40452,"refY":90.59548,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D2SecondInnerGuideNames[0], """{"Name":"内Start 1回目 D2","type":0,"Enabled":false,"refX":105.65685,"refY":105.65685,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D2SecondInnerGuideNames[1], """{"Name":"内Start 2-3回目 D2","type":0,"Enabled":false,"refX":104.38406,"refY":104.38406,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D2SecondInnerGuideNames[2], """{"Name":"内Start 4-6回目 D2","type":0,"Enabled":false,"refX":110.6066,"refY":110.6066,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D2SecondInnerGuideNames[3], """{"Name":"内Start 7回目 D2","type":0,"Enabled":false,"refX":109.40452,"refY":109.40452,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(StGuideNames[0], """{"Name":"外Start 詠唱中1回目 ST","type":0,"Enabled":false,"refX":109.40452,"refY":109.40452,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(StGuideNames[1], """{"Name":"外Start 詠唱後2-3回目 ST","type":0,"Enabled":false,"refX":110.6066,"refY":110.6066,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(StGuideNames[2], """{"Name":"外Start 詠唱後4回目 ST","type":0,"Enabled":false,"refX":105.72313,"refY":109.15892,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(StGuideNames[3], """{"Name":"外Start 詠唱後5回目 ST","type":0,"Enabled":false,"refX":100.0,"refY":110.8,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(StGuideNames[4], """{"Name":"外Start 詠唱後6回目 ST","type":0,"Enabled":false,"refX":100.0,"refY":109.0,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D1GuideNames[0], """{"Name":"外Start 1, 4, 6 回目 D1","type":0,"Enabled":false,"refX":90.59548,"refY":109.40452,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D1GuideNames[1], """{"Name":"外Start 2-3, 5 回目 D1","type":0,"Enabled":false,"refX":89.3934,"refY":110.6066,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H1SecondGuideNames[0], """{"Name":"外Start 詠唱中1回目 H1","type":0,"Enabled":false,"refX":90.59548,"refY":109.40452,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H1SecondGuideNames[1], """{"Name":"外Start 詠唱後2-3回目 H1","type":0,"Enabled":false,"refX":89.3934,"refY":110.6066,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H1SecondGuideNames[2], """{"Name":"外Start 詠唱後4回目 H1","type":0,"Enabled":false,"refX":90.84108,"refY":105.72313,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H1SecondGuideNames[3], """{"Name":"外Start 詠唱後5回目 H1","type":0,"Enabled":false,"refX":89.2,"refY":100.0,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H1SecondGuideNames[4], """{"Name":"外Start 詠唱後6回目 H1","type":0,"Enabled":false,"refX":91.0,"refY":100.0,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H2SecondGuideNames[0], """{"Name":"外Start 詠唱中1回目 H2","type":0,"Enabled":false,"refX":109.40452,"refY":90.59548,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H2SecondGuideNames[1], """{"Name":"外Start 詠唱後2-3回目 H2","type":0,"Enabled":false,"refX":110.6066,"refY":89.3934,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H2SecondGuideNames[2], """{"Name":"外Start 詠唱後4回目 H2","type":0,"Enabled":false,"refX":109.15892,"refY":94.27687,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H2SecondGuideNames[3], """{"Name":"外Start 詠唱後5回目 H2","type":0,"Enabled":false,"refX":110.8,"refY":100.0,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(H2SecondGuideNames[4], """{"Name":"外Start 詠唱後6回目 H2","type":0,"Enabled":false,"refX":109.0,"refY":100.0,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D3SecondGuideNames[0], """{"Name":"外Start 1, 4, 6 回目 D3","type":0,"Enabled":false,"refX":90.59548,"refY":90.59548,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D3SecondGuideNames[1], """{"Name":"外Start 2-3, 5 回目 D3","type":0,"Enabled":false,"refX":89.3934,"refY":89.3934,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D4SecondGuideNames[0], """{"Name":"外Start 1, 4, 6 回目 D4","type":0,"Enabled":false,"refX":109.2631,"refY":90.7369,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D4SecondGuideNames[1], """{"Name":"外Start 2-3, 5 回目 D4","type":0,"Enabled":false,"refX":110.6066,"refY":89.3934,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D2SecondGuideNames[0], """{"Name":"外Start 1, 4, 6 回目 D2","type":0,"Enabled":false,"refX":109.2631,"refY":109.2631,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Controller.RegisterElementFromCode(D2SecondGuideNames[1], """{"Name":"外Start 2-3, 5 回目 D2","type":0,"Enabled":false,"refX":110.6066,"refY":110.6066,"radius":0.5,"color":3371826944,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"tether":true}""");
+            Off();
+            OffRoleGuides();
+        }
+
+        private void Reset()
+        {
+            mechanicResolved = false;
+            ResetExaflareTimelineState();
+            Controller.ClearRegisteredLayouts();
+            OnSetup();
+            Controller.ApplyOverrides();
+        }
+
+        public override void OnMessage(string Message)
+        {
+            if(Controller.Scene == 7)
+            {
+                if(Message.Contains("(12256>31651)"))
+                {
+                    var npc = Svc.Objects.Where(x => x is IBattleChara b && b.CastActionId == 31651);
+                    if(npc.Any() && !mechanicResolved)
+                    {
+                        sch?.Dispose();
+                        sch = new TickScheduler(Reset, 40000);
+                        mechanicResolved = true;
+                        exaflareCount++;
+                        if(!npc.Any(x => x.Position.X.InRange(99f, 101f) || x.Position.Y.InRange(99f, 101f)))
+                        {
+                            StartExaflareTimeline(true);
+                        }
+                        else
+                        {
+                            StartExaflareTimeline(false);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                mechanicResolved = false;
+            }
+        }
+
+        public override void OnActionEffectEvent(ActionEffectSet set)
+        {
+            if(set.Action == null || set.Action.Value.RowId != 31651 || !exaflareTimelineActive || !waitingForExaflareCastEnd) return;
+
+            waitingForExaflareCastEnd = false;
+            exaflareCastEndedAt = Environment.TickCount64;
+            UpdateRangeDisplay();
+            UpdateRoleGuide();
+        }
+
+        public override void OnUpdate()
+        {
+            UpdateRangeDisplay();
+            UpdateRoleGuide();
+        }
+
+        public override void OnDirectorUpdate(DirectorUpdateCategory category)
+        {
+            if(category.EqualsAny(DirectorUpdateCategory.Wipe, DirectorUpdateCategory.Commence, DirectorUpdateCategory.Recommence))
+            {
+                sch?.Dispose();
+                sch = null;
+                mechanicResolved = false;
+                exaflareCount = 0;
+                ResetExaflareTimelineState();
+            }
+        }
+
+        private void StartExaflareTimeline(bool isOut)
+        {
+            exaflareTimelineActive = true;
+            currentPatternIsOut = isOut;
+            waitingForExaflareCastEnd = true;
+            exaflareCastEndedAt = 0;
+            Off();
+
+            roleGuideActive = true;
+            UpdateRoleGuide();
+        }
+
+        private void UpdateRangeDisplay()
+        {
+            if(!exaflareTimelineActive || waitingForExaflareCastEnd || exaflareCastEndedAt == 0)
+            {
+                SetRangeLayout(null);
+                return;
+            }
+
+            var elapsed = Environment.TickCount64 - exaflareCastEndedAt;
+            var stage = (int)(elapsed / 2000);
+            var stageCount = currentPatternIsOut ? 6 : 7;
+
+            if(stage >= stageCount)
+            {
+                SetRangeLayout(null);
+                exaflareTimelineActive = false;
+                return;
+            }
+
+            SetRangeLayout($"{(currentPatternIsOut ? "Out" : "In")}{stage}");
+        }
+
+        private void SetRangeLayout(string? layoutName)
+        {
+            if(activeRangeLayout == layoutName) return;
+
+            foreach(var entry in Controller.GetRegisteredLayouts())
+            {
+                var enabled = entry.Key == layoutName;
+                entry.Value.Enabled = enabled;
+                if(enabled)
+                {
+                    entry.Value.ElementsL.Each(element =>
+                    {
+                        element.color = C.Col.ToUint();
+                        element.FillStep = C.FillStep;
+                        element.thicc = C.Thickness;
+                    });
+                }
+            }
+
+            activeRangeLayout = layoutName;
+        }
+
+        private void UpdateRoleGuide()
+        {
+            var guideNames = GetSelectedGuideNames();
+            if(!roleGuideActive || guideNames == null)
+            {
+                SetRoleGuide(null);
+                return;
+            }
+
+            if(waitingForExaflareCastEnd)
+            {
+                SetRoleGuide(guideNames[0]);
+                return;
+            }
+
+            var elapsed = Environment.TickCount64 - exaflareCastEndedAt;
+            var guide = currentPatternIsOut
+                ? elapsed switch
+                {
+                    < 4000 => guideNames[1],
+                    < 6000 => guideNames[2],
+                    < 8000 => guideNames[3],
+                    < 10000 => guideNames[4],
+                    _ => null
+                }
+                : guideNames.Length == 4
+                    ? elapsed switch
+                    {
+                        < 4000 => guideNames[1],
+                        < 10000 => guideNames[2],
+                        < 12000 => guideNames[3],
+                        _ => null
+                    }
+                    : elapsed switch
+                {
+                    < 4000 => guideNames[1],
+                    < 8000 => guideNames[2],
+                    < 10000 => guideNames[3],
+                    < 12000 => guideNames[4],
+                    _ => null
+                };
+
+            SetRoleGuide(guide);
+            if(elapsed >= (currentPatternIsOut ? 10000 : 12000)) roleGuideActive = false;
+        }
+
+        private static string[]? GetGuideNames(ExaflareRole role)
+        {
+            return role switch
+            {
+                ExaflareRole.MT => MtGuideNames,
+                ExaflareRole.ST => StGuideNames,
+                ExaflareRole.D1 => D1GuideTimeline,
+                _ => null
+            };
+        }
+
+        private string[]? GetSelectedGuideNames()
+        {
+            if(!currentPatternIsOut)
+            {
+                return C.SelectedRole switch
+                {
+                    ExaflareRole.MT => MtInnerGuideNames,
+                    ExaflareRole.ST => StInnerGuideNames,
+                    ExaflareRole.D1 => D1InnerGuideNames,
+                    ExaflareRole.H1 when IsSecondExaflare => H1SecondInnerGuideNames,
+                    ExaflareRole.H1 when IsFirstExaflare => D1InnerGuideNames,
+                    ExaflareRole.H2 when IsSecondExaflare => H2SecondInnerGuideNames,
+                    ExaflareRole.H2 when IsFirstExaflare => D1InnerGuideNames,
+                    ExaflareRole.D2 when IsSecondExaflare => D2SecondInnerGuideNames,
+                    ExaflareRole.D2 when IsFirstExaflare => D1InnerGuideNames,
+                    ExaflareRole.D3 when IsSecondExaflare => D3SecondInnerGuideNames,
+                    ExaflareRole.D3 when IsFirstExaflare => D1InnerGuideNames,
+                    ExaflareRole.D4 when IsSecondExaflare => D4SecondInnerGuideNames,
+                    ExaflareRole.D4 when IsFirstExaflare => D1InnerGuideNames,
+                    _ => null
+                };
+            }
+
+            if(IsSecondExaflare && C.SelectedRole == ExaflareRole.D3)
+            {
+                return D3SecondGuideTimeline;
+            }
+
+            if(IsSecondExaflare && C.SelectedRole == ExaflareRole.D4)
+            {
+                return D4SecondGuideTimeline;
+            }
+
+            if(IsSecondExaflare && C.SelectedRole == ExaflareRole.D2)
+            {
+                return D2SecondGuideTimeline;
+            }
+
+            if(IsSecondExaflare && C.SelectedRole == ExaflareRole.H1)
+            {
+                return H1SecondGuideNames;
+            }
+
+            if(IsSecondExaflare && C.SelectedRole == ExaflareRole.H2)
+            {
+                return H2SecondGuideNames;
+            }
+
+            if(IsFirstExaflare && C.SelectedRole is ExaflareRole.H1
+                or ExaflareRole.H2
+                or ExaflareRole.D2
+                or ExaflareRole.D3
+                or ExaflareRole.D4)
+            {
+                return D1GuideTimeline;
+            }
+
+            return GetGuideNames(C.SelectedRole);
+        }
+
+        private void SetRoleGuide(string? guideName)
+        {
+            if(activeRoleGuide == guideName) return;
+
+            OffRoleGuides();
+            if(guideName != null)
+            {
+                Controller.GetElementByName(guideName).Enabled = true;
+            }
+            activeRoleGuide = guideName;
+        }
+
+        private void OffRoleGuides()
+        {
+            foreach(var name in MtGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in MtInnerGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in StInnerGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in D1InnerGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in H1SecondInnerGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in H2SecondInnerGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in D3SecondInnerGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in D4SecondInnerGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in D2SecondInnerGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in StGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in D1GuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in H1SecondGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in H2SecondGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in D3SecondGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in D4SecondGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            foreach(var name in D2SecondGuideNames)
+            {
+                Controller.GetElementByName(name).Enabled = false;
+            }
+            activeRoleGuide = null;
+        }
+
+        private void ResetRoleGuideState()
+        {
+            roleGuideActive = false;
+            OffRoleGuides();
+        }
+
+        private void ResetExaflareTimelineState()
+        {
+            exaflareTimelineActive = false;
+            currentPatternIsOut = false;
+            waitingForExaflareCastEnd = false;
+            exaflareCastEndedAt = 0;
+            ResetRoleGuideState();
+            Off();
+        }
+
+        private void Off()
+        {
+            Controller.GetRegisteredLayouts().Each(x => x.Value.Enabled = false);
+            activeRangeLayout = null;
+        }
+
+        public override void OnSettingsDraw()
+        {
+            ImGui.SetNextItemWidth(120f);
+            if(ImGui.BeginCombo("Role", C.SelectedRole.ToString()))
+            {
+                foreach(var role in RoleOptions)
+                {
+                    if(ImGui.Selectable(role.ToString(), C.SelectedRole == role))
+                    {
+                        C.SelectedRole = role;
+                        UpdateRoleGuide();
+                    }
+                }
+                ImGui.EndCombo();
+            }
+
+            var c = C;
+
+            if(ImGui.Checkbox("Debug", ref c.DebugMode) && !c.DebugMode)
+            {
+                c.DebugOccurrenceOverride = DebugExaflareOverride.Auto;
+            }
+
+            if(c.DebugMode)
+            {
+                ImGui.SetNextItemWidth(180f);
+                if(ImGui.BeginCombo("Exaflare occurrence override", GetDebugOverrideLabel(c.DebugOccurrenceOverride)))
+                {
+                    foreach(var value in Enum.GetValues<DebugExaflareOverride>())
+                    {
+                        if(ImGui.Selectable(GetDebugOverrideLabel(value), c.DebugOccurrenceOverride == value))
+                        {
+                            c.DebugOccurrenceOverride = value;
+                        }
+                    }
+                    ImGui.EndCombo();
+                }
+
+                ImGui.TextUnformatted($"Detected occurrence: {exaflareCount}");
+                ImGui.TextUnformatted($"Effective occurrence: {EffectiveExaflareCount}");
+                ImGui.TextUnformatted($"First exaflare flag: {IsFirstExaflare}");
+                ImGui.TextUnformatted($"Second exaflare flag: {IsSecondExaflare}");
+            }
+
+            ImGui.SetNextItemWidth(400f);
+            ImGui.ColorEdit4("Color", ref c.Col);
+            ImGui.SetNextItemWidth(60f);
+            ImGui.DragFloat("Fill step", ref c.FillStep, 0.01f, 0.01f, 10);
+            ImGui.SetNextItemWidth(60f);
+            ImGui.DragFloat("Thickness", ref c.Thickness, 0.1f, 0.1f, 20f);
+        }
+
+        private static string GetDebugOverrideLabel(DebugExaflareOverride value)
+        {
+            return value switch
+            {
+                DebugExaflareOverride.First => "Force first exaflare",
+                DebugExaflareOverride.Second => "Force second exaflare",
+                _ => "Auto detection"
+            };
+        }
+
+        public class Config : IEzConfig
+        {
+            public ExaflareRole SelectedRole = ExaflareRole.None;
+            public bool DebugMode = false;
+            public DebugExaflareOverride DebugOccurrenceOverride = DebugExaflareOverride.Auto;
+            public Vector4 Col = ImGuiColors.DalamudRed;
+            public float FillStep = 0.5f;
+            public float Thickness = 4.0f;
+        }
+
+        public enum ExaflareRole
+        {
+            None,
+            MT,
+            ST,
+            H1,
+            H2,
+            D1,
+            D2,
+            D3,
+            D4
+        }
+
+        public enum DebugExaflareOverride
+        {
+            Auto,
+            First,
+            Second
+        }
+    }
+}
 ```
+
+#### Configuration - コスモアロー
+
+- Role:
+  自分のロールを設定
 
 ---
 
@@ -5739,6 +6493,8 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 
 ```json
 ~Lv2~{"Name":"開幕pull","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"be0825c6-b95d-4e07-84c1-74cb69a7e700","Name":"MT","Elements":[{"Name":"","refX":100.0,"refY":114.6,"radius":0.5,"color":3372220160,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3370581760,"thicc":4.0,"overlayText":"Stay&Pull"}]}],"DCond":6,"ElementsL":[{"Name":"","Enabled":false,"refX":100.0,"refY":114.6,"radius":0.5,"color":3372220160,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3370581760,"thicc":4.0,"overlayText":"Stay&Pull"}]}
+~Lv2~{"Name":"初期誘導位置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"c6c1af63-d5eb-437c-acde-40796d32d7b1","Name":"MT","Elements":[{"Name":"北東","type":1,"Enabled":false,"offX":1.41421,"offY":-1.41421,"color":3355508490,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"onlyTargetable":true,"onlyVisible":true},{"Name":"北西","type":1,"Enabled":false,"offX":-1.41421,"offY":-1.41421,"color":3355508490,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"onlyTargetable":true,"onlyVisible":true},{"Name":"北","type":1,"offY":-1.0,"radius":0.5,"color":3355508490,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"onlyTargetable":true,"onlyVisible":true}]}],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":10.0,"Match":"アナタはアルファであり、ワタシはオメガである。 これは最初であり、最後の検証……記録……開始……。"}],"ElementsL":[{"Name":"北東","type":1,"Enabled":false,"offX":1.41421,"offY":-1.41421,"color":3355508490,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"onlyTargetable":true,"onlyVisible":true},{"Name":"北西","type":1,"Enabled":false,"offX":-1.41421,"offY":-1.41421,"color":3355508490,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"onlyTargetable":true,"onlyVisible":true},{"Name":"北","type":1,"Enabled":false,"offY":-1.0,"radius":0.5,"color":3355508490,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7695,"refActorComparisonType":4,"onlyTargetable":true,"onlyVisible":true}]}
+~Lv2~{"Name":"パントクラトル詠唱前北誘導","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"d86d4a5f-c6fa-4a96-be7f-562f49aff476","Name":"MT","Elements":[{"Name":"北","type":1,"offY":-5.0,"radius":0.5,"color":3355508490,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"refActorNPCID":7695,"refActorComparisonType":4,"onlyTargetable":true,"onlyVisible":true,"tether":true}]}],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":12.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":45.0}],"ElementsL":[{"Name":"北","type":1,"Enabled":false,"offY":-5.0,"radius":0.5,"color":3355508490,"Filled":false,"fillIntensity":0.5,"thicc":6.0,"refActorNPCID":7695,"refActorComparisonType":4,"onlyTargetable":true,"onlyVisible":true,"tether":true}]}
 ~Lv2~{"Name":"P1 サークルプログラム 番号","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":40.0,"Match":"オメガは「サークルプログラム」の構え。"}],"ElementsL":[{"Name":"1st me","type":1,"offZ":2.76,"radius":0.0,"color":4294965504,"overlayBGColor":4294965504,"overlayTextColor":3355443200,"thicc":5.0,"overlayText":"1st","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3004],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"1st","type":1,"radius":0.0,"color":4294965504,"fillIntensity":0.39215687,"overlayBGColor":4294965504,"overlayTextColor":3355443200,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":0.0,"overlayText":"1","refActorRequireBuff":true,"refActorBuffId":[3004],"refActorComparisonType":1,"onlyVisible":true},{"Name":"2nd me","type":1,"offZ":2.76,"radius":0.0,"color":3364749567,"overlayBGColor":3364749567,"thicc":5.0,"overlayText":"2nd","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3005],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"2nd","type":1,"radius":0.0,"color":3364749567,"fillIntensity":0.5,"overlayBGColor":3364749567,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":0.0,"overlayText":"2","refActorRequireBuff":true,"refActorBuffId":[3005],"refActorComparisonType":1,"onlyVisible":true},{"Name":"3rd me","type":1,"offZ":2.76,"radius":0.0,"color":3372156928,"overlayBGColor":3372156928,"thicc":5.0,"overlayText":"3rd","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"3rd","type":1,"radius":0.0,"color":3372156928,"fillIntensity":0.5,"overlayBGColor":3372156928,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":0.0,"overlayText":"3","refActorRequireBuff":true,"refActorBuffId":[3006],"refActorComparisonType":1,"onlyVisible":true},{"Name":"4th me","type":1,"offZ":2.76,"radius":0.0,"color":3359113471,"overlayBGColor":3359113471,"thicc":5.0,"overlayText":"4th","refActorPlaceholder":["<me>"],"refActorRequireBuff":true,"refActorBuffId":[3451],"refActorComparisonType":5,"onlyVisible":true,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"4th","type":1,"radius":0.0,"color":3359113471,"fillIntensity":0.5,"overlayBGColor":3359113471,"overlayVOffset":0.8,"overlayFScale":1.5,"thicc":0.0,"overlayText":"4","refActorRequireBuff":true,"refActorBuffId":[3451],"refActorComparisonType":1,"onlyVisible":true}]}
 ~Lv2~{"Name":"P1 サークルプログラム 塔 配置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[2],"ElementsL":[{"Name":"塔 - 北","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayFScale":2.0,"thicc":3.0,"overlayText":"北 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":87.6,"DistanceMax":6.0},{"Name":"塔 - 東","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"東 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":112.4,"DistanceSourceY":100.0,"DistanceMax":6.0},{"Name":"塔 - 南","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3370974976,"overlayFScale":2.0,"thicc":3.0,"overlayText":"南 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":112.4,"DistanceMax":6.0},{"Name":"塔 - 西","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3369992447,"overlayFScale":2.0,"thicc":3.0,"overlayText":"西 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":87.6,"DistanceSourceY":100.0,"DistanceMax":6.0},{"Name":"Induced AOE / 靠近AOE","type":1,"Enabled":false,"radius":3.0,"color":4278255612,"fillIntensity":0.2,"overlayBGColor":3472883712,"overlayTextColor":4278255615,"overlayVOffset":2.0,"overlayFScale":2.0,"thicc":3.0,"refActorComparisonType":7,"includeRotation":true,"FaceMe":true,"refActorVFXPath":"vfx/lockon/eff/lockon5_t0h.avfx","refActorVFXMax":3000}]}
 ~Lv2~{"Name":"P1 サークルプログラム テザー 配置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[2],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":36.0,"Match":"オメガは「サークルプログラム」の構え。","MatchDelay":9.0}],"ElementsL":[{"Name":"塔 - 北","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"北 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":87.6,"DistanceMax":6.0,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"線 - 北","refX":100.0,"refY":87.6,"radius":2.5,"Donut":0.5,"color":3355639552,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayFScale":2.0,"thicc":4.0,"overlayText":"北 - Tether"},{"Name":"塔 - 東","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"東 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":112.4,"DistanceSourceY":100.0,"DistanceMax":6.0,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"線 - 東","refX":112.4,"refY":100.0,"radius":2.5,"Donut":0.5,"color":3355639552,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508725,"overlayFScale":2.0,"thicc":4.0,"overlayText":"東 - Tether"},{"Name":"塔 - 南","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"南 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":100.0,"DistanceSourceY":112.4,"DistanceMax":6.0,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"線 - 南","refX":100.0,"refY":112.4,"radius":2.5,"Donut":0.5,"color":3355639552,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3372218624,"overlayFScale":2.0,"thicc":4.0,"overlayText":"南 - Tether"},{"Name":"塔 - 西","type":1,"radius":2.5,"Donut":0.5,"color":4278255612,"overlayBGColor":3355443200,"overlayTextColor":3355505151,"overlayFScale":2.0,"thicc":3.0,"overlayText":"西 - Tower","refActorNPCID":2013245,"refActorComparisonType":4,"LimitDistance":true,"DistanceSourceX":87.6,"DistanceSourceY":100.0,"DistanceMax":6.0,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"線 - 西","refX":87.6,"refY":100.0,"radius":2.5,"Donut":0.5,"color":3355639552,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3372024063,"overlayFScale":2.0,"thicc":4.0,"overlayText":"西 - Tether"}]}
@@ -5995,7 +6751,7 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 ~Lv2~{"Name":"P5 デルタ 緑線(ニアー) 立ち位置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":20.0,"Match":">31624)","MatchDelay":8.0}],"ElementsL":[{"Name":"Outer","type":3,"refX":10.0,"refY":9.0,"offX":-10.0,"offY":9.0,"radius":0.0,"color":3355508480,"thicc":5.0,"refActorModelID":3775,"refActorComparisonType":1,"includeRotation":true},{"Name":"Inner","type":3,"refX":10.0,"refY":11.0,"offX":-10.0,"offY":11.0,"radius":0.0,"color":3355508480,"thicc":5.0,"refActorModelID":3775,"refActorComparisonType":1,"includeRotation":true},{"Name":"Swapper","type":1,"Enabled":false,"offY":11.0,"radius":0.0,"color":3372154880,"overlayBGColor":4278190080,"overlayTextColor":4294967295,"thicc":0.0,"overlayText":"Swappers","refActorModelID":3775,"refActorComparisonType":1,"includeRotation":true},{"Name":"コードスメール：ニアー","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508564,"thicc":0.0,"overlayText":"ニアー","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3440,3503],"refActorComparisonType":5}]}
 ~Lv2~{"Name":"P5 D1 ロケットパンチ","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ElementsL":[{"Name":"黄","type":1,"radius":0.0,"Donut":0.61,"color":3355508223,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355506687,"thicc":4.0,"overlayText":"ロケットパンチ","refActorModelID":2375,"refActorRequireCast":true,"refActorCastId":[31482],"refActorComparisonType":1,"includeHitbox":true,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"青","type":1,"radius":0.0,"Donut":0.61,"color":3368550144,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3368550144,"thicc":4.0,"overlayText":"ロケットパンチ","refActorModelID":2374,"refActorRequireCast":true,"refActorCastId":[31482],"refActorComparisonType":1,"includeHitbox":true,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"黄","type":1,"radius":0.0,"Donut":0.61,"color":3355508223,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355506687,"thicc":4.0,"overlayText":"ロケットパンチ","refActorModelID":2375,"refActorComparisonType":1,"includeHitbox":true},{"Name":"青","type":1,"radius":0.0,"Donut":0.61,"color":3368550144,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3368550144,"thicc":4.0,"overlayText":"ロケットパンチ","refActorModelID":2374,"refActorComparisonType":1,"includeHitbox":true}]}
 ~Lv2~{"Name":"P5 D1 Optical unit finder - early beam","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":28.0,"Match":">31624)","MatchDelay":8.0}],"ElementsL":[{"Name":"","type":3,"refY":25.0,"refZ":20.0,"offY":25.0,"radius":2.0,"color":4294966272,"fillIntensity":0.3,"overlayBGColor":0,"overlayTextColor":4278190080,"overlayFScale":7.0,"thicc":5.0,"overlayText":"EYE","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":3,"refX":-25.0,"refZ":20.0,"offX":-25.0,"radius":2.0,"color":4294966272,"fillIntensity":0.3,"overlayBGColor":0,"overlayTextColor":4278190080,"overlayFScale":7.0,"thicc":5.0,"overlayText":"EYE","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true,"AdditionalRotation":1.5707964}]}
-~Lv2~{"Name":"P5 D1 green spot reminder","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":20.0,"Match":">31624)","MatchDelay":25.0}],"ElementsL":[{"Name":"","type":1,"offX":-10.0,"offY":32.0,"radius":2.0,"color":4278298880,"fillIntensity":0.5,"overlayBGColor":1879857664,"thicc":5.0,"overlayText":"Green","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":1,"offX":5.0,"offY":32.0,"radius":2.0,"color":4278298880,"fillIntensity":0.5,"overlayBGColor":1879857664,"thicc":5.0,"overlayText":"Green","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":1,"offX":-10.0,"offY":58.0,"radius":2.0,"color":4278298880,"fillIntensity":0.5,"overlayBGColor":1879857664,"thicc":5.0,"overlayText":"Green","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":1,"offX":5.0,"offY":58.0,"radius":2.0,"color":4278298880,"fillIntensity":0.5,"overlayBGColor":1879857664,"thicc":5.0,"overlayText":"Green","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":3,"refX":5.0,"refY":32.0,"offX":5.0,"offY":58.0,"radius":0.0,"color":4278298880,"fillIntensity":0.5,"overlayBGColor":1879857664,"thicc":5.0,"overlayText":"Green","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":3,"refX":-10.0,"refY":32.0,"offX":-10.0,"offY":58.0,"radius":0.0,"color":4278298880,"fillIntensity":0.5,"overlayBGColor":1879857664,"thicc":5.0,"overlayText":"Green","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true}]}
+~Lv2~{"Name":"P5 D1 green spot reminder","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":20.0,"Match":">31624)","MatchDelay":25.0}],"ElementsL":[{"Name":"","type":1,"refActorRequireBuff":true,"refActorBuffId":[1672,3529],"refActorType":1,"Conditional":true,"Nodraw":true},{"Name":"","type":1,"offX":-10.0,"offY":32.0,"radius":2.0,"color":4278298880,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3359178593,"overlayFScale":2.5,"thicc":5.0,"overlayText":"        Green\\nこの後、線切り","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":1,"offX":5.0,"offY":32.0,"radius":2.0,"color":4278298880,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3359178593,"overlayFScale":2.5,"thicc":5.0,"overlayText":"           Green \\nこの後、時計回り","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":1,"offX":-10.0,"offY":58.0,"radius":2.0,"color":4278298880,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3359178593,"overlayFScale":2.5,"thicc":5.0,"overlayText":"        Green\\nこの後、線切り","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":1,"offX":5.0,"offY":58.0,"radius":2.0,"color":4278298880,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3359178593,"overlayFScale":2.5,"thicc":5.0,"overlayText":"           Green \\nこの後、時計回り","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":3,"refX":5.0,"refY":32.0,"offX":5.0,"offY":58.0,"radius":0.0,"color":4278298880,"fillIntensity":0.5,"overlayBGColor":1879857664,"thicc":5.0,"overlayText":"Green","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true},{"Name":"","type":3,"refX":-10.0,"refY":32.0,"offX":-10.0,"offY":58.0,"radius":0.0,"color":4278298880,"fillIntensity":0.5,"overlayBGColor":1879857664,"thicc":5.0,"overlayText":"Green","refActorNPCNameID":7640,"refActorComparisonType":6,"includeRotation":true}]}
 ~Lv2~{"Name":"P5 D1 Arms Turning Bait Spots","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[6],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":120.0,"Match":">31624)"}],"ElementsL":[{"Name":"right circle(レフトアームユニット)","type":1,"offY":3.0,"radius":0.5,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7637,"refActorPlaceholder":[],"refActorComparisonAnd":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":1.3962634,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_right01c.avfx","refActorVFXMax":10000},{"Name":"right line(レフトアームユニット)","type":3,"offY":3.0,"radius":0.0,"color":3355508533,"fillIntensity":0.345,"thicc":4.0,"refActorNPCID":7637,"refActorPlaceholder":[],"refActorComparisonAnd":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":1.3962634,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_right01c.avfx","refActorVFXMax":10000},{"Name":"left circle(レフトアームユニット)","type":1,"offY":3.0,"radius":0.5,"color":3355508490,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7637,"refActorPlaceholder":[],"refActorComparisonAnd":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":4.886922,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_left01c.avfx","refActorVFXMax":10000},{"Name":"left line(レフトアームユニット)","type":3,"offY":3.0,"radius":0.0,"color":3355508533,"fillIntensity":0.345,"thicc":4.0,"refActorNPCID":7637,"refActorPlaceholder":[],"refActorComparisonAnd":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":4.886922,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_left01c.avfx","refActorVFXMax":10000},{"Name":"right circle(ライトアームユニット)","type":1,"offY":3.0,"radius":0.5,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7638,"refActorPlaceholder":[],"refActorComparisonAnd":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":1.3962634,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_right01c.avfx","refActorVFXMax":10000},{"Name":"right line(ライトアームユニット)","type":3,"offY":3.0,"radius":0.0,"color":3355508533,"fillIntensity":0.345,"thicc":4.0,"refActorNPCID":7638,"refActorPlaceholder":[],"refActorComparisonAnd":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":1.3962634,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_right01c.avfx","refActorVFXMax":10000},{"Name":"left circle(ライトアームユニット)","type":1,"offY":3.0,"radius":0.5,"color":3355508490,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorNPCID":7638,"refActorPlaceholder":[],"refActorComparisonAnd":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":4.886922,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_left01c.avfx","refActorVFXMax":10000},{"Name":"left line(ライトアームユニット)","type":3,"offY":3.0,"radius":0.0,"color":3355508533,"fillIntensity":0.345,"thicc":4.0,"refActorNPCID":7638,"refActorPlaceholder":[],"refActorComparisonAnd":true,"refActorComparisonType":4,"includeRotation":true,"AdditionalRotation":4.886922,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_left01c.avfx","refActorVFXMax":10000}]}
 ~Lv2~{"Name":"P5 D1 Oversampled Wave Cannon","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[6],"ConditionalAnd":true,"DCond":5,"ElementsL":[{"Name":"Self right","type":4,"refY":40.0,"radius":4.5,"coneAngleMax":180,"color":4294705407,"fillIntensity":0.3,"overlayBGColor":3355443200,"overlayTextColor":4294967295,"overlayFScale":3.0,"thicc":5.0,"overlayText":"→","refActorPlaceholder":["<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3452],"refActorComparisonType":5,"refActorType":1,"includeRotation":true,"FillStep":10.0},{"Name":"Self left","type":4,"refY":40.0,"radius":4.5,"coneAngleMin":180,"coneAngleMax":360,"color":4294705407,"fillIntensity":0.3,"overlayBGColor":3355443200,"overlayTextColor":4294967295,"overlayFScale":3.0,"thicc":4.0,"overlayText":"←","refActorPlaceholder":["<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3453],"refActorComparisonType":5,"refActorType":1,"includeRotation":true,"FillStep":10.0},{"Name":"not デュナミスの高揚","type":1,"refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3444],"refActorComparisonType":5,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"not self エンバグ：ニアー","type":1,"refActorRequireBuff":true,"refActorBuffId":[1672,3529],"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"Omega Right","type":3,"refX":10.0,"refY":40.0,"offX":10.0,"radius":10.0,"color":4278255612,"Filled":false,"fillIntensity":0.04,"thicc":8.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31638],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"FillStep":2.0},{"Name":"Omega Right Arrow1","type":3,"refY":15.0,"offX":5.0,"offY":15.0,"radius":0.0,"color":4278255612,"fillIntensity":0.1,"thicc":16.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31638],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"LineEndB":1,"FillStep":2.0},{"Name":"Omega Right Arrow2","type":3,"refY":20.0,"offX":5.0,"offY":20.0,"radius":0.0,"color":4278255612,"fillIntensity":0.1,"thicc":16.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31638],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"LineEndB":1,"FillStep":2.0},{"Name":"Omega Right Arrow3","type":3,"refY":25.0,"offX":5.0,"offY":25.0,"radius":0.0,"color":4278255612,"fillIntensity":0.1,"thicc":16.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31638],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"LineEndB":1,"FillStep":2.0},{"Name":"Omega Right - Alignment spot","type":3,"Enabled":false,"refX":-12.0,"refY":30.0,"offX":-12.0,"offY":15.0,"radius":5.0,"color":4278190335,"fillIntensity":0.5,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31638],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"FillStep":2.0},{"Name":"Omega Left","type":3,"refX":-10.0,"refY":40.0,"offX":-10.0,"radius":10.0,"color":4278255612,"Filled":false,"fillIntensity":0.1,"thicc":8.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31639],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"FillStep":2.0},{"Name":"Omega Left Arrow1","type":3,"refY":15.0,"offX":-5.0,"offY":15.0,"radius":0.0,"color":4278255612,"fillIntensity":0.1,"thicc":16.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31639],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"LineEndB":1,"FillStep":2.0},{"Name":"Omega Left Arrow2","type":3,"refY":20.0,"offX":-5.0,"offY":20.0,"radius":0.0,"color":4278255612,"fillIntensity":0.1,"thicc":16.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31639],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"LineEndB":1,"FillStep":2.0},{"Name":"Omega Left Arrow3","type":3,"refY":25.0,"offX":-5.0,"offY":25.0,"radius":0.0,"color":4278255612,"fillIntensity":0.1,"thicc":16.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31639],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"LineEndB":1,"FillStep":2.0},{"Name":"Omega Left - Alignment spot","type":3,"Enabled":false,"refX":12.0,"refY":30.0,"offX":12.0,"offY":15.0,"radius":5.0,"color":4278190335,"fillIntensity":0.5,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31639],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"FillStep":2.0},{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":12257,"refActorRequireCast":true,"refActorCastId":[31527],"refActorUseCastTime":true,"refActorCastTimeMin":5.0,"refActorCastTimeMax":10.0,"refActorUseOvercast":true,"refActorComparisonType":4,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"and Self rightleft","type":4,"refY":40.0,"radius":4.5,"coneAngleMax":180,"color":4294705407,"fillIntensity":0.3,"overlayBGColor":3355443200,"overlayTextColor":4294967295,"overlayFScale":3.0,"thicc":5.0,"overlayText":"→","refActorPlaceholder":["<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3452,3453],"refActorComparisonType":5,"refActorType":1,"includeRotation":true,"FillStep":10.0,"Conditional":true,"Nodraw":true},{"Name":"and not 破滅の刻印","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":4278252031,"overlayFScale":2.0,"thicc":0.0,"overlayText":"逃げて","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[2534],"refActorBuffTimeMin":2.0,"refActorBuffTimeMax":7.0,"refActorComparisonType":5,"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"Omega Right 検知立ち位置","type":1,"offX":-4.5,"offY":20.0,"radius":0.5,"color":4278255413,"Filled":false,"fillIntensity":0.1,"thicc":8.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31638],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"tether":true,"FillStep":2.0},{"Name":"Omega Left 検知立ち位置","type":1,"offX":4.5,"offY":20.0,"radius":0.5,"color":4278255438,"Filled":false,"fillIntensity":0.1,"thicc":8.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31639],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"tether":true,"FillStep":2.0},{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":12257,"refActorRequireCast":true,"refActorCastId":[31527],"refActorUseCastTime":true,"refActorCastTimeMin":5.0,"refActorCastTimeMax":10.0,"refActorUseOvercast":true,"refActorComparisonType":4,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"self right","type":1,"refActorRequireBuff":true,"refActorBuffId":[3452],"refActorType":1,"Conditional":true,"Nodraw":true},{"Name":"and not 破滅の刻印","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":4278252031,"overlayFScale":2.0,"thicc":0.0,"overlayText":"逃げて","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[2534],"refActorBuffTimeMin":2.0,"refActorBuffTimeMax":7.0,"refActorComparisonType":5,"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"Omega Right Self Right","type":3,"refX":-4.5,"refY":19.0,"offX":-4.5,"offY":17.0,"radius":0.0,"color":4294770943,"Filled":false,"fillIntensity":0.1,"thicc":10.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31638],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"tether":true,"LineEndB":1,"FillStep":2.0},{"Name":"Omega Left Self Right","type":3,"refX":4.5,"refY":21.0,"offX":4.5,"offY":23.0,"radius":0.0,"color":4294770943,"Filled":false,"fillIntensity":0.1,"thicc":10.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31639],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"tether":true,"LineEndB":1,"FillStep":2.0},{"Name":"シールドコンボS キャスト中","type":1,"refActorNPCID":12257,"refActorRequireCast":true,"refActorCastId":[31527],"refActorUseCastTime":true,"refActorCastTimeMin":5.0,"refActorCastTimeMax":10.0,"refActorUseOvercast":true,"refActorComparisonType":4,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"self Left","type":1,"refActorRequireBuff":true,"refActorBuffId":[3453],"refActorType":1,"Conditional":true,"Nodraw":true},{"Name":"and not 破滅の刻印","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":4278252031,"overlayFScale":2.0,"thicc":0.0,"overlayText":"逃げて","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[2534],"refActorBuffTimeMin":2.0,"refActorBuffTimeMax":7.0,"refActorComparisonType":5,"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"Omega Right Self Left","type":3,"refX":-4.5,"refY":21.0,"offX":-4.5,"offY":23.0,"radius":0.0,"color":4294770943,"Filled":false,"fillIntensity":0.1,"thicc":10.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31638],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"tether":true,"LineEndB":1,"FillStep":2.0},{"Name":"Omega Left Self Left","type":3,"refX":4.5,"refY":19.0,"offX":4.5,"offY":17.0,"radius":0.0,"color":4294770943,"Filled":false,"fillIntensity":0.1,"thicc":10.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31639],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"tether":true,"LineEndB":1,"FillStep":2.0}]}
 ~Lv2~{"Name":"P5 D1 - Oversampled Wave Cannon explosion","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[6],"DCond":5,"UseTriggers":true,"MaxDistance":7.2,"UseDistanceLimit":true,"DistanceLimitType":1,"Triggers":[{"Type":2,"Duration":5.0,"Match":">31638)","MatchDelay":5.0},{"Type":2,"Duration":5.0,"Match":">31639)","MatchDelay":5.0}],"ElementsL":[{"Name":"Self","type":1,"Enabled":false,"radius":7.0,"color":4278255582,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"refActorRequireBuff":true,"refActorBuffId":[3440,1672],"refActorType":1},{"Name":"Others","type":1,"Enabled":false,"radius":7.0,"color":4278255582,"fillIntensity":0.3,"thicc":4.0,"refActorPlaceholder":["<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3440,1672],"refActorComparisonType":5},{"Name":"1-8","type":1,"radius":6.0,"Donut":1.0,"color":4278255582,"fillIntensity":0.5,"thicc":4.0,"refActorPlaceholder":["<2>","<3>","<4>","<5>","<6>","<7>","<8>","<1>"],"refActorRequireBuff":true,"refActorBuffId":[3440,1672],"refActorComparisonType":5}]}
@@ -6032,7 +6788,6 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 ~Lv2~{"Name":"P5 D2 Arm unit","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":8.0,"Match":">32788)","MatchDelay":58.0}],"ElementsL":[{"Name":"","type":3,"refY":40.0,"radius":3.2,"color":4294901760,"fillIntensity":0.1,"thicc":4.0,"refActorNameIntl":{"En":"arm unit","Jp":"トアームユニット"},"includeRotation":true,"onlyVisible":true}]}
 ~Lv2~{"Enabled":false,"Name":"P5 D2 Final pos","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Scenes":[6],"Freezing":true,"FreezeFor":20.0,"IntervalBetweenFreezes":20.0,"FreezeDisplayDelay":9.0,"ElementsL":[{"Name":"ATTACK 1 LEFT","type":1,"offY":-19.08,"radius":1.0,"color":4278255615,"overlayBGColor":4278253567,"overlayTextColor":4278190080,"overlayText":"ATTACK 1","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"AdditionalRotation":0.7661996,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_left01c.avfx","refActorVFXMax":1000},{"Name":"ATTACK 2 LEFT","type":1,"offY":-18.86,"radius":1.0,"color":4278255615,"overlayBGColor":4278255605,"overlayTextColor":4278190080,"overlayPlaceholders":true,"overlayText":"ATTACK 2","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"AdditionalRotation":5.5431657,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_left01c.avfx","refActorVFXMax":1000},{"Name":"ATTACK 3 LEFT","type":1,"offX":-18.8,"radius":1.0,"color":4278255615,"overlayBGColor":4278255103,"overlayTextColor":4278190080,"overlayPlaceholders":true,"overlayText":"ATTACK 3","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"AdditionalRotation":3.1415927,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_left01c.avfx","refActorVFXMax":1000},{"Name":"ATTACK 4 LEFT","type":1,"offX":19.04,"radius":1.0,"color":4278255615,"overlayBGColor":4278250239,"overlayTextColor":4278190080,"overlayPlaceholders":true,"overlayText":"ATTACK 4","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"AdditionalRotation":3.1415927,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_left01c.avfx","refActorVFXMax":1000},{"Name":"NEET 1 LEFT","type":1,"offY":18.8,"radius":1.0,"color":4278255615,"overlayBGColor":4278252031,"overlayTextColor":4278190080,"overlayPlaceholders":true,"overlayText":"NEET 1","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"AdditionalRotation":0.2617994,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_left01c.avfx","refActorVFXMax":1000},{"Name":"NEET 2 LEFT","type":1,"offX":18.7,"radius":1.0,"color":4278255615,"overlayBGColor":4278252031,"overlayTextColor":4278190080,"overlayPlaceholders":true,"overlayText":"NEET 2","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"AdditionalRotation":4.4505897,"refActorVFXPath":"vfx/common/eff/m0489_stlp_left01f_c0d1.avfx","refActorVFXMax":1000},{"Name":"near source LEFT","type":1,"offY":9.86,"radius":1.0,"color":4278225677,"overlayBGColor":4278220288,"overlayTextColor":4294967295,"thicc":5.0,"overlayText":"Near debuff","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_left01c.avfx","refActorVFXMax":1000},{"Name":"far source LEFT","type":1,"offX":-9.88,"radius":1.0,"color":4288326400,"overlayBGColor":4285363712,"overlayTextColor":4294967295,"thicc":5.0,"overlayText":"Far debuff","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_left01c.avfx","refActorVFXMax":1000},{"Name":"ATTACK 1 RIGHT","type":1,"offY":-18.86,"radius":1.0,"color":4278255615,"overlayBGColor":4278255605,"overlayTextColor":4278190080,"overlayPlaceholders":true,"overlayText":"ATTACK 1","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"AdditionalRotation":5.5431657,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_right01c.avfx","refActorVFXMax":1000},{"Name":"ATTACK 2 RIGHT","type":1,"offY":-19.08,"radius":1.0,"color":4278255615,"overlayBGColor":4278253567,"overlayTextColor":4278190080,"overlayPlaceholders":true,"overlayText":"ATTACK 2","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"AdditionalRotation":0.7661996,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_right01c.avfx","refActorVFXMax":1000},{"Name":"ATTACK 3 RIGHT","type":1,"offX":18.8,"radius":1.0,"color":4278255615,"overlayBGColor":4278255103,"overlayTextColor":4278190080,"overlayPlaceholders":true,"overlayText":"ATTACK 3","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"AdditionalRotation":3.1415927,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_right01c.avfx","refActorVFXMax":1000},{"Name":"ATTACK 4 RIGHT","type":1,"offX":-19.04,"radius":1.0,"color":4278255615,"overlayBGColor":4278250239,"overlayTextColor":4278190080,"overlayPlaceholders":true,"overlayText":"ATTACK 4","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"AdditionalRotation":3.1415927,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_right01c.avfx","refActorVFXMax":1000},{"Name":"NEET 1 RIGHT","type":1,"offY":18.8,"radius":1.0,"color":4278255615,"overlayBGColor":4278252031,"overlayTextColor":4278190080,"overlayPlaceholders":true,"overlayText":"NEET 1","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"AdditionalRotation":0.2617994,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_right01c.avfx","refActorVFXMax":1000},{"Name":"NEET 2 RIGHT","type":1,"offX":18.7,"radius":1.0,"color":4278255615,"overlayBGColor":4278252031,"overlayTextColor":4278190080,"overlayPlaceholders":true,"overlayText":"NEET 2","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"AdditionalRotation":4.4505897,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_right01c.avfx","refActorVFXMax":1000},{"Name":"near source RIGHT","type":1,"offY":9.86,"radius":1.0,"color":4278225677,"overlayBGColor":4278220288,"overlayTextColor":4294967295,"thicc":5.0,"overlayText":"Near debuff","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_right01c.avfx","refActorVFXMax":1000},{"Name":"far source RIGHT","type":1,"offX":9.88,"radius":1.0,"color":4288326400,"overlayBGColor":4285363712,"overlayTextColor":4294967295,"thicc":5.0,"overlayText":"Far debuff","refActorPlaceholder":[],"refActorNPCNameID":7639,"refActorComparisonAnd":true,"refActorComparisonType":7,"includeRotation":true,"refActorVFXPath":"vfx/lockon/eff/m0515_turning_right01c.avfx","refActorVFXMax":1000}]}
 ~Lv2~{"Name":"P6 初期AA配置 ST TLB","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"6eff132b-5041-4f48-9b92-343e5a633606","Name":"MT","Elements":[{"Name":"MT","refX":100.0,"refY":92.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"ST","Enabled":false,"refX":110.25305,"refY":110.25305,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"HD","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"コスモメモリー cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[13083,13084,13085,13122,13123,13124,13291,13292,13293,31522,31523,31524,31649],"refActorComparisonType":4,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"ST TLB","type":1,"Enabled":false,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":4278190080,"overlayTextColor":3355508712,"overlayVOffset":2.6,"overlayFScale":3.0,"thicc":0.0,"overlayText":">> TLB <<","refActorType":1},{"Name":"not コスモメモリー cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[13083,13084,13085,13122,13123,13124,13291,13292,13293,31522,31523,31524,31649],"refActorComparisonType":4,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"ST TLB(予告)","type":1,"Enabled":false,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508540,"overlayVOffset":2.6,"overlayFScale":3.0,"thicc":0.0,"overlayText":"この後TLB","refActorType":1}]},{"Guid":"9c7a8858-7e50-4209-b079-475cedaf5595","Name":"ST","Elements":[{"Name":"MT","Enabled":false,"refX":100.0,"refY":92.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"ST","refX":110.25305,"refY":110.25305,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"HD","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"コスモメモリー cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[13083,13084,13085,13122,13123,13124,13291,13292,13293,31522,31523,31524,31649],"refActorComparisonType":4,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"ST TLB","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":4278190080,"overlayTextColor":3355508712,"overlayVOffset":2.6,"overlayFScale":3.0,"thicc":0.0,"overlayText":">> TLB <<","refActorType":1},{"Name":"not コスモメモリー cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[13083,13084,13085,13122,13123,13124,13291,13292,13293,31522,31523,31524,31649],"refActorComparisonType":4,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"ST TLB(予告)","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508540,"overlayVOffset":2.6,"overlayFScale":3.0,"thicc":0.0,"overlayText":"この後TLB","refActorType":1}]},{"Guid":"d24d3e78-34f5-4a85-8d42-ed3f44225454","Name":"Healer or DPS","Elements":[{"Name":"MT","Enabled":false,"refX":100.0,"refY":92.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"ST","Enabled":false,"refX":110.25305,"refY":110.25305,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"HD","refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"コスモメモリー cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[13083,13084,13085,13122,13123,13124,13291,13292,13293,31522,31523,31524,31649],"refActorComparisonType":4,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"ST TLB","type":1,"Enabled":false,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":4278190080,"overlayTextColor":3355508712,"overlayVOffset":2.6,"overlayFScale":3.0,"thicc":0.0,"overlayText":">> TLB <<","refActorType":1},{"Name":"not コスモメモリー cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[13083,13084,13085,13122,13123,13124,13291,13292,13293,31522,31523,31524,31649],"refActorComparisonType":4,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"ST TLB(予告)","type":1,"Enabled":false,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508540,"overlayVOffset":2.6,"overlayFScale":3.0,"thicc":0.0,"overlayText":"この後TLB","refActorType":1}]}],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":20.0,"Match":"ワタシはオメガであり、アルファとともに歩む者……。 終わりを始まりとし、先へと進みます！"}],"ElementsL":[{"Name":"MT","Enabled":false,"refX":100.0,"refY":92.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"ST","Enabled":false,"refX":110.25305,"refY":110.25305,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"HD","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"コスモメモリー cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[13083,13084,13085,13122,13123,13124,13291,13292,13293,31522,31523,31524,31649],"refActorComparisonType":4,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"ST TLB","type":1,"Enabled":false,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":4278190080,"overlayTextColor":3355508712,"overlayVOffset":2.6,"overlayFScale":3.0,"thicc":0.0,"overlayText":">> TLB <<","refActorType":1},{"Name":"not コスモメモリー cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[13083,13084,13085,13122,13123,13124,13291,13292,13293,31522,31523,31524,31649],"refActorComparisonType":4,"Conditional":true,"ConditionalInvert":true,"ConditionalReset":true,"Nodraw":true},{"Name":"ST TLB(予告)","type":1,"Enabled":false,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508540,"overlayVOffset":2.6,"overlayFScale":3.0,"thicc":0.0,"overlayText":"この後TLB","refActorType":1}]}
-~Lv2~{"Name":"P6 コスモアロー 開幕立ち位置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"958d2251-48a9-410c-a906-0b852697ee24","Name":"MTD3","Elements":[{"Name":"コスモアロー cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[31650],"refActorComparisonType":4,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"H2/D4","Enabled":false,"refX":107.77817,"refY":92.22183,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"MT/D3","refX":92.22183,"refY":92.22183,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H1/D1","Enabled":false,"refX":92.22183,"refY":107.77817,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"ST/D2","Enabled":false,"refX":107.77817,"refY":107.77817,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]},{"Guid":"0bc6e92a-68ee-498a-ac3c-3283350f5703","Name":"STD2","Elements":[{"Name":"コスモアロー cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[31650],"refActorComparisonType":4,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"H2/D4","Enabled":false,"refX":107.77817,"refY":92.22183,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"MT/D3","Enabled":false,"refX":92.22183,"refY":92.22183,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H1/D1","Enabled":false,"refX":92.22183,"refY":107.77817,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"ST/D2","refX":107.77817,"refY":107.77817,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]},{"Guid":"ada14215-76a8-4368-8e19-1d09802116a9","Name":"H1D1","Elements":[{"Name":"コスモアロー cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[31650],"refActorComparisonType":4,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"H2/D4","Enabled":false,"refX":107.77817,"refY":92.22183,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"MT/D3","Enabled":false,"refX":92.22183,"refY":92.22183,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H1/D1","refX":92.22183,"refY":107.77817,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"ST/D2","Enabled":false,"refX":107.77817,"refY":107.77817,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]},{"Guid":"693b915e-b046-4ff9-9920-f1cbcc444e98","Name":"H2D4","Elements":[{"Name":"コスモアロー cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[31650],"refActorComparisonType":4,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"H2/D4","refX":107.77817,"refY":92.22183,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"MT/D3","Enabled":false,"refX":92.22183,"refY":92.22183,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H1/D1","Enabled":false,"refX":92.22183,"refY":107.77817,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"ST/D2","Enabled":false,"refX":107.77817,"refY":107.77817,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]}],"ElementsL":[{"Name":"H2/D4","Enabled":false,"refX":107.77817,"refY":92.22183,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"MT/D3","Enabled":false,"refX":92.22183,"refY":92.22183,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"H1/D1","Enabled":false,"refX":92.22183,"refY":107.77817,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true},{"Name":"ST/D2","Enabled":false,"refX":107.77817,"refY":107.77817,"radius":1.0,"color":3355508533,"Filled":false,"fillIntensity":0.5,"thicc":4.0,"tether":true}]}
 ~Lv2~{"Name":"P6 コスモダイブ 立ち位置目安","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"b13af1f4-d020-4b99-8934-83393ae84fa8","Name":"Tank","Elements":[{"Name":"コスモダイブ cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[31653,31654,31655,31656],"refActorUseCastTime":true,"refActorCastTimeMax":7.7,"refActorUseOvercast":true,"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"Tank","refX":100.0,"refY":100.0,"radius":6.0,"Donut":1.34,"color":3372160256,"fillIntensity":0.1,"thicc":4.0},{"Name":"Healer or DPS","Enabled":false,"refX":100.0,"refY":100.0,"radius":11.6,"Donut":1.34,"color":3372218624,"fillIntensity":0.1,"thicc":4.0}]},{"Guid":"d2b2eab9-8c7c-4c86-b6cc-467bf458b1fa","Name":"Healer or DPS","Elements":[{"Name":"コスモダイブ cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[31653,31654,31655,31656],"refActorUseCastTime":true,"refActorCastTimeMax":7.7,"refActorUseOvercast":true,"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"Tank","Enabled":false,"refX":100.0,"refY":100.0,"radius":6.0,"Donut":1.34,"color":3372160256,"fillIntensity":0.1,"thicc":4.0},{"Name":"Healer or DPS","refX":100.0,"refY":100.0,"radius":11.6,"Donut":1.34,"color":3372218624,"fillIntensity":0.1,"thicc":4.0}]}],"ElementsL":[{"Name":"コスモダイブ cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[31653,31654,31655,31656],"refActorUseCastTime":true,"refActorCastTimeMax":7.7,"refActorUseOvercast":true,"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"Tank","Enabled":false,"refX":100.0,"refY":100.0,"radius":6.0,"Donut":1.34,"color":3372160256,"fillIntensity":0.1,"thicc":4.0},{"Name":"Healer or DPS","Enabled":false,"refX":100.0,"refY":100.0,"radius":11.6,"Donut":1.34,"color":3372218624,"fillIntensity":0.1,"thicc":4.0}]}
 ~Lv2~{"Name":"P6 コスモメテオ 開幕立ち位置","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ElementsL":[{"Name":"コスモメテオ cast","type":1,"refActorNPCID":12256,"refActorRequireCast":true,"refActorCastId":[31664],"refActorCastTimeMax":7.7,"refActorUseOvercast":true,"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508527,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"中央へ","refActorType":1}]}
 ~Lv2~{"Name":"P6 コスモメモリー_CD6","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":0.7,"Match":"(12256>31649)"}],"ElementsL":[{"Name":"6","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"5","refActorType":1}]}
@@ -6065,14 +6820,14 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 ~Lv2~{"Name":"P6 波動砲：リミッターカット_CD3","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31660)","MatchDelay":6.7}],"ElementsL":[{"Name":"3","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"3","refActorType":1}]}
 ~Lv2~{"Name":"P6 波動砲：リミッターカット_CD2","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31660)","MatchDelay":7.7}],"ElementsL":[{"Name":"2","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508735,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"2","refActorType":1}]}
 ~Lv2~{"Name":"P6 波動砲：リミッターカット_CD1","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31660)","MatchDelay":8.7}],"ElementsL":[{"Name":"1","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443400,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"1","refActorType":1}]}
-~Lv2~{"Name":"P6 波動砲(散開)","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"c24e9c6f-21a2-4b2c-a98d-22781ea19319","Name":"MT","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"ef815998-4f0d-4aeb-92b5-82267c884cea","Name":"ST","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"bbef3f03-2d61-463c-a5ab-87b7aabb555e","Name":"H1","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"b60023ec-54c1-4bb0-b3e6-f268049458a8","Name":"H2","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"3810e28a-5037-4d30-a668-2e1f6db6c659","Name":"D1","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"ada2bc95-757f-415a-9083-9cef861fb848","Name":"D2","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"629a465e-446d-4e40-9d1c-42da5f343c52","Name":"D3","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"f961e0ef-3272-4f56-a4d0-e8c2d2d58b9b","Name":"D4","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]}],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":6.0,"Match":"(12256>31657)","MatchDelay":0.6}],"ElementsL":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]}
-~Lv2~{"Name":"P6 波動砲(散開)_CD6","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":0.6}],"ElementsL":[{"Name":"6","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"6","refActorType":1}]}
-~Lv2~{"Name":"P6 波動砲(散開)_CD5","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":1.6}],"ElementsL":[{"Name":"5","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"5","refActorType":1}]}
-~Lv2~{"Name":"P6 波動砲(散開)_CD4","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":2.6}],"ElementsL":[{"Name":"4","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"4","refActorType":1}]}
-~Lv2~{"Name":"P6 波動砲(散開)_CD3","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":3.6}],"ElementsL":[{"Name":"3","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"3","refActorType":1}]}
-~Lv2~{"Name":"P6 波動砲(散開)_CD2","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":4.6}],"ElementsL":[{"Name":"2","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508735,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"2","refActorType":1}]}
-~Lv2~{"Name":"P6 波動砲(散開)_CD1","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":5.6}],"ElementsL":[{"Name":"1","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443400,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"1","refActorType":1}]}
-~Lv2~{"Name":"P6 波動砲(頭割り)","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":4.0,"Match":"(12256>31657)","MatchDelay":6.6}],"ElementsL":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3371433728,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Stack","refActorType":1},{"Name":"頭割り","refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"tether":true}]}
+~Lv2~{"Name":"P6 波動砲(散開)","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"c24e9c6f-21a2-4b2c-a98d-22781ea19319","Name":"MT","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"ef815998-4f0d-4aeb-92b5-82267c884cea","Name":"ST","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"bbef3f03-2d61-463c-a5ab-87b7aabb555e","Name":"H1","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"b60023ec-54c1-4bb0-b3e6-f268049458a8","Name":"H2","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"3810e28a-5037-4d30-a668-2e1f6db6c659","Name":"D1","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"ada2bc95-757f-415a-9083-9cef861fb848","Name":"D2","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"629a465e-446d-4e40-9d1c-42da5f343c52","Name":"D3","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]},{"Guid":"f961e0ef-3272-4f56-a4d0-e8c2d2d58b9b","Name":"D4","Elements":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]}],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":5.1,"Match":"(12256>31657)"}],"ElementsL":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Spread","refActorType":1},{"Name":"MT","Enabled":false,"refX":100.0,"refY":90.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"MT","tether":true},{"Name":"ST","Enabled":false,"refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"overlayText":"ST","tether":true},{"Name":"H1","Enabled":false,"refX":90.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508521,"thicc":4.0,"overlayText":"H1","tether":true},{"Name":"H2","Enabled":false,"refX":110.0,"refY":100.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508484,"thicc":4.0,"overlayText":"H2","tether":true},{"Name":"D1","Enabled":false,"refX":92.92893,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D1","tether":true},{"Name":"D2","Enabled":false,"refX":107.07107,"refY":107.07107,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D2","tether":true},{"Name":"D3","Enabled":false,"refX":92.92893,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D3","tether":true},{"Name":"D4","Enabled":false,"refX":107.07107,"refY":92.92893,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508496,"thicc":4.0,"overlayText":"D4","tether":true}]}
+~Lv2~{"Name":"P6 波動砲(散開)_CD5","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.1,"Match":"(12256>31657)"}],"ElementsL":[{"Name":"5","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"5","refActorType":1}]}
+~Lv2~{"Name":"P6 波動砲(散開)_CD4","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":1.1}],"ElementsL":[{"Name":"4","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"4","refActorType":1}]}
+~Lv2~{"Name":"P6 波動砲(散開)_CD3","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":2.1}],"ElementsL":[{"Name":"3","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"3","refActorType":1}]}
+~Lv2~{"Name":"P6 波動砲(散開)_CD2","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":3.1}],"ElementsL":[{"Name":"2","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508735,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"2","refActorType":1}]}
+~Lv2~{"Name":"P6 波動砲(散開)_CD1","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":4.1}],"ElementsL":[{"Name":"1","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443400,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"1","refActorType":1}]}
+~Lv2~{"Name":"P6 波動砲(頭割り)","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":5.5,"Match":"(12256>31657)","MatchDelay":5.1}],"ElementsL":[{"Name":"テキスト","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3371433728,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"Stack","refActorType":1},{"Name":"頭割り","refX":100.0,"refY":110.0,"radius":1.0,"color":3355508503,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355639552,"thicc":4.0,"tether":true}]}
+~Lv2~{"Name":"P6 波動砲(頭割り)_CD5","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.5,"Match":"(12256>31657)","MatchDelay":5.1}],"ElementsL":[{"Name":"5","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"5","refActorType":1}]}
 ~Lv2~{"Name":"P6 波動砲(頭割り)_CD4","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":6.6}],"ElementsL":[{"Name":"4","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"4","refActorType":1}]}
 ~Lv2~{"Name":"P6 波動砲(頭割り)_CD3","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":7.6}],"ElementsL":[{"Name":"3","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508480,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"3","refActorType":1}]}
 ~Lv2~{"Name":"P6 波動砲(頭割り)_CD2","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12256>31657)","MatchDelay":8.6}],"ElementsL":[{"Name":"2","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508735,"overlayVOffset":1.3,"overlayFScale":3.0,"thicc":0.0,"overlayText":"2","refActorType":1}]}
@@ -6191,6 +6946,14 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 ~Lv2~{"Name":"P5 デルタ ファー無職_頭割り","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"ConditionalAnd":true,"ElementsL":[{"Name":"self far tether","type":1,"refActorPlaceholder":[],"refActorComparisonType":5,"refActorType":1,"refActorTether":true,"refActorTetherTimeMax":30.0,"refActorTetherParam2":225,"refActorTetherParam3":15,"refActorTetherConnectedWithPlayer":[],"Conditional":true,"Nodraw":true},{"Name":"and シールドコンボS キャスト中","type":1,"refActorNPCID":12257,"refActorRequireCast":true,"refActorCastId":[31527],"refActorUseCastTime":true,"refActorCastTimeMin":5.0,"refActorCastTimeMax":10.0,"refActorUseOvercast":true,"refActorComparisonType":4,"Conditional":true,"Nodraw":true},{"Name":"and not self 破滅の刻印","type":1,"radius":0.0,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":4278252031,"overlayFScale":2.0,"thicc":0.0,"overlayText":"逃げて","refActorPlaceholder":["<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[2534],"refActorBuffTimeMin":2.0,"refActorBuffTimeMax":7.0,"refActorComparisonType":5,"refActorType":1,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"and not Self rightleft","type":4,"refY":40.0,"radius":4.5,"coneAngleMax":180,"color":4294705407,"fillIntensity":0.3,"overlayBGColor":3355443200,"overlayTextColor":4294967295,"overlayFScale":3.0,"thicc":5.0,"overlayText":"→","refActorPlaceholder":["<2>","<3>","<4>","<5>","<6>","<7>","<8>"],"refActorRequireBuff":true,"refActorBuffId":[3452,3453],"refActorComparisonType":5,"refActorType":1,"includeRotation":true,"FillStep":10.0,"Conditional":true,"ConditionalInvert":true,"Nodraw":true},{"Name":"Omega Left 立ち位置","type":1,"offX":1.5,"offY":20.0,"radius":0.5,"color":4278255438,"Filled":false,"fillIntensity":0.1,"thicc":8.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31639],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"tether":true,"FillStep":2.0},{"Name":"Omega Right 立ち位置","type":1,"offX":-1.5,"offY":20.0,"radius":0.5,"color":4278255438,"Filled":false,"fillIntensity":0.1,"thicc":8.0,"refActorNPCNameID":7636,"refActorRequireCast":true,"refActorCastId":[31638],"refActorUseCastTime":true,"refActorCastTimeMin":3.0,"refActorCastTimeMax":999.0,"refActorComparisonType":6,"includeRotation":true,"tether":true,"FillStep":2.0}]}
 ~Lv2~{"Name":"P2 連携プログラムPT ファー KB","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":8.0,"Match":"(7635>31550)","MatchDelay":21.0}],"ElementsL":[{"Name":"self ファー","type":1,"refActorRequireBuff":true,"refActorBuffId":[3428],"refActorType":1,"Conditional":true,"Nodraw":true},{"Name":"立ち位置ライン","refX":100.0,"refY":100.0,"radius":5.9,"Donut":1.0,"color":3371433728,"fillIntensity":0.5,"thicc":4.0}]}
 ~Lv2~{"Name":"P5 シグマ ミドル/ファー KB","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":6.0,"Match":"(12257>32788)","MatchDelay":30.0}],"ElementsL":[{"Name":"self ミドル","type":1,"refActorRequireBuff":true,"refActorBuffId":[3427],"refActorType":1,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"立ち位置ライン(ミドル)","refX":100.0,"refY":100.0,"radius":3.8,"Donut":1.0,"color":3355508515,"fillIntensity":0.5,"thicc":4.0},{"Name":"self ファー","type":1,"refActorRequireBuff":true,"refActorBuffId":[3428],"refActorType":1,"Conditional":true,"ConditionalReset":true,"Nodraw":true},{"Name":"立ち位置ライン(ファー)","refX":100.0,"refY":100.0,"radius":5.9,"Donut":1.0,"color":3371433728,"fillIntensity":0.5,"thicc":4.0}]}
+~Lv2~{"Name":"P3 検知角度用","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":9.7,"Match":"(7636>31595)"},{"Type":2,"Duration":9.7,"Match":"(7636>31596)"}],"ElementsL":[{"Name":"自分に検知","type":1,"refActorRequireBuff":true,"refActorBuffId":[3452,3453],"refActorType":1,"Conditional":true,"Nodraw":true},{"Name":"十字ライン1","type":3,"refX":-1.0,"offX":1.0,"radius":0.0,"color":3355506687,"fillIntensity":0.5,"thicc":8.0,"refActorType":1},{"Name":"十字ライン2","type":3,"refY":-1.0,"offY":1.0,"radius":0.0,"color":3355506687,"fillIntensity":0.5,"thicc":8.0,"refActorType":1}]}
+~Lv2~{"Name":"P6 コスモダイブ1回目 20s軽減","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"8cd85322-071a-47ef-b5ca-dd14b9eacaf8","Name":"Enable","Elements":[{"Name":"","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"20s軽減","refActorType":1}]}],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":5.0,"Match":"(12256>31649)","MatchDelay":19.0}],"ElementsL":[{"Name":"","type":1,"Enabled":false,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508515,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"20s軽減","refActorType":1}]}
+~Lv2~{"Name":"P6 コスモダイブ1回目 15s軽減","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"74e3d7bb-3f74-4423-a9c8-ece092bd887e","Name":"Enable","Elements":[{"Name":"","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3371433728,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"15s軽減","refActorType":1}]}],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":5.0,"Match":"(12256>31649)","MatchDelay":24.0}],"ElementsL":[{"Name":"","type":1,"Enabled":false,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3371433728,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"15s軽減","refActorType":1}]}
+~Lv2~{"Name":"P6 コスモダイブ1回目 10s軽減","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"a039bd0b-3d10-4be3-bdc6-5b6c96f1ce18","Name":"Enable","Elements":[{"Name":"","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3372155100,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"10s軽減","refActorType":1}]}],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":5.0,"Match":"(12256>31649)","MatchDelay":29.0}],"ElementsL":[{"Name":"","type":1,"Enabled":false,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3372155100,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"10s軽減","refActorType":1}]}
+~Lv2~{"Name":"P6 波動砲 10秒軽減","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"61d15be3-c752-4af8-a7ae-f12972130a2b","Name":"Enable","Elements":[{"Name":"","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3372217088,"overlayVOffset":4.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"10s軽減","refActorType":1}]}],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":2.5,"Match":"(12256>31657)","MatchDelay":0.6}],"ElementsL":[{"Name":"","type":1,"Enabled":false,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3372217088,"overlayVOffset":4.0,"overlayFScale":3.0,"thicc":0.0,"overlayText":"10s軽減","refActorType":1}]}
+~Lv2~{"Name":"P5 オメガフェーズ完了_CD3","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12257>32789)","MatchDelay":58.0}],"ElementsL":[{"Name":"3","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508503,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"3","refActorType":1}]}
+~Lv2~{"Name":"P5 オメガフェーズ完了_CD2","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12257>32789)","MatchDelay":59.0}],"ElementsL":[{"Name":"2","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355508719,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"2","refActorType":1}]}
+~Lv2~{"Name":"P5 オメガフェーズ完了_CD1","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"DCond":5,"UseTriggers":true,"Triggers":[{"Type":2,"Duration":1.0,"Match":"(12257>32789)","MatchDelay":60.0}],"ElementsL":[{"Name":"1","type":1,"radius":0.0,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3355443455,"overlayVOffset":2.7,"overlayFScale":3.0,"thicc":0.0,"overlayText":"1","refActorType":1}]}
 ```
 
 ## Thanks
