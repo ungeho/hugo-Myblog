@@ -4091,7 +4091,8 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 
 **Exasquares**  
 
-公式のコスモアローのスクリプトに、ガイド表示を追加したもの。
+公式のコスモアローのスクリプトに、ガイド表示を追加したもの。  
+Configurationの設定が必要
 
 ```C#
 using Dalamud.Game.ClientState.Objects.Types;
