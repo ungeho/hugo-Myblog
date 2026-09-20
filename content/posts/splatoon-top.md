@@ -6489,7 +6489,7 @@ internal class TOP_P6_Limiter_Cut_Wave_Cannon : SplatoonScript
 > 5. `Default Configuration`を全て **自身のロール** に変更  
 >    - **自身のロール** がない場合は`Default Configuration`を選択  
 >    - `Default Configuration`は初期状態では非表示です。  
->    - `Enable` は、ロールに関係なくレイアウトを有効にする項目です。
+>    - `Enable` は、レイアウトを有効にする設定です。
 
 ```json
 ~Lv2~{"Name":"開幕pull","Group":"Ultimate The Omega Protocol","ZoneLockH":[1122],"Subconfigurations":[{"Guid":"be0825c6-b95d-4e07-84c1-74cb69a7e700","Name":"MT","Elements":[{"Name":"","refX":100.0,"refY":114.6,"radius":0.5,"color":3372220160,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3370581760,"thicc":4.0,"overlayText":"Stay&Pull"}]}],"DCond":6,"ElementsL":[{"Name":"","Enabled":false,"refX":100.0,"refY":114.6,"radius":0.5,"color":3372220160,"Filled":false,"fillIntensity":0.5,"overlayBGColor":3355443200,"overlayTextColor":3370581760,"thicc":4.0,"overlayText":"Stay&Pull"}]}
