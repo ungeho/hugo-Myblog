@@ -2685,7 +2685,7 @@ public class TOP_P2_Limitless_Synergy_LB_Tether : SplatoonScript
 }
 ```
 
-#### Configuration
+#### Configuration - P2 連携プログラムLB
 
 - Assignment  
   ロールを選択  
