@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Numerical Integration on ungehoBlog</title>
+    <title>Numerical Integration on KudryBlog</title>
     <link>http://localhost:1313/en/tags/numerical-integration/</link>
-    <description>Recent content in Numerical Integration on ungehoBlog</description>
+    <description>Recent content in Numerical Integration on KudryBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Wed, 10 Dec 2025 20:28:15 +0900</lastBuildDate>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Arcadion on ungehoBlog</title>
+    <title>Arcadion on KudryBlog</title>
     <link>http://localhost:1313/en/tags/arcadion/</link>
-    <description>Recent content in Arcadion on ungehoBlog</description>
+    <description>Recent content in Arcadion on KudryBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Tue, 10 Mar 2026 00:46:35 +0900</lastBuildDate>

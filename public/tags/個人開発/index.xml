@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>個人開発 on KudryBlog</title>
+    <link>http://localhost:1313/tags/%E5%80%8B%E4%BA%BA%E9%96%8B%E7%99%BA/</link>
+    <description>Recent content in 個人開発 on KudryBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <lastBuildDate>Mon, 26 Oct 2026 00:00:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E5%80%8B%E4%BA%BA%E9%96%8B%E7%99%BA/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>予定の中身は見せずに空き時間だけ伝えるカレンダー「TimeWeave」</title>
+      <link>http://localhost:1313/posts/timeweave-intro/</link>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/timeweave-intro/</guid>
+      <description>予定のタイトルやメモは見せず、「予定あり」と「空き時間」だけを共有リンクで伝えられるWebカレンダー「TimeWeave」。使い方と共有の仕組み、Claude CodeとChatGPTを使った開発の進め方を紹介します。</description>
+    </item>
+    <item>
+      <title>AIと最中限の強い戦略を探す — Saichugen Labで45フェーズの実験をしてみた</title>
+      <link>http://localhost:1313/posts/saichugen-lab-intro/</link>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/saichugen-lab-intro/</guid>
+      <description>真ん中を目指す3人用カードゲーム「最中限」を、Codexの補助で開発したSaichugen Labで研究。ルールの具体例から、Hybridが有望候補となった最終大会と、その結果の限界まで紹介します。</description>
+    </item>
+  </channel>
+</rss>

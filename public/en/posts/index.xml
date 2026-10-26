@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on ungehoBlog</title>
+    <title>Posts on KudryBlog</title>
     <link>http://localhost:1313/en/posts/</link>
-    <description>Recent content in Posts on ungehoBlog</description>
+    <description>Recent content in Posts on KudryBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Sun, 19 Apr 2026 15:21:44 +0900</lastBuildDate>

@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>FFXIV Splatoon Presets on ungehoBlog</title>
+    <title>FFXIV Splatoon Presets on KudryBlog</title>
     <link>http://localhost:1313/series/ffxiv-splatoon-presets/</link>
-    <description>Recent content in FFXIV Splatoon Presets on ungehoBlog</description>
+    <description>Recent content in FFXIV Splatoon Presets on KudryBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-JP</language>
-    <lastBuildDate>Fri, 15 May 2026 14:28:55 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 15 May 2026 14:39:18 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/series/ffxiv-splatoon-presets/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>汎用レイアウト</title>
+      <link>http://localhost:1313/posts/splatoon-general/</link>
+      <pubDate>Fri, 15 May 2026 14:39:18 +0900</pubDate>
+      <guid>http://localhost:1313/posts/splatoon-general/</guid>
+      <description>汎用的なSplatoonレイアウト</description>
+    </item>
     <item>
       <title>異聞アロアロ島(零式)</title>
       <link>http://localhost:1313/posts/splatoon-aloaloisland/</link>

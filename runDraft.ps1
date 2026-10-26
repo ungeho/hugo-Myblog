@@ -1,1 +1,1 @@
-hugo server -D --baseURL "http://localhost:1313/" --appendPort=false
+hugo server -D --renderToMemory --baseURL "http://localhost:1313/" --appendPort=false

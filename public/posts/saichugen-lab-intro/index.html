@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ja" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>AIと最中限の強い戦略を探す — Saichugen Labで45フェーズの実験をしてみた | KudryBlog</title>
+<meta name="keywords" content="最中限, ゲームAI, 個人開発, Codex, モンテカルロ法">
+<meta name="description" content="真ん中を目指す3人用カードゲーム「最中限」を、Codexの補助で開発したSaichugen Labで研究。ルールの具体例から、Hybridが有望候補となった最終大会と、その結果の限界まで紹介します。">
+<meta name="author" content="Kudry">
+<link rel="canonical" href="http://localhost:1313/posts/saichugen-lab-intro/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.f3a7bffe33c1feeee1f09a0cf91c1a1314fdfd1cb19a8cd894b76d80de31b2b2.css" integrity="sha256-86e//jPB/u7h8JoM&#43;RwaExT9/RyxmozYlLdtgN4xsrI=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/saichugen-lab-intro/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mathRoot = document.querySelector(".post-content") || document.body;
+        renderMathInElement(mathRoot, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+            ],
+            throwOnError: false,
+            strict: "ignore"
+        });
+    });
+</script>
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.mermaid) {
+            const isDark = document.body.classList.contains("dark");
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: isDark ? "dark" : "base",
+            });
+        }
+    });
+</script>
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header site-header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="KudryBlog (Alt + H)">KudryBlog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li class="lang-switch-separator" aria-hidden="true">|</li><li>
+                        <a href="http://localhost:1313/" class="is-active" title="Japanese"
+                            aria-label="日本語" aria-current="true">日本語</a>
+                    </li><li>
+                        <a href="http://localhost:1313/en/" class="" title="English"
+                            aria-label="English" >English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/series/" title="Series">
+                    <span>Series</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"><article class="post-single article-single"><header class="post-header article-hero">
+  <div class="breadcrumbs"><a href="http://localhost:1313/">ホーム</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+
+  <div class="article-hero-inner">
+    <div class="article-hero-copy">
+      <div class="article-taxonomy-row">
+        <a class="article-chip article-chip-series" href="http://localhost:1313/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E7%B4%B9%E4%BB%8B/">AI補助で開発したアプリの紹介</a>
+        <span class="article-chip">Programming</span>
+      </div>
+
+      <h1 class="post-title entry-hint-parent">
+        AIと最中限の強い戦略を探す — Saichugen Labで45フェーズの実験をしてみた
+      </h1>
+      <div class="post-description article-lead">
+        真ん中を目指す3人用カードゲーム「最中限」を、Codexの補助で開発したSaichugen Labで研究。ルールの具体例から、Hybridが有望候補となった最終大会と、その結果の限界まで紹介します。
+      </div>
+      <div class="post-meta article-meta"><span title='2026-10-15 00:00:00 +0900 JST'>2026/10/15</span>&nbsp;·&nbsp;17 分&nbsp;·&nbsp;Kudry
+
+</div>
+    </div>
+  </div>
+</header>
+ 
+
+  <div class="article-layout">
+    <div class="article-main">
+      <div class="post-content"><div class="update-note update-note-blue">
+  <div class="update-note-label">AI補助で執筆</div>
+  <div class="update-note-body">Codexの補助を利用して開発・実験を進めた <code>Saichugen Lab</code> を、AIの補助で記事にまとめました。内容は2026年10月15日時点の実装・テスト・研究記録と、最終大会の保存結果に基づいています。</div>
+</div>
+
+<section class="article-summary-card">
+  <div class="article-summary-label">この記事のポイント</div>
+  <div class="article-summary-body">
+    <ul>
+<li>最中限は、カード・ラウンド得点・最終得点のそれぞれで「真ん中」が重要になる3人用ゲーム</li>
+<li>45フェーズをかけて、ルールの再現から戦略比較、実験の信頼性を調べる環境まで開発した</li>
+<li>最終大会ではHybridが観測上の首位。ただし必勝法や、統計的に確証された最強戦略は見つかっていない</li>
+</ul>
+
+  </div>
+</section>
+
+<a class="link-card" href="https://github.com/ungeho/saichugen-lab" target="_blank" rel="noopener noreferrer">
+  <span class="link-card-meta">Repository</span>
+  <span class="link-card-title">GitHub: ungeho/saichugen-lab</span><span class="link-card-desc">最中限の対戦・戦略比較・局面分析を行う研究アプリです。</span><span class="link-card-arrow" aria-hidden="true">→</span>
+</a>
+
+<h2 id="今回はゲームの強い戦略を探すアプリ">今回は、ゲームの「強い戦略」を探すアプリ<a hidden class="anchor" aria-hidden="true" href="#今回はゲームの強い戦略を探すアプリ">#</a></h2>
+<p>一番強いカードを出せば勝てる。そんなゲームなら、方針は分かりやすいですよね。ところが、今回研究した「最中限」は、<strong>最後に得点が真ん中になった人が勝つ</strong>ゲームです。点を取りすぎても、取らなさすぎても困ります。</p>
+<p><a href="https://ungeho.netlify.app/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E7%B4%B9%E4%BB%8B/">AI補助で開発したアプリの紹介シリーズ</a>で取り上げてきた便利ツールやブラウザゲームとは少し違い、今回の <code>Saichugen Lab</code> は、そのゲームで強い戦略を探すための研究環境です。AI戦略を対戦させ、同じ局面から別の札を試し、結果を見返すところまで作りました。</p>
+<p>開発と実験は45フェーズに及び、最後に既存戦略同士のトーナメントを実施しました。先に結論を書くと、<strong><code>hybrid_combined</code> が暫定的な最有力候補として残りました。ただし、最強と証明できたわけではありません。</strong></p>
+<p>まずは、この少し変わったゲームのルールから紹介します。</p>
+<h2 id="最中限は3段階で真ん中を目指すゲーム">最中限は、3段階で「真ん中」を目指すゲーム<a hidden class="anchor" aria-hidden="true" href="#最中限は3段階で真ん中を目指すゲーム">#</a></h2>
+<p>ここで説明するのは、GPCC資料・公開二次資料と研究論文をもとにした、Saichugen Labの現行ルールです。正式な原案全文との完全一致までは確認できていません。詳しい確認状況は<a href="https://github.com/ungeho/saichugen-lab/blob/main/docs/current-rules.md">採用ルール</a>にまとめています。</p>
+<h3 id="52枚を3人に配り毎ターン1枚ずつ出す">52枚を3人に配り、毎ターン1枚ずつ出す<a hidden class="anchor" aria-hidden="true" href="#52枚を3人に配り毎ターン1枚ずつ出す">#</a></h3>
+<p>使うのはジョーカーを除いたトランプ52枚。3人に17枚ずつ配り、余った1枚は裏向きで除外します。相手の手札は見えません。</p>
+<p>各ターン、全員が手札から好きな1枚を選び、3枚がそろってから同時に公開します。先に出た札と同じスートを出す、といった制約はありません。3ターンで1ラウンド、5ラウンドで1ゲームなので、合計15ターン。最後には各自2枚が手札に残ります。</p>
+<p>カードは数字が大きいほど強く、<strong>Kが最強、Aが最弱</strong>です。数字が同じ場合に限って、<strong>スペード &gt; ハート &gt; ダイヤ &gt; クラブ</strong>で比べます。つまり、♣Kは♠Qより強く、♠7は♥7より強い、という順序です。</p>
+<h3 id="ターンでは2番目に強いカードの人が得点する">ターンでは、2番目に強いカードの人が得点する<a hidden class="anchor" aria-hidden="true" href="#ターンでは2番目に強いカードの人が得点する">#</a></h3>
+<p>たとえば、3人が♠2・♣8・♥Kを出したとします。</p>
+<figure>
+    <img loading="lazy" src="/images/posts/saichugen-lab/card-middle.svg"
+         alt="P1の♠2、P2の♣8、P3の♥Kを弱い順に並べると中央はP2の♣8。P2だけがラウンド得点8点を得る。" width="600"/> 
+</figure>
+
+<p>この場合、中央にある♣8を出した人だけが、<strong>ラウンド得点を8点</strong>獲得します。Kを出した人は0点です。点数はA=1、J=11、Q=12、K=13で、スートによる加点はありません。</p>
+<p>同じ数字ならスートが効きます。♣7・♥7・♠7なら、2番目は♥7。♥7の人が7点を得ます。カードの強さには同点がないので、ターンの得点者は必ず1人です。</p>
+<h3 id="ラウンドでは3ターン分の得点が真ん中の人だけ加算する">ラウンドでは、3ターン分の得点が真ん中の人だけ加算する<a hidden class="anchor" aria-hidden="true" href="#ラウンドでは3ターン分の得点が真ん中の人だけ加算する">#</a></h3>
+<p>ここが、もうひとひねりあるところです。ターンで取った点が、そのまま最終得点に積み上がるわけではありません。</p>
+<p>3ターンが終わったら、そのラウンドの得点を比べます。<strong>真ん中の得点と同じ人全員が、自分のラウンド得点を累積得点へ加算</strong>します。他の人は加算できず、全員のラウンド得点を0に戻して次へ進みます。</p>
+<p>たとえば、次の3ターンを考えてみます。どのカードも重複していません。</p>
+<table>
+  <thead>
+      <tr>
+          <th>ターン</th>
+          <th>P1</th>
+          <th>P2</th>
+          <th>P3</th>
+          <th>ラウンド得点を得る人</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>♣8</td>
+          <td>♣K</td>
+          <td>♣A</td>
+          <td>P1が8点</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>♦A</td>
+          <td>♦8</td>
+          <td>♦K</td>
+          <td>P2が8点</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>♥A</td>
+          <td>♥K</td>
+          <td>♣3</td>
+          <td>P3が3点</td>
+      </tr>
+  </tbody>
+</table>
+<p>ラウンド得点は <strong>8・8・3</strong>。真ん中の値は8なので、P1とP2がそれぞれ8点を累積得点へ加算し、P3は加算なしです。</p>
+<p>逆に、1人だけが3ターンとも取ってラウンド得点が <strong>0・0・12</strong> になると、真ん中は0。0点の2人がラウンドの勝者ですが、加算できるのも自分の0点なので、誰の累積得点も増えません。たくさんターンを取った人が報われるとは限らないわけです。</p>
+<h3 id="最後は5ラウンドの累積得点で真ん中なら勝ち">最後は、5ラウンドの累積得点で真ん中なら勝ち<a hidden class="anchor" aria-hidden="true" href="#最後は5ラウンドの累積得点で真ん中なら勝ち">#</a></h3>
+<p>5ラウンド終了時に累積得点を比べ、中央の値と同点の全員がゲームの勝者になります。</p>
+<p>累積得点が <strong>10・25・40</strong> なら25点の人が勝ち。<strong>10・10・4</strong> なら10点の2人が共同勝利、<strong>6・6・6</strong> なら全員が勝者です。同点を席順で決着させることはありません。</p>
+<figure>
+    <img loading="lazy" src="/images/posts/saichugen-lab/scoring-flow.svg"
+         alt="ターンで中央のカードの数値をラウンド得点へ。3ターン後、中央のラウンド得点と同じ人全員が自分の点を累積へ。5ラウンド後、累積得点が中央の人全員が勝者になる。" width="600"/> 
+</figure>
+
+<p><strong>「今のターンで2番目のカードを出すこと」と「最後の累積得点で真ん中になること」は、別の目標です。</strong> その間にラウンドの判定がある、と考えると整理しやすいと思います。</p>
+<h2 id="強いカードを出すだけではうまくいかない">強いカードを出すだけでは、うまくいかない<a hidden class="anchor" aria-hidden="true" href="#強いカードを出すだけではうまくいかない">#</a></h2>
+<p>このルールだと、「取れるときは全部取る」という方針は危なそうです。今のラウンドで点を取りすぎると累積へ加算できず、累積へ加算できても、最後に最多得点になれば負けてしまいます。</p>
+<p>しかも、相手の手札は分かりません。Kも、相手が2枚とも低い札なら強すぎて得点できませんし、残しておけば後で役立つとも限りません。いつ高い札を使い、いつ低い札を使うかという手札の管理も必要です。</p>
+<p>見るべきものは自分の点だけでもありません。自分が中間にいても、相手2人のどちらが次に点を取るかで位置関係は変わります。<strong>目先の得点、残りの手札、3人の得点配置を同時に考える</strong>ところに、最中限の難しさと面白さがあります。</p>
+<h2 id="先行研究から終盤と目先の判断を考える">先行研究から、終盤と目先の判断を考える<a hidden class="anchor" aria-hidden="true" href="#先行研究から終盤と目先の判断を考える">#</a></h2>
+<p>最中限には、計算機で戦略を調べた先行研究があります。副田俊介・田中哲朗による<a href="https://ipsj.ixsq.nii.ac.jp/records/58572">「最中限の終盤の分析」</a>（2003年）です。</p>
+<p>論文の紙面33、4.1〜4.2節では、最初の4ラウンドをランダムに進め、最終ラウンドで全探索するプログラムを説明しています。全探索とは、対象となる選択肢をすべて調べる方法です。相手の出札を等確率と仮定し、同じプログラム3つを1,000ゲーム対戦させています。紙面33以降では、終盤開始時の得点関係と最終的な報酬・勝率の関係を分析しています。</p>
+<p>ここで関心を持ったのは、<strong>終盤に真ん中にいることと、その状態を保つための行動は、どうつながるのか</strong>という問題です。今回の研究では、今のターンを取りやすい札と、最後の結果がよさそうな札を同じ局面で比較する方向へ進みました。</p>
+<p>ただし、今回の有限回のシミュレーションは、論文の全探索とは異なります。先行研究の成果を今回新たに発見したものと扱ったり、異なる実験条件の数字をそのまま比較したりはしていません。</p>
+<h2 id="saichugen-labは対戦を眺めて終わらない研究環境">Saichugen Labは、対戦を眺めて終わらない研究環境<a hidden class="anchor" aria-hidden="true" href="#saichugen-labは対戦を眺めて終わらない研究環境">#</a></h2>
+<p><figure class="article-media">
+  <a class="article-media-link" href="/images/posts/saichugen-lab/overview.png" data-lightbox-trigger>
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/images/posts/saichugen-lab/overview.png" alt="Saichugen Labの研究ダッシュボード。概要、対戦・比較、戦略研究、実験・証拠、資料の入口が並ぶ。" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="1440" height="1000" />
+  </a>
+</figure>
+</p>
+<p>概要画面は、対戦から研究・実験へ移動するための入口になっています。以下の画像は、実際のアプリを起動して撮影したものです。詳細な文字は画像を開いて拡大できます。</p>
+<p>Saichugen Labでは、人間が参加する対戦とAI同士の観戦に加え、公開されたカードの履歴や得点の推移を確認できます。アルゴリズム図鑑から各戦略の考え方を読み、詳細記録を有効にした対戦では、候補の評価や選択理由をたどれます。</p>
+<p>研究で特に便利なのは、<strong>同じ局面を複数の戦略に見せて、どの札を選ぶか比べられること</strong>です。さらに、候補カードを起点に残りのゲームをシミュレーションし、推定勝率や終局報酬を見る分岐シミュレーションもあります。通常の対戦を進めずに「あの札を出していたら」を調べられます。</p>
+<p><figure class="article-media">
+  <a class="article-media-link" href="/images/posts/saichugen-lab/strategy-comparison.png" data-lightbox-trigger>
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/images/posts/saichugen-lab/strategy-comparison.png" alt="同一局面のアルゴリズム比較画面。自分の17枚の手札に対して、Random、Greedy、Conservative、ScoreAware、Heuristicが選んだカードをグループ表示している。" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="1096" height="3033" />
+  </a>
+</figure>
+</p>
+<p>この画面例では、Randomが♦J、GreedyとScoreAwareが♠7、Conservativeが♣A、Heuristicが♥6を選んでいます。これは機能説明のための初期局面の比較で、最終大会の成績を示す実験ではありません。</p>
+<p>相手の手札については、自分の手札・公開済みカード・残り枚数と矛盾しない候補を一様に作って評価します。実際の相手の隠れた手札をAIに渡しているわけではありません。一方、相手の行動の癖から手札の可能性を重み付けする推定までは行っていません。</p>
+<p>研究用ダッシュボード、実験条件の登録、結果の集計、保存履歴の再表示、JSON出力も実装しています。ただし、公開リポジトリに過去の研究用DBを同梱しているわけではないので、ソースを取得するだけで今回の保存結果が履歴に現れるわけではありません。起動方法は<a href="https://github.com/ungeho/saichugen-lab#readme">README</a>を参照してください。</p>
+<h2 id="試した戦略はどう取るかと先をどう読むか">試した戦略は、「どう取るか」と「先をどう読むか」<a hidden class="anchor" aria-hidden="true" href="#試した戦略はどう取るかと先をどう読むか">#</a></h2>
+<h3 id="randomscoreawareheuristic">Random・ScoreAware・Heuristic<a hidden class="anchor" aria-hidden="true" href="#randomscoreawareheuristic">#</a></h3>
+<p><strong>Random</strong>は、出せるカードから同じ確率で1枚を選びます。工夫を入れた戦略を比べるための基準です。</p>
+<p><strong>ScoreAware</strong>は、現在の<strong>ラウンド得点</strong>を見ます。自分がその中央値以下ならターンを取りに行き、上なら避ける方針に切り替えます。相手が未知札から無作為に出すモデルで、各札が2番目になる確率を計算します。名前から累積得点まで見るように感じますが、現行実装はそうではありません。</p>
+<p><strong>Heuristic</strong>は、あらかじめ決めた評価式で札を選びます。ラウンド得点に加えて累積得点も確認し、累積で自分が中央より上なら獲得を避ける方針にします。さらに、相手のラウンド得点と残りターンから作る目標への予想距離、残す手札のランク7からの平均距離も評価に入れています。最後の項は実装上の手札評価であり、温存の効果が証明されたという意味ではありません。</p>
+<h3 id="monte-carlo-rolloutは仮想の続きを何度も試す">Monte Carlo Rolloutは、仮想の続きを何度も試す<a hidden class="anchor" aria-hidden="true" href="#monte-carlo-rolloutは仮想の続きを何度も試す">#</a></h3>
+<p>Monte Carlo Rolloutは、候補の札を出した後のゲームを何度も最後まで進め、その結果の平均で選ぶ方式です。Monte Carloは乱数を使った試行、Rolloutは局面から先を進めるシミュレーション、と考えると分かりやすいと思います。</p>
+<p>$$
+\hat{V}(a)=\frac{1}{N}\sum_{i=1}^{N}R_i(a)
+$$</p>
+<p>候補カード $a$ を出した仮想対局を $N$ 回行い、その終局報酬 $R_i(a)$ の平均を、カードのよさの推定値にする、という式です。現行の通常Rolloutは各候補に同じ試行回数を使い、平均報酬が最大の札を選びます。</p>
+<p>相手の手札も、以後のプレイも仮定を含みます。未来が正確に分かる仕組みではなく、どの仮定で試したかが結果に効きます。</p>
+<h3 id="hybridはheuristicの優先順位と探索の配分を組み合わせる">Hybridは、Heuristicの優先順位と探索の配分を組み合わせる<a hidden class="anchor" aria-hidden="true" href="#hybridはheuristicの優先順位と探索の配分を組み合わせる">#</a></h3>
+<p>最終大会に参加した <strong><code>hybrid_combined</code></strong> は、Heuristicと探索の配分を組み合わせたものです。処理の流れは次のようになっています。</p>
+<ol>
+<li>全候補を最低1回ずつシミュレーションする。</li>
+<li>それまでの平均報酬に加え、試行の少ない候補も調べるための補正で、追加試行の候補を決める。</li>
+<li>その配分値にHeuristicの順位による小さな優先項を加える。優先項は、その候補の試行数が増えるほど弱くする。</li>
+<li>最後は、シミュレーションの<strong>平均終局報酬だけ</strong>で札を選ぶ。</li>
+</ol>
+<p>2の考え方はUCB型の配分と呼ばれます。今よさそうな候補を調べつつ、まだ十分に試していない候補にも機会を与える方法です。</p>
+<p>大会で使った設定は、<strong>1判断全体で仮想対局64回、各候補最低1回、その後の全席のプレイはRandom、時間制限なし</strong>です。64回は候補1枚ごとの回数ではありません。Heuristicの点数を終局報酬に足して最終選択する仕組みでもありません。</p>
+<p>この説明は、<a href="https://github.com/ungeho/saichugen-lab/blob/main/backend/src/strategy_arena/strategies/hybrid.py">Hybrid本体</a>のcombined方式と、<a href="https://github.com/ungeho/saichugen-lab/blob/main/backend/src/strategy_arena/strategies/baselines.py">基本戦略</a>を確認したものです。</p>
+<h2 id="45フェーズで戦略研究から実験基盤の整備まで進んだ">45フェーズで、戦略研究から実験基盤の整備まで進んだ<a hidden class="anchor" aria-hidden="true" href="#45フェーズで戦略研究から実験基盤の整備まで進んだ">#</a></h2>
+<p>45フェーズを振り返ると、大きくは次の流れになりました。</p>
+<p>まずゲームをコードで再現し、カード比較や同点処理をテストしました。次に基本戦略とRolloutを追加し、隠れた手札を考慮して候補を評価できるようにしました。</p>
+<p>中盤では、<strong>目先の2番目を取りに行く判断と、終局報酬を重視する判断が異なる局面</strong>を調べました。自分が累積で真ん中にいる状態を集め、相手間の得点差や、中間順位から外れるまでの点差も比較しています。ただし、点差を広げること自体が強い戦略だと実証できたわけではありません。<a href="https://github.com/ungeho/saichugen-lab/blob/main/docs/phase27.md">Phase 27〜30の記録</a>には、局面収集から判断の安定性を調べる過程が残っています。</p>
+<p>その後は、シミュレーション回数と判断品質、計算時間の関係へ関心が移りました。Adaptive Samplingでは、判断が十分明確に見えるなら早めに打ち切って計算を減らすことを試しています。ただし、<strong>速度と強さの明確な優位性は確認できませんでした</strong>。</p>
+<p>後半には、計測そのものの負荷、実験が時間内に終わるかの予測、同じ配札から得た複数の局面の扱い、結果の保存費用まで調べています。<a href="https://github.com/ungeho/saichugen-lab/blob/main/docs/phase37.md">Phase 37</a>から<a href="https://github.com/ungeho/saichugen-lab/blob/main/docs/phase44.md">Phase 44</a>にかけては、強い戦略を新たに作るより、比較を信頼できる形に整える作業が多くなりました。</p>
+<p>これは研究環境としての成果です。一方で、<strong>実験基盤が整ったことと、強い戦略が見つかったことは別</strong>です。最後は既存の戦略を同じ大会に参加させ、何が言えるところまで来たのかを確認しました。</p>
+<h2 id="最終大会ではhybridが観測上の首位になった">最終大会では、Hybridが観測上の首位になった<a hidden class="anchor" aria-hidden="true" href="#最終大会ではhybridが観測上の首位になった">#</a></h2>
+<h3 id="平均終局報酬は最後の勝敗を数値にしたもの">平均終局報酬は、最後の勝敗を数値にしたもの<a hidden class="anchor" aria-hidden="true" href="#平均終局報酬は最後の勝敗を数値にしたもの">#</a></h3>
+<p>大会の主指標は、累積得点の多さではなく<strong>平均終局報酬</strong>です。研究で採用した終局報酬は、勝者が1人なら勝者+2・敗者各−1、勝者が2人なら勝者各+1・敗者−2、全員勝者なら全員0です。</p>
+<p>これはゲーム終了後の評価用の数字で、累積得点に加算して勝者を決め直すものではありません。平均が高いほど、この報酬基準でよい結果を得た、という読み方をします。勝率そのものでもありません。</p>
+<h3 id="12配札768試合を約5分で比較した">12配札、768試合を約5分で比較した<a hidden class="anchor" aria-hidden="true" href="#12配札768試合を約5分で比較した">#</a></h3>
+<p>最終大会ではRandom・Heuristic・ScoreAware・hybrid_combinedの4戦略を比較しました。同じ戦略が複数席に入る組合せも含めて<strong>20の対戦構成</strong>を作り、重複のない席順へ展開すると、1配札あたり<strong>64の割当</strong>になります。</p>
+<p>独立に用意した配札は<strong>12</strong>。そのそれぞれで64試合を行い、合計は<strong>768試合</strong>です。各戦略について同じ配札内の全出場席の報酬を平均し、その後12配札を同じ重みで平均しています。相手2席の16通りの順序構成が、各戦略で均等になる比較です。</p>
+<p>実験時間は<strong>291.078秒</strong>。Hybridの判断中に行った派生対局は<strong>552,960</strong>、その中で進めたシミュレーション手番は<strong>4,423,680</strong>でした。768試合とは別に、その判断のための計算が行われています。</p>
+<h3 id="平均報酬はhybridが04323">平均報酬はHybridが+0.4323<a hidden class="anchor" aria-hidden="true" href="#平均報酬はhybridが04323">#</a></h3>
+<figure>
+    <img loading="lazy" src="/images/posts/saichugen-lab/tournament-rewards.svg"
+         alt="4戦略の平均終局報酬をゼロ基準で比べた横棒グラフ。hybrid_combinedは&#43;0.4323、ScoreAwareは−0.1163、Heuristicは−0.1285、Randomは−0.1875。細線は12配札単位の探索的95%区間で、正式な採用判定の境界とは異なる。" width="600"/> 
+</figure>
+
+<table>
+  <thead>
+      <tr>
+          <th>観測順位</th>
+          <th>戦略</th>
+          <th style="text-align: right">平均終局報酬</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>hybrid_combined</td>
+          <td style="text-align: right">+0.4323</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>ScoreAware</td>
+          <td style="text-align: right">−0.1163</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>Heuristic</td>
+          <td style="text-align: right">−0.1285</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td>Random</td>
+          <td style="text-align: right">−0.1875</td>
+      </tr>
+  </tbody>
+</table>
+<p>Hybridの探索的95%区間は <strong>+0.3403〜+0.5260</strong>。配札を単位に再抽出して平均を計算し直す、ブートストラップという方法で得た区間です。この少数配札での推定のばらつきを見るためのもので、真の値がこの範囲に95%の確率であるという意味ではありません。</p>
+<p>Randomとの差は、Hybridの+0.4323からRandomの−0.1875を引いて求めます。</p>
+<p>$$
+\Delta = +0.6198
+$$</p>
+<p>Hybridの平均終局報酬が、この大会ではRandomより約0.62高かった、ということです。同じ配札同士を対応させた差の探索的95%区間は <strong>+0.4097〜+0.8160</strong> でした。</p>
+<p>Hybridの平均判断時間は<strong>29.64ms</strong>。詳細な計算量の記録を作る時間も含む実測値で、軽量戦略より計算コストは高くなっています。今回の大会は計算時間を同一にそろえた比較ではありません。</p>
+<p><figure class="article-media">
+  <a class="article-media-link" href="/images/posts/saichugen-lab/tournament-results.png" data-lightbox-trigger>
+    <img class="article-media-image" loading="lazy" decoding="async" fetchpriority="low" src="/images/posts/saichugen-lab/tournament-results.png" alt="保存済み最終大会の実画面。Completed、12配札・768試合、4戦略の観測順位、探索的区間、対応差、研究終了判定Cを表示。" sizes="(min-width: 1080px) 860px, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2rem)" width="1096" height="1550" />
+  </a>
+</figure>
+</p>
+<p>こちらは保存済みの大会結果を再表示した実画面です。撮影のために大会を再実行したものではありません。</p>
+<h3 id="有望と優位性を確認できたは分ける">「有望」と「優位性を確認できた」は分ける<a hidden class="anchor" aria-hidden="true" href="#有望と優位性を確認できたは分ける">#</a></h3>
+<p>グラフを見るとHybridはかなりよさそうです。ただし、ここで「最強AIができた」とは言えません。</p>
+<p>まず、<strong>768試合は768個の独立した配札ではありません</strong>。同じ手札を席替えや相手構成の変更で繰り返し使っています。独立した配札は12なので、試合数の大きさだけで結果の確かさを判断できません。</p>
+<p>また、4戦略から首位を選び、複数の差を比べると、偶然よく見える結果を選ぶ可能性が増えます。これが多重比較の問題です。大会では、全6対比をまとめて扱う保守的な基準を結果を見る前に固定しました。分布を仮定しないHoeffding境界にBonferroni補正を組み合わせたもので、少数配札ではかなり厳しい基準です。</p>
+<p><strong>探索的95%区間では正の差が見えても、この事前基準は満たしていません。</strong> 結果を見て判定方法を都合よく変更せず、正式な研究終了判定は次のままにしました。</p>
+<blockquote>
+    <p><strong>C：Randomに対する優位性未確認として終了</strong></p>
+
+</blockquote><p>これは、観測された改善の兆候を否定する意味ではありません。「今回の4戦略・12配札ではHybridが最も有望だった」と「事前に決めた厳格な基準で優位性が確認できた」は、異なる結論です。</p>
+<p>さらに、研究用の比較対象だった<strong>Fixed128は不参加</strong>です。通常のRollout戦略は候補あたり最大64試行で、128試行を拒否します。研究用のFixed128局面評価を、そのまま通常対戦の登録戦略として使うこともできません。大会の時間・派生対局予算とは別に、この試行上限と実装上の制約がありました。したがってHybridとFixed128の優劣も不明です。</p>
+<p>今回の対戦相手の構成、単一の政策乱数設定、単一の計測環境という範囲も残ります。詳細な条件・全対比・計算量は<a href="https://github.com/ungeho/saichugen-lab/blob/main/docs/phase45.md">Phase 45の記録</a>で確認できます。</p>
+<h2 id="分かったこととまだ分からないこと">分かったことと、まだ分からないこと<a hidden class="anchor" aria-hidden="true" href="#分かったこととまだ分からないこと">#</a></h2>
+<p>今回できたのは、最中限のルールを再現し、目先の得点と最後の報酬を分けて戦略を調べられる環境です。最終大会では戦略間の成績差が観測され、<strong>Hybridが暫定的な最有力候補</strong>として残りました。</p>
+<p>一方、シミュレーションを増やすだけで、毎回判断がよくなるとは確認できませんでした。少数試行の揺れだけでなく、その後のプレイをどの戦略で進めるかという仮定にも影響されます。128回の評価で選んだ札も、真の最適手の正解ラベルではありません。</p>
+<p>早く打ち切るAdaptive Samplingにも、明確な速度・強さの優位性を主張できる根拠は得られていません。探索の節約、実時間の短縮、報酬の維持は、それぞれ確認が必要でした。</p>
+<p>そして、同じ条件をそろえ、結果を保存し、未完了実験や都合の悪い結果も区別して残すことには、多くの作業が必要でした。AIの補助で機能を増やせても、それがどの研究上の問いに答えるのかは、繰り返し確認する必要があると感じます。</p>
+<h2 id="再開するなら次に確かめたいこと">再開するなら、次に確かめたいこと<a hidden class="anchor" aria-hidden="true" href="#再開するなら次に確かめたいこと">#</a></h2>
+<p>研究はPhase 45で一区切りにしました。再開は決まっていませんが、取り組むなら次の課題があります。</p>
+<ul>
+<li><strong>独立配札を増やすこと。</strong> 12配札で残った不確実性を、新しい配札と事前に固定した条件で確かめたいところです。</li>
+<li><strong>Fixed128との直接比較。</strong> 通常対戦に参加できる実装と予算を別途用意しない限り、Hybridとの優劣は判断できません。</li>
+<li><strong>Hybridがよかった理由の分析。</strong> どんな得点配置で、どの札に計算を配り、他の戦略と違う判断をしたのか。平均成績だけでは勝因までは分かりません。</li>
+<li><strong>相手が変わったときの頑健性。</strong> Random継続を仮定した判断が、行動傾向の違う相手にも通用するかを調べる余地があります。</li>
+<li><strong>計算量と強さのバランス。</strong> 軽量戦略と探索戦略を、同じ時間予算でも比較したいところです。</li>
+<li><strong>目先の2番目と、最後の真ん中の関係。</strong> 今は譲る方がよいのか、どちらの相手に点が入ると有利なのか。今回の局面分析だけで、汎用的な戦術として答えられたわけではありません。</li>
+</ul>
+<p>再開する場合も、今回の結果や終了判定を後から書き換えず、新しい目的と評価条件を用意することになります。</p>
+<h2 id="aiの補助で研究を進めるという経験">AIの補助で研究を進める、という経験<a hidden class="anchor" aria-hidden="true" href="#aiの補助で研究を進めるという経験">#</a></h2>
+<p>今回の開発では、Codexの補助を利用しながら、個人でもルールの実装から実験基盤の整備、戦略評価まで進められました。対戦を眺めるだけでなく、判断の違いを調べて結果を保存できる環境が残ったのは、ひとつの成果です。</p>
+<p>同時に、<strong>AIに多くの開発を任せられることと、研究の目的に近づいていることは別</strong>でした。計測や保存を改善する作業にも意味はありますが、それだけで強い戦略の問いに答えたことにはなりません。</p>
+<p>45フェーズを経て得られたのは、必勝法ではなく、有望な暫定候補と、まだ確かめきれていない問いでした。今回はその状態を率直に残し、研究を一区切りにします。</p>
+
+
+      </div><footer class="post-footer article-footer"><section class="article-footer-section article-series-nav-section">
+    <h2 class="article-footer-heading">シリーズ内ナビ</h2>
+    <nav class="series-nav"><a class="series-nav-link series-nav-prev" href="/posts/qrsheet-intro/">
+        <span class="series-nav-label">シリーズ前へ</span>
+        <span class="series-nav-title">AI補助で開発したQRコード一覧PDF作成アプリ「QRSheet」</span>
+      </a><a class="series-nav-center" href="http://localhost:1313/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E7%B4%B9%E4%BB%8B/">
+        <span class="series-nav-label">Series</span>
+        <span class="series-nav-title">AI補助で開発したアプリの紹介</span>
+      </a><a class="series-nav-link series-nav-next" href="/posts/timeweave-intro/">
+        <span class="series-nav-label">シリーズ次へ</span>
+        <span class="series-nav-title">予定の中身は見せずに空き時間だけ伝えるカレンダー「TimeWeave」</span>
+      </a></nav>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Series</h2>
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/series/ai%E8%A3%9C%E5%8A%A9%E3%81%A7%E9%96%8B%E7%99%BA%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E7%B4%B9%E4%BB%8B/">AI補助で開発したアプリの紹介</a></li>
+    </ul>
+  </section>
+  <section class="article-footer-section">
+    <h2 class="article-footer-heading">Tags</h2>
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/%E6%9C%80%E4%B8%AD%E9%99%90/">最中限</a></li>
+      <li><a href="http://localhost:1313/tags/%E3%82%B2%E3%83%BC%E3%83%A0ai/">ゲームAI</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%80%8B%E4%BA%BA%E9%96%8B%E7%99%BA/">個人開発</a></li>
+      <li><a href="http://localhost:1313/tags/codex/">Codex</a></li>
+      <li><a href="http://localhost:1313/tags/%E3%83%A2%E3%83%B3%E3%83%86%E3%82%AB%E3%83%AB%E3%83%AD%E6%B3%95/">モンテカルロ法</a></li>
+    </ul>
+  </section>
+<section class="article-footer-section article-related-section">
+  <h2 class="article-footer-heading">Related Posts</h2>
+  <div class="article-related-grid">
+    <a class="article-related-card" href="/posts/timeweave-intro/">
+      <span class="article-related-series">AI補助で開発したアプリの紹介</span>
+      <span class="article-related-title">予定の中身は見せずに空き時間だけ伝えるカレンダー「TimeWeave」</span>
+      <span class="article-related-meta">カレンダー</span>
+    </a>
+    <a class="article-related-card" href="/posts/qrsheet-intro/">
+      <span class="article-related-series">AI補助で開発したアプリの紹介</span>
+      <span class="article-related-title">AI補助で開発したQRコード一覧PDF作成アプリ「QRSheet」</span>
+      <span class="article-related-meta">QRコード</span>
+    </a>
+    <a class="article-related-card" href="/posts/image-converter-intro/">
+      <span class="article-related-series">AI補助で開発したアプリの紹介</span>
+      <span class="article-related-title">AI補助で開発した画像変換アプリ「Image Converter」</span>
+      <span class="article-related-meta">画像変換</span>
+    </a>
+  </div>
+</section>
+
+  <section class="article-footer-section">
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/timeweave-intro/">
+    <span class="title">« 前へ</span>
+    <br>
+    <span>予定の中身は見せずに空き時間だけ伝えるカレンダー「TimeWeave」</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/qrsheet-intro/">
+    <span class="title">次へ »</span>
+    <br>
+    <span>AI補助で開発したQRコード一覧PDF作成アプリ「QRSheet」</span>
+  </a>
+</nav>
+
+  </section>
+  <section class="article-footer-section">
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share AIと最中限の強い戦略を探す — Saichugen Labで45フェーズの実験をしてみた on x"
+            href="https://x.com/intent/tweet/?text=AI%e3%81%a8%e6%9c%80%e4%b8%ad%e9%99%90%e3%81%ae%e5%bc%b7%e3%81%84%e6%88%a6%e7%95%a5%e3%82%92%e6%8e%a2%e3%81%99%20%e2%80%94%20Saichugen%20Lab%e3%81%a745%e3%83%95%e3%82%a7%e3%83%bc%e3%82%ba%e3%81%ae%e5%ae%9f%e9%a8%93%e3%82%92%e3%81%97%e3%81%a6%e3%81%bf%e3%81%9f&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fsaichugen-lab-intro%2f&amp;hashtags=%e6%9c%80%e4%b8%ad%e9%99%90%2c%e3%82%b2%e3%83%bc%e3%83%a0AI%2c%e5%80%8b%e4%ba%ba%e9%96%8b%e7%99%ba%2cCodex%2c%e3%83%a2%e3%83%b3%e3%83%86%e3%82%ab%e3%83%ab%e3%83%ad%e6%b3%95">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+</section>
+</footer>
+
+    </div>
+<aside class="article-sidebar" aria-label="記事ナビゲーション">
+  <div class="article-sidebar-inner">
+    <div class="reading-progress-card">
+      <div class="reading-progress-label">
+        <span>Reading progress</span>
+        <span class="reading-progress-value" data-reading-progress-value>0%</span>
+      </div>
+      <div class="reading-progress-track" aria-hidden="true">
+        <span class="reading-progress-bar" data-reading-progress-bar></span>
+      </div>
+    </div>
+    <div class="article-jump-nav" data-article-jump-nav hidden></div><div class="toc toc-card" data-toc-card>
+    <details open data-toc-details>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目次</span>
+        </summary>
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#今回はゲームの強い戦略を探すアプリ">今回は、ゲームの「強い戦略」を探すアプリ</a></li>
+    <li><a href="#最中限は3段階で真ん中を目指すゲーム">最中限は、3段階で「真ん中」を目指すゲーム</a>
+      <ul>
+        <li><a href="#52枚を3人に配り毎ターン1枚ずつ出す">52枚を3人に配り、毎ターン1枚ずつ出す</a></li>
+        <li><a href="#ターンでは2番目に強いカードの人が得点する">ターンでは、2番目に強いカードの人が得点する</a></li>
+        <li><a href="#ラウンドでは3ターン分の得点が真ん中の人だけ加算する">ラウンドでは、3ターン分の得点が真ん中の人だけ加算する</a></li>
+        <li><a href="#最後は5ラウンドの累積得点で真ん中なら勝ち">最後は、5ラウンドの累積得点で真ん中なら勝ち</a></li>
+      </ul>
+    </li>
+    <li><a href="#強いカードを出すだけではうまくいかない">強いカードを出すだけでは、うまくいかない</a></li>
+    <li><a href="#先行研究から終盤と目先の判断を考える">先行研究から、終盤と目先の判断を考える</a></li>
+    <li><a href="#saichugen-labは対戦を眺めて終わらない研究環境">Saichugen Labは、対戦を眺めて終わらない研究環境</a></li>
+    <li><a href="#試した戦略はどう取るかと先をどう読むか">試した戦略は、「どう取るか」と「先をどう読むか」</a>
+      <ul>
+        <li><a href="#randomscoreawareheuristic">Random・ScoreAware・Heuristic</a></li>
+        <li><a href="#monte-carlo-rolloutは仮想の続きを何度も試す">Monte Carlo Rolloutは、仮想の続きを何度も試す</a></li>
+        <li><a href="#hybridはheuristicの優先順位と探索の配分を組み合わせる">Hybridは、Heuristicの優先順位と探索の配分を組み合わせる</a></li>
+      </ul>
+    </li>
+    <li><a href="#45フェーズで戦略研究から実験基盤の整備まで進んだ">45フェーズで、戦略研究から実験基盤の整備まで進んだ</a></li>
+    <li><a href="#最終大会ではhybridが観測上の首位になった">最終大会では、Hybridが観測上の首位になった</a>
+      <ul>
+        <li><a href="#平均終局報酬は最後の勝敗を数値にしたもの">平均終局報酬は、最後の勝敗を数値にしたもの</a></li>
+        <li><a href="#12配札768試合を約5分で比較した">12配札、768試合を約5分で比較した</a></li>
+        <li><a href="#平均報酬はhybridが04323">平均報酬はHybridが+0.4323</a></li>
+        <li><a href="#有望と優位性を確認できたは分ける">「有望」と「優位性を確認できた」は分ける</a></li>
+      </ul>
+    </li>
+    <li><a href="#分かったこととまだ分からないこと">分かったことと、まだ分からないこと</a></li>
+    <li><a href="#再開するなら次に確かめたいこと">再開するなら、次に確かめたいこと</a></li>
+    <li><a href="#aiの補助で研究を進めるという経験">AIの補助で研究を進める、という経験</a></li>
+  </ul>
+</nav></div>
+    </details>
+</div>
+
+  </div>
+</aside>
+
+  </div>
+</article>
+    </main>
+    
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span>&copy; 2026 <a href="http://localhost:1313/">KudryBlog</a></span>
+        </div>
+        <div class="footer-meta">
+            <span>ネトゲが趣味の人の個人ブログ</span>
+            <span>
+                Powered by
+                <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+                <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+            </span>
+        </div>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><script>
+  window.postEnhancementLabels = {
+    nowReading: "\"NOW READING\"",
+    prev: "\"Prev\"",
+    next: "\"Next\"",
+    showMore: "\"続きを見る\"",
+    showLess: "\"たたむ\"",
+    closeImageViewer: "\"画像ビューアを閉じる\"",
+    close: "\"閉じる\""
+  };
+</script><script defer crossorigin="anonymous" src="/js/post-enhancements.min.af9431c1c9f27f4f8e7b3c194935fd3eb8a0db35498094124ee3b8cce459e332.js" integrity="sha256-r5Qxwcnyf0&#43;OezwZSTX9Prig2zVJgJQSTuO4zORZ4zI="></script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

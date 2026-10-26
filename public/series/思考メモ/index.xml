@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>思考メモ on ungehoBlog</title>
+    <title>思考メモ on KudryBlog</title>
     <link>http://localhost:1313/series/%E6%80%9D%E8%80%83%E3%83%A1%E3%83%A2/</link>
-    <description>Recent content in 思考メモ on ungehoBlog</description>
+    <description>Recent content in 思考メモ on KudryBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-JP</language>
     <lastBuildDate>Fri, 02 Jan 2026 18:06:28 +0900</lastBuildDate>

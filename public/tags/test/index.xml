@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Test on ungehoBlog</title>
+    <title>Test on KudryBlog</title>
     <link>http://localhost:1313/tags/test/</link>
-    <description>Recent content in Test on ungehoBlog</description>
+    <description>Recent content in Test on KudryBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-JP</language>
     <lastBuildDate>Mon, 22 Jan 2024 19:01:13 +0900</lastBuildDate>

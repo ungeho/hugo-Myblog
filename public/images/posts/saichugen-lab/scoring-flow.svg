@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 690" role="img" aria-labelledby="title">
+<title id="title">ターンからラウンド、累積得点、最終勝者への流れ</title>
+<rect width="600" height="690" rx="20" fill="#f8fafc"/>
+<g font-family="'Noto Sans JP','Yu Gothic',Meiryo,sans-serif" fill="#172033">
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#475569"/></marker></defs>
+<g fill="white" stroke="#94a3b8" stroke-width="2">
+<rect x="25" y="20" width="550" height="130" rx="16"/>
+<rect x="25" y="192" width="550" height="130" rx="16"/>
+<rect x="25" y="364" width="550" height="130" rx="16"/>
+<rect x="25" y="536" width="550" height="130" rx="16" fill="#dcfce7" stroke="#15803d"/>
+</g>
+<g text-anchor="middle" font-size="26">
+<text x="300" y="58" font-weight="700">① 毎ターン：カード3枚を比較</text>
+<text x="300" y="96">中央のカードの人が、その数値を獲得</text>
+<text x="300" y="132">例：♠2・♣8・♥K → P2に8点</text>
+<text x="300" y="230" font-weight="700">② 3ターン後：ラウンド得点を比較</text>
+<text x="300" y="268">中央と同点の人全員が、自分の点を加算</text>
+<text x="300" y="304">例：8・8・3 → 累積へ +8・+8・0</text>
+<text x="300" y="402" font-weight="700">③ 次のラウンドへ</text>
+<text x="300" y="440">ラウンド得点は0へ、累積得点は保持</text>
+<text x="300" y="476">これを5ラウンド、計15ターン</text>
+<text x="300" y="574" font-weight="700">④ 最後：累積得点を比較</text>
+<text x="300" y="612">中央と同点の人全員がゲームの勝者</text>
+<text x="300" y="648">例：10・25・40 → 25点の人が勝ち</text>
+</g>
+<g stroke="#475569" stroke-width="3" marker-end="url(#arrow)"><path d="M300 153V181"/><path d="M300 325V353"/><path d="M300 497V525"/></g></g></svg>

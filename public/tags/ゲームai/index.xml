@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ゲームAI on KudryBlog</title>
+    <link>http://localhost:1313/tags/%E3%82%B2%E3%83%BC%E3%83%A0ai/</link>
+    <description>Recent content in ゲームAI on KudryBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <lastBuildDate>Thu, 15 Oct 2026 00:00:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E3%82%B2%E3%83%BC%E3%83%A0ai/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AIと最中限の強い戦略を探す — Saichugen Labで45フェーズの実験をしてみた</title>
+      <link>http://localhost:1313/posts/saichugen-lab-intro/</link>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/saichugen-lab-intro/</guid>
+      <description>真ん中を目指す3人用カードゲーム「最中限」を、Codexの補助で開発したSaichugen Labで研究。ルールの具体例から、Hybridが有望候補となった最終大会と、その結果の限界まで紹介します。</description>
+    </item>
+  </channel>
+</rss>

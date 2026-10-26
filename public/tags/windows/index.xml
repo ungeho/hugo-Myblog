@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Windows on KudryBlog</title>
+    <link>http://localhost:1313/tags/windows/</link>
+    <description>Recent content in Windows on KudryBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-JP</language>
+    <lastBuildDate>Tue, 29 Sep 2026 00:00:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI補助で開発したQRコード一覧PDF作成アプリ「QRSheet」</title>
+      <link>http://localhost:1313/posts/qrsheet-intro/</link>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/qrsheet-intro/</guid>
+      <description>複数の文字列からQRコードと元の文字列をまとめたPDFを作れるWindowsアプリ「QRSheet」。入力から保存までの使い方と、カード配置・余白の調整方法を紹介します。</description>
+    </item>
+  </channel>
+</rss>

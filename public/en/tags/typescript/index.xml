@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>TypeScript on ungehoBlog</title>
+    <title>TypeScript on KudryBlog</title>
     <link>http://localhost:1313/en/tags/typescript/</link>
-    <description>Recent content in TypeScript on ungehoBlog</description>
+    <description>Recent content in TypeScript on KudryBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Mon, 06 Apr 2026 01:05:00 +0900</lastBuildDate>

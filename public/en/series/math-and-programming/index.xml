@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Math and Programming on ungehoBlog</title>
+    <title>Math and Programming on KudryBlog</title>
     <link>http://localhost:1313/en/series/math-and-programming/</link>
-    <description>Recent content in Math and Programming on ungehoBlog</description>
+    <description>Recent content in Math and Programming on KudryBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Sun, 14 Dec 2025 12:13:06 +0900</lastBuildDate>

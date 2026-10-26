@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Preset on ungehoBlog</title>
+    <title>Preset on KudryBlog</title>
     <link>http://localhost:1313/en/tags/preset/</link>
-    <description>Recent content in Preset on ungehoBlog</description>
+    <description>Recent content in Preset on KudryBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Sun, 21 Dec 2025 16:08:27 +0900</lastBuildDate>
