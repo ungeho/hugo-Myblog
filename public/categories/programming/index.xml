@@ -65,13 +65,6 @@
       <description>AI補助で開発した LAN 内専用のローカルライブラリ / 漫画ビュワー「LAN Library」を、機能や使いどころとあわせて紹介します。</description>
     </item>
     <item>
-      <title>技術記事サンプル</title>
-      <link>http://localhost:1313/posts/sample-tech-article/</link>
-      <pubDate>Sat, 04 Apr 2026 09:20:00 +0900</pubDate>
-      <guid>http://localhost:1313/posts/sample-tech-article/</guid>
-      <description>技術記事テンプレートの実戦寄りサンプル。summary、steps、compare、code、table の使い方をまとめています。</description>
-    </item>
-    <item>
       <title>星形正多角形</title>
       <link>http://localhost:1313/posts/regularstarpolygon/</link>
       <pubDate>Sun, 14 Dec 2025 12:13:06 +0900</pubDate>

@@ -457,31 +457,6 @@
 &lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt; と &lt;code&gt;Waymark Preset Plugin&lt;/code&gt; は導入済みであることを前提とします。&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Test Waymark</title>
-      <link>http://localhost:1313/posts/test-waymark/</link>
-      <pubDate>Thu, 09 Apr 2026 10:22:19 +0900</pubDate>
-      <guid>http://localhost:1313/posts/test-waymark/</guid>
-      <description>&lt;section class=&#34;article-summary-card&#34;&gt;
-  &lt;div class=&#34;article-summary-label&#34;&gt;この記事の内容&lt;/div&gt;
-  &lt;div class=&#34;article-summary-body&#34;&gt;
-    &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;XIVLauncher&lt;/code&gt;の&lt;code&gt;Waymark Preset Plugin&lt;/code&gt;のプリセット集&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Waymark Preset Plugin&lt;/code&gt;経由で任意のフィールドマーカーを入手&lt;/li&gt;
-&lt;li&gt;コードブロックからプリセットをコピー&lt;/li&gt;
-&lt;/ul&gt;
-
-  &lt;/div&gt;
-&lt;/section&gt;
-
-&lt;a class=&#34;link-card&#34; href=&#34;[/posts/example/]%28https://github.com/Infiziert90/WaymarkPresetPlugin%29&#34;&gt;
-  &lt;span class=&#34;link-card-meta&#34;&gt;Repository&lt;/span&gt;
-  &lt;span class=&#34;link-card-title&#34;&gt;Waymark Preset Plugin&lt;/span&gt;&lt;span class=&#34;link-card-desc&#34;&gt;Waymark Preset Pluginのリポジトリ&lt;/span&gt;&lt;span class=&#34;link-card-arrow&#34; aria-hidden=&#34;true&#34;&gt;→&lt;/span&gt;
-&lt;/a&gt;
-
-&lt;h2 id=&#34;導入方法&#34;&gt;導入方法&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;XIVLauncher&lt;/code&gt;と&lt;code&gt;Waymark Preset Plugin&lt;/code&gt;は導入済みであることを前提とします。&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>ヘビー級零式4層</title>
       <link>http://localhost:1313/posts/m12s/</link>
       <pubDate>Tue, 10 Mar 2026 00:46:35 +0900</pubDate>
@@ -515,76 +490,6 @@
       <pubDate>Sun, 21 Dec 2025 16:08:27 +0900</pubDate>
       <guid>http://localhost:1313/posts/exdoomtrain/</guid>
       <description>7.4 極向けの Splatoon Layout と使用メモです。</description>
-    </item>
-    <item>
-      <title>モブハント用</title>
-      <link>http://localhost:1313/posts/hunts/</link>
-      <pubDate>Fri, 13 Sep 2024 03:13:38 +0900</pubDate>
-      <guid>http://localhost:1313/posts/hunts/</guid>
-      <description>モブハントで使う補助情報や Sonar / Faloop の設定メモをまとめた記事です。</description>
-    </item>
-    <item>
-      <title>The Arcadion Savage Preset</title>
-      <link>http://localhost:1313/posts/the_arcadion_savage/</link>
-      <pubDate>Thu, 01 Aug 2024 07:27:05 +0900</pubDate>
-      <guid>http://localhost:1313/posts/the_arcadion_savage/</guid>
-      <description>アルカディア零式の Splatoon Preset をまとめた下書き用メモです。</description>
-    </item>
-    <item>
-      <title>異聞アロアロ島 Splatoon Layout</title>
-      <link>http://localhost:1313/posts/aloalo_island-splatoonpresets/</link>
-      <pubDate>Fri, 22 Mar 2024 20:21:08 +0900</pubDate>
-      <guid>http://localhost:1313/posts/aloalo_island-splatoonpresets/</guid>
-      <description>異聞アロアロ島向けの Splatoon Layout と利用メモです。</description>
-    </item>
-    <item>
-      <title>異聞六根山 Splatoon Layout</title>
-      <link>http://localhost:1313/posts/mount_rokkkon-splatoonpresets/</link>
-      <pubDate>Mon, 04 Mar 2024 18:25:44 +0900</pubDate>
-      <guid>http://localhost:1313/posts/mount_rokkkon-splatoonpresets/</guid>
-      <description>異聞六根山向けの Splatoon Layout と導入メモです。</description>
-    </item>
-    <item>
-      <title>異聞シラディハ Splatoon Layout</title>
-      <link>http://localhost:1313/posts/sildihn-splatoonpresets/</link>
-      <pubDate>Sat, 24 Feb 2024 04:44:03 +0900</pubDate>
-      <guid>http://localhost:1313/posts/sildihn-splatoonpresets/</guid>
-      <description>異聞シラディハ水道向けの Splatoon Layout と導入メモです。</description>
-    </item>
-    <item>
-      <title>絶竜詩戦争 Splatoon Layout</title>
-      <link>http://localhost:1313/posts/dsr-splatoonpresets/</link>
-      <pubDate>Wed, 07 Feb 2024 03:59:51 +0900</pubDate>
-      <guid>http://localhost:1313/posts/dsr-splatoonpresets/</guid>
-      <description>絶竜詩戦争向けの Splatoon Layout と導入用メモです。</description>
-    </item>
-    <item>
-      <title>YesAlreadyPreset</title>
-      <link>http://localhost:1313/posts/yesalreadypreset/</link>
-      <pubDate>Sun, 28 Jan 2024 18:09:26 +0900</pubDate>
-      <guid>http://localhost:1313/posts/yesalreadypreset/</guid>
-      <description>YesAlreadyPreset の設定メモと利用例をまとめた記事です。</description>
-    </item>
-    <item>
-      <title>絶アルテマ Splatoon Layout</title>
-      <link>http://localhost:1313/posts/umu-splatoonpresets/</link>
-      <pubDate>Sat, 27 Jan 2024 04:20:49 +0900</pubDate>
-      <guid>http://localhost:1313/posts/umu-splatoonpresets/</guid>
-      <description>絶アルテマウェポン破壊作戦向けの Splatoon Layout と導入メモです。</description>
-    </item>
-    <item>
-      <title>FF14の座標の計算方法と豆知識</title>
-      <link>http://localhost:1313/posts/splatooncoord/</link>
-      <pubDate>Sat, 27 Jan 2024 03:15:32 +0900</pubDate>
-      <guid>http://localhost:1313/posts/splatooncoord/</guid>
-      <description>FF14 の座標計算や Splatoon / Waymark 用の layout 作成に役立つ豆知識をまとめています。</description>
-    </item>
-    <item>
-      <title>絶バハムート Splatoon Layout</title>
-      <link>http://localhost:1313/posts/ucob-splatoonpresets/</link>
-      <pubDate>Sat, 27 Jan 2024 02:39:08 +0900</pubDate>
-      <guid>http://localhost:1313/posts/ucob-splatoonpresets/</guid>
-      <description>絶バハムート討滅戦向けの Splatoon Layout と導入メモです。</description>
     </item>
   </channel>
 </rss>

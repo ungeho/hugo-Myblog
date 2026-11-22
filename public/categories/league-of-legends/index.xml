@@ -15,12 +15,5 @@
       <guid>http://localhost:1313/posts/lol-cooldown-overlay-intro/</guid>
       <description>League of Legends 用の敵スキルクールダウン手動管理オーバーレイ「LoL Cooldown Overlay」を、AI補助で開発したアプリとして紹介します。</description>
     </item>
-    <item>
-      <title>Lux</title>
-      <link>http://localhost:1313/posts/lol-lux/</link>
-      <pubDate>Sun, 26 May 2024 17:00:04 +0900</pubDate>
-      <guid>http://localhost:1313/posts/lol-lux/</guid>
-      <description>League of Legends の Lux に関する個人用メモです。</description>
-    </item>
   </channel>
 </rss>

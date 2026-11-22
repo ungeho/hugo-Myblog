@@ -138,6 +138,16 @@ https://github.com/paissaheavyindustries/Dalamud-Repo/raw/main/repo.json
 
 ## Script
 
+### スクリプトの設定がうまくいかない場合
+
+スクリプトのアップデートにより、こちらに記載している手順では正しく設定できない場合があります。
+
+その場合は、製作者様のブログや公式GitHubに最新の設定方法が掲載されている可能性がありますので、以下のリンクをご参照ください。
+
+- [**Splatoon公式（Scripts）**](https://github.com/PunishXIV/Splatoon/tree/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol)  
+- [**[6.4] 絶オメガ検証戦 - Mirage**](https://exatrines.github.io/splatoon/presets/top/)  
+  スクリプトの製作者が by mirage と表記されている場合は、mirage様のブログを参照することをおすすめします。
+
 ### P1 サークルプログラム
 
 **TOP P1 Program Loop Priority With Self Priority**  
@@ -4022,10 +4032,31 @@ TK様による`LilyDoll Macro Configuraton`
 https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/P5_Dynamis_Sigma_Hello_World.cs
 ```
 
-#### Configuration - シグマ ハロワ
+#### Saved Configurations - シグマ ハロワ
 
-1. `P5 Dynamis Sigma Hello World`の設定を開く  
-2. `Import Japanese Strat`をクリックする
+- **リリド用設定**
+
+**①リリド（アーム誘導攻撃12,ファー誘導攻撃34,ニアー誘導空気読み）**  
+
+```json
+{"TargetScriptName":"SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol@P5_Dynamis_Sigma_Hello_World","ConfigurationName":"絶オメガ_LilyDoll","Configuration":"G48EYJwHto0sPzVvKFg/SLUCSN+72v21588BTWT887a2fLgC7sqwsTKjthUKUiKpakgMkVRO9g68e4m8WTKJhPhqbg3Rh3pY31tzbUIfsXK/ibNmbHyia9V/ePhzmaGKETpM2iCXtkKHybrJf2KPAx2Ki3OyhADd9NTt7yNGX5O3Or0/q4ntziON8i9pXwklMDjpbwmpeA5eRi+C0qs143tPQElv4Tn7qHCtbNGsG78DfQwVETuSXCl3CEwufRiTynjuTutY8eGqua9YgHB46mJ6U2xPVPmRNg0Ft54Iw+rsocYhxSnYqheueipQNKx+Dp7IKag7LCz0ncz2Sy4ZpkOBtzGAnWUohmnXuzBklkDeDpACpUE=","Overrides":null}
+```
+
+**②リリド（アーム誘導攻撃12,ファー誘導攻撃34,ニアー誘導攻撃56）**  
+
+```json
+{"TargetScriptName":"SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol@P5_Dynamis_Sigma_Hello_World","ConfigurationName":"絶オメガ_LilyDoll + Near Attack[5,6]","Configuration":"G5EEYCwObOcIqbmHTtm0HqRSoe+9dn8tb6ma0P6iBrsoCNlmgtkO4+Y8rq6vMUCNzLCxsunPPY+e4EgTR7vhcCIZ3oLVVIED/GnbkshH7Wj7njPRYJ9o7n4Tiz6ZN2rZHx7+yAfHSwAgBJMMbQBEHepvjDSaU0iQDsqSNfhdT9F+V0+It9j98jitSdifx3VegZU+wce53w2aIOPYFGcl1vT5zgQ8SY3MGEW0KiybtvMD6DkUOXtcIURiYEwyCPgSMjocAI0YNt19pWwMz4eYfwT0Ft74zKYlA8cgDc3ZVWGKHEDbbjNUt5a05PU9R2UJ2oCFJV2D3KZLUtI0vdEWhoTBOjye6eWWhlIVSLUfEinDPQI=","Overrides":null}
+```
+
+- **導入手順**
+
+1. 上記のJSONから、使用したい設定をコピーします。
+2. `P5 Dynamis Sigma Hello World` の歯車アイコンを選択します。
+3. `Saved Configurations` タブを開きます。
+4. `Paste from clipboard` をクリックし、コピーした設定をインポートします。
+5. `絶オメガ_LilyDoll` または `絶オメガ_LilyDoll + Near Attack[5,6]` を選択します。
+6. 選択した設定が緑色になっていることを確認します。
+7. `Close and save configuraiton` を選択して、設定を保存します。
 
 #### Registered Elements - シグマ ハロワ
 
@@ -4071,10 +4102,11 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 
 #### Configuration - オメガ ハロワ
 
-**空気読み処理（マーカー非依存時）の設定**  
-ニア誘導およびテザー誘導の候補を、ロールの割り当てやデュナミスデバフのパラメーターに基づいて選出し、誘導位置候補2ヶ所を同時に表示するよう変更します。  
-
 **マーカー処理を使用する場合、この設定は不要です。**
+
+{{< collapse summary="空気読み処理（マーカー非依存時）の設定" >}}
+
+ニア誘導およびテザー誘導の候補を、ロールの割り当てやデュナミスデバフのパラメーターに基づいて選出し、誘導位置候補2ヶ所を同時に表示するよう変更します。  
 
 - Spread1  
   - Resolve Bait Near without Marker.Tether to 2 BaitNear Positions  
@@ -4084,6 +4116,8 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
     **チェックする**
   - Resolve BaitTether by status.(Dynamis 3 stack).Tether to 2 BaitTether Positions.  
     **チェックする**
+
+{{< /collapse >}}
 
 ---
 

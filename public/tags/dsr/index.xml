@@ -15,12 +15,5 @@
       <guid>http://localhost:1313/posts/splatoon-dsr/</guid>
       <description>絶竜詩戦争のSplatoonレイアウト</description>
     </item>
-    <item>
-      <title>絶竜詩、教皇庁フェーズ予習</title>
-      <link>http://localhost:1313/posts/dsr_pre_p1_vault/</link>
-      <pubDate>Thu, 01 Feb 2024 05:09:18 +0900</pubDate>
-      <guid>http://localhost:1313/posts/dsr_pre_p1_vault/</guid>
-      <description>絶竜詩戦争の教皇庁フェーズに入る前に確認したい要点をまとめた予習メモです。</description>
-    </item>
   </channel>
 </rss>

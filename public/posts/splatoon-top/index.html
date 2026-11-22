@@ -198,7 +198,7 @@
       <div class="post-description article-lead">
         絶オメガ検証戦のSplatoonレイアウト
       </div>
-      <div class="post-meta article-meta"><span title='2026-04-19 15:51:01 +0900 JST'>2026/04/19</span>&nbsp;·&nbsp;1496 分&nbsp;·&nbsp;Kudry
+      <div class="post-meta article-meta"><span title='2026-04-19 15:51:01 +0900 JST'>2026/04/19</span>&nbsp;·&nbsp;1498 分&nbsp;·&nbsp;Kudry
 
 </div>
     </div>
@@ -308,6 +308,14 @@
 導入後の <strong>設定は不要</strong> です。</p>
 <h4 id="custom-plugin-repository">Custom Plugin Repository<a hidden class="anchor" aria-hidden="true" href="#custom-plugin-repository">#</a></h4>
 <div class="highlight highlight-plain"><span class="code-language-badge">URL</span><pre tabindex="0"><code class="language-url" data-lang="url">https://github.com/paissaheavyindustries/Dalamud-Repo/raw/main/repo.json</code></pre></div><h2 id="script">Script<a hidden class="anchor" aria-hidden="true" href="#script">#</a></h2>
+<h3 id="スクリプトの設定がうまくいかない場合">スクリプトの設定がうまくいかない場合<a hidden class="anchor" aria-hidden="true" href="#スクリプトの設定がうまくいかない場合">#</a></h3>
+<p>スクリプトのアップデートにより、こちらに記載している手順では正しく設定できない場合があります。</p>
+<p>その場合は、製作者様のブログや公式GitHubに最新の設定方法が掲載されている可能性がありますので、以下のリンクをご参照ください。</p>
+<ul>
+<li><a href="https://github.com/PunishXIV/Splatoon/tree/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol"><strong>Splatoon公式（Scripts）</strong></a></li>
+<li><a href="https://exatrines.github.io/splatoon/presets/top/"><strong>[6.4] 絶オメガ検証戦 - Mirage</strong></a><br>
+スクリプトの製作者が by mirage と表記されている場合は、mirage様のブログを参照することをおすすめします。</li>
+</ul>
 <h3 id="p1-サークルプログラム">P1 サークルプログラム<a hidden class="anchor" aria-hidden="true" href="#p1-サークルプログラム">#</a></h3>
 <p><strong>TOP P1 Program Loop Priority With Self Priority</strong></p>
 <p>公式の「サークルプログラム」スクリプトをベースに、自身が担当するテザーについても、優先度設定に基づいて太く表示されるよう調整しています。<br>
@@ -4048,10 +4056,23 @@
 <h3 id="p5-シグマ-ハロワ">P5 シグマ ハロワ<a hidden class="anchor" aria-hidden="true" href="#p5-シグマ-ハロワ">#</a></h3>
 <p><strong>P5 Dynamis Sigma Hello World</strong></p>
 <p>公式から、P5 シグマのハロニア/ファー ガイドスクリプト</p>
-<div class="highlight highlight-plain"><span class="code-language-badge">URL</span><pre tabindex="0"><code class="language-url" data-lang="url">https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/P5_Dynamis_Sigma_Hello_World.cs</code></pre></div><h4 id="configuration---シグマ-ハロワ">Configuration - シグマ ハロワ<a hidden class="anchor" aria-hidden="true" href="#configuration---シグマ-ハロワ">#</a></h4>
+<div class="highlight highlight-plain"><span class="code-language-badge">URL</span><pre tabindex="0"><code class="language-url" data-lang="url">https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/P5_Dynamis_Sigma_Hello_World.cs</code></pre></div><h4 id="saved-configurations---シグマ-ハロワ">Saved Configurations - シグマ ハロワ<a hidden class="anchor" aria-hidden="true" href="#saved-configurations---シグマ-ハロワ">#</a></h4>
+<ul>
+<li><strong>リリド用設定</strong></li>
+</ul>
+<p><strong>①リリド（アーム誘導攻撃12,ファー誘導攻撃34,ニアー誘導空気読み）</strong></p>
+<div class="highlight"><span class="code-language-badge">JSON</span><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;TargetScriptName&#34;</span><span class="p">:</span><span class="s2">&#34;SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol@P5_Dynamis_Sigma_Hello_World&#34;</span><span class="p">,</span><span class="nt">&#34;ConfigurationName&#34;</span><span class="p">:</span><span class="s2">&#34;絶オメガ_LilyDoll&#34;</span><span class="p">,</span><span class="nt">&#34;Configuration&#34;</span><span class="p">:</span><span class="s2">&#34;G48EYJwHto0sPzVvKFg/SLUCSN+72v21588BTWT887a2fLgC7sqwsTKjthUKUiKpakgMkVRO9g68e4m8WTKJhPhqbg3Rh3pY31tzbUIfsXK/ibNmbHyia9V/ePhzmaGKETpM2iCXtkKHybrJf2KPAx2Ki3OyhADd9NTt7yNGX5O3Or0/q4ntziON8i9pXwklMDjpbwmpeA5eRi+C0qs143tPQElv4Tn7qHCtbNGsG78DfQwVETuSXCl3CEwufRiTynjuTutY8eGqua9YgHB46mJ6U2xPVPmRNg0Ft54Iw+rsocYhxSnYqheueipQNKx+Dp7IKag7LCz0ncz2Sy4ZpkOBtzGAnWUohmnXuzBklkDeDpACpUE=&#34;</span><span class="p">,</span><span class="nt">&#34;Overrides&#34;</span><span class="p">:</span><span class="kc">null</span><span class="p">}</span></span></span></code></pre></div><p><strong>②リリド（アーム誘導攻撃12,ファー誘導攻撃34,ニアー誘導攻撃56）</strong></p>
+<div class="highlight"><span class="code-language-badge">JSON</span><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;TargetScriptName&#34;</span><span class="p">:</span><span class="s2">&#34;SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol@P5_Dynamis_Sigma_Hello_World&#34;</span><span class="p">,</span><span class="nt">&#34;ConfigurationName&#34;</span><span class="p">:</span><span class="s2">&#34;絶オメガ_LilyDoll + Near Attack[5,6]&#34;</span><span class="p">,</span><span class="nt">&#34;Configuration&#34;</span><span class="p">:</span><span class="s2">&#34;G5EEYCwObOcIqbmHTtm0HqRSoe+9dn8tb6ma0P6iBrsoCNlmgtkO4+Y8rq6vMUCNzLCxsunPPY+e4EgTR7vhcCIZ3oLVVIED/GnbkshH7Wj7njPRYJ9o7n4Tiz6ZN2rZHx7+yAfHSwAgBJMMbQBEHepvjDSaU0iQDsqSNfhdT9F+V0+It9j98jitSdifx3VegZU+wce53w2aIOPYFGcl1vT5zgQ8SY3MGEW0KiybtvMD6DkUOXtcIURiYEwyCPgSMjocAI0YNt19pWwMz4eYfwT0Ft74zKYlA8cgDc3ZVWGKHEDbbjNUt5a05PU9R2UJ2oCFJV2D3KZLUtI0vdEWhoTBOjye6eWWhlIVSLUfEinDPQI=&#34;</span><span class="p">,</span><span class="nt">&#34;Overrides&#34;</span><span class="p">:</span><span class="kc">null</span><span class="p">}</span></span></span></code></pre></div><ul>
+<li><strong>導入手順</strong></li>
+</ul>
 <ol>
-<li><code>P5 Dynamis Sigma Hello World</code>の設定を開く</li>
-<li><code>Import Japanese Strat</code>をクリックする</li>
+<li>上記のJSONから、使用したい設定をコピーします。</li>
+<li><code>P5 Dynamis Sigma Hello World</code> の歯車アイコンを選択します。</li>
+<li><code>Saved Configurations</code> タブを開きます。</li>
+<li><code>Paste from clipboard</code> をクリックし、コピーした設定をインポートします。</li>
+<li><code>絶オメガ_LilyDoll</code> または <code>絶オメガ_LilyDoll + Near Attack[5,6]</code> を選択します。</li>
+<li>選択した設定が緑色になっていることを確認します。</li>
+<li><code>Close and save configuraiton</code> を選択して、設定を保存します。</li>
 </ol>
 <h4 id="registered-elements---シグマ-ハロワ">Registered Elements - シグマ ハロワ<a hidden class="anchor" aria-hidden="true" href="#registered-elements---シグマ-ハロワ">#</a></h4>
 <p>塗りつぶしを無効に変更しています。<br>
@@ -4068,9 +4089,14 @@
 <p><strong>P5 Dynamis Omega Hello World</strong></p>
 <p>公式から、P5 オメガ ハロワ ニア/ファー ガイドスクリプト</p>
 <div class="highlight highlight-plain"><span class="code-language-badge">URL</span><pre tabindex="0"><code class="language-url" data-lang="url">https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScripts/Duties/Endwalker/The%20Omega%20Protocol/P5_Dynamis_Omega_Hello_World.cs</code></pre></div><h4 id="configuration---オメガ-ハロワ">Configuration - オメガ ハロワ<a hidden class="anchor" aria-hidden="true" href="#configuration---オメガ-ハロワ">#</a></h4>
-<p><strong>空気読み処理（マーカー非依存時）の設定</strong><br>
-ニア誘導およびテザー誘導の候補を、ロールの割り当てやデュナミスデバフのパラメーターに基づいて選出し、誘導位置候補2ヶ所を同時に表示するよう変更します。</p>
 <p><strong>マーカー処理を使用する場合、この設定は不要です。</strong></p>
+
+
+<div class="collapse-panel">
+  <details >
+    <summary markdown="span">空気読み処理（マーカー非依存時）の設定</summary>
+    <div class="collapse-panel-body">
+      <p>ニア誘導およびテザー誘導の候補を、ロールの割り当てやデュナミスデバフのパラメーターに基づいて選出し、誘導位置候補2ヶ所を同時に表示するよう変更します。</p>
 <ul>
 <li>Spread1
 <ul>
@@ -4087,6 +4113,10 @@
 </ul>
 </li>
 </ul>
+    </div>
+  </details>
+</div>
+
 <hr>
 <h3 id="p6-コスモアロー">P6 コスモアロー<a hidden class="anchor" aria-hidden="true" href="#p6-コスモアロー">#</a></h3>
 <p><strong>Exasquares</strong></p>
@@ -7149,6 +7179,7 @@ Sprintの表示は無視する。炊かなくて良い。<br>
     </li>
     <li><a href="#script">Script</a>
       <ul>
+        <li><a href="#スクリプトの設定がうまくいかない場合">スクリプトの設定がうまくいかない場合</a></li>
         <li><a href="#p1-サークルプログラム">P1 サークルプログラム</a></li>
         <li><a href="#p1-パントクラトル">P1 パントクラトル</a></li>
         <li><a href="#p2-連携プログラムpt">P2 連携プログラムPT</a></li>
