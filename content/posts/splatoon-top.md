@@ -4078,7 +4078,7 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 
 - **導入手順**
 
-1. **リリド用設定** のJSONから、使用したい設定をコピーします。
+1. 上記の **リリド用設定** のJSONから、使用したい設定をコピーします。
 2. `P5 Dynamis Sigma Hello World` の歯車アイコンを選択します。
 3. `Saved Configurations` タブを開きます。
 4. `Paste from clipboard` をクリックし、コピーした設定をインポートします。
