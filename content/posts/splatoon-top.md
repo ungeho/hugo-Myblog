@@ -4036,13 +4036,13 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 
 - **リリド用設定**
 
-**①リリド（アーム誘導攻撃12,ファー誘導攻撃34,ニアー誘導空気読み）**  
+**①リリド（アーム誘導攻撃12,ファー誘導（遠）攻撃3,ファー誘導（近）攻撃4,ニアー誘導空気読み）**  
 
 ```json
 {"TargetScriptName":"SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol@P5_Dynamis_Sigma_Hello_World","ConfigurationName":"絶オメガ_LilyDoll","Configuration":"G48EYJwHto0sPzVvKFg/SLUCSN+72v21588BTWT887a2fLgC7sqwsTKjthUKUiKpakgMkVRO9g68e4m8WTKJhPhqbg3Rh3pY31tzbUIfsXK/ibNmbHyia9V/ePhzmaGKETpM2iCXtkKHybrJf2KPAx2Ki3OyhADd9NTt7yNGX5O3Or0/q4ntziON8i9pXwklMDjpbwmpeA5eRi+C0qs143tPQElv4Tn7qHCtbNGsG78DfQwVETuSXCl3CEwufRiTynjuTutY8eGqua9YgHB46mJ6U2xPVPmRNg0Ft54Iw+rsocYhxSnYqheueipQNKx+Dp7IKag7LCz0ncz2Sy4ZpkOBtzGAnWUohmnXuzBklkDeDpACpUE=","Overrides":null}
 ```
 
-**②リリド（アーム誘導攻撃12,ファー誘導攻撃34,ニアー誘導攻撃56）**  
+**②リリド（アーム誘導攻撃12,ファー誘導（遠）攻撃3,ファー誘導（近）攻撃4,ニアー誘導（時計）攻撃5,ニアー誘導（反時計）攻撃6）**  
 
 ```json
 {"TargetScriptName":"SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol@P5_Dynamis_Sigma_Hello_World","ConfigurationName":"絶オメガ_LilyDoll + Near Attack[5,6]","Configuration":"G5EEYCwObOcIqbmHTtm0HqRSoe+9dn8tb6ma0P6iBrsoCNlmgtkO4+Y8rq6vMUCNzLCxsunPPY+e4EgTR7vhcCIZ3oLVVIED/GnbkshH7Wj7njPRYJ9o7n4Tiz6ZN2rZHx7+yAfHSwAgBJMMbQBEHepvjDSaU0iQDsqSNfhdT9F+V0+It9j98jitSdifx3VegZU+wce53w2aIOPYFGcl1vT5zgQ8SY3MGEW0KiybtvMD6DkUOXtcIURiYEwyCPgSMjocAI0YNt19pWwMz4eYfwT0Ft74zKYlA8cgDc3ZVWGKHEDbbjNUt5a05PU9R2UJ2oCFJV2D3KZLUtI0vdEWhoTBOjye6eWWhlIVSLUfEinDPQI=","Overrides":null}
