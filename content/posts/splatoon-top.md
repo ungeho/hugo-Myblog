@@ -4055,7 +4055,7 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
 {"TargetScriptName":"SplatoonScriptsOfficial.Duties.Endwalker.The_Omega_Protocol@P5_Dynamis_Sigma_Hello_World","ConfigurationName":"絶オメガ_LilyDoll","Configuration":"G48EYJwHto0sPzVvKFg/SLUCSN+72v21588BTWT887a2fLgC7sqwsTKjthUKUiKpakgMkVRO9g68e4m8WTKJhPhqbg3Rh3pY31tzbUIfsXK/ibNmbHyia9V/ePhzmaGKETpM2iCXtkKHybrJf2KPAx2Ki3OyhADd9NTt7yNGX5O3Or0/q4ntziON8i9pXwklMDjpbwmpeA5eRi+C0qs143tPQElv4Tn7qHCtbNGsG78DfQwVETuSXCl3CEwufRiTynjuTutY8eGqua9YgHB46mJ6U2xPVPmRNg0Ft54Iw+rsocYhxSnYqheueipQNKx+Dp7IKag7LCz0ncz2Sy4ZpkOBtzGAnWUohmnXuzBklkDeDpACpUE=","Overrides":null}
 ```
 
-**②リリド - 絶オメガ_LilyDoll + Near Attack[5,6]**
+**②リリド - 絶オメガ_LilyDoll + NearBait Attack[5,6]**
 
 {{< collapse summary="誘導担当の詳細" >}}
 
