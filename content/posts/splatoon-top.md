@@ -4065,7 +4065,7 @@ https://raw.githubusercontent.com/PunishXIV/Splatoon/refs/heads/main/SplatoonScr
   攻撃3
 - ファー誘導（近）  
   攻撃4
-- ニアー誘導（時計）  
+- ニアー誘導（← 時計）  
   攻撃5
 - ニアー誘導（反時計）  
   攻撃6
